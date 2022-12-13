@@ -1,0 +1,267 @@
+// Imports
+// --------------------------------------
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans");
+// Variables
+// --------------------------------------
+$scrollbar-width: 5px;
+$chat-thread-bgd-color: rgba(25, 147, 147, 0.2);
+$chat-thread-msg-arrow-size: 10px;
+$chat-thread-avatar-size: 25px;
+$chat-thread-offset: #{$chat-thread-avatar-size + 20px};
+$default-shadow-color: rgb(0, 0, 0);
+// Mixins
+// --------------------------------------
+@mixin fancy-background() {
+    background: -moz-linear-gradient(-45deg, #183850 0, #183850 25%, #192c46 50%, #22254c 75%, #22254c 100%);
+    background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192c46 50%, #22254c 75%, #22254c 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@mixin fancy-scrollbar() {
+    &::-webkit-scrollbar {
+        width: $scrollbar-width;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: $scrollbar-width;
+        background-color: rgba(25, 147, 147, 0.1);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: $scrollbar-width;
+        background-color: $chat-thread-bgd-color;
+    }
+}
+
+@mixin scrolling-shadows(
+    $background-color: transparent,
+    $shadow-intensity: 0.5,
+    $shadow-color: $default-shadow-color,
+    $cover-size: 40px,
+    $shadow-size: 14px
+) {
+    // Shadow covers
+    background: linear-gradient($background-color 30%, rgba($background-color, 0)),
+        linear-gradient(rgba($background-color, 0), $background-color 70%) 0 100%,
+        radial-gradient(50% 0, farthest-side, rgba($shadow-color, $shadow-intensity), rgba($shadow-color, 0)),
+        radial-gradient(50% 100%, farthest-side, rgba($shadow-color, $shadow-intensity), rgba($shadow-color, 0)) 0 100%;
+    background: linear-gradient($background-color 30%, rgba($background-color, 0)),
+        linear-gradient(rgba($background-color, 0), $background-color 70%) 0 100%,
+        radial-gradient(farthest-side at 50% 0, rgba($shadow-color, $shadow-intensity), rgba($shadow-color, 0));
+    // also add button shadow:
+    //radial-gradient(farthest-side at 50% 100%, rgba($shadow-color,$shadow-intensity), rgba($shadow-color,0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: $background-color;
+    background-size: 100% $cover-size, 100% $cover-size, 100% $shadow-size, 100% $shadow-size;
+    // Opera doesn't support this in the shorthand
+    background-attachment: local, local, scroll, scroll;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#sso_floating_widget {
+    font: 12px/16px "Noto Sans", sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    transform: translateY(70px);
+    transition: all 250ms ease-out;
+    border-radius: 50%;
+    opacity: 0;
+    @include fancy-background;
+    &.sso-enter:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        opacity: 1;
+    }
+    &.sso-enter {
+        transform: translateY(0);
+        opacity: 0.6;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.14);
+    }
+    &.sso-expand {
+        width: 400px;
+        max-height: 400px;
+        height: 400px;
+        border-radius: 5px;
+        cursor: auto;
+        opacity: 1;
+    }
+    :focus {
+        outline: 0;
+        box-shadow: 0 0 3pt 2pt rgba(#0ec879, 0.3);
+    }
+    button {
+        background: transparent;
+        border: 0;
+        color: white;
+        text-transform: uppercase;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    #sso_floating_container {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        border-radius: 50%;
+        transition: all 250ms ease-out;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        &.sso-enter {
+            opacity: 1;
+            border-radius: 0;
+            margin: 10px;
+            width: auto;
+            height: auto;
+        }
+        .sso-header {
+            flex-shrink: 0;
+            padding-bottom: 10px;
+            display: flex;
+            background: transparent;
+            .sso-title {
+                flex-grow: 1;
+                flex-shrink: 1;
+                padding: 0 5px;
+            }
+            button {
+                flex-shrink: 0;
+            }
+        }
+        .sso-list {
+            display: block;
+            @include fancy-scrollbar;
+            padding: 5px;
+            margin: 0;
+            list-style: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            flex-grow: 1;
+
+            .sso-item {
+                text-decoration: none;
+                background-color: rgba(25, 147, 147, 0.2);
+                color: #0ad5c1;
+                margin: 10px;
+                padding: 20px;
+                // font-size: 30px;
+                min-height: 100px;
+                border-radius: 5px;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .sso-icon {
+                    max-height: 90px;
+                    width: 20%;
+                    border-radius: 5px;
+                    background-color: #fafafa;
+                    padding: 10px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+
+                .sso-desc {
+                    width: 75%;
+                    max-height: 100%;
+
+                    b {
+                        font-weight: 700;
+                    }
+                }
+            }
+            .sso-item:hover {
+                background-color: rgba(25, 147, 147, 0.5);
+                transition: all 250ms ease-out;
+            }
+        }
+        .sso-loader {
+            display: block;
+        }
+    }
+
+    .sso-loader,
+    .sso-loader:before,
+    .sso-loader:after {
+        background: #0ad5c1;
+        -webkit-animation: load1 1s infinite ease-in-out;
+        animation: load1 1s infinite ease-in-out;
+        width: 1em;
+        height: 4em;
+    }
+    .sso-loader {
+        color: #0ad5c1;
+        text-indent: -9999em;
+        font-size: 11px;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .sso-loader:before,
+    .sso-loader:after {
+        position: absolute;
+        top: 0;
+        content: "";
+    }
+    .sso-loader:before {
+        left: -1.5em;
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
+    .sso-loader:after {
+        left: 1.5em;
+    }
+
+
+    // ANIMATION
+    @-webkit-keyframes load1 {
+        0%,
+        80%,
+        100% {
+            box-shadow: 0 0;
+            height: 4em;
+        }
+        40% {
+            box-shadow: 0 -2em;
+            height: 5em;
+        }
+    }
+    @keyframes load1 {
+        0%,
+        80%,
+        100% {
+            box-shadow: 0 0;
+            height: 4em;
+        }
+        40% {
+            box-shadow: 0 -2em;
+            height: 5em;
+        }
+    }
+}

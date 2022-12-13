@@ -1,0 +1,112 @@
+
+
+<div class="box box-info">
+    <div class="box-header">
+        <div class="box-tools pull-right">
+            <!-- <div class="label bg-aqua">Form Sisa Cuti Pegawai</div> -->
+            <div id='loading'></div>
+        </div>
+    </div>
+    <div class="box-body">
+        <form id="form_verifikasi_kep" name="form_verifikasi_kep" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hr hr-18 hr-double dotted"></div>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td width='200px'>Nama</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->nama; ?></td>
+                                </tr>
+                                <tr>
+                                    <td  width='200px'>NIP</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->nip; ?></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'>Lokasi Kerja</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->nama_lokasi_kerja; ?></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'>Jenis Surat</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->nama_surat; ?></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'>Status Surat</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->status; ?></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'>Tanggal Dibuat</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->tgl_proses; ?></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'><b>Keperluan</b></td>
+                                    <td width='2px'><b>:</b></td>
+                                    <td><b><?php echo $Data->keterangan_pengajuan; ?><b></td>
+                                </tr>
+                                <tr>
+                                    <td width='200px'>Jenis Tanda Tangan</td>
+                                    <td width='2px'>:</td>
+                                    <td><?php echo $Data->select_ttd; ?></td>
+                                </tr>
+                            </table>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>Pilih Verifikasi</label>
+                                    <select class="form-control input-md" name="status_verify" id="status_verify">
+                                        <option value="">[ Pilih Verifikasi ]</option>
+                                        <option value="<?php echo $terima; ?>">Terima</option>
+                                        <option value="<?php echo $tolak; ?>">Tolak</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-8" id="divKet" style="display:none;">
+                                <div class="form-group">
+                                    <label>Alasan Ditolak</label>
+                                    <input type='text' name="ket" id="ket" class="form-control input-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label></label>
+                                    <input type='hidden' value='<?php echo $Id; ?>' name='Id' Id='Id'>
+                                    <button id='btn_tmb' type='button' onclick="simpan_verifikasi()" class='btn btn-block btn-success btn-md'>Verifikasi</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                <div id="loading" style='text-align:center;'>
+                                </div>
+                            </div>
+                            <div class="col-xs-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+    </div><!-- /.box-body -->
+
+</div>
+<script>
+    $('#status_verify').change(function() {
+		var status_verify = $('#status_verify').val();
+		const targetDiv = document.getElementById("divKet");
+		if (status_verify == 24 || status_verify == 25 || status_verify == 26) {
+			targetDiv.style.display = "block";
+		} else {
+			targetDiv.style.display = "none";
+		}
+        
+	});
+</script>

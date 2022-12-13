@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans");
+* {
+  box-sizing: border-box;
+}
+
+#sso_floating_widget {
+  font: 12px/16px "Noto Sans", sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  transform: translateY(70px);
+  transition: all 250ms ease-out;
+  border-radius: 50%;
+  opacity: 0;
+  background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192c46 50%, #22254c 75%, #22254c 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#sso_floating_widget.sso-enter:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  opacity: 1;
+}
+#sso_floating_widget.sso-enter {
+  transform: translateY(0);
+  opacity: 0.6;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.14);
+}
+#sso_floating_widget.sso-expand {
+  width: 400px;
+  max-height: 400px;
+  height: 400px;
+  border-radius: 5px;
+  cursor: auto;
+  opacity: 1;
+}
+#sso_floating_widget :focus {
+  outline: 0;
+  box-shadow: 0 0 3pt 2pt rgba(14, 200, 121, 0.3);
+}
+#sso_floating_widget button {
+  background: transparent;
+  border: 0;
+  color: white;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#sso_floating_widget #sso_floating_container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  transition: all 250ms ease-out;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#sso_floating_widget #sso_floating_container.sso-enter {
+  opacity: 1;
+  border-radius: 0;
+  margin: 10px;
+  width: auto;
+  height: auto;
+}
+#sso_floating_widget #sso_floating_container .sso-header {
+  flex-shrink: 0;
+  padding-bottom: 10px;
+  display: flex;
+  background: transparent;
+}
+#sso_floating_widget #sso_floating_container .sso-header .sso-title {
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0 5px;
+}
+#sso_floating_widget #sso_floating_container .sso-header button {
+  flex-shrink: 0;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper {
+  padding: 12px;
+  display: flex;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper {
+  padding: 12px;
+  display: flex;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-image-profile {
+  height: 55px;
+  width: 55px;
+  background-color: rgba(25, 147, 147, 0.2);
+  border-radius: 10px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0ad5c1;
+  font-size: large;
+  letter-spacing: 1px;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info {
+  margin-left: 10px;
+  display: block;
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info a {
+  color: #0ad5c1;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info a:link, #sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info a:visited {
+  text-decoration: none;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info .sso-fullname {
+  font-size: 1rem;
+  line-height: 130%;
+}
+#sso_floating_widget #sso_floating_container .sso-profile-wrapper .sso-user-info .sso-username {
+  font-size: 0.7rem;
+  color: rgba(225, 225, 225, 0.8);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-top: 2px;
+}
+#sso_floating_widget #sso_floating_container .sso-list {
+  display: block;
+  padding: 5px;
+  margin: 0;
+  list-style: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex-grow: 1;
+}
+#sso_floating_widget #sso_floating_container .sso-list::-webkit-scrollbar {
+  width: 5px;
+}
+#sso_floating_widget #sso_floating_container .sso-list::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: rgba(25, 147, 147, 0.1);
+}
+#sso_floating_widget #sso_floating_container .sso-list::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(25, 147, 147, 0.2);
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item {
+  text-decoration: none;
+  background-color: rgba(25, 147, 147, 0.2);
+  color: #0ad5c1;
+  margin: 10px;
+  padding: 20px;
+  min-height: 100px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item .sso-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  padding: 10px;
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item .sso-icon img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item .sso-desc {
+  width: 75%;
+  max-height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item .sso-desc b {
+  font-weight: 700;
+}
+#sso_floating_widget #sso_floating_container .sso-list .sso-item:hover {
+  background-color: rgba(25, 147, 147, 0.5);
+  transition: all 250ms ease-out;
+}
+#sso_floating_widget #sso_floating_container .sso-loader {
+  display: block;
+}
+#sso_floating_widget .sso-loader,
+#sso_floating_widget .sso-loader:before,
+#sso_floating_widget .sso-loader:after {
+  background: #0ad5c1;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+#sso_floating_widget .sso-loader {
+  color: #0ad5c1;
+  text-indent: -9999em;
+  font-size: 11px;
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#sso_floating_widget .sso-loader:before,
+#sso_floating_widget .sso-loader:after {
+  position: absolute;
+  top: 0;
+  content: "";
+}
+#sso_floating_widget .sso-loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+#sso_floating_widget .sso-loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%, 80%, 100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%, 80%, 100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}/*# sourceMappingURL=style.css.map */

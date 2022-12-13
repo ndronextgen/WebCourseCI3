@@ -1,0 +1,120 @@
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+class Data_lapor extends CI_Controller
+{
+
+	/*
+		***	Controller : datalapor.php
+	*/
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('url');
+		/***** LOADING HELPER TO AVOID PHP ERROR ****/
+		$this->load->helper('template');
+		$this->load->library('func_table');
+		$this->load->model('m_lapor', 'lapor');
+	}
+
+	public function index()
+	{
+		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
+			$d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+			$d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+			$d['instansi'] = $this->config->item('nama_instansi');
+			$d['credit'] = $this->config->item('credit_aplikasi');
+			$d['alamat'] = $this->config->item('alamat_instansi');
+			$d['page_name'] = 'Data Lapor Pegawai';
+			$d['menu_open'] = 'data_lapor';
+
+			$this->load->view('dashboard_admin/lapor/index_lapor', $d);
+		} else {
+			header('location:' . base_url() . '');
+		}
+	}
+
+	function filter()
+	{
+		$this->load->view('dashboard_admin/lapor/ajax_table');
+	}
+
+	function table_data_lapor()
+	{
+		$user_type = $this->session->userdata('stts');
+		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
+		$id_pegawai = '';
+
+		$listing 		= $this->lapor->listing($user_type, $id_lokasi_kerja, $id_pegawai);
+		$jumlah_filter 	= $this->lapor->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
+		$jumlah_semua 	= $this->lapor->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai);
+
+		$data = array();
+		$no = $_POST['start'];
+		foreach ($listing as $key) {
+			$no++;
+			$row = array();
+			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
+			$button_ = '
+					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
+					<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
+					<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
+					';
+			$tanggapan = '<button type="button" class="kt-nav__link btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+
+			// file
+			if ($key->File_upload != '') {
+				$path_file = './asset/upload/Lapor';
+				$path_folder    = $path_file . '/' . $key->File_upload;
+				if (file_exists($path_folder)) {
+					$ext = explode(".", $key->File_upload);
+
+					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
+						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
+						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>Pdf</button>
+					</a>';
+					} else {
+						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
+						<img height="40px" width="40px" src="' . base_url($path_folder) . '">
+					</a>';
+					}
+				} else {
+					$file = '-';
+				}
+			} else {
+				$file = '-';
+			}
+			//	
+			if ($user_type == "administrator") {
+				if ($id_lokasi_kerja == '' || $id_lokasi_kerja == null || $id_lokasi_kerja == '0') { //admin utama
+					$button = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash" style="color:#fff !important;"></i></a>';
+				} else { //admin lokasi
+					$button = "X";
+				}
+			} else { //public
+				$kond_lokasi = "X";
+			}
+			$row[] = $no;
+			$row[] = $button;
+			$row[] = $file;
+			$row[] = $key->Kategori;
+			//$row[] = $key->Judul_laporan;
+			$row[] = $key->Isi_laporan;
+			$row[] = $key->nama_pegawai;
+			$row[] = $tanggapan;
+			$row[] = $key->Created_at;
+
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $jumlah_semua->jml,
+			"recordsFiltered" => $jumlah_filter->jml,
+			"data" => $data,
+		);
+		echo json_encode($output);
+	}
+}
+
+/* End of file data_riwayat_jabatan.php */
+/* Location: ./application/controllers/data_riwayat_jabatan.php */
