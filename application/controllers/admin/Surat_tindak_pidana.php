@@ -159,7 +159,7 @@ class Surat_tindak_pidana extends CI_Controller
 					} else {
 						$no_urut = 1;
 					}
-					$no_surat = $no_urut . '/KG.11.04/TP/D';
+					$no_surat = $no_urut . '/KG.8.00/D';
 					// === end: buat nomor surat ===
 
 					//save add
