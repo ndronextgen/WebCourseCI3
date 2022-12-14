@@ -263,12 +263,12 @@ function menuAdmin($menuOpen = '')
     echo '<li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel ' . $activeKK . '" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
                             <a href="javascript:void(0);" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-text"><i class="flaticon-list"></i>&nbsp;Kertas Kerja&nbsp;';
-                                if ($count_surat > 0) {
-                                    echo '<span class="kt-nav__link-badge">
+    if ($count_surat > 0) {
+        echo '<span class="kt-nav__link-badge">
                                             <span class="kt-badge kt-badge--warning">' . $count_surat . '</span>
                                         </span>&nbsp;&nbsp;';
-                                }
-                                echo '<i class="la la-angle-down"></i></span>
+    }
+    echo '<i class="la la-angle-down"></i></span>
                             </a>
 
                             <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
@@ -276,48 +276,48 @@ function menuAdmin($menuOpen = '')
                                 <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
                                         <a href="javascript:void(0);" class="kt-menu__link kt-menu__toggle">
                                             <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 4px;"></i>Pengajuan Surat dari Pegawai&nbsp;';
-                                            if ($count_surat_dari_pegawai > 0 ) {
-                                                echo '<span class="kt-nav__link-badge">
+    if ($count_surat_dari_pegawai > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                         <span class="kt-badge kt-badge--warning">' . $count_surat_dari_pegawai . '</span>
                                                     </span>';
-                                            }
-                                        echo '<i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i></span>
+    }
+    echo '<i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i></span>
                                         </a>
                                         <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
                                             <ul class="kt-menu__subnav">
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                     <a href="' . base_url() . 'admin/surat_keterangan" class="kt-menu__link ">
                                                     <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Keterangan Pegawai&nbsp;';
-                                                    if ($count_surat_keterangan > 0) {
-                                                        echo '<span class="kt-nav__link-badge">
+    if ($count_surat_keterangan > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                 <span class="kt-badge kt-badge--warning">' . $count_surat_keterangan . '</span>
                                                             </span>';
-                                                    }
-                                                    echo '</span>
+    }
+    echo '</span>
                                                     </a>
                                                 </li>
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                     <a href="' . base_url() . 'admin/data_tunjangan" class="kt-menu__link ">
                                                         <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Tunjangan Keluarga&nbsp;';
-        
-                                                        if ($count_surat_tunjangan > 0) {
-                                                            echo '<span class="kt-nav__link-badge">
+
+    if ($count_surat_tunjangan > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                     <span class="kt-badge kt-badge--warning">' . $count_surat_tunjangan . '</span>
                                                                 </span>';
-                                                        }
-                                                    echo '</span>
+    }
+    echo '</span>
                                                     </a>
                                                 </li>
 
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                 <a href="' . base_url() . 'admin/data_kariskarsu" class="kt-menu__link ">
                                                     <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat KARIS/KARSU&nbsp;';
-                                                        if ($count_surat_kariskarsu > 0) {
-                                                            echo '<span class="kt-nav__link-badge">
+    if ($count_surat_kariskarsu > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                     <span class="kt-badge kt-badge--warning">' . $count_surat_kariskarsu . '</span>
                                                                 </span>';
-                                                        }
-                                                    echo '</span>
+    }
+    echo '</span>
                                                 </a>
                                             </ul>
                                         </div>
@@ -523,7 +523,7 @@ function menuAdmin($menuOpen = '')
 
     echo '<li class="kt-menu__item " aria-haspopup="true">';
     // echo '<a href="' . base_url() . 'admin/laporan_pegawai_update_data" class="kt-menu__link ">';
-    echo '<a href="" onclick="read_notif_update_data()" class="kt-menu__link ">';
+    echo '<a href="' . base_url() . 'admin/laporan_pegawai_update_data" class="kt-menu__link ">';
     echo '<span class="kt-menu__link-text">';
     echo '<div class="kt-demo-icon">';
     echo '<div class="kt-demo-icon__preview">';
@@ -780,16 +780,16 @@ function bell_notif_admin()
                 $unread_background = "style='background-color: #ffff0044;'";
             }
 
-            echo '          
-                            <div class="notification-list text-dark btn btn-light" data-toggle="tooltip" data-placement="top" title="' . $row['notif_message'] . '" onclick="read_notif_update_data()" ' . $unread_background . '>
-                                <div class="notification-list_detail">
-                                    <p class="text-left">
-                                        <b>' . $row['notif_module'] . '</b><br>' . $notif_created . '
-                                    </p>
-                                    <p class="nt-link text-truncate">' . $row['notif_message'] . '</p>
+            echo '
+                                <div class="notification-list text-dark btn btn-light" data-toggle="tooltip" data-placement="top" title="' . $row['notif_message'] . '" ' . $unread_background . ' onclick="location.href=\'' . base_url('admin/laporan_pegawai_update_data') . '\'">
+                                    <div class="notification-list_detail">
+                                        <p class="text-left">
+                                            <b>' . $row['notif_module'] . '</b><br>' . $notif_created . '
+                                        </p>
+                                        <p class="nt-link text-truncate">' . $row['notif_message'] . '</p>
+                                    </div>
+                                    <p><small>' . $diff . '</small></p>
                                 </div>
-                                <p><small>' . $diff . '</small></p>
-                            </div>
             ';
         }
     } else {
@@ -941,19 +941,6 @@ function footerAdmin()
 				backgroundDismiss: true
 			});
 		}
-
-        function read_notif_update_data() {
-            // alert("' . base_url("admin/dashboard_admin/read_notif") . '");
-            $.ajax({
-				url: "' . base_url("admin/dashboard_admin/read_notif") . '",
-				type: "post",
-				success: function() {
-                    // location.reload();
-
-                    location.href=\'' . base_url("admin/laporan_pegawai_update_data") . '\';
-				}
-			});
-        }
     </script>
     ';
 }
