@@ -39,16 +39,11 @@
                     <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
                 </tr>
                 <tr>
-                    <td>Permohonan Surat</td>
+                    <td>Keterangan</td>
                     <td>:</td>
                     <td><?php echo $Data_hukdis->nama_type; ?></td>
                 </tr>
-                <tr>
-                    <td>Keterangan</td>
-                    <td>:</td>
-                    <td><?php echo $Data_hukdis->Keterangan; ?></td>
-                </tr>
-
+                
             </table>
         </div>
     </div>

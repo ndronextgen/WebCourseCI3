@@ -47,6 +47,7 @@ echo $html = '
     text-align: left;
     width: 100%;
     font-family: Arial;
+    text-align: justify;
   }
   table {
     width: 100%;
@@ -54,6 +55,7 @@ echo $html = '
     padding: 0;
     font-size: 12;
     font-family: Arial;
+    text-align: justify;
   }
   .var {
     width: 150px;
@@ -65,6 +67,7 @@ echo $html = '
     text-align: justify;
     float: left;
     width: 383px;
+    line-height:1.8;
   }
   .space {
     width: 20px;
@@ -180,9 +183,9 @@ echo $html = '
       </tr>
       <tr>
         <td class="space"></td>
-        <td class="var">Unit Kerja</td>
-        <td class="sel">:</td>
-        <td class="val">'.ucwords(strtolower($kadis->lokasi_kerja)).'</td>
+        <td class="var" valign="top">Unit Kerja</td>
+        <td class="sel" valign="top">:</td>
+        <td class="val" valign="top">'.str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($kadis->lokasi_kerja)))).'</td>
       </tr>
     </table>
     <p>Dengan ini menyatakan dengan sesungguhnya, bahwa : </p>
@@ -213,9 +216,9 @@ echo $html = '
       </tr>
       <tr>
         <td class="space"></td>
-        <td class="var">Unit Kerja</td>
-        <td class="sel">:</td>
-        <td class="val" valign="top">'.ucwords(strtolower($Data->nama_lokasi_kerja)).'</td>
+        <td class="var" valign="top">Unit Kerja</td>
+        <td class="sel" valign="top">:</td>
+        <td class="val" valign="top">'.str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($Data->nama_lokasi_kerja)))).'</td>
       </tr>
     </table>
     '.trim($kalimat).'
