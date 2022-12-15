@@ -1,7 +1,7 @@
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h5 class="panel-title"><a data-toggle="collapse" href="#detail_pengaduan"><i class="fa fa-angle-double-right"></i> Detail Surat Tunjangan</a></h5>
+            <h5 class="panel-title"><a data-toggle="collapse" href="#detail_pengaduan"><i class="fa fa-angle-double-right"></i> Detail Surat Tindak Pidana</a></h5>
         </div>
         <div id="detail_pengaduan" class="panel-collapse expand collapse show">
 
@@ -9,7 +9,7 @@
 
             <br>
             <h4 style='text-align:center;'>
-                Surat Hukuman Disiplin
+                Surat Tindak Pidana
             </h4>
             <input type='hidden' value='<?php echo $Hukdis_id; ?>' name='Hukdis_id' id='Hukdis_id'>
             <table class='table no-border' cellspacing='10' cellpadding='5'>
@@ -37,11 +37,6 @@
                     <td>Alamat / tempat tinggal</td>
                     <td>:</td>
                     <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
-                </tr>
-                <tr>
-                    <td>Keterangan</td>
-                    <td>:</td>
-                    <td><?php echo $Data_hukdis->nama_type; ?></td>
                 </tr>
                 
             </table>

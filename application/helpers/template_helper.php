@@ -360,7 +360,7 @@ function menuAdmin($menuOpen = '')
                                                                 </a>
                                                             </li>
                                                             <li class="kt-menu__item " aria-haspopup="true">
-                                                                <a href="' . base_url() . 'admin/surat_tindak_pidana" class="kt-menu__link ">
+                                                                <a href="' . base_url() . 'admin/Data_tindak_pidana" class="kt-menu__link ">
                                                                     <span class="kt-menu__link-text">
                                                                         <div class="kt-demo-icon">
                                                                             <div class="kt-demo-icon__preview">

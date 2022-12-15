@@ -10,7 +10,7 @@ class M_hukuman_disiplin extends CI_Model
 		$Date_now = date('Y-m-d');
 		if ($_POST['search']['value']) {
 			$search = $_POST['search']['value'];
-			$k_search = " AND (a.Keterangan LIKE '%$search%')";
+			$k_search = " AND (e.nama_pegawai LIKE '%$search%')";
 		} else {
 			$k_search = "";
 		}
@@ -80,7 +80,7 @@ class M_hukuman_disiplin extends CI_Model
 		$Date_now = date('Y-m-d');
 		if ($_POST['search']['value']) {
 			$search = $_POST['search']['value'];
-			$k_search = " AND (a.Keterangan LIKE '%$search%')";
+			$k_search = " AND (e.nama_pegawai LIKE '%$search%')";
 		} else {
 			$k_search = "";
 		}
@@ -95,7 +95,41 @@ class M_hukuman_disiplin extends CI_Model
 			$kond_lokasi = " AND a.id_pegawai = '$id_pegawai'";
 		}
 
-		$sQuery = "SELECT COUNT(a.Id) as jml FROM tr_hukdis as a where a.Id !='' $kond_lokasi $k_search ";
+		$sQuery = "SELECT COUNT(*) as jml FROM (SELECT
+						a.Id, 
+						a.id_pegawai, 
+						a.lokasi_kerja_pegawai, 
+						a.is_dinas, 
+						a.Hukdis_id, 
+						a.Type_surat, 
+						a.Keterangan, 
+						a.Status_progress, 
+						a.Notes, 
+						a.Nomor_surat, 
+						a.Tanggal_verifikasi, 
+						a.Created_by, 
+						a.Created_at, 
+						a.Updated_by, 
+						a.Updated_at,
+						c.nama_lengkap,
+						b.nama_status,
+						d.nama_type as nama_type,
+						e.nama_pegawai
+					FROM
+						tr_hukdis AS a
+					LEFT JOIN (
+						SELECT id_status, nama_status FROM tbl_status_surat
+					) as b ON b.id_status = a.Status_progress
+					LEFT JOIN (
+						SELECT username, nama_lengkap FROM tbl_user_login
+					) as c ON c.username = a.Created_by
+					LEFT JOIN (
+						SELECT id_tipe_surat_hukdis, name as nama_type FROM tbl_master_tipe_surat_hukdis
+					) as d ON d.id_tipe_surat_hukdis = a.Type_surat
+					LEFT JOIN (
+						SELECT id_pegawai, nama_pegawai FROM tbl_data_pegawai
+					) as e ON e.id_pegawai = a.id_pegawai
+						WHERE a.Id != '' $kond_lokasi $k_search) DATA ";
 		$query = $this->db->query($sQuery)->row();
 		return $query;
 	}
