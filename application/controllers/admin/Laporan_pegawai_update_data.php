@@ -50,6 +50,10 @@ class Laporan_pegawai_update_data extends CI_Controller
 				$d['tipe'] = $this->input->post('tipe');
 			}
 
+			// === read notif ===
+			$ses_username = $this->session->userdata('username');
+			$this->func_table->ReadNotif(1, $ses_username);
+
 			$this->load->view('dashboard_admin/laporan/update_data/home', $d);
 		} else {
 			header('location:' . base_url() . '');
