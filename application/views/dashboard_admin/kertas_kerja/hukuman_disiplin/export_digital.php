@@ -25,8 +25,8 @@ echo $html = '
     font-family: Arial;
   }
   .logo {
-    width: 2cm;
-    height: 2cm;
+		width: 1.99cm;
+		height: 1.88cm;
   }
   .header {
     font-size:16;
@@ -144,8 +144,8 @@ echo $html = '
   }
 </style>
 <div class="wrapper">
-<img src="'.K_PATH_IMAGES.'logo-jayaraya.png" height="70px" />
-  <p class="header">'.str_replace('PERTANAHAN ','PERTANAHAN<br>',strtoupper(strtolower($kadis->lokasi_kerja))).'</p>
+<img src="'.K_PATH_IMAGES.'logo-jayaraya.png" class="logo" />
+  <p class="header">'.str_replace('PERTANAHAN ','PERTANAHAN<br>',strtoupper($kadis->lokasi_kerja)).'</p>
   <p class="header2">
     SURAT KETERANGAN<br />
     BELUM PERNAH DIKENAKAN HUKUMAN DISIPLIN
