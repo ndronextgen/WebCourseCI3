@@ -102,19 +102,19 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Orientasi Pelayanan</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Orientasi_pelayanan; ?>" name="Orientasi_pelayanan" id="Orientasi_pelayanan" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Orientasi_pelayanan; ?>" name="Orientasi_pelayanan" id="Orientasi_pelayanan" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Integritas</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Integritas; ?>" name="Integritas" id="Integritas" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Integritas; ?>" name="Integritas" id="Integritas" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Inisiatif Kerja</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Inisiatif_kerja; ?>" name="Inisiatif_kerja" id="Inisiatif_kerja" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Inisiatif_kerja; ?>" name="Inisiatif_kerja" id="Inisiatif_kerja" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -123,25 +123,25 @@
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Komitmen</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Komitmen; ?>" name="Komitmen" id="Komitmen" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Komitmen; ?>" name="Komitmen" id="Komitmen" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Disiplin</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Disiplin; ?>" name="Disiplin" id="Disiplin" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Disiplin; ?>" name="Disiplin" id="Disiplin" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Kerja Sama</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Kerjasama; ?>" name="Kerjasama" id="Kerjasama" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Kerjasama; ?>" name="Kerjasama" id="Kerjasama" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Kepemimpinan</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Kepemimpinan; ?>" name="Kepemimpinan" id="Kepemimpinan" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Kepemimpinan; ?>" name="Kepemimpinan" id="Kepemimpinan" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label>Nilai Prestasi Kerja</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Nilai_prestasi_kerja; ?>" name="Nilai_prestasi_kerja" id="Nilai_prestasi_kerja" maxlength="3">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Nilai_prestasi_kerja; ?>" name="Nilai_prestasi_kerja" id="Nilai_prestasi_kerja" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -267,42 +267,42 @@
     $(function() {
         // === begin: numeric input only ===
         $("#Orientasi_pelayanan").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Integritas").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Inisiatif_kerja").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Komitmen").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Disiplin").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Kerjasama").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Kepemimpinan").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Nilai_prestasi_kerja").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });

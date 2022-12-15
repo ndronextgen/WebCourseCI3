@@ -173,15 +173,15 @@
 				type: 'red',
 				backgroundDismiss: true
 			});
-		} else if (Inisiatif_kerja == '') {
-			// alert('Inisiatif Kerja Tidak Boleh Kosong');
-			$.dialog({
-				icon: 'fa fa-info',
-				title: 'Info',
-				content: '<b style="color: red;">Inisiatif Kerja</b> tidak boleh kosong.',
-				type: 'red',
-				backgroundDismiss: true
-			});
+		// } else if (Inisiatif_kerja == '') {
+		// 	// alert('Inisiatif Kerja Tidak Boleh Kosong');
+		// 	$.dialog({
+		// 		icon: 'fa fa-info',
+		// 		title: 'Info',
+		// 		content: '<b style="color: red;">Inisiatif Kerja</b> tidak boleh kosong.',
+		// 		type: 'red',
+		// 		backgroundDismiss: true
+		// 	});
 		} else if (Komitmen == '') {
 			// alert('Komitmen Tidak Boleh Kosong');
 			$.dialog({
