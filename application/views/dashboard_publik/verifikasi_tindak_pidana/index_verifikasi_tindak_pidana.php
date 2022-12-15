@@ -245,16 +245,16 @@
 												<?php } ?>
 											</a>
 										</li>
-										<?php 
+										<?php
 											#hanya admin kepegawaian dan sekdis yg bisa akses ini
 											$id_pegawai = $this->session->userdata('id_pegawai');
 											$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
 											$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
-											if($query_exist_view_kk->jml >0 || $query_exist_view_sekdis->jml >0){
-										?>
+											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
+												?>
 											<li class='active'>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
-												<!-- notif -->
+													<!-- notif -->
 												</a>
 											</li>
 										<?php } ?>
@@ -263,9 +263,17 @@
 							<?php } ?>
 
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Panduan Penggunaan<b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Panduan<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" target=""><i class="icon-fire"></i> Download Panduan</a></li>
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" target=""><i class="icon-fire"></i> Panduan Penggunaan</a></li>
+								</ul>
+							</li>
+
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Pedoman<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_1" target=""><i class="icon-fire"></i> Permendikbud RI Nomor 50 Tahun 2015</a></li>
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_2" target=""><i class="icon-fire"></i> Pergub DKI Jakarta Nomor 99 Tahun 2021</a></li>
 								</ul>
 							</li>
 
