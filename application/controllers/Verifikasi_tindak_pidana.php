@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Verifikasi_hukdis extends CI_Controller
+class Verifikasi_tindak_pidana extends CI_Controller
 {
 	public function __construct()
 	{
@@ -10,9 +10,9 @@ class Verifikasi_hukdis extends CI_Controller
 		$this->load->helper('file');
 		$this->load->library('func_table');
 		//$this->load->library('func_wa_sk');
-		$this->load->library('func_wa_hukdis');
+		$this->load->library('func_wa_tindak_pidana');
 		$this->load->helper(array('url', 'download'));
-		$this->load->model('m_verifikasi_hukdis', 'verifikasi_hukdis');
+		$this->load->model('m_verifikasi_tindak_pidana', 'verifikasi_tindak_pidana');
 		$this->load->library('upload');
 		//$this->load->model('srt_ket_model');
 		// $this->load->model('arsip_hukuman_model');
@@ -126,18 +126,18 @@ class Verifikasi_hukdis extends CI_Controller
 			$d['count_see_verifikasi_tj'] = $count_see_verifikasi_tj;
 			$d['count_see_verifikasi_kaku'] = $count_see_verifikasi_kaku;
 
-			$this->load->view('dashboard_publik/verifikasi_hukdis/index_verifikasi_hukdis', $d);
+			$this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
 	}
 
-	function data_verifikasi_hukdis()
+	function data_verifikasi_tindak_pidana()
 	{
-		$this->load->view('dashboard_publik/verifikasi_hukdis/ajax_table');
+		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/ajax_table');
 	}
 
-	function table_data_verifikasi_hukdis()
+	function table_data_verifikasi_tindak_pidana()
 	{
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
@@ -145,9 +145,9 @@ class Verifikasi_hukdis extends CI_Controller
 
 		$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 
-		$listing 		= $this->verifikasi_hukdis->listing($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
-		$jumlah_filter 	= $this->verifikasi_hukdis->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
-		$jumlah_semua 	= $this->verifikasi_hukdis->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$listing 		= $this->verifikasi_tindak_pidana->listing($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$jumlah_filter 	= $this->verifikasi_tindak_pidana->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$jumlah_semua 	= $this->verifikasi_tindak_pidana->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 
 		$data = array();
 		$no = $_POST['start'];
@@ -155,7 +155,7 @@ class Verifikasi_hukdis extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Hukdis_id . "'" . ')">
+			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
 			# jika user adalah kasubag kepegawaian
@@ -165,17 +165,17 @@ class Verifikasi_hukdis extends CI_Controller
 
 
 			if ($status_verifikasi == 'kepegawaian' and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_hukdis_kep(' . "'" . $key->Hukdis_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '21';
 			} else if ($status_verifikasi == 'sekdis' and $key->Status_progress == '22') {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_hukdis_kep(' . "'" . $key->Hukdis_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '22';
 			} else if ($status_verifikasi == 'sudinupt' and $key->Status_progress == '21') {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_hukdis_kep(' . "'" . $key->Hukdis_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '21';
@@ -184,7 +184,7 @@ class Verifikasi_hukdis extends CI_Controller
 				$data_bold = '';
 			}
 			if ($key->Status_progress == '3') {
-				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" href="javascript:void(0);">
+				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-pdf-o"></i> &nbsp;Download</button>
 									</a>';
 			} else {
@@ -212,16 +212,16 @@ class Verifikasi_hukdis extends CI_Controller
 		echo json_encode($output);
 	}
 
-	function form_verifikasi_hukdis_kep()
+	function form_verifikasi_tindak_pidana_kep()
 	{
-		$Hukdis_id = $this->input->post('Hukdis_id');
+		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
 		
-		$Data_hukdis = $this->db->query("SELECT
+		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
-											a.Hukdis_id, 
+											a.Tindak_pidana_id, 
 											a.Type_surat, 
 											a.Keterangan, 
 											a.Status_progress, 
@@ -234,11 +234,11 @@ class Verifikasi_hukdis extends CI_Controller
 											a.Updated_at,
 											b.nama_type
 										FROM
-											tr_hukdis AS a 
+											tr_tindak_pidana AS a 
 										LEFT JOIN (
-											SELECT id_tipe_surat_hukdis, name as nama_type FROM tbl_master_tipe_surat_hukdis
-										) as b ON b.id_tipe_surat_hukdis = a.Type_surat
-										WHERE a.Hukdis_id='$Hukdis_id'")->row();
+											SELECT id_tipe_surat_tindak_pidana, name as nama_type FROM tbl_master_tipe_surat_tindak_pidana
+										) as b ON b.id_tipe_surat_tindak_pidana = a.Type_surat
+										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
@@ -256,12 +256,12 @@ class Verifikasi_hukdis extends CI_Controller
 									LEFT JOIN (
 										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
-									WHERE a.id_pegawai = '$Data_hukdis->id_pegawai'")->row();
+									WHERE a.id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
 
-		if (($Data_hukdis->Status_progress == '21' || $Data_hukdis->Status_progress == '26')) { //diverifikasi admin
+		if (($Data_tindak_pidana->Status_progress == '21' || $Data_tindak_pidana->Status_progress == '26')) { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_hukdis->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_tindak_pidana->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
 		} else {
@@ -270,20 +270,20 @@ class Verifikasi_hukdis extends CI_Controller
 		}
 
 		$a['Data'] = $Data;
-		$a['Data_hukdis'] = $Data_hukdis;
-		$a['Hukdis_id'] = $Hukdis_id;
+		$a['Data_tindak_pidana'] = $Data_tindak_pidana;
+		$a['Tindak_pidana_id'] = $Tindak_pidana_id;
 		$a['func_table'] = $this->load->library('func_table');
 
 		$a['Data'] 		= $Data;
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_hukdis/form_verifikasi_hukdis_kep', $a);
+		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
 	}
 
-	function simpan_verifikasi_hukdis_kep()
+	function simpan_verifikasi_tindak_pidana_kep()
 	{
-		$Hukdis_id 		= $this->input->post('Hukdis_id'); //id surat
+		$Tindak_pidana_id 		= $this->input->post('Tindak_pidana_id'); //id surat
 		$username 		= $this->session->userdata('username');
 		$status_verify 	= $this->input->post('status_verify');
 		$ket 			= $this->input->post('ket');
@@ -303,44 +303,44 @@ class Verifikasi_hukdis extends CI_Controller
 		$data['Updated_at'] 		= $Date_now;
 		$data['Updated_by'] 		= $this->session->userdata("username");
 
-		$this->db->where('Hukdis_id', $Hukdis_id);
-		$Q_update = $this->db->update('tr_hukdis', $data);
+		$this->db->where('Tindak_pidana_id', $Tindak_pidana_id);
+		$Q_update = $this->db->update('tr_tindak_pidana', $data);
 		if ($Q_update) {
-			$Q_select = $this->db->query("SELECT * FROM tr_hukdis WHERE Hukdis_id='$Hukdis_id'")->row();
+			$Q_select = $this->db->query("SELECT * FROM tr_tindak_pidana WHERE Tindak_pidana_id='$Tindak_pidana_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Hukdis_id'] 	= $Hukdis_id;
+			$data_triger['Tindak_pidana_id'] 	= $Tindak_pidana_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
 			
-			if ($this->db->insert('tr_hukdis_triger', $data_triger)) {
+			if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
 				$status = true;
-				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Hukdis_id, $status_verify, $this->session->userdata("username"));
+				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Tindak_pidana_id, $status_verify, $this->session->userdata("username"));
 				$message = '1|Berhasil menyimpan data.';
 			} else {
 				$message = '0|Gagal menyimpan data.';
 			}
 
 			if ($status_verify == '23' || $status_verify == '27') {
-				$select_hukdis = $this->db->query("SELECT lokasi_kerja_pegawai FROM tr_hukdis WHERE Hukdis_id = '$Hukdis_id'")->row();
-				$nomor_surat = $this->func_table->gen_nomor_surat_hukdis($select_hukdis->lokasi_kerja_pegawai);
+				$select_tindak_pidana = $this->db->query("SELECT lokasi_kerja_pegawai FROM tr_tindak_pidana WHERE Tindak_pidana_id = '$Tindak_pidana_id'")->row();
+				$nomor_surat = $this->func_table->gen_nomor_surat_tindak_pidana($select_tindak_pidana->lokasi_kerja_pegawai);
 				$Date_now = date("Y-m-d H:i:s");
-				$this->db->query("UPDATE tr_hukdis 
+				$this->db->query("UPDATE tr_tindak_pidana 
 									SET Status_progress = '3', Nomor_surat = '$nomor_surat', Tanggal_verifikasi = '$Date_now'
-									WHERE Hukdis_id='$Hukdis_id'");
-				//$this->db->query("UPDATE tr_hukdis SET Status_progress = '3' WHERE Hukdis_id='$Hukdis_id'");
+									WHERE Tindak_pidana_id='$Tindak_pidana_id'");
+				//$this->db->query("UPDATE tr_tindak_pidana SET Status_progress = '3' WHERE Tindak_pidana_id='$Tindak_pidana_id'");
 				//insert history
 				$data_triger2['Act'] 			= $Act;
-				$data_triger2['Hukdis_id'] 		= $Hukdis_id;
+				$data_triger2['Tindak_pidana_id'] 		= $Tindak_pidana_id;
 				$data_triger2['Status_progress'] = '3';
 				$data_triger2['User_created'] 	= $Updated_by;
 				$data_triger2['Created_at'] 	= $Date_now;
-				$this->db->insert('tr_hukdis_triger', $data_triger2);
+				$this->db->insert('tr_tindak_pidana_triger', $data_triger2);
 
 				$message = '1|Berhasil menyimpan data.';
 			}
 			$message = '1|Berhasil menyimpan data.';
-			$send_notif_hd 	= $this->func_wa_hukdis->notif_hd_update($Hukdis_id);
+			$send_notif_hd 	= $this->func_wa_tindak_pidana->notif_hd_update($Tindak_pidana_id);
 		} else {
 			$message = '0|Gagal menyimpan data.';
 		}
@@ -349,14 +349,14 @@ class Verifikasi_hukdis extends CI_Controller
 
 	function form_detail()
 	{
-		$Hukdis_id = $this->input->post('Hukdis_id');
+		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
 		
-		$Data_hukdis = $this->db->query("SELECT
+		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
-											a.Hukdis_id, 
+											a.Tindak_pidana_id, 
 											a.Type_surat, 
 											a.Keterangan, 
 											a.Status_progress, 
@@ -369,11 +369,11 @@ class Verifikasi_hukdis extends CI_Controller
 											a.Updated_at,
 											b.nama_type
 										FROM
-											tr_hukdis AS a 
+											tr_tindak_pidana AS a 
 										LEFT JOIN (
-											SELECT id_tipe_surat_hukdis, name as nama_type FROM tbl_master_tipe_surat_hukdis
-										) as b ON b.id_tipe_surat_hukdis = a.Type_surat
-										WHERE a.Hukdis_id='$Hukdis_id'")->row();
+											SELECT id_tipe_surat_tindak_pidana, name as nama_type FROM tbl_master_tipe_surat_tindak_pidana
+										) as b ON b.id_tipe_surat_tindak_pidana = a.Type_surat
+										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
@@ -391,15 +391,15 @@ class Verifikasi_hukdis extends CI_Controller
 									LEFT JOIN (
 										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
-									WHERE a.id_pegawai = '$Data_hukdis->id_pegawai'")->row();
+									WHERE a.id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
 
-		if ($Data_hukdis->is_dinas == '1' && ($Data_hukdis->Status_progress == '21' || $Data_hukdis->Status_progress == '26')) { //diverifikasi admin
+		if ($Data_tindak_pidana->is_dinas == '1' && ($Data_tindak_pidana->Status_progress == '21' || $Data_tindak_pidana->Status_progress == '26')) { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_hukdis->is_dinas == '1' && $Data_hukdis->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_tindak_pidana->is_dinas == '1' && $Data_tindak_pidana->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
-		} else if ($Data_hukdis->is_dinas != '1'  && $Data_hukdis->Status_progress == '21') { //diverifikasi kepegawaian
+		} else if ($Data_tindak_pidana->is_dinas != '1'  && $Data_tindak_pidana->Status_progress == '21') { //diverifikasi kepegawaian
 			$terima = "27";
 			$tolak = "28";
 		} else {
@@ -408,15 +408,15 @@ class Verifikasi_hukdis extends CI_Controller
 		}
 
 		$a['Data'] = $Data;
-		$a['Data_hukdis'] = $Data_hukdis;
-		$a['Hukdis_id'] = $Hukdis_id;
+		$a['Data_tindak_pidana'] = $Data_tindak_pidana;
+		$a['Tindak_pidana_id'] = $Tindak_pidana_id;
 		$a['func_table'] = $this->load->library('func_table');
 
 		$a['Data'] 		= $Data;
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_hukdis/form_detail', $a);
+		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
 	}
 
 	public function notify_verifikasi_tunjangan()
