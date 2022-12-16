@@ -2448,7 +2448,7 @@ class Dashboard_Publik extends CI_Controller
 	public function download_manualbook()
 	{
 		$fileContents = file_get_contents(base_url('asset/upload/manual_book/manual_book_siadik_publik_2022.10.22.pdf'));
-		$file = 'Manual Book SIADIK Publik 2022.10.22.pdf';
+		$file = 'Manual Book SI-ADiK Publik 2022.10.22.pdf';
 		force_download($file, $fileContents);
 	}
 

@@ -16,16 +16,16 @@ class Manual_book extends CI_Controller {
 	public function mpublic() 
 	{
 
-		$fileContents = file_get_contents(base_url('asset/upload/manual_book/Manual_Book_SIADIK_Publik_19102022.pdf')); 
-		$file='Manual_Book_SIADIK_Publik_19102022.pdf';//nama_file
+		$fileContents = file_get_contents(base_url('asset/upload/manual_book/manual_book_siadik_publik_2022.10.22.pdf')); 
+		$file= 'Manual Book SI-ADiK Publik 2022.10.22.pdf';//nama_file
 		force_download($file, $fileContents);
 	}
 
 	public function madmin() 
 	{
 
-		$fileContents = file_get_contents(base_url('asset/upload/manual_book/Manual_Book_SIADIK_Admin_230522.pdf')); 
-		$file='Manual_Book_SIADIK_Admin_230522.pdf';//nama_file
+		$fileContents = file_get_contents(base_url('asset/upload/manual_book/manual_book_siadik_admin_2022.05.23.pdf')); 
+		$file= 'Manual Book SI-ADiK Admin 2022.05.23.pdf';//nama_file
 		force_download($file, $fileContents);
 	}
 }
