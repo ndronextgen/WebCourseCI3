@@ -44,7 +44,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 			$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
-			
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -193,7 +193,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 			$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
-			
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -865,7 +865,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 			$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
-			
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -1179,7 +1179,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 			$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
-			
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -2447,9 +2447,22 @@ class Dashboard_Publik extends CI_Controller
 
 	public function download_manualbook()
 	{
-
 		$fileContents = file_get_contents(base_url('asset/upload/manual_book/Manual_Book_SIADIK_Publik_19102022.pdf'));
 		$file = 'Manual_Book_SIADIK_Publik_19102022.pdf';
+		force_download($file, $fileContents);
+	}
+
+	public function download_pedoman_1()
+	{
+		$fileContents = file_get_contents(base_url('asset/upload/pedoman/Permendikbud_Tahun2015_Nomor050.pdf'));
+		$file = 'Permendikbud_Tahun2015_Nomor050.pdf';
+		force_download($file, $fileContents);
+	}
+
+	public function download_pedoman_2()
+	{
+		$fileContents = file_get_contents(base_url('asset/upload/pedoman/Pergub_DKI_99_2021.pdf'));
+		$file = 'Pergub_DKI_99_2021.pdf';
 		force_download($file, $fileContents);
 	}
 

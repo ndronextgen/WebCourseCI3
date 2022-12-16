@@ -1598,10 +1598,11 @@ Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi S
         $sSQL = "SELECT nama_lengkap FROM tbl_user_login WHERE username = '$userCreate'";
         $rsSQL = $ci->db->query($sSQL);
 
-        if (isset($rsSQL)) {
+        if ($rsSQL->num_rows() > 0) {
+            // $nama_lengkap = $ci->func_table->name_format('Siadik');
             $nama_lengkap = $ci->func_table->name_format($rsSQL->row()->nama_lengkap);
 
-            if (isset($rsSQL)) {
+            if ($rsSQL->num_rows() > 0) {
                 $notif_message = $nama_lengkap . ' melakukan perubahan ' . $ci->func_table->name_format($this->module_name($moduleID) . '.');
             } else {
                 $notif_message = $nama_lengkap . ' melakukan perubahan data.';

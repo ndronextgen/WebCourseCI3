@@ -83,19 +83,19 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Kesetiaan</label>
-                            <input type="text" class="form-control input-sm" name="Kesetiaan" id="Kesetiaan" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Kesetiaan" id="Kesetiaan" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Prestasi Kerja</label>
-                            <input type="text" class="form-control input-sm" name="Prestasi_kerja" id="Prestasi_kerja" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Prestasi_kerja" id="Prestasi_kerja" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Tanggung Jawab</label>
-                            <input type="text" class="form-control input-sm" name="Tanggung_jawab" id="Tanggung_jawab" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Tanggung_jawab" id="Tanggung_jawab" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -104,19 +104,19 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Ketaatan</label>
-                            <input type="text" class="form-control input-sm" name="Ketaatan" id="Ketaatan" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Ketaatan" id="Ketaatan" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Kejujuran</label>
-                            <input type="text" class="form-control input-sm" name="Kejujuran" id="Kejujuran" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Kejujuran" id="Kejujuran" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Kerja Sama</label>
-                            <input type="text" class="form-control input-sm" name="Kerja_sama" id="Kerja_sama" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Kerja_sama" id="Kerja_sama" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -125,19 +125,19 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Prakarsa</label>
-                            <input type="text" class="form-control input-sm" name="Prakarsa" id="Prakarsa" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Prakarsa" id="Prakarsa" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Kepemimpinan</label>
-                            <input type="text" class="form-control input-sm" name="Kepemimpinan" id="Kepemimpinan" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Kepemimpinan" id="Kepemimpinan" maxlength="6">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Jumlah</label>
-                            <input type="text" class="form-control input-sm" name="Jumlah" id="Jumlah" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Jumlah" id="Jumlah" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label>Nilai Rata-rata</label>
-                            <input type="text" class="form-control input-sm" name="Nilai_rata_rata" id="Nilai_rata_rata" maxlength="3">
+                            <input type="text" class="form-control input-sm" name="Nilai_rata_rata" id="Nilai_rata_rata" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -224,52 +224,52 @@
     $(function() {
         // === begin: numeric input only ===
         $("#Kesetiaan").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Prestasi_kerja").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Tanggung_jawab").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Ketaatan").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Kejujuran").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Kerja_sama").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Prakarsa").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Kepemimpinan").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Jumlah").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
         $("#Nilai_rata_rata").keypress(function(e) {
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            if (e.which != 8 && e.which != 46 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
         });
