@@ -269,7 +269,7 @@
 											</li>
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
-												<!-- notif -->
+													<!-- notif -->
 												</a>
 											</li>
 										<?php } ?>
@@ -277,18 +277,21 @@
 								</li>
 							<?php } ?>
 
-							<li class="dropdown">
+							<!-- <li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Panduan<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" target=""><i class="icon-fire"></i> Panduan Penggunaan</a></li>
 								</ul>
-							</li>
+							</li> -->
+
+							<li class=""><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook"><i class="icon-home icon-white"></i> Panduan Penggunaan</a></li>
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Pedoman<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_1" target=""><i class="icon-fire"></i> Permendikbud RI Nomor 50 Tahun 2015</a></li>
-									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_2" target=""><i class="icon-fire"></i> Pergub DKI Jakarta Nomor 99 Tahun 2021</a></li>
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_3" target=""><i class="icon-fire"></i> SK Kepala Dinas Update Data SI-ADiK</a></li>
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_1" target=""><i class="icon-fire"></i> Permendikbud RI No. 50 Tahun 2015</a></li>
+									<li><a href="<?php echo base_url(); ?>dashboard_publik/download_pedoman_2" target=""><i class="icon-fire"></i> Pergub DKI Jakarta No. 99 Tahun 2021</a></li>
 								</ul>
 							</li>
 

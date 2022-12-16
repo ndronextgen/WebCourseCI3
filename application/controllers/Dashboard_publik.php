@@ -2447,22 +2447,29 @@ class Dashboard_Publik extends CI_Controller
 
 	public function download_manualbook()
 	{
-		$fileContents = file_get_contents(base_url('asset/upload/manual_book/Manual_Book_SIADIK_Publik_19102022.pdf'));
-		$file = 'Manual_Book_SIADIK_Publik_19102022.pdf';
+		$fileContents = file_get_contents(base_url('asset/upload/manual_book/manual_book_siadik_publik_2022.10.22.pdf'));
+		$file = 'Manual Book SIADIK Publik 2022.10.22.pdf';
 		force_download($file, $fileContents);
 	}
 
 	public function download_pedoman_1()
 	{
-		$fileContents = file_get_contents(base_url('asset/upload/pedoman/Permendikbud_Tahun2015_Nomor050.pdf'));
-		$file = 'Permendikbud_Tahun2015_Nomor050.pdf';
+		$fileContents = file_get_contents(base_url('asset/upload/pedoman/permendikbud_tahun2015_nomor050.pdf'));
+		$file = 'Permendikbud RI No. 50 Tahun 2015.pdf';
 		force_download($file, $fileContents);
 	}
 
 	public function download_pedoman_2()
 	{
-		$fileContents = file_get_contents(base_url('asset/upload/pedoman/Pergub_DKI_99_2021.pdf'));
-		$file = 'Pergub_DKI_99_2021.pdf';
+		$fileContents = file_get_contents(base_url('asset/upload/pedoman/pergub_dki_99_2021.pdf'));
+		$file = 'Pergub DKI Jakarta No. 99 Tahun 2021.pdf';
+		force_download($file, $fileContents);
+	}
+
+	public function download_pedoman_3()
+	{
+		$fileContents = file_get_contents(base_url('asset/upload/pedoman/sk_ka._dcktrp_no._31_tahun_2022.pdf'));
+		$file = 'SK Ka. DCKTRP No. 31 Tahun 2022.pdf';
 		force_download($file, $fileContents);
 	}
 
