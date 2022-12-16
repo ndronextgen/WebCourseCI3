@@ -115,7 +115,7 @@
 								</ul>
 							</li> -->
 
-							<li class=""><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook"><i class="icon-home icon-white"></i> Panduan Penggunaan</a></li>
+							<li class=""><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" title="Download Panduan Penggunaan"><i class="icon-home icon-white"></i> Panduan Penggunaan</a></li>
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Pedoman<b class="caret"></b></a>
