@@ -63,12 +63,12 @@ class Data_tindak_pidana extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
-			// 							<i class="fa fa-file"></i> Download
-			// 					</a>';
-			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" target="_blank">
+			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
 										<i class="fa fa-file"></i> Download
 								</a>';
+			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" target="_blank">
+			// 							<i class="fa fa-file"></i> Download
+			// 					</a>';
 			$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_tindak_pidana(' . "'" . $key->Tindak_pidana_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
 							</a>';
