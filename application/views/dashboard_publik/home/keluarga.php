@@ -676,10 +676,10 @@
 			$("#grp_pangkat_golongan").hide();
 
 			$("#opt_pns_2").prop("checked", true);
-			if (typeof $('input[name="opt_pns"]:checked').val() == 'undefined') {
+			// if (typeof $('input[name="opt_pns"]:checked').val() == 'undefined') {
 				$("#lbl_nik").text("NIK");
 				$("#nik_anggota_keluarga").prop("placeholder", "NIK");
-			}
+			// }
 
 			$("#ket-lampiran").text("Lampirkan file KTP/KK/AKTE LAHIR atau lainnya.");
 			$("#ket-lampiran").css("color", "");
