@@ -11,7 +11,7 @@
             <h4 style='text-align:center;'>
                 Surat Tindak Pidana
             </h4>
-            <input type='hidden' value='<?php echo $Hukdis_id; ?>' name='Hukdis_id' id='Hukdis_id'>
+            <input type='hidden' value='<?php echo $Tindak_pidana_id; ?>' name='Tindak_pidana_id' id='Tindak_pidana_id'>
             <table class='table no-border' cellspacing='10' cellpadding='5'>
                 <tr>
                     <td width='200px'>Nama Lengkap</td>
@@ -57,7 +57,7 @@ foreach ($Query_history as $hist) {
     $txt = '';
     $download_file = '';
 
-    if ($hist->Status_progress == $Data_hukdis->Status_progress) {
+    if ($hist->Status_progress == $Data_tindak_pidana->Status_progress) {
         $active = 'current';
     } else {
         $active = '';
@@ -84,10 +84,10 @@ $user_type = $this->session->userdata('stts');
 $id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){ //admin-utama
 ?>
-<?php if ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28') { ?>
+<?php if ($Data_tindak_pidana->Status_progress == '0' || $Data_tindak_pidana->Status_progress == '25' || $Data_tindak_pidana->Status_progress == '28') { ?>
     <hr>
     <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
-    <form id="form_verifikasi_hukdis" name="form_verifikasi_hukdis" method="post" enctype="multipart/form-data">
+    <form id="form_verifikasi_tindak_pidana" name="form_verifikasi_tindak_pidana" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -113,8 +113,8 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <input type='hidden' name='Hukdis_id' value='<?php echo $Hukdis_id; ?>'>
-                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_hukdis()"><i class="fa fa-save"></i> Simpan Verifikasi Pengajuan Surat Hukuman Disiplin</button>&nbsp;&nbsp;
+                    <input type='hidden' name='Tindak_pidana_id' value='<?php echo $Tindak_pidana_id; ?>'>
+                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan Verifikasi Surat TIndak Pidana</button>&nbsp;&nbsp;
                     <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>

@@ -1,19 +1,6 @@
 <?php
-
-if($Data_hukdis->Type_surat =='1'){ //kenaikan pangkat
-  $kalimat ="<p>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman  disiplin, baik tingkat ringan, sedang, dan berat, berdasarkan Peraturan Pemerintah Nomor 53 Tahun 2010  dan Peraturan Pemerintah Nomor 10 Tahun 1983 jo. Peraturan Pemerintah Nomor 45 Tahun 1990.<br><br>Surat keterangan ini dibuat untuk memenuhi persyaratan permohonan SK.Pensiun</p>.
-  ";
-} else if($Data_hukdis->Type_surat =='2'){ //pensiun
-  $kalimat ="<p>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman disiplin baik tingkat ringan/sedang/berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil.<br><br>Demikian surat keterangan ini dibuat untuk kelengkapan berkas pengajuan pensiun Pegawai Negeri Sipil Pemerintah Provinsi DKI Jakarta.
-  </p>";
-} elseif($Data_hukdis->Type_surat =='3'){ //pengkargaan 
-  $kalimat ="<ol>
-    <li style='padding:5px;line-height: 2;'>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman disiplin baik tingkat ringan/sedang/berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil;</li>
-    <li style='padding:5px;'>Belum pernah menerima penghargaan masa kerja 10 tahun.</li>
-  </ol>
-
-  <p>Demikian surat keterangan ini dibuat untuk kelengkapan usulan berkas Penghargaan Satyalancana Karya Satya  (SLKS) dan Masa Kerja Gubernur Provinsi DKI Jakarta</p>";
-}
+$kalimat ="<p>Tidak sedang menjalani proses pidana atau pernah dipidana penjara berdasarkan putusan pengadilan yang telah berkekuatan hukum tetap karena melakukan tindak pidana kejahatan jabatan atau tindak pidana kejahatan yang ada hubungannya dengan jabatan dan / pidana umum.</p><p>Demikian surat keterangan ini saya buat dengan sesungguhnya dengan mengingat sumpah jabatan dan apabila di kemudian hari ternyata isi surat pernyataan tidak benar yang mengakibatkan kerugian Negara maka saya bersedia menanggung kerugian Negara sesuai dengan ketentuan peraturan perundang-undangan dipergunakan sebagaimana mestinya.</p>.
+";
 
 
 
@@ -59,18 +46,21 @@ echo $html = '
   }
   .var {
     width: 150px;
+    line-height:1;
   }
   .sel {
     width: 15px;
+    line-height:1;
   }
   .val {
     text-align: justify;
     float: left;
     width: 383px;
-    line-height:1.8;
+    line-height:1;
   }
   .space {
     width: 20px;
+    line-height:1;
   }
   .list {
     padding-left: 0;
@@ -147,11 +137,12 @@ echo $html = '
 <img src="'.K_PATH_IMAGES.'logo-jayaraya.png" height="70px" />
   <p class="header">'.str_replace('PERTANAHAN ','PERTANAHAN<br>',strtoupper(strtolower($kadis->lokasi_kerja))).'</p>
   <p class="header2">
-    SURAT KETERANGAN<br />
-    BELUM PERNAH DIKENAKAN HUKUMAN DISIPLIN
+    SURAT PERNYATAAN<br />
+    TIDAK SEDANG MENJALANI PROSES PIDANA ATAU PERNAH DIPIDANA PENJARA <br>
+    BERDASARKAN PUTUSAN PENGADILAN YANG TELAH BERKEKUATAN HUKUM TETAP
     <br />
     <span class="header3">
-    NOMOR : '.$Data_hukdis->Nomor_surat.'
+    NOMOR : '.$Data_tindak_pidana->Nomor_surat.'
     </span>
   </p>
   <div class="content">
@@ -235,7 +226,7 @@ echo $html ='<div class="row">
     <div class="column" style="width:40%;">
     <img class="image_sign" src="'.$signature.'">
       <p style="position:absulute;z-index:21 !important;margin-top:-150px;">
-        Jakarta,&nbsp;'.$Tanggal_indo.'<br>
+        Jakarta,&nbsp;'.$Tanggal_indo.'<br><br>
         '.$ket_ttd.'<br><br><br><br>
         
         '.(isset($penandatangan->nama_pegawai) ? ucwords(strtolower($penandatangan->nama_pegawai)) : '').'<br>

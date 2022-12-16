@@ -841,6 +841,30 @@ class Func_table
         return $nomorbaru;
     }
 
+    function gen_nomor_surat_tindak_pidana($kode_lokasi)
+    {
+        $CI = &get_instance();
+
+        $Tahun  = date('Y');
+        // -----
+        $Query = $CI->db->query("SELECT Nomor_terakhir_tindak_pidana FROM tbl_master_nomor_surat LIMIT 1")->row();
+        $result_max = isset($Query->Nomor_terakhir_tindak_pidana) ? $Query->Nomor_terakhir_tindak_pidana : '0';
+        // -----
+        $Query_lokasi = $CI->db->query("SELECT acronim FROM tbl_master_lokasi_kerja WHERE id_lokasi_kerja = '$kode_lokasi'")->row();
+        $result_lokasi = isset($Query_lokasi->acronim) ? $Query_lokasi->acronim : 'NL';
+
+        $Nur = $result_max + 1;
+
+        $kode =  sprintf("%04s", $Nur);
+        //[nomor_urut]/KG.11.04/D
+        //$nomorbaru = $Nur . "/SE/" . $Tahun;
+        $nomorbaru = $Nur . "/KG.8.00/D";
+
+        $Query_update = $CI->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_tindak_pidana = Nomor_terakhir_tindak_pidana + 1");
+
+        return $nomorbaru;
+    }
+
     function status_verifikasi_user($id_pegawai)
     {
         $CI = &get_instance();

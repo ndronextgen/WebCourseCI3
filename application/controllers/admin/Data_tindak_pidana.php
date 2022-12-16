@@ -173,7 +173,6 @@ class Data_tindak_pidana extends CI_Controller
 		$Updated_by 		= $this->session->userdata('username');
 		$Tindak_pidana_id 	= $this->input->post('Tindak_pidana_id');
 		$id_pegawai 		= $this->input->post('filter_pegawai');
-		$Keterangan 		= $this->input->post('Keterangan');
 
 		#lokasi admin menentukan kstatus progress 
 		#jika admin lokasi maka status 0 
@@ -213,14 +212,14 @@ class Data_tindak_pidana extends CI_Controller
 		$data['Updated_by'] 			= $Updated_by;
 		$data['Updated_at'] 			= $Date_now;
 
-		$in_hukdis = $this->db->insert('tr_tindak_pidana', $data);
-		if ($in_hukdis) {
-			$data_triger['Act'] 			= $Act;
-			$data_triger['Tindak_pidana_id'] = $Tindak_pidana_id;
-			$data_triger['Status_progress'] = $Status_progress;
-			$data_triger['Notes'] 			= $Notes;
-			$data_triger['User_created'] 	= $Updated_by;
-			$data_triger['Created_at'] 		= $Date_now;
+		$in_tindak_pidana = $this->db->insert('tr_tindak_pidana', $data);
+		if ($in_tindak_pidana) {
+			$data_triger['Act'] 				= $Act;
+			$data_triger['Tindak_pidana_id'] 	= $Tindak_pidana_id;
+			$data_triger['Status_progress'] 	= $Status_progress;
+			$data_triger['Notes'] 				= $Notes;
+			$data_triger['User_created'] 		= $Updated_by;
+			$data_triger['Created_at'] 			= $Date_now;
 			$Q_insert = $this->db->insert('tr_tindak_pidana_triger', $data_triger);
 			
 			//$see = $this->func_table->in_tosee_tj($Created_by, $Tunjangan_id, '0', $Created_by);
@@ -271,11 +270,10 @@ class Data_tindak_pidana extends CI_Controller
 		$Act 				= '0';
 		$Date_now 			= date('Y-m-d H:i:s');
 		
-		$Tindak_pidana_id 			= $this->input->post('Tindak_pidana_id');
+		$Tindak_pidana_id 	= $this->input->post('Tindak_pidana_id');
 		$Type_surat 		= $this->input->post('Type_surat');
 		$lokasi_kerja 		= $this->input->post('lokasi_kerja');
 		$id_pegawai 		= $this->input->post('filter_pegawai');
-		$Keterangan 		= $this->input->post('Keterangan');
 
 		#lokasi admin menentukan kstatus progress 
 		#jika admin lokasi maka status 0 
@@ -308,15 +306,13 @@ class Data_tindak_pidana extends CI_Controller
 		$data['id_pegawai'] 			= $id_pegawai;
 		$data['lokasi_kerja_pegawai'] 	= $lokasi_kerja_pegawai;
 		$data['is_dinas'] 				= $is_dinas;
-		$data['Type_surat'] 			= $Type_surat;
-		$data['Keterangan'] 			= $Keterangan;
 		$data['Updated_by'] 			= $Updated_by;
 		$data['Updated_at'] 			= $Date_now;
 
 		$this->db->where('Tindak_pidana_id', $Tindak_pidana_id);
-		$in_hukdis = $this->db->update('tr_tindak_pidana', $data);
+		$in_tindak_pidana = $this->db->update('tr_tindak_pidana', $data);
 
-		if ($in_hukdis) {
+		if ($in_tindak_pidana) {
 			// $data_triger['Act'] 			= $Act;
 			// $data_triger['Tunjangan_id'] 	= $Tunjangan_id;
 			// $data_triger['Status_progress'] = $Status_progress;
@@ -363,14 +359,12 @@ class Data_tindak_pidana extends CI_Controller
 		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
 		$username 	= $this->session->userdata('username');
 		
-		$Data_hukdis = $this->db->query("SELECT
+		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Tindak_pidana_id, 
-											a.Type_surat, 
-											a.Keterangan, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -378,13 +372,9 @@ class Data_tindak_pidana extends CI_Controller
 											a.Created_by, 
 											a.Created_at, 
 											a.Updated_by, 
-											a.Updated_at,
-											b.nama_type
+											a.Updated_at
 										FROM
 											tr_tindak_pidana AS a 
-										LEFT JOIN (
-											SELECT id_tipe_surat_hukdis, name as nama_type FROM tbl_master_tipe_surat_hukdis
-										) as b ON b.id_tipe_surat_hukdis = a.Type_surat
 										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
@@ -403,26 +393,26 @@ class Data_tindak_pidana extends CI_Controller
 									LEFT JOIN (
 										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
-									WHERE id_pegawai = '$Data_hukdis->id_pegawai'")->row();
+									WHERE id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
 
 
 
-		if ($Data_hukdis->is_dinas == '1' and ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28')) { //bidang dan sekretariat
+		if ($Data_tindak_pidana->is_dinas == '1' and ($Data_tindak_pidana->Status_progress == '0' || $Data_tindak_pidana->Status_progress == '25' || $Data_tindak_pidana->Status_progress == '28')) { //bidang dan sekretariat
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_hukdis->is_dinas == '1' and $Data_hukdis->Status_progress == '21') { //diverifikasi admin
+		} else if ($Data_tindak_pidana->is_dinas == '1' and $Data_tindak_pidana->Status_progress == '21') { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_hukdis->is_dinas == '1' and $Data_hukdis->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_tindak_pidana->is_dinas == '1' and $Data_tindak_pidana->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
-		} else if ($Data_hukdis->is_dinas != '1' and $Data_hukdis->Status_progress == '0') { //diverifikasi admin
+		} else if ($Data_tindak_pidana->is_dinas != '1' and $Data_tindak_pidana->Status_progress == '0') { //diverifikasi admin
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_hukdis->is_dinas != '1' and $Data_hukdis->Status_progress == '21') { //diverifikasi kaksubbag terkait
+		} else if ($Data_tindak_pidana->is_dinas != '1' and $Data_tindak_pidana->Status_progress == '21') { //diverifikasi kaksubbag terkait
 			$terima = "27";
 			$tolak = "28";
-		} else if ($Data_hukdis->is_dinas != '1' and ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28')) { //diverifikasi admin
+		} else if ($Data_tindak_pidana->is_dinas != '1' and ($Data_tindak_pidana->Status_progress == '0' || $Data_tindak_pidana->Status_progress == '25' || $Data_tindak_pidana->Status_progress == '28')) { //diverifikasi admin
 			$terima = "21";
 			$tolak = "24";
 		} else {
@@ -431,7 +421,7 @@ class Data_tindak_pidana extends CI_Controller
 		}
 
 		$a['Data'] = $Data;
-		$a['Data_hukdis'] = $Data_hukdis;
+		$a['Data_tindak_pidana'] = $Data_tindak_pidana;
 		$a['Tindak_pidana_id'] = $Tindak_pidana_id;
 
 		$a['terima'] 	= $terima;
@@ -441,24 +431,24 @@ class Data_tindak_pidana extends CI_Controller
 		//history
 		$history = null;
 
-		if ($Data_hukdis->Status_progress == '1') { //ditolak
+		if ($Data_tindak_pidana->Status_progress == '1') { //ditolak
 			$kondisi = " WHERE x.id_status in ('0','1')";
-		} else if ($Data_hukdis->Status_progress == '24') {
+		} else if ($Data_tindak_pidana->Status_progress == '24') {
 			$kondisi = " WHERE x.id_status in ('0','21' ,'24')";
-		} else if ($Data_hukdis->Status_progress == '25') {
+		} else if ($Data_tindak_pidana->Status_progress == '25') {
 			$kondisi = " WHERE x.id_status in ('0','21' ,'22','25')";
-		} else if ($Data_hukdis->Status_progress == '26') {
+		} else if ($Data_tindak_pidana->Status_progress == '26') {
 			$kondisi = " WHERE x.id_status in ('0','21' ,'22','23','26')";
-		} else if ($Data_hukdis->Status_progress == '28') {
+		} else if ($Data_tindak_pidana->Status_progress == '28') {
 			$kondisi = " WHERE x.id_status in ('0','21' ,'27','28')";
 		} else {
 			$kondisi = " WHERE x.id_status NOT IN ('1', '24', '25', '26', '28') ";
 		}
 
-		if ($Data_hukdis->is_dinas == '1') { //bidang dan sekretariat
+		if ($Data_tindak_pidana->is_dinas == '1') { //bidang dan sekretariat
 			$kondisi_bidang = " AND x.sort_bidang != '0'";
 			$kond_order = " x.sort_bidang";
-		} else if ($Data_hukdis->is_dinas != '1') {
+		} else if ($Data_tindak_pidana->is_dinas != '1') {
 			$kondisi_bidang = " AND x.sort_bidang != '0'";
 			$kond_order = " x.sort_bidang";
 		} else {
@@ -529,7 +519,7 @@ class Data_tindak_pidana extends CI_Controller
 					if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
 						$status = true;
 						//$see = $this->func_table->in_tosee_kaku($surat->Created_by, $Kariskarsu_id, $status_verify, $this->session->userdata("username"));
-						$send_notif_hd = $this->func_wa_hukdis->notif_hd_update($Tindak_pidana_id);
+						//$send_notif_hd = $this->func_wa_hukdis->notif_hd_update($Tindak_pidana_id);
 					} else {
 						$message = 'Gagal menyimpan data.';
 					}
@@ -566,14 +556,12 @@ class Data_tindak_pidana extends CI_Controller
 				$d['lokasi_kerja_ttd'] = '';
 				$d['signature'] = '';
 
-				$Data_hukdis = $this->db->query("SELECT
+				$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Tindak_pidana_id, 
-											a.Type_surat, 
-											a.Keterangan, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -581,13 +569,9 @@ class Data_tindak_pidana extends CI_Controller
 											a.Created_by, 
 											a.Created_at, 
 											a.Updated_by, 
-											a.Updated_at,
-											b.nama_type
+											a.Updated_at
 										FROM
 											tr_tindak_pidana AS a 
-										LEFT JOIN (
-											SELECT id_tipe_surat_hukdis, name as nama_type FROM tbl_master_tipe_surat_hukdis
-										) as b ON b.id_tipe_surat_hukdis = a.Type_surat
 										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
 				$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
@@ -606,13 +590,13 @@ class Data_tindak_pidana extends CI_Controller
 											LEFT JOIN (
 												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 											) as e ON e.id_nama_jabatan =  a.id_jabatan
-											WHERE id_pegawai = '$Data_hukdis->id_pegawai'")->row();
+											WHERE id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
 				
 				$d['Data'] = $Data;
-				$d['Data_hukdis'] = $Data_hukdis;
+				$d['Data_tindak_pidana'] = $Data_tindak_pidana;
 				$d['Tindak_pidana_id'] = $Tindak_pidana_id;
 				$d['func_table'] = $this->load->library('func_table');
-				$d['Tanggal_indo'] 	= $this->func_table->tgl_indonesia($Data_hukdis->Tanggal_verifikasi);
+				$d['Tanggal_indo'] 	= $this->func_table->tgl_indonesia($Data_tindak_pidana->Tanggal_verifikasi);
 
 				//get data kadis
 				$d['kadis'] = null;

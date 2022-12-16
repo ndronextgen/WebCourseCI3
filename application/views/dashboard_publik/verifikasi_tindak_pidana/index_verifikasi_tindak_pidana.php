@@ -253,7 +253,7 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li class='active'>
-												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
 												</a>
 											</li>
@@ -405,7 +405,7 @@
 		});
 
 		function load_data() {
-			var urls = "<?php echo site_url('Verifikasi_hukdis/data_verifikasi_hukdis'); ?>";
+			var urls = "<?php echo site_url('Verifikasi_tindak_pidana/data_verifikasi_tindak_pidana'); ?>";
 
 			$.ajax({
 				type: "POST",
@@ -426,12 +426,12 @@
 			//notify_verifikasi_tj();
 		}
 
-		function verifikasi_hukdis_kep(Hukdis_id) {
-			save_method = 'verifikasi_hukdis_kep';
+		function verifikasi_tindak_pidana_kep(Tindak_pidana_id) {
+			save_method = 'verifikasi_tindak_pidana_kep';
 			$.ajax({
-				url: "<?php echo site_url('Verifikasi_hukdis/form_verifikasi_hukdis_kep'); ?>",
+				url: "<?php echo site_url('Verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep'); ?>",
 				data: {
-					Hukdis_id: Hukdis_id
+					Tindak_pidana_id: Tindak_pidana_id
 				},
 				type: "POST",
 				success: function(data) {
@@ -440,27 +440,27 @@
 			});
 			$('.modal-footer').hide(); // show bootstrap modal
 			$('#modal_all').modal('show'); // show bootstrap modal
-			$('.modal-title').text('Form Verifikasi Surat Pegawai'); // Set Title to Bootstrap modal title
+			$('.modal-title').text('Form Verifikasi Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title
 		}
 
-		function simpan_verifikasi_hukdis() {
+		function simpan_verifikasi_tindak_pidana() {
 
 			var status_verify = $("#status_verify").val();
 
 			if (status_verify == '') {
 				alert('Tentukan Verifikasi...!');
 			} else {
-				ajax_simpan_verifikasi_hukdis();
+				ajax_simpan_verifikasi_tindak_pidana();
 			}
 		}
 
-		function ajax_simpan_verifikasi_hukdis() {
-			var formData = new FormData($('#form_verifikasi_hukdis_kep')[0]);
+		function ajax_simpan_verifikasi_tindak_pidana() {
+			var formData = new FormData($('#form_verifikasi_tindak_pidana_kep')[0]);
 			var url;
-			if (save_method == 'verifikasi_hukdis_kep') {
-				url = "<?php echo site_url('Verifikasi_hukdis/simpan_verifikasi_hukdis_kep'); ?>";
+			if (save_method == 'verifikasi_tindak_pidana_kep') {
+				url = "<?php echo site_url('Verifikasi_tindak_pidana/simpan_verifikasi_tindak_pidana_kep'); ?>";
 			} else {
-				url = "<?php echo site_url('Verifikasi_hukdis/simpan_verifikasi_hukdis_kep'); ?>";
+				url = "<?php echo site_url('Verifikasi_tindak_pidana/simpan_verifikasi_tindak_pidana_kep'); ?>";
 			}
 			$.ajax({
 				url: url,
@@ -504,11 +504,11 @@
 			});
 		}
 
-		function view_detail(Hukdis_id) {
+		function view_detail(Tindak_pidana_id) {
 			$.ajax({
-				url: "<?php echo site_url('Verifikasi_hukdis/form_detail'); ?>",
+				url: "<?php echo site_url('Verifikasi_tindak_pidana/form_detail'); ?>",
 				data: {
-					Hukdis_id: Hukdis_id
+					Tindak_pidana_id: Tindak_pidana_id
 				},
 				type: "POST",
 				success: function(data) {
@@ -517,12 +517,12 @@
 			});
 			$('.modal-footer').hide(); // show bootstrap modal
 			$('#modal_all').modal('show'); // show bootstrap modal
-			$('.modal-title').text('Form Detail Surat Pegawai'); // Set Title to Bootstrap modal title
+			$('.modal-title').text('Form Detail Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title
 		}
 
 		function notify_verifikasi_tj() {
 			$.ajax({
-				url: "<?php echo site_url('Verifikasi_hukdis/notify_verifikasi_hukdis') ?>",
+				url: "<?php echo site_url('Verifikasi_tindak_pidana/notify_verifikasi_tindak_pidana') ?>",
 				type: "POST",
 				beforeSend: function(f) {
 					var loading = '';

@@ -10,7 +10,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$this->load->helper('file');
 		$this->load->library('func_table');
 		//$this->load->library('func_wa_sk');
-		$this->load->library('func_wa_tindak_pidana');
+		//$this->load->library('func_wa_tindak_pidana');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_verifikasi_tindak_pidana', 'verifikasi_tindak_pidana');
 		$this->load->library('upload');
@@ -195,8 +195,6 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
-			$row[] = $key->nama_type;
-			//$row[] = $key->Keterangan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
 			$row[] = $data_bold;
@@ -222,8 +220,6 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Tindak_pidana_id, 
-											a.Type_surat, 
-											a.Keterangan, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -231,14 +227,11 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.Created_by, 
 											a.Created_at, 
 											a.Updated_by, 
-											a.Updated_at,
-											b.nama_type
+											a.Updated_at
 										FROM
-											tr_tindak_pidana AS a 
-										LEFT JOIN (
-											SELECT id_tipe_surat_tindak_pidana, name as nama_type FROM tbl_master_tipe_surat_tindak_pidana
-										) as b ON b.id_tipe_surat_tindak_pidana = a.Type_surat
+											tr_tindak_pidana AS a
 										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
+
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
@@ -308,7 +301,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		if ($Q_update) {
 			$Q_select = $this->db->query("SELECT * FROM tr_tindak_pidana WHERE Tindak_pidana_id='$Tindak_pidana_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Tindak_pidana_id'] 	= $Tindak_pidana_id;
+			$data_triger['Tindak_pidana_id']= $Tindak_pidana_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
@@ -330,17 +323,17 @@ class Verifikasi_tindak_pidana extends CI_Controller
 									WHERE Tindak_pidana_id='$Tindak_pidana_id'");
 				//$this->db->query("UPDATE tr_tindak_pidana SET Status_progress = '3' WHERE Tindak_pidana_id='$Tindak_pidana_id'");
 				//insert history
-				$data_triger2['Act'] 			= $Act;
-				$data_triger2['Tindak_pidana_id'] 		= $Tindak_pidana_id;
-				$data_triger2['Status_progress'] = '3';
-				$data_triger2['User_created'] 	= $Updated_by;
-				$data_triger2['Created_at'] 	= $Date_now;
+				$data_triger2['Act'] 				= $Act;
+				$data_triger2['Tindak_pidana_id'] 	= $Tindak_pidana_id;
+				$data_triger2['Status_progress'] 	= '3';
+				$data_triger2['User_created'] 		= $Updated_by;
+				$data_triger2['Created_at'] 		= $Date_now;
 				$this->db->insert('tr_tindak_pidana_triger', $data_triger2);
 
 				$message = '1|Berhasil menyimpan data.';
 			}
 			$message = '1|Berhasil menyimpan data.';
-			$send_notif_hd 	= $this->func_wa_tindak_pidana->notif_hd_update($Tindak_pidana_id);
+			//$send_notif_hd 	= $this->func_wa_tindak_pidana->notif_hd_update($Tindak_pidana_id);
 		} else {
 			$message = '0|Gagal menyimpan data.';
 		}
@@ -356,9 +349,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
-											a.Tindak_pidana_id, 
-											a.Type_surat, 
-											a.Keterangan, 
+											a.Tindak_pidana_id,
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -366,13 +357,9 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.Created_by, 
 											a.Created_at, 
 											a.Updated_by, 
-											a.Updated_at,
-											b.nama_type
+											a.Updated_at
 										FROM
 											tr_tindak_pidana AS a 
-										LEFT JOIN (
-											SELECT id_tipe_surat_tindak_pidana, name as nama_type FROM tbl_master_tipe_surat_tindak_pidana
-										) as b ON b.id_tipe_surat_tindak_pidana = a.Type_surat
 										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
