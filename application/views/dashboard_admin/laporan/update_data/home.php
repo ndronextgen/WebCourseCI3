@@ -69,7 +69,8 @@
 								</div>
 
 								<div class="kt-portlet__body">
-									<div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+									<!-- <div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10"> -->
+									<div class="kt-form kt-form--label-right kt-margin-t-0 kt-margin-b-0">
 										<div class="row align-items-center">
 
 											<div class="col-xl-12 order-2 order-xl-1">
@@ -123,7 +124,57 @@
 										</div>
 									</div>
 
+									<div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+										<div class="row align-items-center">
+
+											<div class="col-xl-7 order-2 order-xl-1">
+												<div class="row align-items-center kt-form__group--inline">
+
+													<div class="col-md-5 kt-margin-b-20-tablet-and-mobile">
+														<div class="kt-form__group kt-form__group--inline">
+															<div class="kt-form__label">
+																<label>Periode:</label>
+															</div>
+															<div class="kt-form__control">
+																<input type="text" id='tanggal' name="dates" placeholder="Masukan Range Tanggal" class="form-control input-sm" autocomplete="off" style="text-align: center;">
+															</div>
+														</div>
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
 								</div>
+
+								<!-- <div class="kt-portlet__body"> -->
+								<!-- <div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+										<div class="row align-items-center">
+
+											<div class="col-xl-12 order-2 order-xl-1">
+												<div class="row align-items-center kt-form__group--inline">
+
+													<div class="col-md-5 kt-margin-b-20-tablet-and-mobile">
+														<div class="kt-form__group kt-form__group--inline">
+															<div class="kt-form__label">
+																<label>Periode:</label>
+															</div>
+															<div class="kt-form__control">
+																<input type="text" id='tanggal' name="dates" placeholder="Masukan Range Tanggal" class="form-control input-sm" autocomplete="off">
+															</div>
+														</div>
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+									</div> -->
+
+								<!-- </div> -->
+
 								<?php echo form_close(); ?>
 								<!--end: Search Form -->
 
@@ -133,37 +184,59 @@
 									<!--end: Datatable -->
 								</div>
 							</div>
+
+							<div class="kt-portlet kt-portlet--mobile">
+
+							</div>
+							<!-- end content -->
 						</div>
-						<!-- end content -->
 					</div>
+					<?php footerAdmin(); ?>
 				</div>
-				<?php footerAdmin(); ?>
 			</div>
 		</div>
-	</div>
 
-	<?php scrollTop(); ?>
+		<?php scrollTop(); ?>
 
-	<!-- begin script global -->
-	<script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
-	<script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
-	<script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
-	<!-- end script global -->
+		<!-- begin script global -->
+		<script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
+		<script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
+		<script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
+		<!-- end script global -->
 
-	<!-- begin script page -->
-	<script src="<?php echo base_url() ?>assets_admin/js/pages/custom/tables/laporan/update_data.js" type="text/javascript"></script>
-	<!-- end script page -->
+		<!-- begin script page -->
+		<script src="<?php echo base_url() ?>assets_admin/js/pages/custom/tables/laporan/update_data.js" type="text/javascript"></script>
+		<!-- end script page -->
 
-	<script type="text/javascript">
-		// === change radio button selection ===
-		$(".report_type_class").change(function() {
-			if (document.getElementById('report_type_1').checked == true) {
-				document.getElementById('tipe').value = '0';
-			} else if (document.getElementById('report_type_2').checked == true) {
-				document.getElementById('tipe').value = '1';
-			} else if (document.getElementById('report_type_3').checked == true) {
-				document.getElementById('tipe').value = '2';
-			}
-		})
-	</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(function() {
+					$('input[name="dates"]').daterangepicker({
+						autoUpdateInput: false,
+						locale: {
+							cancelLabel: 'Clear'
+						}
+					});
+					$('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
+						$(this).val(picker.startDate.format('d MMM yyyy') + '   s.d.   ' + picker.endDate.format('d MMM yyyy'));
+					});
+
+					$('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
+						$(this).val('');
+					});
+
+				});
+			});
+
+			// === change radio button selection ===
+			$(".report_type_class").change(function() {
+				if (document.getElementById('report_type_1').checked == true) {
+					document.getElementById('tipe').value = '0';
+				} else if (document.getElementById('report_type_2').checked == true) {
+					document.getElementById('tipe').value = '1';
+				} else if (document.getElementById('report_type_3').checked == true) {
+					document.getElementById('tipe').value = '2';
+				}
+			})
+		</script>
 </body>
