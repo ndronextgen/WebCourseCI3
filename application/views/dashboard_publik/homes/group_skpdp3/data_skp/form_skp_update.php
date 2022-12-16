@@ -114,7 +114,7 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Inisiatif Kerja</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Inisiatif_kerja; ?>" name="Inisiatif_kerja" id="Inisiatif_kerja" maxlength="6">
+                            <input type="text" class="form-control input-sm" value="<?php echo $Data_skp->Inisiatif_kerja; ?>" name="Inisiatif_kerja" id="Inisiatif_kerja" placeholder="Jika tidak ada kosongkan saja." maxlength="6">
                         </div>
                     </div>
                 </div>
