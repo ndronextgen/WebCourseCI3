@@ -124,7 +124,7 @@
 										</div>
 									</div>
 
-									<div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+									<!-- <div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
 										<div class="row align-items-center">
 
 											<div class="col-xl-7 order-2 order-xl-1">
@@ -145,7 +145,7 @@
 											</div>
 
 										</div>
-									</div>
+									</div> -->
 
 								</div>
 
