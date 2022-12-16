@@ -252,8 +252,13 @@
 											$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
+											<li>
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
+													<!-- notif -->
+												</a>
+											</li>
 											<li class='active'>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
 												</a>
 											</li>

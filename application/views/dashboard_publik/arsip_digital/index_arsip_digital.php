@@ -264,6 +264,11 @@
 													<!-- notif -->
 												</a>
 											</li>
+											<li>
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
+													<!-- notif -->
+												</a>
+											</li>
 										<?php } ?>
 									</ul>
 								</li>
