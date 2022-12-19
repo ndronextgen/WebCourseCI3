@@ -52,6 +52,7 @@ class Data_hukuman_disiplin extends CI_Controller
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
+		$username = $this->session->userdata('username');
 
 		$listing 		= $this->hukuman_disiplin->listing($user_type, $id_lokasi_kerja, $id_pegawai);
 		$jumlah_filter 	= $this->hukuman_disiplin->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -87,20 +88,20 @@ class Data_hukuman_disiplin extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
-			if ($key->Status_progress == '0') {
-				$see = '1';
-			} else {
-				$see = '0';
-			}
+			$see = $this->func_table->see_admin_hukdis($username, $key->Hukdis_id);
+			// if ($key->Status_progress == '0') {
+			// 	$see = '1';
+			// } else {
+			// 	$see = '0';
+			// }
 
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->nama_type;
-			//$row[] = $key->Keterangan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
-			//$row[] = $see;
+			$row[] = $see;
 
 			$data[] = $row;
 		}
@@ -231,7 +232,7 @@ class Data_hukuman_disiplin extends CI_Controller
 			$data_triger['Created_at'] 		= $Date_now;
 			$Q_insert = $this->db->insert('tr_hukdis_triger', $data_triger);
 			
-			//$see = $this->func_table->in_tosee_tj($Created_by, $Tunjangan_id, '0', $Created_by);
+			$see = $this->func_table->in_tosee_hukdis($Created_by, $Hukdis_id, $Act, $Created_by);
 			#wa/email
 			if ($Q_insert) {
 				#wa/email to pegawai
