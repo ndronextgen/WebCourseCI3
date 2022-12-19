@@ -272,6 +272,11 @@
 													<!-- notif -->
 												</a>
 											</li>
+											<li>
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+													<!-- notif -->
+												</a>
+											</li>
 										<?php } ?>
 									</ul>
 								</li>

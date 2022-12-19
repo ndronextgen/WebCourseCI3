@@ -392,7 +392,7 @@ function menuAdmin($menuOpen = '')
                                                 </li>-->
 
                                                 <li class="kt-menu__item " aria-haspopup="true">
-                                                    <a href="javascript:void(0);" class="kt-menu__link ">
+                                                    <a href="' . base_url() . 'admin/Data_pengembangan_karir" class="kt-menu__link ">
                                                         <span class="kt-menu__link-text">
                                                             <div class="kt-demo-icon">
                                                                 <div class="kt-demo-icon__preview">
