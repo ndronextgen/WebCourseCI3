@@ -32,7 +32,7 @@ class Data_tindak_pidana extends CI_Controller
 			$d['instansi'] = $this->config->item('nama_instansi');
 			$d['credit'] = $this->config->item('credit_aplikasi');
 			$d['alamat'] = $this->config->item('alamat_instansi');
-			$d['page_name'] = 'Data Hukuman Disiplin';
+			$d['page_name'] = 'Data Tindak Pidana';
 			$d['menu_open'] = 'data_tindak_pidana';
 
 			$this->load->view('dashboard_admin/kertas_kerja/tindak_pidana/index_tindak_pidana', $d);
