@@ -88,7 +88,7 @@ class Keluarga extends CI_Controller
 					$file = $this->func_table->get_file($path_file, $data_arsip->file_name_ori);
 				}
 			}
-			$row[] = $file;
+			$row[] = $file; 
 			// === end: kolom "file" ===
 
 			$button = ' <a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_keluarga(' . "'" . $r->id_data_keluarga . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>
