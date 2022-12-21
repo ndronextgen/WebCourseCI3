@@ -263,6 +263,12 @@ class App extends CI_Controller
 
 	function logout()
 	{
+		// BEGIN JOE - 7 JUL 2022
+		// Visitor Logout
+		$this->load->model('Visitor_model');
+		$this->Visitor_model->visitor_logout();
+		// END JOE - 7 JUL 2022
+		
 		$this->session->sess_destroy();
 		setcookie('url', '', time() - 3600);
 		setcookie('lokasi_kerja', '', time() - 3600);
