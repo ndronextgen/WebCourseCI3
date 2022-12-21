@@ -10,7 +10,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$this->load->helper('file');
 		$this->load->library('func_table');
 		//$this->load->library('func_wa_sk');
-		//$this->load->library('func_wa_tindak_pidana');
+		$this->load->library('func_wa_tindak_pidana');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_verifikasi_tindak_pidana', 'verifikasi_tindak_pidana');
 		$this->load->library('upload');
@@ -333,7 +333,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				$message = '1|Berhasil menyimpan data.';
 			}
 			$message = '1|Berhasil menyimpan data.';
-			//$send_notif_hd 	= $this->func_wa_tindak_pidana->notif_hd_update($Tindak_pidana_id);
+			$send_notif_tp 	= $this->func_wa_tindak_pidana->notif_tp_update($Tindak_pidana_id);
 		} else {
 			$message = '0|Gagal menyimpan data.';
 		}

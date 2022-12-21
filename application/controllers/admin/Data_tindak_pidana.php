@@ -15,7 +15,7 @@ class Data_tindak_pidana extends CI_Controller
 		$this->load->helper('template');
 		$this->load->helper('file');
 		$this->load->library('func_table');
-		//$this->load->library('func_wa_hukdis');
+		$this->load->library('func_wa_tindak_pidana');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_tindak_pidana', 'tindak_pidana');
 		$this->load->library('upload');
@@ -227,7 +227,7 @@ class Data_tindak_pidana extends CI_Controller
 			if ($Q_insert) {
 				#wa/email to pegawai
 				#wa/email to admin bersangkutan
-				//$send_notif_hd_pegawai 	= $this->func_wa_hukdis->notif_hd_admin_tambah($Tindak_pidana_id);
+				$send_notif_tp_pegawai 	= $this->func_wa_tindak_pidana->notif_tp_admin_tambah($Tindak_pidana_id);
 			}
 			#end wa/email
 			$status = true;
@@ -519,7 +519,7 @@ class Data_tindak_pidana extends CI_Controller
 					if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
 						$status = true;
 						//$see = $this->func_table->in_tosee_kaku($surat->Created_by, $Kariskarsu_id, $status_verify, $this->session->userdata("username"));
-						//$send_notif_hd = $this->func_wa_hukdis->notif_hd_update($Tindak_pidana_id);
+						$send_notif_tp = $this->func_wa_tindak_pidana->notif_tp_update($Tindak_pidana_id);
 					} else {
 						$message = 'Gagal menyimpan data.';
 					}
