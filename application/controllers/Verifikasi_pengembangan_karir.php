@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Verifikasi_tindak_pidana extends CI_Controller
+class Verifikasi_pengembangan_karir extends CI_Controller
 {
 	public function __construct()
 	{
@@ -10,9 +10,9 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$this->load->helper('file');
 		$this->load->library('func_table');
 		//$this->load->library('func_wa_sk');
-		$this->load->library('func_wa_tindak_pidana');
+		//$this->load->library('func_wa_pengembangan_karir');
 		$this->load->helper(array('url', 'download'));
-		$this->load->model('m_verifikasi_tindak_pidana', 'verifikasi_tindak_pidana');
+		$this->load->model('m_verifikasi_pengembangan_karir', 'verifikasi_pengembangan_karir');
 		$this->load->library('upload');
 		//$this->load->model('srt_ket_model');
 		// $this->load->model('arsip_hukuman_model');
@@ -126,18 +126,18 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$d['count_see_verifikasi_tj'] = $count_see_verifikasi_tj;
 			$d['count_see_verifikasi_kaku'] = $count_see_verifikasi_kaku;
 
-			$this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
+			$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/index_verifikasi_pengembangan_karir', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
 	}
 
-	function data_verifikasi_tindak_pidana()
+	function data_verifikasi_pengembangan_karir()
 	{
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/ajax_table');
+		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/ajax_table');
 	}
 
-	function table_data_verifikasi_tindak_pidana()
+	function table_data_verifikasi_pengembangan_karir()
 	{
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
@@ -145,9 +145,9 @@ class Verifikasi_tindak_pidana extends CI_Controller
 
 		$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 
-		$listing 		= $this->verifikasi_tindak_pidana->listing($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
-		$jumlah_filter 	= $this->verifikasi_tindak_pidana->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
-		$jumlah_semua 	= $this->verifikasi_tindak_pidana->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$listing 		= $this->verifikasi_pengembangan_karir->listing($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$jumlah_filter 	= $this->verifikasi_pengembangan_karir->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
+		$jumlah_semua 	= $this->verifikasi_pengembangan_karir->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 
 		$data = array();
 		$no = $_POST['start'];
@@ -155,7 +155,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Tindak_pidana_id . "'" . ')">
+			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
 			# jika user adalah kasubag kepegawaian
@@ -165,17 +165,17 @@ class Verifikasi_tindak_pidana extends CI_Controller
 
 
 			if ($status_verifikasi == 'kepegawaian' and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_pengembangan_karir_kep(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '21';
 			} else if ($status_verifikasi == 'sekdis' and $key->Status_progress == '22') {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_pengembangan_karir_kep(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '22';
 			} else if ($status_verifikasi == 'sudinupt' and $key->Status_progress == '21') {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
+				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_pengembangan_karir_kep(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '21';
@@ -184,7 +184,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				$data_bold = '';
 			}
 			if ($key->Status_progress == '3') {
-				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
+				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-pdf-o"></i> &nbsp;Download</button>
 									</a>';
 			} else {
@@ -210,16 +210,16 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		echo json_encode($output);
 	}
 
-	function form_verifikasi_tindak_pidana_kep()
+	function form_verifikasi_pengembangan_karir_kep()
 	{
-		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
+		$Pengembangan_karir_id = $this->input->post('Pengembangan_karir_id');
 		
-		$Data_tindak_pidana = $this->db->query("SELECT
+		$Data_pengembangan_karir = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
-											a.Tindak_pidana_id, 
+											a.Pengembangan_karir_id, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -229,8 +229,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.Updated_by, 
 											a.Updated_at
 										FROM
-											tr_tindak_pidana AS a
-										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
+											tr_pengembangan_karir AS a
+										WHERE a.Pengembangan_karir_id='$Pengembangan_karir_id'")->row();
 
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
@@ -249,12 +249,12 @@ class Verifikasi_tindak_pidana extends CI_Controller
 									LEFT JOIN (
 										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
-									WHERE a.id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
+									WHERE a.id_pegawai = '$Data_pengembangan_karir->id_pegawai'")->row();
 
-		if (($Data_tindak_pidana->Status_progress == '21' || $Data_tindak_pidana->Status_progress == '26')) { //diverifikasi admin
+		if (($Data_pengembangan_karir->Status_progress == '21' || $Data_pengembangan_karir->Status_progress == '26')) { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_tindak_pidana->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_pengembangan_karir->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
 		} else {
@@ -263,20 +263,20 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		}
 
 		$a['Data'] = $Data;
-		$a['Data_tindak_pidana'] = $Data_tindak_pidana;
-		$a['Tindak_pidana_id'] = $Tindak_pidana_id;
+		$a['Data_pengembangan_karir'] = $Data_pengembangan_karir;
+		$a['Pengembangan_karir_id'] = $Pengembangan_karir_id;
 		$a['func_table'] = $this->load->library('func_table');
 
 		$a['Data'] 		= $Data;
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
+		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_verifikasi_pengembangan_karir_kep', $a);
 	}
 
-	function simpan_verifikasi_tindak_pidana_kep()
+	function simpan_verifikasi_pengembangan_karir_kep()
 	{
-		$Tindak_pidana_id 		= $this->input->post('Tindak_pidana_id'); //id surat
+		$Pengembangan_karir_id 		= $this->input->post('Pengembangan_karir_id'); //id surat
 		$username 		= $this->session->userdata('username');
 		$status_verify 	= $this->input->post('status_verify');
 		$ket 			= $this->input->post('ket');
@@ -296,44 +296,44 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$data['Updated_at'] 		= $Date_now;
 		$data['Updated_by'] 		= $this->session->userdata("username");
 
-		$this->db->where('Tindak_pidana_id', $Tindak_pidana_id);
-		$Q_update = $this->db->update('tr_tindak_pidana', $data);
+		$this->db->where('Pengembangan_karir_id', $Pengembangan_karir_id);
+		$Q_update = $this->db->update('tr_pengembangan_karir', $data);
 		if ($Q_update) {
-			$Q_select = $this->db->query("SELECT * FROM tr_tindak_pidana WHERE Tindak_pidana_id='$Tindak_pidana_id'")->row();
+			$Q_select = $this->db->query("SELECT * FROM tr_pengembangan_karir WHERE Pengembangan_karir_id='$Pengembangan_karir_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Tindak_pidana_id']= $Tindak_pidana_id;
+			$data_triger['Pengembangan_karir_id']= $Pengembangan_karir_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
 			
-			if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
+			if ($this->db->insert('tr_pengembangan_karir_triger', $data_triger)) {
 				$status = true;
-				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Tindak_pidana_id, $status_verify, $this->session->userdata("username"));
+				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Pengembangan_karir_id, $status_verify, $this->session->userdata("username"));
 				$message = '1|Berhasil menyimpan data.';
 			} else {
 				$message = '0|Gagal menyimpan data.';
 			}
 
 			if ($status_verify == '23' || $status_verify == '27') {
-				$select_tindak_pidana = $this->db->query("SELECT lokasi_kerja_pegawai FROM tr_tindak_pidana WHERE Tindak_pidana_id = '$Tindak_pidana_id'")->row();
-				$nomor_surat = $this->func_table->gen_nomor_surat_tindak_pidana($select_tindak_pidana->lokasi_kerja_pegawai);
+				$select_pengembangan_karir = $this->db->query("SELECT lokasi_kerja_pegawai FROM tr_pengembangan_karir WHERE Pengembangan_karir_id = '$Pengembangan_karir_id'")->row();
+				$nomor_surat = $this->func_table->gen_nomor_surat_pengembangan_karir($select_pengembangan_karir->lokasi_kerja_pegawai);
 				$Date_now = date("Y-m-d H:i:s");
-				$this->db->query("UPDATE tr_tindak_pidana 
+				$this->db->query("UPDATE tr_pengembangan_karir 
 									SET Status_progress = '3', Nomor_surat = '$nomor_surat', Tanggal_verifikasi = '$Date_now'
-									WHERE Tindak_pidana_id='$Tindak_pidana_id'");
-				//$this->db->query("UPDATE tr_tindak_pidana SET Status_progress = '3' WHERE Tindak_pidana_id='$Tindak_pidana_id'");
+									WHERE Pengembangan_karir_id='$Pengembangan_karir_id'");
+				//$this->db->query("UPDATE tr_pengembangan_karir SET Status_progress = '3' WHERE Pengembangan_karir_id='$Pengembangan_karir_id'");
 				//insert history
 				$data_triger2['Act'] 				= $Act;
-				$data_triger2['Tindak_pidana_id'] 	= $Tindak_pidana_id;
+				$data_triger2['Pengembangan_karir_id'] 	= $Pengembangan_karir_id;
 				$data_triger2['Status_progress'] 	= '3';
 				$data_triger2['User_created'] 		= $Updated_by;
 				$data_triger2['Created_at'] 		= $Date_now;
-				$this->db->insert('tr_tindak_pidana_triger', $data_triger2);
+				$this->db->insert('tr_pengembangan_karir_triger', $data_triger2);
 
 				$message = '1|Berhasil menyimpan data.';
 			}
 			$message = '1|Berhasil menyimpan data.';
-			$send_notif_tp 	= $this->func_wa_tindak_pidana->notif_tp_update($Tindak_pidana_id);
+			//$send_notif_hd 	= $this->func_wa_pengembangan_karir->notif_hd_update($Pengembangan_karir_id);
 		} else {
 			$message = '0|Gagal menyimpan data.';
 		}
@@ -342,14 +342,14 @@ class Verifikasi_tindak_pidana extends CI_Controller
 
 	function form_detail()
 	{
-		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
+		$Pengembangan_karir_id = $this->input->post('Pengembangan_karir_id');
 		
-		$Data_tindak_pidana = $this->db->query("SELECT
+		$Data_pengembangan_karir = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
-											a.Tindak_pidana_id,
+											a.Pengembangan_karir_id,
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -359,8 +359,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											a.Updated_by, 
 											a.Updated_at
 										FROM
-											tr_tindak_pidana AS a 
-										WHERE a.Tindak_pidana_id='$Tindak_pidana_id'")->row();
+											tr_pengembangan_karir AS a 
+										WHERE a.Pengembangan_karir_id='$Pengembangan_karir_id'")->row();
 		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
@@ -378,15 +378,15 @@ class Verifikasi_tindak_pidana extends CI_Controller
 									LEFT JOIN (
 										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
-									WHERE a.id_pegawai = '$Data_tindak_pidana->id_pegawai'")->row();
+									WHERE a.id_pegawai = '$Data_pengembangan_karir->id_pegawai'")->row();
 
-		if ($Data_tindak_pidana->is_dinas == '1' && ($Data_tindak_pidana->Status_progress == '21' || $Data_tindak_pidana->Status_progress == '26')) { //diverifikasi admin
+		if ($Data_pengembangan_karir->is_dinas == '1' && ($Data_pengembangan_karir->Status_progress == '21' || $Data_pengembangan_karir->Status_progress == '26')) { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_tindak_pidana->is_dinas == '1' && $Data_tindak_pidana->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_pengembangan_karir->is_dinas == '1' && $Data_pengembangan_karir->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
-		} else if ($Data_tindak_pidana->is_dinas != '1'  && $Data_tindak_pidana->Status_progress == '21') { //diverifikasi kepegawaian
+		} else if ($Data_pengembangan_karir->is_dinas != '1'  && $Data_pengembangan_karir->Status_progress == '21') { //diverifikasi kepegawaian
 			$terima = "27";
 			$tolak = "28";
 		} else {
@@ -395,15 +395,15 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		}
 
 		$a['Data'] = $Data;
-		$a['Data_tindak_pidana'] = $Data_tindak_pidana;
-		$a['Tindak_pidana_id'] = $Tindak_pidana_id;
+		$a['Data_pengembangan_karir'] = $Data_pengembangan_karir;
+		$a['Pengembangan_karir_id'] = $Pengembangan_karir_id;
 		$a['func_table'] = $this->load->library('func_table');
 
 		$a['Data'] 		= $Data;
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
+		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_detail', $a);
 	}
 
 	public function notify_verifikasi_tunjangan()

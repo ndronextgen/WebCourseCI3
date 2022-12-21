@@ -712,6 +712,117 @@ class Func_table
 
     // end kariskarsu see
 
+
+    // hukdis see
+    function count_see_hukdis($id)
+    {
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        fa.user_create,
+                                        a.Id, a.Created_by,
+                                        a.Status_progress
+                                    FROM
+                                        tr_hukdis as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_hukdis_see as b
+                                        WHERE b.id_view = '$id'
+                                    ) AS fa ON fa.id_srt = a.Hukdis_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Created_by = '$id' AND isnull(fa.user_create)
+                                ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+    #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
+    function see_admin_hukdis($id, $id_surat)
+    {
+
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT
+                                        if(isnull(fa.user_create),0,1) as status_view
+                                    FROM
+                                        tr_hukdis as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_hukdis_see as b
+                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
+                                    ) AS fa ON fa.id_srt = a.Hukdis_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Hukdis_id='$id_surat'")->row();
+
+        return $Query->status_view;
+    }
+
+    function in_tosee_hukdis($id, $id_surat, $status_surat, $id_view)
+    {
+
+        $CI = &get_instance();
+        $tgl_now = date('Y-m-d H:i:s');
+        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_hukdis_see 
+                                        WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
+        if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
+            $Query = $CI->db->query("INSERT INTO tr_hukdis_see 
+                                SET 
+                                user_create = '$id',
+                                id_srt =  '$id_surat',
+                                id_view =  '$id_view',
+                                tgl_view = '$tgl_now',
+                                id_status_srt = '$status_surat',
+                                tgl_update = '$tgl_now'");
+        } else {
+            $Query = $CI->db->query("UPDATE tr_hukdis_see 
+                                SET tgl_update = '$tgl_now'
+                                WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
+        }
+        return $Query;
+    }
+
+    // verifikasi hukdis
+    function count_see_verifikasi_hukdis($id)
+    {
+
+        $CI = &get_instance();
+        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+                                            FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
+
+        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+                                            FROM view_sekdis WHERE nrk = '$id'")->row();
+
+        $cek_kasubag     = $CI->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
+                                            FROM view_kasubag WHERE nrk = '$id'")->row();
+
+        if ($cek_kepegawaian->jml_kepegawaian > 0) {
+            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26') AND a.is_dinas = '1'";
+        } else if ($cek_sekdis->jml_sekdis > 0) {
+            $kondisi = " AND a.Status_progress = '22'";
+        } else if ($cek_kasubag->jml_sudinupt > 0) {
+            $kondisi = " AND a.Status_progress = '21' AND a.is_dinas != '1' AND a.lokasi_kerja_pegawai = '$cek_kasubag->id_lokasi_kerja'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        (
+            SELECT
+                                        a.Hukdis_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_hukdis AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_hukdis_see 
+                                        WHERE id_view = '$id'
+                                        GROUP BY id_view, id_srt 
+                                        ) AS see ON see.id_srt = a.Hukdis_id AND see.id_status_srt = a.Status_progress 
+                                    WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+
+    // end hukdis see
+
     function removeTitleFromName($name)
     {
         $result = explode(',', $name);
@@ -861,6 +972,30 @@ class Func_table
         $nomorbaru = $Nur . "/KG.8.00/D";
 
         $Query_update = $CI->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_tindak_pidana = Nomor_terakhir_tindak_pidana + 1");
+
+        return $nomorbaru;
+    }
+
+    function gen_nomor_surat_pengembangan_karir($kode_lokasi)
+    {
+        $CI = &get_instance();
+
+        $Tahun  = date('Y');
+        // -----
+        $Query = $CI->db->query("SELECT Nomor_terakhir_pengembangan_karir FROM tbl_master_nomor_surat LIMIT 1")->row();
+        $result_max = isset($Query->Nomor_terakhir_pengembangan_karir) ? $Query->Nomor_terakhir_pengembangan_karir : '0';
+        // -----
+        $Query_lokasi = $CI->db->query("SELECT acronim FROM tbl_master_lokasi_kerja WHERE id_lokasi_kerja = '$kode_lokasi'")->row();
+        $result_lokasi = isset($Query_lokasi->acronim) ? $Query_lokasi->acronim : 'NL';
+
+        $Nur = $result_max + 1;
+
+        $kode =  sprintf("%04s", $Nur);
+        //[nomor_urut]/KG.11.04/D
+        //$nomorbaru = $Nur . "/SE/" . $Tahun;
+        $nomorbaru = $Nur . "/KG.9.00/D";
+
+        $Query_update = $CI->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_pengembangan_karir = Nomor_terakhir_pengembangan_karir + 1");
 
         return $nomorbaru;
     }

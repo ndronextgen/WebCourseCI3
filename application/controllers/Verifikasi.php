@@ -164,7 +164,7 @@ class Verifikasi extends CI_Controller
 
 
 			if ($status_verifikasi == 'kepegawaian' and ($key->id_status_srt == '21' || $key->id_status_srt == '26')) {
-				$button_verifikasi = '	a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_kep(' . "'" . $key->id_srt . "'" . ')">
+				$button_verifikasi = '	<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_kep(' . "'" . $key->id_srt . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '21';
