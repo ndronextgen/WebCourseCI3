@@ -302,11 +302,11 @@
 									if ($ft == "") {
 										$ft = "nofoto.png";
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									} else {
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									}
 									?>
