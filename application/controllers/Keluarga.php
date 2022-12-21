@@ -77,6 +77,7 @@ class Keluarga extends CI_Controller
 			// === end: cek file exist ===
 
 			// === begin: kolom "file" === 
+			$file = '-';
 			if ($data_arsip->num_rows() > 0) {
 				$data_arsip 	= $data_arsip->row();
 				$path_folder 	= 'asset/upload/pribadi/pribadi_' . $data_arsip->id_data_keluarga . '_' . $data_arsip->id_arsip_pribadi;
@@ -86,8 +87,6 @@ class Keluarga extends CI_Controller
 				if ($is_file_exist) {
 					$file = $this->func_table->get_file($path_file, $data_arsip->file_name_ori);
 				}
-			} else {
-				$file = '-';
 			}
 			$row[] = $file;
 			// === end: kolom "file" ===
