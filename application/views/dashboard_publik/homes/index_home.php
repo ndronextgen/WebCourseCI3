@@ -188,7 +188,7 @@
 
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<span class="hidden-xs">Kertas Kerja &nbsp;
+									<span class="hidden-xs">Kertas Kerja <small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 										<?php if ($count_see > 0 or $count_see_tj > 0 or $count_see_kaku > 0) { ?>
 											<span class="badge btn-warning btn-flat"><?php echo $count_see + $count_see_tj + $count_see_kaku; ?></span>
 										<?php } ?>
@@ -204,7 +204,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="<?php echo base_url(); ?>tunjangan"><i class="icon-leaf icon-white"></i>Surat Permohonan Tunjangan Keluarga&nbsp;
+										<a href="<?php echo base_url(); ?>tunjangan"><i class="icon-leaf icon-white"></i>Surat Permohonan Tunjangan Keluarga<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 											<?php if ($count_see_tj > 0) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_tj; ?></span>
 											<?php } ?>
@@ -212,7 +212,7 @@
 									</li>
 
 									<li>
-										<a href="<?php echo base_url(); ?>kariskarsu"><i class="icon-leaf icon-white"></i>Surat Permohonan KARIS/KARSU&nbsp;
+										<a href="<?php echo base_url(); ?>kariskarsu"><i class="icon-leaf icon-white"></i>Surat Permohonan KARIS/KARSU<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 											<?php if ($count_see_kaku > 0) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_kaku; ?></span>
 											<?php } ?>
@@ -227,7 +227,7 @@
 							<?php if ($status_user == 'true') { ?>
 								<li class="dropdown user user-menu">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										<span class="hidden-xs">Verifikasi &nbsp;
+										<span class="hidden-xs">Verifikasi <small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 											<?php if ($count_see_verifikasi > 0 or $count_see_verifikasi_tj > 0 or $count_see_verifikasi_kaku) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku; ?></span>
 											<?php } ?>
@@ -235,21 +235,21 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 												<?php if ($count_see_verifikasi_tj > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 												<?php if ($count_see_verifikasi_kaku > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
 												<?php } ?>
@@ -263,17 +263,17 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 													<!-- notif -->
 												</a>
 											</li>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 													<!-- notif -->
 												</a>
 											</li>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
 													<!-- notif -->
 												</a>
 											</li>
@@ -307,11 +307,11 @@
 									if ($ft == "") {
 										$ft = "nofoto.png";
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="" />
 									<?php
 									} else {
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="" />
 									<?php
 									}
 
