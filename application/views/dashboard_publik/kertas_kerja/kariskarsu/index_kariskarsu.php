@@ -415,7 +415,7 @@
 	</div>
 
 	<script type="text/javascript">
-		notify_kariskarsu()
+		notify_kariskarsu();
 
 		//datepicker
 		$('.datepicker').datepicker({

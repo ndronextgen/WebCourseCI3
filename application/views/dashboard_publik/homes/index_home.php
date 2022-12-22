@@ -166,7 +166,7 @@
 	<div class="wrapper navbar-inverse">
 		<header class="main-header">
 			<nav class="navbar navbar-fixed-top">
-				<div class="container">
+				<div class="container main-container">
 					<!-- <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -307,15 +307,17 @@
 									if ($ft == "") {
 										$ft = "nofoto.png";
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									} else {
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									}
+
+									$nama = str_replace("&nbsp;", " ", $this->func_table->name_format($this->session->userdata('nama')));
 									?>
-									<span class="hidden-xs"><?php echo $this->func_table->name_format($this->session->userdata('nama')); ?> <i class="caret"></i></span>
+									<span class="hidden-xs"><?php echo $nama; ?> <i class="caret"></i></span>
 								</a>
 								<ul class="dropdown-menu">
 									<!-- <li><a href="<?php //echo base_url(); 
@@ -331,7 +333,7 @@
 			</nav>
 		</header>
 
-		<div class="content-wrapper" style="padding-top: 0.5rem;">
+		<div class="content-wrapper" style="padding-top: 5px;">
 			<div class="container">
 				<!-- <section class="content-header"> -->
 				<div class="nav-tabs-custom" style="margin-bottom:5px; background-image: url(<?php echo base_url('asset/media/bg/header-publik-3.jpg') ?>); background-size: 100% 200px">
@@ -1108,39 +1110,36 @@
 		}
 	</script>
 
-<script type="text/javascript">
-
-Swal.fire({
-	title: '<h5>Selamat Datang Di Aplikasi SIADIK DCKTRP</h5>',
-	// icon: 'info',
-	imageUrl: '<?php echo base_url('asset/img/sign.png');?>',
-	imageWidth: 200,
-	imageHeight: 75,
-	width: 500,
-	html:
-	'<h6><b>Kami Mengingatkan Agar Segera Melengkapi Data Data Anda</b><h6> ' +
-	'<hr>' +
-	'<h5 style="font-weight:bold;color:red;">Informasi Update Terbaru</h5><hr>' +
-	'<ul style="text-align:left;font-weight:bold;">' +
-	'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-	'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-	'<li>Verifkikasi Surat Permohonan Tunjangan Keluarga</li>' +
-	'<li>Verifkikasi Surat Permohonan KARIS/KARSU</li>' +
-	'<li>Verifkikasi Surat Hukuman Disiplin</li>' +
-	'<li>Verifkikasi Surat Tindak Pidana</li>' +
-	'</ul>' +
-	'Terimakasih',
-	customClass: {
-    	popup: 'format-pre'
-  	},
-	showCloseButton: false,
-	showCancelButton: false,
-	focusConfirm: true,
-	confirmButtonText:
-	'<i class="fa fa-thumbs-up"></i> Oke!',
-	confirmButtonAriaLabel: 'Thumbs up, great!'
-});
-</script>
+	<script type="text/javascript">
+		Swal.fire({
+			title: '<h5>Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h5>',
+			// icon: 'info',
+			imageUrl: '<?php echo base_url('asset/img/sign.png'); ?>',
+			imageWidth: 200,
+			imageHeight: 75,
+			width: 500,
+			html: '<h6><b>Kami Mengingatkan Agar Segera Melengkapi Data-Data Anda</b><h6> ' +
+				'<hr>' +
+				'<h5 style="font-weight: bold; color: red;">Informasi Update Terbaru</h5><hr>' +
+				'<ul style="text-align: left; font-weight: bold;">' +
+				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
+				'<li>Verifikasi Surat Tindak Pidana</li>' +
+				'</ul>' +
+				'Terimakasih',
+			customClass: {
+				popup: 'format-pre'
+			},
+			showCloseButton: false,
+			showCancelButton: false,
+			focusConfirm: true,
+			confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
+			confirmButtonAriaLabel: 'Thumbs up, great!'
+		});
+	</script>
 
 	<!-- SSO LIB -->
 	<script type="text/javascript" src="<?php echo base_url(); ?>asset/sso/js/all.js"></script>
@@ -1162,6 +1161,23 @@ Swal.fire({
 				backgroundDismiss: true
 			});
 		}
+
+		// === begin: main container top menyesuikan tinggi navbar ===
+		$(document).ready(function() {
+			setTimeout(setPadding, 2000);
+		});
+
+		function setPadding() {
+			$defaultNavbarHeight = 50;
+			$navbarHeight = $('.navbar').height();
+			$mainWrapperPadding = parseInt($(".content-wrapper").css("padding-top"));
+			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
+
+			if ($navbarHeight > $defaultNavbarHeight) {
+				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
+			}
+		}
+		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
 </body>

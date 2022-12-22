@@ -437,7 +437,7 @@
 											<select name="agama" id="agama" data-placeholder="Agama" class="form-control" style="font-size: 12px; cursor: pointer;">
 												<option value="0X">-- Pilih Agama --</option>
 												<?php
-												// === ambil dari tabel master agama (mt_agama) ===
+												// === master agama (mt_agama) ===
 												$this->db->select('kode, agama');
 												$this->db->from('mt_agama');
 												$this->db->order_by('no_urut');
