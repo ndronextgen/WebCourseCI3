@@ -37,6 +37,21 @@
                     <td>:</td>
                     <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
                 </tr>
+                <tr>
+                    <td>Keterangan</td>
+                    <td>:</td>
+                    <td><?php echo $Data_pengembangan_karir->Keterangan; ?></td>
+                </tr>
+                <tr>
+                    <td>Periode</td>
+                    <td>:</td>
+                    <td><?php echo $Data_pengembangan_karir->Periode_awal.' - '.$Data_pengembangan_karir->Periode_akhir; ?></td>
+                </tr>
+                <tr>
+                    <td>Digunakan Untuk</td>
+                    <td>:</td>
+                    <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
+                </tr>
 
             </table>
                     <div class="row">

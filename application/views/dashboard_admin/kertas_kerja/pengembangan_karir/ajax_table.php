@@ -34,6 +34,9 @@
 				<th class="td_head" width='1px'>No</th>
 				<th class="td_head" width='80px' style="text-align: center;">Aksi</th>
 				<th class="td_head">Nama Pegawai</th>
+				<th class="td_head">Keterangan</th>
+				<th class="td_head">Periode</th>
+				<th class="td_head">Keperluan</th>
 				<th class="td_head">Status</th>
 				<th class="td_head" style="text-align: center;">Tanggal Dibuat</th>
 			</tr>
@@ -54,6 +57,12 @@
 			"sClass": "center"
 		}, {
 			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
 		}, {
 			"sClass": "left"
 		}, {

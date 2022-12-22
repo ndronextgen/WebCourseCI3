@@ -20,6 +20,9 @@
 								<th width='1px'>No</th>
 								<th width='80px' style="text-align: center;">Aksi</th>
 								<th>Nama Pegawai</th>
+								<th>Keterangan</th>
+								<th>Periode</th>
+								<th>Keperluan</th>
 								<th>Status</th>
 								<th style="text-align: center;">Tanggal Dibuat</th>
 							</tr>

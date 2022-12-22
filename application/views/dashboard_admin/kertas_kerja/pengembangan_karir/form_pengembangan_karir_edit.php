@@ -41,6 +41,31 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		</select>
 		</div>
 	</div>
+	<div class="col-12">
+		<div class="form-group">
+			<label>Keterangan</label>
+			<textarea name="Keterangan" id="Keterangan" class="form-control input-sm" placeholder='Telah memperoleh ijazah Strata I Program Studi Teknik Informarmatika Universitas Mercu Buana'><?php echo $Data->Keterangan; ?></textarea>
+		</div>
+	</div>
+
+	<div class="col-3">
+		<div class="form-group">
+			<label>Tahun Mulai</label>
+			<input type='text' name='Periode_awal' value="<?php echo $Data->Periode_awal; ?>" class="form-control input-sm" id='Periode_awal' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+		</div>
+	</div>
+	<div class="col-3">
+		<div class="form-group">
+			<label>Tahun Selesai</label>
+			<input type='text' name='Periode_akhir' value="<?php echo $Data->Periode_akhir; ?>" class="form-control input-sm" id='Periode_akhir' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="form-group">
+			<label>Digunakan Untuk ?</label>
+			<input type='text' name='Keperluan' class="form-control input-sm" id='Keperluan' value="<?php echo $Data->Keperluan; ?>" placeholder='kelengkapan administrasi pencantuman gelar;'>
+		</div>
+	</div>
 
 </div>
 

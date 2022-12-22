@@ -63,9 +63,11 @@ class Data_pengembangan_karir extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
-										<i class="fa fa-file"></i> Download
-								</a>';
+			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
+			// 							<i class="fa fa-file"></i> Download
+			// 					</a>';
+
+								$button_download ='';
 			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" target="_blank">
 			// 							<i class="fa fa-file"></i> Download
 			// 					</a>';
@@ -96,6 +98,9 @@ class Data_pengembangan_karir extends CI_Controller
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
+			$row[] = $key->Keterangan;
+			$row[] = $key->Periode_awal.'-'.$key->Periode_akhir;
+			$row[] = $key->Keperluan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
 			//$row[] = $see;
@@ -174,6 +179,11 @@ class Data_pengembangan_karir extends CI_Controller
 		$Pengembangan_karir_id 	= $this->input->post('Pengembangan_karir_id');
 		$id_pegawai 		= $this->input->post('filter_pegawai');
 
+		$Keterangan 		= $this->input->post('Keterangan');
+		$Keperluan 			= $this->input->post('Keperluan');
+		$Periode_awal 		= $this->input->post('Periode_awal');
+		$Periode_akhir 		= $this->input->post('Periode_akhir');
+
 		#lokasi admin menentukan kstatus progress 
 		#jika admin lokasi maka status 0 
 		#jika admin utama maka status 21 //verifikasi admin
@@ -205,7 +215,11 @@ class Data_pengembangan_karir extends CI_Controller
 		$data['id_pegawai'] 			= $id_pegawai;
 		$data['lokasi_kerja_pegawai'] 	= $lokasi_kerja_pegawai;
 		$data['is_dinas'] 				= $is_dinas;
-		$data['Pengembangan_karir_id'] 		= $Pengembangan_karir_id;
+		$data['Pengembangan_karir_id'] 	= $Pengembangan_karir_id;
+		$data['Keterangan'] 			= $Keterangan;
+		$data['Keperluan'] 				= $Keperluan;
+		$data['Periode_awal'] 			= $Periode_awal;
+		$data['Periode_akhir'] 			= $Periode_akhir;
 		$data['Status_progress'] 		= $Status_progress;
 		$data['Created_by'] 			= $Created_by;
 		$data['Created_at'] 			= $Date_now;
@@ -274,6 +288,10 @@ class Data_pengembangan_karir extends CI_Controller
 		$Type_surat 		= $this->input->post('Type_surat');
 		$lokasi_kerja 		= $this->input->post('lokasi_kerja');
 		$id_pegawai 		= $this->input->post('filter_pegawai');
+		$Keterangan 		= $this->input->post('Keterangan');
+		$Keperluan 			= $this->input->post('Keperluan');
+		$Periode_awal 		= $this->input->post('Periode_awal');
+		$Periode_akhir 		= $this->input->post('Periode_akhir');
 
 		#lokasi admin menentukan kstatus progress 
 		#jika admin lokasi maka status 0 
@@ -305,6 +323,10 @@ class Data_pengembangan_karir extends CI_Controller
 
 		$data['id_pegawai'] 			= $id_pegawai;
 		$data['lokasi_kerja_pegawai'] 	= $lokasi_kerja_pegawai;
+		$data['Keterangan'] 			= $Keterangan;
+		$data['Keperluan'] 				= $Keperluan;
+		$data['Periode_awal'] 			= $Periode_awal;
+		$data['Periode_akhir'] 			= $Periode_akhir;
 		$data['is_dinas'] 				= $is_dinas;
 		$data['Updated_by'] 			= $Updated_by;
 		$data['Updated_at'] 			= $Date_now;
@@ -365,6 +387,10 @@ class Data_pengembangan_karir extends CI_Controller
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Pengembangan_karir_id, 
+											a.Keterangan, 
+											a.Keperluan, 
+											a.Periode_awal, 
+											a.Periode_akhir, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 

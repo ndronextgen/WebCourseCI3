@@ -195,6 +195,9 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
+			$row[] = $key->Keterangan;
+			$row[] = $key->Periode_awal.'-'.$key->Periode_akhir;
+			$row[] = $key->Keperluan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
 			$row[] = $data_bold;
@@ -220,6 +223,10 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Pengembangan_karir_id, 
+											a.Keterangan, 
+											a.Keperluan, 
+											a.Periode_awal, 
+											a.Periode_akhir, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
@@ -350,6 +357,10 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Pengembangan_karir_id,
+											a.Keterangan, 
+											a.Keperluan, 
+											a.Periode_awal, 
+											a.Periode_akhir, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 

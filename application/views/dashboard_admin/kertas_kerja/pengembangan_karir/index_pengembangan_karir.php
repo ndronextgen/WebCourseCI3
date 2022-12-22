@@ -315,10 +315,25 @@
 		function simpan_pengajuan() {
 
 			var filter_pegawai 	= $("#filter_pegawai").val();
+			var Keterangan 		= $("#Keterangan").val();
+			var Periode_awal 	= $("#Periode_awal").val();
+			var Periode_akhir 	= $("#Periode_akhir").val();
+			var Keperluan 		= $("#Keperluan").val();
 			if (filter_pegawai == '') {
 				alert('Pilih Pegawai...!');
+			} else if(Keterangan==''){
+				alert('Isi Keterangan!');
+			} else if(Keperluan==''){
+				alert('Isi Keperluan!');
 			} else  {
-				ajax_simpan_pengajuan();
+				if(Periode_awal !='' && Periode_akhir==''){
+					alert('Isi Tahun Selesai!');
+				} else if(Periode_awal =='' && Periode_akhir!=''){
+					alert('Isi Tahun Mulai!');
+				} else {
+					ajax_simpan_pengajuan();
+				}
+				
 			}
 		}
 
