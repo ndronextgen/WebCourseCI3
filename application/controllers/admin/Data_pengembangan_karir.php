@@ -63,11 +63,9 @@ class Data_pengembangan_karir extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
-			// 							<i class="fa fa-file"></i> Download
-			// 					</a>';
-
-								$button_download ='';
+			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
+										<i class="fa fa-file"></i> Download
+								</a>';
 			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" target="_blank">
 			// 							<i class="fa fa-file"></i> Download
 			// 					</a>';
@@ -588,6 +586,10 @@ class Data_pengembangan_karir extends CI_Controller
 											a.lokasi_kerja_pegawai, 
 											a.is_dinas, 
 											a.Pengembangan_karir_id, 
+											a.Keterangan, 
+											a.Keperluan, 
+											a.Periode_awal, 
+											a.Periode_akhir, 
 											a.Status_progress, 
 											a.Notes, 
 											a.Nomor_surat, 
