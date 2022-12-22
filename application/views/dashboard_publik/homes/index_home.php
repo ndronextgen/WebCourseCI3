@@ -263,17 +263,29 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li>
+<<<<<<< HEAD
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
+=======
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin&nbsp;
+>>>>>>> 703a0d45ccfbaf8d3e362d9740f43176fc0554f1
 													<!-- notif -->
 												</a>
 											</li>
 											<li>
+<<<<<<< HEAD
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
+=======
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Keterangan Bebas Tindak Pidana&nbsp;
+>>>>>>> 703a0d45ccfbaf8d3e362d9740f43176fc0554f1
 													<!-- notif -->
 												</a>
 											</li>
 											<li>
+<<<<<<< HEAD
 												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;
+=======
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir&nbsp;
+>>>>>>> 703a0d45ccfbaf8d3e362d9740f43176fc0554f1
 													<!-- notif -->
 												</a>
 											</li>
