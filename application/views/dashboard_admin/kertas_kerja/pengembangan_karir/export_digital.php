@@ -1,5 +1,10 @@
 <?php
-$kalimat ="<p>Tidak sedang menjalani proses pidana atau pernah dipidana penjara berdasarkan putusan pengadilan yang telah berkekuatan hukum tetap karena melakukan tindak pidana kejahatan jabatan atau tindak pidana kejahatan yang ada hubungannya dengan jabatan dan / pidana umum.</p><p>Demikian surat keterangan ini saya buat dengan sesungguhnya dengan mengingat sumpah jabatan dan apabila di kemudian hari ternyata isi surat pernyataan tidak benar yang mengakibatkan kerugian Negara maka saya bersedia menanggung kerugian Negara sesuai dengan ketentuan peraturan perundang-undangan dipergunakan sebagaimana mestinya.</p>.
+if($Data_pengembangan_karir->Periode_awal != '' && $Data_pengembangan_karir->Periode_akhir!=''){
+  $Dari = " dari tahun ".$Data_pengembangan_karir->Periode_awal." sampai dengan ".$Data_pengembangan_karir->Periode_akhir."";
+} else {
+  $Dari = "";
+}
+$kalimat ="<p style='text-align:justify;'>".$Data_pengembangan_karir->Keterangan." ".$Dari.", pendidikan yang diperoleh tersebut dibutuhkan dan ada formasi di Dinas Cipta Karya, tata Ruang dan Pertanahan Provinsi DKI Jakarta.<br><br>Demikian surat keterangan ini dibuat dengan sebenar-benarnya dan digunakan untuk ".$Data_pengembangan_karir->Keperluan."</p>.
 ";
 
 
@@ -86,11 +91,11 @@ echo $html = '
     position: absolute;
     z-index: 0;
     margin-bottom:150px;
-    margin-top:-130px;
+    margin-top:-140px;
     margin-left:-140px;
     margin-right:20px;
-    width:125px;
-    height:125px;
+    width:135px;
+    height:135px;
     /* border:1px solid #000; */
   }
   .image_sign {
@@ -137,10 +142,7 @@ echo $html = '
 <img src="'.K_PATH_IMAGES.'logo-jayaraya.png" height="70px" />
   <p class="header">'.str_replace('PERTANAHAN ','PERTANAHAN<br>',strtoupper(strtolower($kadis->lokasi_kerja))).'</p>
   <p class="header2">
-    SURAT PERNYATAAN<br />
-    TIDAK SEDANG MENJALANI PROSES PIDANA ATAU PERNAH DIPIDANA PENJARA <br>
-    BERDASARKAN PUTUSAN PENGADILAN YANG TELAH BERKEKUATAN HUKUM TETAP
-    <br />
+    SURAT KETERANGAN<br />
     <span class="header3">
     NOMOR : '.$Data_pengembangan_karir->Nomor_surat.'
     </span>
@@ -179,7 +181,7 @@ echo $html = '
         <td class="val" valign="top">'.str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($kadis->lokasi_kerja)))).'</td>
       </tr>
     </table>
-    <p>Dengan ini menyatakan dengan sesungguhnya, bahwa : </p>
+    <p>Menerangkan bahwa Pegawai Negeri Sipil tersebut di bawah ini : </p>
     <table>
       <tr>
         <td class="space"></td>
