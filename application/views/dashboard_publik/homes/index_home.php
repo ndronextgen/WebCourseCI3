@@ -166,7 +166,7 @@
 	<div class="wrapper navbar-inverse">
 		<header class="main-header">
 			<nav class="navbar navbar-fixed-top">
-				<div class="container">
+				<div class="container main-container">
 					<!-- <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -307,15 +307,17 @@
 									if ($ft == "") {
 										$ft = "nofoto.png";
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									} else {
 										?>
-										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" />
+										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="width:fit-content" />
 									<?php
 									}
+
+									$nama = str_replace("&nbsp;", " ", $this->func_table->name_format($this->session->userdata('nama')));
 									?>
-									<span class="hidden-xs"><?php echo $this->func_table->name_format($this->session->userdata('nama')); ?> <i class="caret"></i></span>
+									<span class="hidden-xs"><?php echo $nama; ?> <i class="caret"></i></span>
 								</a>
 								<ul class="dropdown-menu">
 									<!-- <li><a href="<?php //echo base_url(); 
@@ -331,7 +333,7 @@
 			</nav>
 		</header>
 
-		<div class="content-wrapper" style="padding-top: 0.5rem;">
+		<div class="content-wrapper" style="padding-top: 5px;">
 			<div class="container">
 				<!-- <section class="content-header"> -->
 				<div class="nav-tabs-custom" style="margin-bottom:5px; background-image: url(<?php echo base_url('asset/media/bg/header-publik-3.jpg') ?>); background-size: 100% 200px">
@@ -1162,6 +1164,23 @@ Swal.fire({
 				backgroundDismiss: true
 			});
 		}
+
+		// === begin: main container top menyesuikan tinggi navbar ===
+		$(document).ready(function() {
+			setTimeout(setPadding, 2000);
+		});
+
+		function setPadding() {
+			$defaultNavbarHeight = 50;
+			$navbarHeight = $('.navbar').height();
+			$mainWrapperPadding = parseInt($(".content-wrapper").css("padding-top"));
+			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
+
+			if ($navbarHeight > $defaultNavbarHeight) {
+				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
+			}
+		}
+		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
 </body>
