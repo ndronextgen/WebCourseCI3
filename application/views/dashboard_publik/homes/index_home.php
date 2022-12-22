@@ -1110,39 +1110,36 @@
 		}
 	</script>
 
-<script type="text/javascript">
-
-Swal.fire({
-	title: '<h5>Selamat Datang Di Aplikasi SIADIK DCKTRP</h5>',
-	// icon: 'info',
-	imageUrl: '<?php echo base_url('asset/img/sign.png');?>',
-	imageWidth: 200,
-	imageHeight: 75,
-	width: 500,
-	html:
-	'<h6><b>Kami Mengingatkan Agar Segera Melengkapi Data Data Anda</b><h6> ' +
-	'<hr>' +
-	'<h5 style="font-weight:bold;color:red;">Informasi Update Terbaru</h5><hr>' +
-	'<ul style="text-align:left;font-weight:bold;">' +
-	'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-	'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-	'<li>Verifkikasi Surat Permohonan Tunjangan Keluarga</li>' +
-	'<li>Verifkikasi Surat Permohonan KARIS/KARSU</li>' +
-	'<li>Verifkikasi Surat Hukuman Disiplin</li>' +
-	'<li>Verifkikasi Surat Tindak Pidana</li>' +
-	'</ul>' +
-	'Terimakasih',
-	customClass: {
-    	popup: 'format-pre'
-  	},
-	showCloseButton: false,
-	showCancelButton: false,
-	focusConfirm: true,
-	confirmButtonText:
-	'<i class="fa fa-thumbs-up"></i> Oke!',
-	confirmButtonAriaLabel: 'Thumbs up, great!'
-});
-</script>
+	<script type="text/javascript">
+		Swal.fire({
+			title: '<h5>Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h5>',
+			// icon: 'info',
+			imageUrl: '<?php echo base_url('asset/img/sign.png'); ?>',
+			imageWidth: 200,
+			imageHeight: 75,
+			width: 500,
+			html: '<h6><b>Kami Mengingatkan Agar Segera Melengkapi Data-Data Anda</b><h6> ' +
+				'<hr>' +
+				'<h5 style="font-weight: bold; color: red;">Informasi Update Terbaru</h5><hr>' +
+				'<ul style="text-align: left; font-weight: bold;">' +
+				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
+				'<li>Verifikasi Surat Tindak Pidana</li>' +
+				'</ul>' +
+				'Terimakasih',
+			customClass: {
+				popup: 'format-pre'
+			},
+			showCloseButton: false,
+			showCancelButton: false,
+			focusConfirm: true,
+			confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
+			confirmButtonAriaLabel: 'Thumbs up, great!'
+		});
+	</script>
 
 	<!-- SSO LIB -->
 	<script type="text/javascript" src="<?php echo base_url(); ?>asset/sso/js/all.js"></script>
