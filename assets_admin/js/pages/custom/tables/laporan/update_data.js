@@ -3,7 +3,10 @@ var url = getCookie("url");
 var KTSelect2 = (function () {
 	var Select2 = function () {
 		$("#lokasi").select2({
-			placeholder: "Pilih Lokasi Kerja",
+			// placeholder: "Pilih Lokasi Kerja",
+		});
+		$("#sublokasi").select2({
+			// placeholder: "Pilih Sub Lokasi Kerja",
 		});
 	};
 
@@ -18,7 +21,11 @@ var KTSelect2 = (function () {
 jQuery(document).ready(function () {
 	KTSelect2.init();
 
-	let tipe = $("#tipe").val();
+	const tipe = $("#tipe").val();
+	const lokasi = $("#lokasi").val();
+	const sublokasi = $("#sublokasi").val();
+	const startDate = $("#start_date").val();
+	const endDate = $("#end_date").val();
 
 	if (tipe == 0) {
 		var tblLaporanUpdateData = $("#tblLaporanUpdateData").KTDatatable({
@@ -29,9 +36,12 @@ jQuery(document).ready(function () {
 					read: {
 						url: url + "api/laporan/update_data/datatable_list",
 						method: "POST",
-						params: {
-							tipe: $("#tipe").val(),
-							lokasi: $("#lokasi").val(),
+						data: {
+							tipe: tipe,
+							lokasi: lokasi,
+							sublokasi: sublokasi,
+							startDate: startDate,
+							endDate: endDate,
 						},
 					},
 				},
@@ -164,8 +174,11 @@ jQuery(document).ready(function () {
 						url: url + "api/laporan/update_data/datatable_list",
 						method: "POST",
 						params: {
-							tipe: $("#tipe").val(),
-							lokasi: $("#lokasi").val(),
+							tipe: tipe,
+							lokasi: lokasi,
+							sublokasi: sublokasi,
+							startDate: startDate,
+							endDate: endDate,
 						},
 					},
 				},
@@ -287,8 +300,11 @@ jQuery(document).ready(function () {
 						url: url + "api/laporan/update_data/datatable_list",
 						method: "POST",
 						params: {
-							tipe: $("#tipe").val(),
-							lokasi: $("#lokasi").val(),
+							tipe: tipe,
+							lokasi: lokasi,
+							sublokasi: sublokasi,
+							startDate: startDate,
+							endDate: endDate,
 						},
 					},
 				},
