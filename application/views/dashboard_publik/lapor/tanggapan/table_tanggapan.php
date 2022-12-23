@@ -34,7 +34,7 @@
 										?>
 
 								<button class="btn btn-xs btn-info btn-flat" title="Edit" onclick="edit_tanggapan('<?php echo $d->Id; ?>')"><i class="fa fa-edit"></i></button>
-								<button class="btn btn-xs btn-danger btn-flat" title="Hapus" onclick="hapus_tanggapan('<?php echo $d->Id; ?>')"><i class="fa fa-trash-o"></i></button>
+								<button class="btn btn-xs btn-danger btn-flat" title="Hapus" onclick="hapus_tanggapan('<?php echo $d->Id; ?>')"><i class="fa fa-trash"></i></button>
 							<?php } else {
 										echo 'X';
 									} ?>
