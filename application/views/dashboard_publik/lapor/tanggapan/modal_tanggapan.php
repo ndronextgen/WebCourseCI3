@@ -198,6 +198,7 @@
 
         var i = "Hapus tanggapan?";
         var b = "Data berhasil dihapus";
+
         $.confirm({
             icon: 'fa fa-warning',
             title: 'Konfirmasi',
@@ -223,7 +224,7 @@
                                 });
 
                                 table_tanggapan();
-                                reload_table()
+                                reload_table();
                             }
                         });
                     }
