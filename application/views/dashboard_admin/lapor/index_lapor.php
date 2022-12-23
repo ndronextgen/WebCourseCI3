@@ -302,18 +302,58 @@
 		}
 
 		function delete_lapor(Id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Id=" + Id,
-				url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-				success: function(s) {
-					alert(s);
-					reload_table();
+			// var i = "Hapus ?";
+			// var b = "Data Dihapus";
+			// if (!confirm(i)) return false;
+			// $.ajax({
+			// 	type: "post",
+			// 	data: "Id=" + Id,
+			// 	url: "<?php echo site_url('Lapor/delete_lapor') ?>",
+			// 	success: function(s) {
+			// 		alert(s);
+			// 		reload_table();
+			// 	}
+			// });
+
+
+
+			var q = "Hapus data lapor?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: {
+									Id: Id,
+								},
+								url: "<?php echo site_url('Lapor/delete_lapor') ?>",
+								success: function(s) {
+									$.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+
+									reload_table();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
+			})
 		}
 	</script>
 	<!-- end script page -->
