@@ -1130,7 +1130,7 @@
 				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
 				'<li>Verifikasi Surat Tindak Pidana</li>' +
 				'</ul>' +
-				'<br>Terimakasih',
+				'<br>Terima kasih',
 			customClass: {
 				popup: 'format-pre'
 			},
