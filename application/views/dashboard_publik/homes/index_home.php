@@ -1112,15 +1112,16 @@
 
 	<script type="text/javascript">
 		Swal.fire({
-			title: '<h5>Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h5>',
+			title: '<h4 style="font-family: cursive;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h4>',
 			// icon: 'info',
 			imageUrl: '<?php echo base_url('asset/img/sign.png'); ?>',
 			imageWidth: 200,
 			imageHeight: 75,
 			width: 500,
-			html: '<h6><b>Kami Mengingatkan Agar Segera Melengkapi Data-Data Anda</b><h6> ' +
+			html: '<hr><h6><b>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
+				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</b><h6> ' +
 				'<hr>' +
-				'<h5 style="font-weight: bold; color: red;">Informasi Update Terbaru</h5><hr>' +
+				'<h5 style="font-weight: bold; color: red;">Informasi Update Terbaru</h5>' +
 				'<ul style="text-align: left; font-weight: bold;">' +
 				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
 				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
@@ -1129,7 +1130,7 @@
 				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
 				'<li>Verifikasi Surat Tindak Pidana</li>' +
 				'</ul>' +
-				'Terimakasih',
+				'<br>Terimakasih',
 			customClass: {
 				popup: 'format-pre'
 			},
