@@ -563,6 +563,29 @@
 		function tutup_form() {
 			$('#modal_all').modal('hide');
 		}
+
+		// === begin: main container top menyesuikan tinggi navbar ===
+		$(document).ready(function() {
+			setTimeout(setPadding, 2000);
+		});
+
+		function setPadding() {
+			$defaultNavbarHeight = 50;
+			$navbarHeight = $('.navbar').height();
+			$mainWrapperPadding = 5; //parseInt($(".content-wrapper").css("padding-top"));
+			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
+			console.log($navbarHeight);
+			console.log($newMainWrapperPadding);
+
+			if ($navbarHeight > $defaultNavbarHeight) {
+				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
+			}
+		}
+
+		$(window).resize(function() {
+			setPadding();
+		});
+		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
 </body>
