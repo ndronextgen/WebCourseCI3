@@ -200,9 +200,9 @@ table.wbo2 {
                                 <td valign='top'>:</td>
                                 <td valign='top'><?php echo ucwords(strtolower($Data->alamat)); ?></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td colspan='5'>&nbsp;</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td colspan='5'>Dengan ini memberitahukan dengan hormat, bahwa saya: </td>
                             </tr>

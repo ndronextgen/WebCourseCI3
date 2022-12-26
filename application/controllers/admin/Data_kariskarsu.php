@@ -70,8 +70,13 @@ class Data_kariskarsu extends CI_Controller
 			$button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
 							</a>';
+			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" href="javascript:void(0);">
+							<i class="fa fa-file"></i> Download
+					</a>';
 			if ($key->Status_progress == '0') {
 				$button = $button_view . ' ' . $button_delete;
+			} elseif($key->Status_progress == '3') {
+				$button = $button_view . ' '.$button_download;
 			} else {
 				$button = $button_view;
 			}

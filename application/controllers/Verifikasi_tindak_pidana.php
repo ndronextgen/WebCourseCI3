@@ -184,7 +184,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				$data_bold = '';
 			}
 			if ($key->Status_progress == '3') {
-				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
+				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-pdf-o"></i> &nbsp;Download</button>
 									</a>';
 			} else {
