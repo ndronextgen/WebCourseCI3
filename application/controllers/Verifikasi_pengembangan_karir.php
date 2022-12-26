@@ -36,6 +36,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -121,7 +122,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -197,7 +198,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->Keterangan;
-			$row[] = $key->Periode_awal.'-'.$key->Periode_akhir;
+			$row[] = $key->Periode_awal . '-' . $key->Periode_akhir;
 			$row[] = $key->Keperluan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
@@ -217,7 +218,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 	function form_verifikasi_pengembangan_karir_kep()
 	{
 		$Pengembangan_karir_id = $this->input->post('Pengembangan_karir_id');
-		
+
 		$Data_pengembangan_karir = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -309,11 +310,11 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		if ($Q_update) {
 			$Q_select = $this->db->query("SELECT * FROM tr_pengembangan_karir WHERE Pengembangan_karir_id='$Pengembangan_karir_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Pengembangan_karir_id']= $Pengembangan_karir_id;
+			$data_triger['Pengembangan_karir_id'] = $Pengembangan_karir_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
-			
+
 			if ($this->db->insert('tr_pengembangan_karir_triger', $data_triger)) {
 				$status = true;
 				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Pengembangan_karir_id, $status_verify, $this->session->userdata("username"));
@@ -351,7 +352,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 	function form_detail()
 	{
 		$Pengembangan_karir_id = $this->input->post('Pengembangan_karir_id');
-		
+
 		$Data_pengembangan_karir = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 

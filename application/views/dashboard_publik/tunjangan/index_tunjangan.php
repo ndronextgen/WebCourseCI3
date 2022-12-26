@@ -230,8 +230,21 @@
 								<li class="dropdown user user-menu">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										<span class="hidden-xs">Verifikasi &nbsp;
-											<?php if ($count_see_verifikasi > 0 or $count_see_verifikasi_tj > 0 or $count_see_verifikasi_kaku) { ?>
-												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku; ?></span>
+											<?php if (
+													$count_see_verifikasi > 0
+													or $count_see_verifikasi_tj > 0
+													or $count_see_verifikasi_kaku > 0
+													or $count_see_verifikasi_hukdis > 0
+													or $count_see_verifikasi_tp > 0
+													or $count_see_verifikasi_karir > 0
+												) { ?>
+												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi
+																										+ $count_see_verifikasi_tj
+																										+ $count_see_verifikasi_kaku
+																										+ $count_see_verifikasi_hukdis
+																										+ $count_see_verifikasi_tp
+																										+ $count_see_verifikasi_karir
+																										; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
