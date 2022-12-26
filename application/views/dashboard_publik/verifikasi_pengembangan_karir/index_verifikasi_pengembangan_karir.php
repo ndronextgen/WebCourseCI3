@@ -258,16 +258,16 @@
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
 													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
-													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
-												<?php } ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li class=''>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
 													<?php if ($count_see_verifikasi_tp > 0) { ?>
-													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
-												<?php } ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li class='active'>
@@ -566,7 +566,7 @@
 
 		// === begin: main container top menyesuikan tinggi navbar ===
 		$(document).ready(function() {
-			setTimeout(setPadding, 2000);
+			setTimeout(setPadding, 1000);
 		});
 
 		function setPadding() {

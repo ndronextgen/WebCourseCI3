@@ -821,7 +821,7 @@
 
 		// === begin: main container top menyesuikan tinggi navbar ===
 		$(document).ready(function() {
-			setTimeout(setPadding, 2000);
+			setTimeout(setPadding, 1000);
 		});
 
 		function setPadding() {

@@ -227,10 +227,10 @@
 											</a>
 										</li>
 										<li>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
-													<!-- notif -->
-												</a>
-											</li>
+											<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
+												<!-- notif -->
+											</a>
+										</li>
 									<?php } ?>
 								</ul>
 							</li>
@@ -557,7 +557,7 @@
 
 		// === begin: main container top menyesuikan tinggi navbar ===
 		$(document).ready(function() {
-			setTimeout(setPadding, 2000);
+			setTimeout(setPadding, 1000);
 		});
 
 		function setPadding() {
