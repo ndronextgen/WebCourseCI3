@@ -198,7 +198,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=" <?php echo base_url(); ?>dashboard_publik/status_surat"><i class="icon-leaf icon-white"></i>Surat Keterangan Pegawai&nbsp;
+										<a href=" <?php echo base_url(); ?>dashboard_publik/status_surat"><i class="icon-leaf icon-white"></i>Surat Keterangan Pegawai &nbsp;
 											<?php if ($count_see > 0) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo $count_see; ?></span>
 											<?php } ?>
@@ -284,19 +284,25 @@
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin &nbsp;
 													<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
-													<!-- notif -->
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Keterangan Bebas Tindak Pidana &nbsp;
 													<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
-													<!-- notif -->
+													<?php if ($count_see_verifikasi_tp > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir &nbsp;
 													<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
-													<!-- notif -->
+													<?php if ($count_see_verifikasi_karir > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 										<?php } ?>
@@ -1137,7 +1143,8 @@
 		// 	title: '<h4 style="font-family: cursive;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h4>',
 		// 	// icon: 'info',
 		// 	//imageUrl: '<?php //echo base_url('asset/img/sign.png'); 
-		// 					?>',
+							// 					
+							?>',
 		// 	// imageWidth: 200,
 		// 	// imageHeight: 75,
 		// 	width: 700,
