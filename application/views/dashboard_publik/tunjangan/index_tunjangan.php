@@ -203,19 +203,19 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=" <?php echo base_url(); ?>dashboard_publik/status_surat"><i class="icon-leaf icon-white"></i>Surat Keterangan Pegawai&nbsp;
+										<a href=" <?php echo base_url(); ?>dashboard_publik/status_surat"><i class="icon-leaf icon-white"></i>Surat Keterangan Pegawai &nbsp;
 											<?php if ($count_see > 0) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo $count_see; ?></span>
 											<?php } ?>
 										</a>
 									</li>
 									<li class="active">
-										<a href="<?php echo base_url(); ?>tunjangan"><i class="icon-leaf icon-white"></i>Surat Permohonan Tunjangan Keluarga&nbsp;
+										<a href="<?php echo base_url(); ?>tunjangan"><i class="icon-leaf icon-white"></i>Surat Permohonan Tunjangan Keluarga &nbsp;
 											<span id='notif_count_tunjangan'></span>
 										</a>
 									</li>
 									<li>
-										<a href="<?php echo base_url(); ?>kariskarsu"><i class="icon-leaf icon-white"></i>Surat Permohonan KARIS/KARSU&nbsp;
+										<a href="<?php echo base_url(); ?>kariskarsu"><i class="icon-leaf icon-white"></i>Surat Permohonan KARIS/KARSU &nbsp;
 											<?php if ($count_see_kaku > 0) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_kaku; ?></span>
 											<?php } ?>
@@ -243,28 +243,27 @@
 																										+ $count_see_verifikasi_kaku
 																										+ $count_see_verifikasi_hukdis
 																										+ $count_see_verifikasi_tp
-																										+ $count_see_verifikasi_karir
-																										; ?></span>
+																										+ $count_see_verifikasi_karir; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
 									<ul class="dropdown-menu">
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai &nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga &nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU &nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
 												<?php } ?>
@@ -278,13 +277,24 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
-													<!-- notif -->
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin &nbsp;
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
-													<!-- notif -->
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana &nbsp;
+													<?php if ($count_see_verifikasi_tp > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+													<?php } ?>
+												</a>
+											</li>
+											<li>
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir &nbsp;
+													<?php if ($count_see_verifikasi_karir > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 										<?php } ?>
