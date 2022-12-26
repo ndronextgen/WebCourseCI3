@@ -42,6 +42,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$count_see_verifikasi = $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 			$count_see_verifikasi_tj = $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku = $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -125,6 +127,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$d['count_see_verifikasi'] = $count_see_verifikasi;
 			$d['count_see_verifikasi_tj'] = $count_see_verifikasi_tj;
 			$d['count_see_verifikasi_kaku'] = $count_see_verifikasi_kaku;
+			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
+			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 
 			$this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
 		} else {
@@ -164,7 +168,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			# jika user adalah sekdis tombol 22
 
 
-			if ($status_verifikasi == 'kepegawaian' and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
+			if (($status_verifikasi == 'kepegawaian' OR $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
@@ -174,11 +178,6 @@ class Verifikasi_tindak_pidana extends CI_Controller
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '22';
-			} else if ($status_verifikasi == 'sudinupt' and $key->Status_progress == '21') {
-				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
-											<i class="fa fa-tag"></i> &nbsp;Verifikasi
-										</a>';
-				$data_bold = '21';
 			} else {
 				$button_verifikasi = '';
 				$data_bold = '';
@@ -198,7 +197,6 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
 			$row[] = $data_bold;
-
 			$data[] = $row;
 		}
 		$output = array(
@@ -406,18 +404,20 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
 	}
 
-	public function notify_verifikasi_tunjangan()
+	public function notify_verifikasi_tp()
 	{
 		$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 		$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 		$count_see_verifikasi_kaku 	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp;
 
-		if ($count_see_verifikasi_tj > 0) {
-			$res_count_see_verifikasi_tj = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_tj . '</span>';
+		if ($count_see_verifikasi_tp > 0) {
+			$res_count_see_verifikasi_tp = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_tp . '</span>';
 		} else {
-			$res_count_see_verifikasi_tj = '';
+			$res_count_see_verifikasi_tp = '';
 		}
 
 		if ($total_verifikasi > 0) {
@@ -427,7 +427,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		}
 
 		$result = [
-			'verifikasi_tunjangan' => $res_count_see_verifikasi_tj,
+			'verifikasi_tp' => $res_count_see_verifikasi_tp,
 			'total_verifikasi' => $res_total_verifikasi
 		];
 

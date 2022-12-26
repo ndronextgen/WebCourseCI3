@@ -52,6 +52,7 @@ class Data_pengembangan_karir extends CI_Controller
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
+		$username = $this->session->userdata('username');
 
 		$listing 		= $this->pengembangan_karir->listing($user_type, $id_lokasi_kerja, $id_pegawai);
 		$jumlah_filter 	= $this->pengembangan_karir->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -87,11 +88,7 @@ class Data_pengembangan_karir extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
-			if ($key->Status_progress == '0') {
-				$see = '1';
-			} else {
-				$see = '0';
-			}
+			$see = $this->func_table->see_admin_karir($username, $key->Pengembangan_karir_id);
 
 			$row[] = $no;
 			$row[] = $button;
@@ -101,7 +98,7 @@ class Data_pengembangan_karir extends CI_Controller
 			$row[] = $key->Keperluan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
-			//$row[] = $see;
+			$row[] = $see;
 
 			$data[] = $row;
 		}

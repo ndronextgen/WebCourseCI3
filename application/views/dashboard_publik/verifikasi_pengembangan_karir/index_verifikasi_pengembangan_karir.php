@@ -235,7 +235,9 @@
 										</li>
 										<li>
 											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
-												<span id='notif_count_verifikasi_tj'></span>
+												<?php if ($count_see_verifikasi_tj > 0) { ?>
+													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
+												<?php } ?>
 											</a>
 										</li>
 										<li>
@@ -255,16 +257,23 @@
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+												<?php } ?>
 												</a>
 											</li>
 											<li class=''>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_tp > 0) { ?>
+													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+												<?php } ?>
 												</a>
 											</li>
 											<li class='active'>
 												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
 													<!-- notif -->
+													<span id='notif_count_verifikasi_karir'></span>
 												</a>
 											</li>
 										<?php } ?>
@@ -405,7 +414,7 @@
 
 
 	<script type="text/javascript">
-		//notify_verifikasi_tj();
+		notify_verifikasi_karir();
 
 		//datepicker
 		$('.datepicker').datepicker({
@@ -436,7 +445,7 @@
 
 		function reload_table() {
 			tableVerifikasi.ajax.reload(null, false); //reload datatable ajax 
-			//notify_verifikasi_tj();
+			notify_verifikasi_karir();
 		}
 
 		function verifikasi_pengembangan_karir_kep(Pengembangan_karir_id) {
@@ -533,19 +542,19 @@
 			$('.modal-title').text('Form Detail Surat Pengembangan Karir Pegawai'); // Set Title to Bootstrap modal title
 		}
 
-		function notify_verifikasi_tj() {
+		function notify_verifikasi_karir() {
 			$.ajax({
-				url: "<?php echo site_url('Verifikasi_pengembangan_karir/notify_verifikasi_pengembangan_karir') ?>",
+				url: "<?php echo site_url('Verifikasi_pengembangan_karir/notify_verifikasi_karir') ?>",
 				type: "POST",
 				beforeSend: function(f) {
 					var loading = '';
-					$('span#notif_count_verifikasi_tj').html(loading);
+					$('span#notif_count_verifikasi_karir').html(loading);
 					$('span#ttl_verifikasi').html(loading);
 				},
 				success: function(s) {
 					console.log(s);
 					var obj = JSON.parse(s);
-					$('span#notif_count_verifikasi_tj').html(obj.verifikasi_tunjangan);
+					$('span#notif_count_verifikasi_karir').html(obj.verifikasi_karir);
 					$('span#ttl_verifikasi').html(obj.total_verifikasi);
 				}
 			});

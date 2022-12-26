@@ -52,6 +52,7 @@ class Data_tindak_pidana extends CI_Controller
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
+		$username = $this->session->userdata('username');
 
 		$listing 		= $this->tindak_pidana->listing($user_type, $id_lokasi_kerja, $id_pegawai);
 		$jumlah_filter 	= $this->tindak_pidana->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -87,18 +88,14 @@ class Data_tindak_pidana extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
-			if ($key->Status_progress == '0') {
-				$see = '1';
-			} else {
-				$see = '0';
-			}
+			$see = $this->func_table->see_admin_tp($username, $key->Tindak_pidana_id);
 
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
-			//$row[] = $see;
+			$row[] = $see;
 
 			$data[] = $row;
 		}

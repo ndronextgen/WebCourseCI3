@@ -255,11 +255,15 @@
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li class='active'>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
+													<span id='notif_count_verifikasi_tp'></span>
 												</a>
 											</li>
 										<?php } ?>
@@ -400,7 +404,7 @@
 
 
 	<script type="text/javascript">
-		//notify_verifikasi_tj();
+		notify_verifikasi_tp();
 
 		//datepicker
 		$('.datepicker').datepicker({
@@ -431,7 +435,7 @@
 
 		function reload_table() {
 			tableVerifikasi.ajax.reload(null, false); //reload datatable ajax 
-			//notify_verifikasi_tj();
+			notify_verifikasi_tp();
 		}
 
 		function verifikasi_tindak_pidana_kep(Tindak_pidana_id) {
@@ -528,19 +532,19 @@
 			$('.modal-title').text('Form Detail Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title
 		}
 
-		function notify_verifikasi_tj() {
+		function notify_verifikasi_tp() {
 			$.ajax({
-				url: "<?php echo site_url('Verifikasi_tindak_pidana/notify_verifikasi_tindak_pidana') ?>",
+				url: "<?php echo site_url('Verifikasi_tindak_pidana/notify_verifikasi_tp') ?>",
 				type: "POST",
 				beforeSend: function(f) {
 					var loading = '';
-					$('span#notif_count_verifikasi_tj').html(loading);
+					$('span#notif_count_verifikasi_tp').html(loading);
 					$('span#ttl_verifikasi').html(loading);
 				},
 				success: function(s) {
 					console.log(s);
 					var obj = JSON.parse(s);
-					$('span#notif_count_verifikasi_tj').html(obj.verifikasi_tunjangan);
+					$('span#notif_count_verifikasi_tp').html(obj.verifikasi_tp);
 					$('span#ttl_verifikasi').html(obj.total_verifikasi);
 				}
 			});

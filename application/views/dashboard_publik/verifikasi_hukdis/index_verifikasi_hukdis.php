@@ -235,7 +235,9 @@
 										</li>
 										<li>
 											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
-												<span id='notif_count_verifikasi_tj'></span>
+												<?php if ($count_see_verifikasi_tj > 0) { ?>
+													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
+												<?php } ?>
 											</a>
 										</li>
 										<li>
@@ -255,6 +257,7 @@
 											<li class='active'>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
+													<span id='notif_count_verifikasi_hukdis'></span>
 												</a>
 											</li>
 											<li>
@@ -400,7 +403,7 @@
 
 
 	<script type="text/javascript">
-		//notify_verifikasi_tj();
+		notify_verifikasi_hukdis();
 
 		//datepicker
 		$('.datepicker').datepicker({
@@ -431,7 +434,7 @@
 
 		function reload_table() {
 			tableVerifikasi.ajax.reload(null, false); //reload datatable ajax 
-			//notify_verifikasi_tj();
+			notify_verifikasi_hukdis();
 		}
 
 		function verifikasi_hukdis_kep(Hukdis_id) {
@@ -528,19 +531,19 @@
 			$('.modal-title').text('Form Detail Surat Pegawai'); // Set Title to Bootstrap modal title
 		}
 
-		function notify_verifikasi_tj() {
+		function notify_verifikasi_hukdis() {
 			$.ajax({
 				url: "<?php echo site_url('Verifikasi_hukdis/notify_verifikasi_hukdis') ?>",
 				type: "POST",
 				beforeSend: function(f) {
 					var loading = '';
-					$('span#notif_count_verifikasi_tj').html(loading);
+					$('span#notif_count_verifikasi_hukdis').html(loading);
 					$('span#ttl_verifikasi').html(loading);
 				},
 				success: function(s) {
 					console.log(s);
 					var obj = JSON.parse(s);
-					$('span#notif_count_verifikasi_tj').html(obj.verifikasi_tunjangan);
+					$('span#notif_count_verifikasi_hukdis').html(obj.verifikasi_hukdis);
 					$('span#ttl_verifikasi').html(obj.total_verifikasi);
 				}
 			});

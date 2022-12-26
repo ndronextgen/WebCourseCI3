@@ -1114,15 +1114,15 @@
 		Swal.fire({
 			title: '<h4 style="font-family: cursive;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h4>',
 			// icon: 'info',
-			imageUrl: '<?php echo base_url('asset/img/sign.png'); ?>',
-			imageWidth: 200,
-			imageHeight: 75,
-			width: 500,
-			html: '<hr><h6><b>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
-				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</b><h6> ' +
+			//imageUrl: '<?php //echo base_url('asset/img/sign.png'); ?>',
+			// imageWidth: 200,
+			// imageHeight: 75,
+			width: 700,
+			html: '<hr><h5 style="font-family: cursive;"><b>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
+				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</b><h5> ' +
 				'<hr>' +
-				'<h5 style="font-weight: bold; color: red;">Informasi Update Terbaru</h5>' +
-				'<ul style="text-align: left; font-weight: bold;">' +
+				'<p style="font-weight: bold; color: red;font-size:15px;font-family: cursive;text-align:left;">Informasi Update Terbaru</p>' +
+				'<ul style="text-align: left;font-size:14px;font-family: cursive;">' +
 				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
 				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
 				'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +

@@ -794,15 +794,10 @@ class Func_table
         $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
                                             FROM view_sekdis WHERE nrk = '$id'")->row();
 
-        $cek_kasubag     = $CI->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
-                                            FROM view_kasubag WHERE nrk = '$id'")->row();
-
         if ($cek_kepegawaian->jml_kepegawaian > 0) {
-            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26') AND a.is_dinas = '1'";
+            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26')";
         } else if ($cek_sekdis->jml_sekdis > 0) {
             $kondisi = " AND a.Status_progress = '22'";
-        } else if ($cek_kasubag->jml_sudinupt > 0) {
-            $kondisi = " AND a.Status_progress = '21' AND a.is_dinas != '1' AND a.lokasi_kerja_pegawai = '$cek_kasubag->id_lokasi_kerja'";
         } else {
             $kondisi = " AND a.Status_progress = 'XX'";
         }
@@ -822,6 +817,216 @@ class Func_table
     }
 
     // end hukdis see
+
+    // Tindak Pidana see
+    function count_see_tp($id)
+    {
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        fa.user_create,
+                                        a.Id, a.Created_by,
+                                        a.Status_progress
+                                    FROM
+                                        tr_tindak_pidana as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_tindak_pidana_see as b
+                                        WHERE b.id_view = '$id'
+                                    ) AS fa ON fa.id_srt = a.Tindak_pidana_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Created_by = '$id' AND isnull(fa.user_create)
+                                ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+    #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
+    function see_admin_tp($id, $id_surat)
+    {
+
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT
+                                        if(isnull(fa.user_create),0,1) as status_view
+                                    FROM
+                                        tr_tindak_pidana as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_tindak_pidana_see as b
+                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
+                                    ) AS fa ON fa.id_srt = a.Tindak_pidana_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Tindak_pidana_id='$id_surat'")->row();
+
+        return $Query->status_view;
+    }
+
+    function in_tosee_tp($id, $id_surat, $status_surat, $id_view)
+    {
+
+        $CI = &get_instance();
+        $tgl_now = date('Y-m-d H:i:s');
+        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_tindak_pidana_see 
+                                        WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
+        if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
+            $Query = $CI->db->query("INSERT INTO tr_tindak_pidana_see 
+                                SET 
+                                user_create = '$id',
+                                id_srt =  '$id_surat',
+                                id_view =  '$id_view',
+                                tgl_view = '$tgl_now',
+                                id_status_srt = '$status_surat',
+                                tgl_update = '$tgl_now'");
+        } else {
+            $Query = $CI->db->query("UPDATE tr_tindak_pidana_see 
+                                SET tgl_update = '$tgl_now'
+                                WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
+        }
+        return $Query;
+    }
+
+    // verifikasi TIndak Pidana
+    function count_see_verifikasi_tp($id)
+    {
+
+        $CI = &get_instance();
+        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+                                            FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
+
+        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+                                            FROM view_sekdis WHERE nrk = '$id'")->row();
+
+        if ($cek_kepegawaian->jml_kepegawaian > 0) {
+            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26')";
+        } else if ($cek_sekdis->jml_sekdis > 0) {
+            $kondisi = " AND a.Status_progress = '22'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        (
+            SELECT
+                                        a.Tindak_pidana_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_tindak_pidana AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_tindak_pidana_see 
+                                        WHERE id_view = '$id'
+                                        GROUP BY id_view, id_srt 
+                                        ) AS see ON see.id_srt = a.Tindak_pidana_id AND see.id_status_srt = a.Status_progress 
+                                    WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+
+    // end Tindak Pidana see
+
+    // Pengebangan Karir see
+    function count_see_karir($id)
+    {
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        fa.user_create,
+                                        a.Id, a.Created_by,
+                                        a.Status_progress
+                                    FROM
+                                        tr_pengembangan_karir as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_pengembangan_karir_see as b
+                                        WHERE b.id_view = '$id'
+                                    ) AS fa ON fa.id_srt = a.Pengembangan_karir_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Created_by = '$id' AND isnull(fa.user_create)
+                                ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+    #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
+    function see_admin_karir($id, $id_surat)
+    {
+
+        $CI = &get_instance();
+        $Query = $CI->db->query("SELECT
+                                        if(isnull(fa.user_create),0,1) as status_view
+                                    FROM
+                                        tr_pengembangan_karir as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_pengembangan_karir_see as b
+                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
+                                    ) AS fa ON fa.id_srt = a.Pengembangan_karir_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Pengembangan_karir_id='$id_surat'")->row();
+
+        return $Query->status_view;
+    }
+
+    function in_tosee_karir($id, $id_surat, $status_surat, $id_view)
+    {
+
+        $CI = &get_instance();
+        $tgl_now = date('Y-m-d H:i:s');
+        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_pengembangan_karir_see 
+                                        WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
+        if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
+            $Query = $CI->db->query("INSERT INTO tr_pengembangan_karir_see 
+                                SET 
+                                user_create = '$id',
+                                id_srt =  '$id_surat',
+                                id_view =  '$id_view',
+                                tgl_view = '$tgl_now',
+                                id_status_srt = '$status_surat',
+                                tgl_update = '$tgl_now'");
+        } else {
+            $Query = $CI->db->query("UPDATE tr_pengembangan_karir_see 
+                                SET tgl_update = '$tgl_now'
+                                WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
+        }
+        return $Query;
+    }
+
+    // verifikasi Pengebangan Karir
+    function count_see_verifikasi_karir($id)
+    {
+
+        $CI = &get_instance();
+        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+                                            FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
+
+        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+                                            FROM view_sekdis WHERE nrk = '$id'")->row();
+
+        if ($cek_kepegawaian->jml_kepegawaian > 0) {
+            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26')";
+        } else if ($cek_sekdis->jml_sekdis > 0) {
+            $kondisi = " AND a.Status_progress = '22'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        (
+            SELECT
+                                        a.Pengembangan_karir_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pengembangan_karir AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pengembangan_karir_see 
+                                        WHERE id_view = '$id'
+                                        GROUP BY id_view, id_srt 
+                                        ) AS see ON see.id_srt = a.Pengembangan_karir_id AND see.id_status_srt = a.Status_progress 
+                                    WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+
+    // end Pengebangan Karir see
 
     function removeTitleFromName($name)
     {
@@ -1023,670 +1228,6 @@ class Func_table
         }
         return $status_user;
     }
-
-
-    #----------------------------------- WA EMAIL -------------------------------
-    #----------------------------------------------------------------------------
-    function Notifikasi_data($nomor_surat)
-    {
-        $CI = &get_instance();
-        #Query_notif_beta
-        // $Query_data2 = $CI->db->query("SELECT 
-        //                                 a.email as mail_pegawai, a.telepon as tlp_pegawai, a.lokasi_kerja,  
-        //                                 b.email as mail_admin_lokasi, b.telepon as tlp_admin_lokasi, 
-        //                                 c.email as mail_kasubag_kepegawaian, c.telepon as tlp_kasubag_kepegawaian,
-        //                                 d.email as mail_sekdis, d.telepon as tlp_sekdis,
-        //                                 e.email as mail_dinas, e.telepon as tlp_dinas
-        //                             FROM tbl_data_pegawai as a
-        //                             LEFT JOIN (
-        //                                 SELECT email, telepon, id_lokasi_kerja
-        //                                 FROM tbl_user_login 
-        //                                 WHERE stts='administrator'
-        //                             ) as b ON b.id_lokasi_kerja = a.lokasi_kerja
-        //                             LEFT JOIN (
-        //                                 SELECT email, telepon, nrk
-        //                                 FROM view_kasubag_kepegawaian 
-        //                             ) as c ON c.nrk != ''
-        //                             LEFT JOIN (
-        //                                 SELECT email, telepon, nrk
-        //                                 FROM view_sekdis
-        //                             ) as d ON d.nrk != ''
-        //                             LEFT JOIN (
-        //                                 SELECT email, telepon, username
-        //                                 FROM view_dinas
-        //                             ) as e ON e.username != ''
-        //                             WHERE a.id_pegawai = '$id_pegawai'")->row();
-        $Query_data = $CI->db->query("SELECT
-                                    a.id_srt, a.id_user, a.nama, 
-                                    a.nip, a.nrk, a.alamat_domisili, 
-                                    a.status_pegawai, a.keterangan, 
-                                    a.jenis_surat, a.jenis_pengajuan_surat, 
-                                    a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
-                                    a.id_status_srt, a.keterangan_ditolak, 
-                                    a.select_ttd, a.tgl_proses, 
-                                    a.id_user_proses, a.is_download, 
-                                    a.file_name, a.file_name_ori, 
-                                    a.nomor_surat, a.Created_at, a.Updated_at,a.Updated_by,
-                                    b.nama_surat, nama_status as `status`, sort, sort_bidang,
-                                    IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
-                                    list.lokasi_kerja, list.dinas,
-                                    list.email as mail_pegawai, list.telepon as tlp_pegawai,
-                                    f.username as uname_updated, f.nama_lengkap as nama_updated, f.email as email_updated, f.telepon as telepon_updated,
-                                    g.nama_pegawai as nama_kasubag_kepegawaian, g.email as mail_kasubag_kepegawaian, g.telepon as tlp_kasubag_kepegawaian,
-                                    h.nama_pegawai as nama_sekdis, h.email as mail_sekdis, h.telepon as tlp_sekdis,
-                                    nama_admin_terkait, email_admin_terkait, telepon_admin_terkait
-                                FROM
-                                    tbl_data_srt_ket AS a
-                                LEFT JOIN (
-                                    SELECT id_mst_srt, nama_surat FROM tbl_master_surat
-                                ) AS b ON b.id_mst_srt = a.jenis_surat
-                                LEFT JOIN (
-                                    SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
-                                ) AS c ON c.id_status = a.id_status_srt
-                                LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
-                                INNER JOIN (
-                                            SELECT
-                                                ax.id_pegawai, ax.lokasi_kerja, bx.dinas, ax.telepon, ax.email, 
-                                                cx.nama_lengkap as nama_admin_terkait, cx.email as email_admin_terkait, cx.telepon as telepon_admin_terkait
-                                            FROM
-                                                tbl_data_pegawai AS ax
-                                            LEFT JOIN tbl_master_lokasi_kerja AS bx ON ax.lokasi_kerja = bx.id_lokasi_kerja
-                                            LEFT JOIN (
-                                                    SELECT nama_lengkap, email, telepon, id_lokasi_kerja
-                                                    FROM tbl_user_login 
-                                                    WHERE stts='administrator'
-                                                    GROUP BY id_lokasi_kerja 
-                                            ) as cx ON cx.id_lokasi_kerja = ax.lokasi_kerja
-                                                                                        
-                                ) list ON a.id_user = list.id_pegawai
-                                LEFT JOIN (
-                                        SELECT id_user_login, username, nama_lengkap, email, telepon
-                                        FROM tbl_user_login 
-                                ) as f ON f.id_user_login = a.Updated_by
-                                LEFT JOIN (
-                                    SELECT nama_pegawai, email, telepon, nrk
-                                    FROM view_kasubag_kepegawaian 
-                                ) as g ON g.nrk != ''
-                                LEFT JOIN (
-                                    SELECT nama_pegawai, email, telepon, nrk
-                                    FROM view_sekdis
-                                ) as h ON h.nrk != ''
-                                    
-                                WHERE a.nomor_surat = '$nomor_surat'")->row();
-        return $Query_data;
-    }
-
-    function Notifikasi_data_admin($id_surat)
-    {
-        $CI = &get_instance();
-        #Query_notif_beta
-        $Query_data = $CI->db->query("SELECT
-                                    a.id_srt, a.id_user, a.nama, 
-                                    a.nip, a.nrk, a.alamat_domisili, 
-                                    a.status_pegawai, a.keterangan, 
-                                    a.jenis_surat, a.jenis_pengajuan_surat, 
-                                    a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
-                                    a.id_status_srt, a.keterangan_ditolak, 
-                                    a.select_ttd, a.tgl_proses, 
-                                    a.id_user_proses, a.is_download, 
-                                    a.file_name, a.file_name_ori, 
-                                    a.nomor_surat, a.Created_at, a.Updated_at,a.Updated_by,
-                                    b.nama_surat, nama_status as `status`, sort, sort_bidang,
-                                    IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
-                                    list.lokasi_kerja, list.dinas,
-                                    list.email as mail_pegawai, list.telepon as tlp_pegawai,
-                                    f.username as uname_updated, f.nama_lengkap as nama_updated, f.email as email_updated, f.telepon as telepon_updated,
-                                    g.nama_pegawai as nama_kasubag_kepegawaian, g.email as mail_kasubag_kepegawaian, g.telepon as tlp_kasubag_kepegawaian,
-                                    h.nama_pegawai as nama_sekdis, h.email as mail_sekdis, h.telepon as tlp_sekdis,
-                                    nama_admin_terkait, email_admin_terkait, telepon_admin_terkait
-                                FROM
-                                    tbl_data_srt_ket AS a
-                                LEFT JOIN (
-                                    SELECT id_mst_srt, nama_surat FROM tbl_master_surat
-                                ) AS b ON b.id_mst_srt = a.jenis_surat
-                                LEFT JOIN (
-                                    SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
-                                ) AS c ON c.id_status = a.id_status_srt
-                                LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
-                                INNER JOIN (
-                                            SELECT
-                                                ax.id_pegawai, ax.lokasi_kerja, bx.dinas, ax.telepon, ax.email, 
-                                                cx.nama_lengkap as nama_admin_terkait, cx.email as email_admin_terkait, cx.telepon as telepon_admin_terkait
-                                            FROM
-                                                tbl_data_pegawai AS ax
-                                            LEFT JOIN tbl_master_lokasi_kerja AS bx ON ax.lokasi_kerja = bx.id_lokasi_kerja
-                                            LEFT JOIN (
-                                                    SELECT nama_lengkap, email, telepon, id_lokasi_kerja
-                                                    FROM tbl_user_login 
-                                                    WHERE stts='administrator'
-                                                    GROUP BY id_lokasi_kerja 
-                                            ) as cx ON cx.id_lokasi_kerja = ax.lokasi_kerja
-                                ) list ON a.id_user = list.id_pegawai
-                                LEFT JOIN (
-                                        SELECT id_user_login, username, nama_lengkap, email, telepon
-                                        FROM tbl_user_login 
-                                ) as f ON f.id_user_login = a.Updated_by
-                                LEFT JOIN (
-                                    SELECT nama_pegawai, email, telepon, nrk
-                                    FROM view_kasubag_kepegawaian 
-                                ) as g ON g.nrk != ''
-                                LEFT JOIN (
-                                    SELECT nama_pegawai, email, telepon, nrk
-                                    FROM view_sekdis
-                                ) as h ON h.nrk != ''
-                                    
-                                WHERE a.id_srt = '$id_surat'")->row();
-        return $Query_data;
-    }
-
-    function get_sapaan($param)
-    {
-        $time_start_pagi     = strtotime('00:00:01');
-        $time_start_siang     = strtotime('10:00:00');
-        $time_start_sore     = strtotime('15:00:00');
-        $time_start_malam     = strtotime('18:00:00');
-        $time_end             = strtotime('23:59:59');
-
-        if ($param >= $time_start_pagi && $param < $time_start_siang) {
-            $sapaan = 'Selamat Pagi, ';
-        } elseif ($param >= $time_start_siang && $param < $time_start_sore) {
-            $sapaan = 'Selamat Siang, ';
-        } elseif ($param >= $time_start_sore && $param < $time_start_malam) {
-            $sapaan = 'Selamat Sore, ';
-        } elseif ($param >= $time_start_malam && $param < $time_end) {
-            $sapaan = 'Selamat Malam, ';
-        } else {
-            $sapaan = '';
-        }
-
-        return $sapaan;
-    }
-
-    function Get_footer()
-    {
-        $footer_notif = "
-<b>Terimakasih</b> <br/>
-<br/>
-Best Regards,<br/>
-Pusdatin, Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
-Gedung Dinas Teknis Jatibaru Lt.2 <br/>
-<br/>
-Jl. Taman Jatibaru No.1, RT.17/RW.1, Cideng, Gambir, Kota Jakarta Pusat, <br/>
-Daerah Khusus Ibukota Jakarta 10150
-    ";
-
-        return $footer_notif;
-    }
-
-    function notif_sk_pegawai_tambah($nomor_surat)
-    {
-        $CI = &get_instance();
-        $CI->load->helper('send_email');
-        $CI->load->helper('wa');
-
-        // ---------------------------
-        $tgl_now = date('Y-m-d H:i:s');
-        $data_penerima  = $CI->func_table->Notifikasi_data($nomor_surat);
-        $Hari             = $CI->func_table->gethari(date('l', strtotime($data_penerima->Updated_at)));
-        $Tanggal_indo     = $Hari . ' ' . $CI->func_table->tgl_indonesia($data_penerima->Updated_at);
-        $Jam            = date("H:i:s", strtotime($data_penerima->Updated_at));
-
-        $Sapaan         = $CI->func_table->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
-        // ---- to pegawai
-        $message_pegawai = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-Selamat Anda telah berhasil Tambah Surat Keterangan dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-        $objSendWA = SendWANotif([
-            'phone' => '08121835654',
-            'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai)))
-        ]);
-
-        $objSendMail = sendMail([
-            'subject' => 'Si-ADiK (Surat Keterangan)',
-            'email' => 'wongndro@gmail.com',
-            'message' => $message_pegawai
-        ]);
-        // ----
-
-        // ---- to admin terkait
-        $message_admin_terkait = 'Hai <b>' . $data_penerima->nama_admin_terkait . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat Surat Keterangan Pegawai baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-        $objSendWA = SendWANotif([
-            'phone' => '08121835654',
-            'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-        ]);
-
-        $objSendMail = sendMail([
-            'subject' => 'Si-ADiK (Surat Keterangan)',
-            'email' => 'wongndro@gmail.com',
-            'message' => $message_admin_terkait
-        ]);
-        // ----
-
-
-    }
-
-    function notif_sk_update($id_surat)
-    {
-        $CI = &get_instance();
-        $CI->load->helper('send_email');
-        $CI->load->helper('wa');
-        // ---------------------------
-        $tgl_now = date('Y-m-d H:i:s');
-        $data_penerima  = $CI->func_table->Notifikasi_data_admin($id_surat);
-        $Hari             = $CI->func_table->gethari(date('l', strtotime($data_penerima->Updated_at)));
-        $Tanggal_indo     = $Hari . ' ' . $CI->func_table->tgl_indonesia($data_penerima->Updated_at);
-        $Jam            = date("H:i:s", strtotime($data_penerima->Updated_at));
-        $Sapaan         = $CI->func_table->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
-        // --------------------------
-
-
-
-
-        #jika status update 
-        if ($data_penerima->id_status_srt == '2') { //sedang proses
-            #kirim notifikasi kepada pegawai & admin yang update
-            // ---- to pegawai terkait
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-
-
-
-
-
-        } else if ($data_penerima->id_status_srt == '21') { //Verifikasi Admin
-            #kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-            // ---- to pegawai terkait #1
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update #2
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-            // ---- to kasubag kepegawaian #3
-            $message_kepegawaian = 'Hai <b>' . $data_penerima->nama_kasubag_kepegawaian . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat Surat Keterangan Pegawai baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_kepegawaian)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_kepegawaian
-            ]);
-            // ----
-
-
-
-
-        } else if ($data_penerima->id_status_srt == '22') { //Verifikasi kasubag
-            #kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-            // ---- to pegawai terkait #1
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update #2
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-            // ---- to sekdis #3
-            $message_sekdis = 'Hai <b>' . $data_penerima->nama_sekdis . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat Surat Keterangan Pegawai baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_sekdis)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_sekdis
-            ]);
-            // ----
-        } else if ($data_penerima->id_status_srt == '23') { //Verifikasi sekdis
-            #kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-            // ---- to pegawai terkait #1
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update #2
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-            // ---- to admin terkait #3
-            $message_admin_terkait = 'Hai <b>' . $data_penerima->nama_admin_terkait . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat Surat Keterangan Pegawai baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_terkait
-            ]);
-            // ----
-
-
-
-            // DITOLAKKKKKK
-        } else if ($data_penerima->id_status_srt == '1' || $data_penerima->id_status_srt == '24' || $data_penerima->id_status_srt == '25' || $data_penerima->id_status_srt == '26') { //Diltolak
-            #kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-            // ---- to pegawai terkait #1
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update #2
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-            // ---- to admin terkait #3
-            $message_admin_terkait = 'Hai <b>' . $data_penerima->nama_admin_terkait . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Surat Keterangan Pegawai.<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_terkait
-            ]);
-            // ----
-
-        } else if ($data_penerima->id_status_srt == '3') { //Selesai
-            #kirim notifikasi kepada pegawai, admin yang update
-            // ---- to pegawai terkait #1
-            $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan surat keterangan anda, Surat keterangan sudah dapat diunduh<br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_pegawai_terkait
-            ]);
-            // ----
-
-            // ---- to admin update #2
-            $message_admin_update = 'Hai <b>' . $data_penerima->nama_updated . '</b>, <br/>
-Selamat Anda telah berhasil Verifikasi Surat Keterangan Pegawai dalam aplikasi Si-ADiK. <br/>
-<b>Isi Surat 		 : ' . $data_penerima->keterangan_pengajuan . '</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Surat Dari	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-' . $CI->func_table->Get_footer() . '
-';
-
-            $objSendWA = SendWANotif([
-                'phone' => '08121835654',
-                'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-            ]);
-
-            $objSendMail = sendMail([
-                'subject' => 'Si-ADiK (Surat Keterangan)',
-                'email' => 'wongndro@gmail.com',
-                'message' => $message_admin_update
-            ]);
-            // ----
-
-        }
-    }
-
-
-
-    #----------------------------------------------------------------------------
-    #----------------------------------- END WA EMAIL ---------------------------
 
     function SetNotif($notifPage, $notifModul, $notifLokasi, $notifUser, $userID)
     {
