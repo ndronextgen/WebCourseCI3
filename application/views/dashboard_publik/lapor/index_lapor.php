@@ -221,8 +221,17 @@
 								<li class="dropdown user user-menu">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										<span class="hidden-xs">Verifikasi &nbsp;
-											<?php if ($count_see_verifikasi > 0) { ?>
-												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku; ?></span>
+											<?php if ($count_see_verifikasi > 0 || $count_see_verifikasi_tj || $count_see_verifikasi_kaku || $count_see_verifikasi_hukdis || $count_see_verifikasi_tp || $count_see_verifikasi_karir) { ?>
+												<span class="badge btn-warning btn-flat">
+													<?php
+													#hanya admin kepegawaian dan sekdis yg bisa akses ini
+													$id_pegawai = $this->session->userdata('id_pegawai');
+													$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
+													$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row(); 
+													if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
+														$verifikasi_surat_admin = $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+													}
+													echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $verifikasi_surat_admin; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
@@ -258,11 +267,25 @@
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_tp > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+													<?php } ?>
+												</a>
+											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+													<!-- notif -->
+													<?php if ($count_see_verifikasi_karir > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 										<?php } ?>

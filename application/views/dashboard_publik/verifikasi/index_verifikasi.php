@@ -274,6 +274,25 @@
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
 													<!-- notif -->
+													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+													<?php } ?>
+												</a>
+											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
+													<!-- notif -->
+													<?php if ($count_see_verifikasi_tp > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+													<?php } ?>
+												</a>
+											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+													<!-- notif -->
+													<?php if ($count_see_verifikasi_karir > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 										<?php } ?>

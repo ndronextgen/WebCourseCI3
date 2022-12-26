@@ -43,6 +43,8 @@ class Verifikasi_hukdis extends CI_Controller
 			$count_see_verifikasi_tj = $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 			$count_see_verifikasi_kaku = $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
+			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -127,6 +129,8 @@ class Verifikasi_hukdis extends CI_Controller
 			$d['count_see_verifikasi_tj'] = $count_see_verifikasi_tj;
 			$d['count_see_verifikasi_kaku'] = $count_see_verifikasi_kaku;
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
+			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
+			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 
 			$this->load->view('dashboard_publik/verifikasi_hukdis/index_verifikasi_hukdis', $d);
 		} else {
@@ -422,8 +426,10 @@ class Verifikasi_hukdis extends CI_Controller
 		$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
 		$count_see_verifikasi_kaku 	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
+		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
 
 		if ($count_see_verifikasi_hukdis > 0) {
 			$res_count_see_verifikasi_hukdis = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_hukdis . '</span>';

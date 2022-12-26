@@ -235,7 +235,9 @@
 										</li>
 										<li>
 											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
-												<span id='notif_count_verifikasi_tj'></span>
+												<?php if ($count_see_verifikasi_tj > 0) { ?>
+													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
+												<?php } ?>
 											</a>
 										</li>
 										<li>
@@ -264,6 +266,14 @@
 												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
 													<!-- notif -->
 													<span id='notif_count_verifikasi_tp'></span>
+												</a>
+											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+													<!-- notif -->
+													<?php if ($count_see_verifikasi_karir > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
 												</a>
 											</li>
 										<?php } ?>

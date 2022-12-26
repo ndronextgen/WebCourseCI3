@@ -35,12 +35,15 @@ class Verifikasi extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
-			$count_see 					= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
-			$count_see_tj 				= $this->func_table->count_see_tj($this->session->userdata('username'));
-			$count_see_kaku				= $this->func_table->count_see_kaku($this->session->userdata('username'));
-			$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
-			$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
-			$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
+			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
+			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
+			$count_see_verifikasi = $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
+			$count_see_verifikasi_tj = $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
+			$count_see_verifikasi_kaku = $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
+			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -117,12 +120,15 @@ class Verifikasi extends CI_Controller
 			$x['count_see'] = $count_see;
 
 			//see
-			$d['count_see'] 				= $count_see;
-			$d['count_see_tj'] 				= $count_see_tj;
-			$d['count_see_kaku'] 			= $count_see_kaku;
-			$d['count_see_verifikasi'] 		= $count_see_verifikasi;
-			$d['count_see_verifikasi_tj'] 	= $count_see_verifikasi_tj;
+			$d['count_see'] = $count_see;
+			$d['count_see_tj'] = $count_see_tj;
+			$d['count_see_kaku'] = $count_see_kaku;
+			$d['count_see_verifikasi'] = $count_see_verifikasi;
+			$d['count_see_verifikasi_tj'] = $count_see_verifikasi_tj;
 			$d['count_see_verifikasi_kaku'] = $count_see_verifikasi_kaku;
+			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
+			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
+			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 
 			$this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d);
 		} else {
@@ -423,9 +429,12 @@ class Verifikasi extends CI_Controller
 	{
 		$count_see_verifikasi 		= $this->func_table->count_see_verifikasi($this->session->userdata('id_pegawai'));
 		$count_see_verifikasi_tj 	= $this->func_table->count_see_verifikasi_tunjangan($this->session->userdata('username'));
-		$count_see_verifikasi_kaku	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+		$count_see_verifikasi_kaku 	= $this->func_table->count_see_verifikasi_kariskarsu($this->session->userdata('username'));
+		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
+		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
+		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
 
 		if ($count_see_verifikasi > 0) {
 			$res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
