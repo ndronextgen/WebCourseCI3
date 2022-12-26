@@ -502,7 +502,7 @@
 	<script type="text/javascript">
 		function under_maintenance() {
 			$.dialog({
-				icon: 'fa fa-info';
+				icon: 'fa fa-info'
 				title: 'Info',
 				content: 'Sedang dalam pengerjaan...',
 				type: 'red',
