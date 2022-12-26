@@ -224,14 +224,15 @@
 											<?php if ($count_see_verifikasi > 0 || $count_see_verifikasi_tj || $count_see_verifikasi_kaku || $count_see_verifikasi_hukdis || $count_see_verifikasi_tp || $count_see_verifikasi_karir) { ?>
 												<span class="badge btn-warning btn-flat">
 													<?php
-													#hanya admin kepegawaian dan sekdis yg bisa akses ini
-													$id_pegawai = $this->session->userdata('id_pegawai');
-													$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
-													$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row(); 
-													if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
-														$verifikasi_surat_admin = $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
-													}
-													echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $verifikasi_surat_admin; ?></span>
+															#hanya admin kepegawaian dan sekdis yg bisa akses ini
+															$id_pegawai = $this->session->userdata('id_pegawai');
+															$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
+															$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
+															$verifikasi_surat_admin = 0;
+															if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
+																$verifikasi_surat_admin = $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+															}
+															echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $verifikasi_surat_admin; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
@@ -257,6 +258,8 @@
 												<?php } ?>
 											</a>
 										</li>
+
+
 										<?php
 											#hanya admin kepegawaian dan sekdis yg bisa akses ini
 											$id_pegawai = $this->session->userdata('id_pegawai');
@@ -289,6 +292,8 @@
 												</a>
 											</li>
 										<?php } ?>
+
+										
 									</ul>
 								</li>
 							<?php } ?>
