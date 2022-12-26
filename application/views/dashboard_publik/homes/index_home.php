@@ -250,7 +250,7 @@
 											<i class="caret"></i></span>
 									</a>
 									<ul class="dropdown-menu">
-										<li>
+										<li> 
 											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Keterangan Pegawai &nbsp;
 												<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
 												<?php if ($count_see_verifikasi > 0) { ?>
