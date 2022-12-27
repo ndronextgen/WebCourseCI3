@@ -176,7 +176,7 @@ class Verifikasi extends CI_Controller
 				$data_bold = '21';
 			} else if ($status_verifikasi == 'sekdis' and $key->id_status_srt == '22') {
 				$button_verifikasi = '	<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_kep(' . "'" . $key->id_srt . "'" . ')">
-											i class="fa fa-tag"></i> &nbsp;Verifikasi
+											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
 				$data_bold = '22';
 			} else if ($status_verifikasi == 'sudinupt' and $key->id_status_srt == '21') {
