@@ -241,21 +241,21 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai &nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Keterangan Pegawai &nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga &nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Permohonan Tunjangan Keluarga &nbsp;
 												<?php if ($count_see_verifikasi_tj > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU &nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat Permohonan KARIS/KARSU &nbsp;
 												<?php if ($count_see_verifikasi_kaku > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
 												<?php } ?>
@@ -269,14 +269,14 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin &nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin &nbsp;
 													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
 													<?php } ?>
 												</a>
 											</li>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana &nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Keterangan Bebas Tindak Pidana &nbsp;
 													<?php if ($count_see_verifikasi_tp > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
 													<?php } ?>
@@ -502,13 +502,36 @@
 	<script type="text/javascript">
 		function under_maintenance() {
 			$.dialog({
-				icon: 'fa fa-info';
+				icon: 'fa fa-info',
 				title: 'Info',
 				content: 'Sedang dalam pengerjaan...',
 				type: 'red',
 				backgroundDismiss: true
 			});
 		}
+
+		// === begin: main container top menyesuikan tinggi navbar ===
+		$(document).ready(function() {
+			setTimeout(setPadding, 1000);
+		});
+
+		function setPadding() {
+			$defaultNavbarHeight = 50;
+			$navbarHeight = $('.navbar').height();
+			$mainWrapperPadding = 5; //parseInt($(".content-wrapper").css("padding-top"));
+			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
+			console.log($navbarHeight);
+			console.log($newMainWrapperPadding);
+
+			if ($navbarHeight > $defaultNavbarHeight) {
+				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
+			}
+		}
+
+		$(window).resize(function() {
+			setPadding();
+		});
+		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
 </body>

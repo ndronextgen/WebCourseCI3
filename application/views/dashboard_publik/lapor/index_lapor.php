@@ -224,39 +224,42 @@
 											<?php if ($count_see_verifikasi > 0 || $count_see_verifikasi_tj || $count_see_verifikasi_kaku || $count_see_verifikasi_hukdis || $count_see_verifikasi_tp || $count_see_verifikasi_karir) { ?>
 												<span class="badge btn-warning btn-flat">
 													<?php
-													#hanya admin kepegawaian dan sekdis yg bisa akses ini
-													$id_pegawai = $this->session->userdata('id_pegawai');
-													$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
-													$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row(); 
-													if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
-														$verifikasi_surat_admin = $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
-													}
-													echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $verifikasi_surat_admin; ?></span>
+															#hanya admin kepegawaian dan sekdis yg bisa akses ini
+															$id_pegawai = $this->session->userdata('id_pegawai');
+															$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
+															$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
+															$verifikasi_surat_admin = 0;
+															if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
+																$verifikasi_surat_admin = $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+															}
+															echo $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $verifikasi_surat_admin; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
 									<ul class="dropdown-menu">
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Pegawai&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Keterangan Pegawai &nbsp;
 												<?php if ($count_see_verifikasi > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Tunjangan Keluarga&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Permohonan Tunjangan Keluarga &nbsp;
 												<?php if ($count_see_verifikasi_tj > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
 												<?php } ?>
 											</a>
 										</li>
 										<li>
-											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat KARIS/KARSU&nbsp;
+											<a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat Permohonan KARIS/KARSU &nbsp;
 												<?php if ($count_see_verifikasi_kaku > 0) { ?>
 													<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
 												<?php } ?>
 											</a>
 										</li>
+
+
 										<?php
 											#hanya admin kepegawaian dan sekdis yg bisa akses ini
 											$id_pegawai = $this->session->userdata('id_pegawai');
@@ -265,7 +268,7 @@
 											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
 												?>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Hukuman Disiplin&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin &nbsp;
 													<!-- notif -->
 													<?php if ($count_see_verifikasi_hukdis > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
@@ -273,7 +276,7 @@
 												</a>
 											</li>
 											<li>
-												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Tindak Pidana&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Keterangan Bebas Tindak Pidana &nbsp;
 													<!-- notif -->
 													<?php if ($count_see_verifikasi_tp > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
@@ -281,7 +284,7 @@
 												</a>
 											</li>
 											<li class=''>
-												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Pengembangan Karir&nbsp;
+												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir &nbsp;
 													<!-- notif -->
 													<?php if ($count_see_verifikasi_karir > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
@@ -289,6 +292,8 @@
 												</a>
 											</li>
 										<?php } ?>
+
+
 									</ul>
 								</li>
 							<?php } ?>
@@ -717,6 +722,29 @@
 				backgroundDismiss: true
 			});
 		}
+
+		// === begin: main container top menyesuikan tinggi navbar ===
+		$(document).ready(function() {
+			setTimeout(setPadding, 1000);
+		});
+
+		function setPadding() {
+			$defaultNavbarHeight = 50;
+			$navbarHeight = $('.navbar').height();
+			$mainWrapperPadding = 5; //parseInt($(".content-wrapper").css("padding-top"));
+			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
+			console.log($navbarHeight);
+			console.log($newMainWrapperPadding);
+
+			if ($navbarHeight > $defaultNavbarHeight) {
+				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
+			}
+		}
+
+		$(window).resize(function() {
+			setPadding();
+		});
+		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
 </body>
