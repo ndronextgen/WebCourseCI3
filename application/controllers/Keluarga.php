@@ -88,7 +88,7 @@ class Keluarga extends CI_Controller
 					$file = $this->func_table->get_file($path_file, $data_arsip->file_name_ori);
 				}
 			}
-			$row[] = $file; 
+			$row[] = $file;
 			// === end: kolom "file" ===
 
 			$button = ' <a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_keluarga(' . "'" . $r->id_data_keluarga . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>
@@ -435,11 +435,19 @@ class Keluarga extends CI_Controller
 				$data['status'] = FALSE;
 			}
 
-
 			if ($this->input->post('pekerjaan_anggota_keluarga') == '') {
+				// 
 				$data['inputerror'][] = 'pekerjaan_anggota_keluarga';
-				$data['error_string'][] = 'Pekerjaan / Sekolah wajib diisi.';
 				$data['status'] = FALSE;
+				if ($this->input->post('hub_keluarga') == 2) {
+					$data['error_string'][] = 'Pekerjaan / Sekolah wajib diisi.';
+				} else {
+					if ($this->input->post('opt_pns') == 1) {
+						$data['error_string'][] = 'Jabatan / Pekerjaan wajib diisi.';
+					} else if ($this->input->post('opt_pns') == 2) {
+						$data['error_string'][] = 'Pekerjaan wajib diisi.';
+					}
+				}
 			}
 		}
 
