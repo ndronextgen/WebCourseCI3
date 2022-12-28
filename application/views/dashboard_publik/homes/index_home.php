@@ -1173,32 +1173,32 @@
 	</style>
 
 	<script type="text/javascript">
-		// Swal.fire({
-		// 	title: '',
-		// 	icon: 'info',
-		// 	width: 700,
-		// 	html: '<div class="info_pop"><h3 style="font-family: Arial Narrow;color:#2c80f5;font-weight:bold;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
-		// 		'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</div>' +
-		// 		'<hr>' +
-		// 		'<p style="font-weight: bold; color: red;font-size:15px;font-family: Arial Narrow;text-align:left;">Informasi Update Terbaru</p>' +
-		// 		'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
-		// 		'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-		// 		'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-		// 		'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
-		// 		'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
-		// 		'<li>Verifikasi Surat Hukuman Disiplin</li>' +
-		// 		'<li>Verifikasi Surat Tindak Pidana</li>' +
-		// 		'</ol>' +
-		// 		'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
-		// 	customClass: {
-		// 		popup: 'format-pre'
-		// 	},
-		// 	showCloseButton: false,
-		// 	showCancelButton: false,
-		// 	focusConfirm: true,
-		// 	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
-		// 	confirmButtonAriaLabel: 'Thumbs up, great!'
-		// });
+		Swal.fire({
+			title: '',
+			icon: 'info',
+			width: 700,
+			html: '<div class="info_pop"><h3 style="font-family: Arial Narrow;color:#2c80f5;font-weight:bold;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
+				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</div>' +
+				'<hr>' +
+				'<p style="font-weight: bold; color: red;font-size:15px;font-family: Arial Narrow;text-align:left;">Informasi Update Terbaru</p>' +
+				'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
+				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
+				'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
+				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
+				'<li>Verifikasi Surat Tindak Pidana</li>' +
+				'</ol>' +
+				'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
+			customClass: {
+				popup: 'format-pre'
+			},
+			showCloseButton: false,
+			showCancelButton: false,
+			focusConfirm: true,
+			confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
+			confirmButtonAriaLabel: 'Thumbs up, great!'
+		});
 	</script>
 
 	<!-- SSO LIB -->
