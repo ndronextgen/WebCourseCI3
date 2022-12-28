@@ -250,7 +250,7 @@
 											<i class="caret"></i></span>
 									</a>
 									<ul class="dropdown-menu">
-										<li> 
+										<li>
 											<a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Keterangan Pegawai &nbsp;
 												<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
 												<?php if ($count_see_verifikasi > 0) { ?>
@@ -1137,66 +1137,68 @@
 			$('#modal_all').modal('hide');
 		}
 	</script>
-<style>
-	.info_pop{
-		border: none;
-		border-radius: 40px 10px;
-		background: #e0e0de;
-		font-size:16px;
-		font-weight:bold;
-		font-family: "Arial Narrow";
-		padding:10px;
-	}
-	ol {
-  counter-reset: item;
-  list-style-type: none;
-  line-height: 2.2;
-  margin-left: -40px;
-}
+	<style>
+		.info_pop {
+			border: none;
+			border-radius: 40px 10px;
+			background: #e0e0de;
+			font-size: 16px;
+			font-weight: bold;
+			font-family: "Arial Narrow";
+			padding: 10px;
+		}
 
-ol li {
-  list-style-type: none;
-  counter-increment: item;
-}
+		ol {
+			counter-reset: item;
+			list-style-type: none;
+			line-height: 2.2;
+			margin-left: -40px;
+		}
 
-ol li:before {
-  content: counter(item);
-  margin-right: 5px;
-  font-size: 80%;
-  background-color: #f9dd94;
-  color: #7eb4e2;
-  font-weight: bold;
-  padding: 3px 8px;
-  border-radius: 3px;
-}
-</style>
+		ol li {
+			list-style-type: none;
+			counter-increment: item;
+		}
+
+		ol li:before {
+			content: counter(item);
+			margin-right: 5px;
+			font-size: 80%;
+			background-color: #f9dd94;
+			color: #7eb4e2;
+			font-weight: bold;
+			padding: 3px 8px;
+			border-radius: 3px;
+		}
+	</style>
+
 	<script type="text/javascript">
-		 Swal.fire({
-		 	title: '',
-		 	icon: 'info',
-		 	width: 700,
-		 	html: '<div class="info_pop"><h3 style="font-family: Arial Narrow;color:#2c80f5;font-weight:bold;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
-		 		'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</div>' +
-		 		'<hr>' +
-		 		'<p style="font-weight: bold; color: red;font-size:15px;font-family: Arial Narrow;text-align:left;">Informasi Update Terbaru</p>' +
-		 		'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
-		 		'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-		 		'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-		 		'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
-		 		'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
-		 		'<li>Verifikasi Surat Hukuman Disiplin</li>' +
-		 		'<li>Verifikasi Surat Tindak Pidana</li>' +
-		 		'</ol>' +
-		 		'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
-		 	customClass: {
-		 		popup: 'format-pre'
-		 	},
-		 	showCloseButton: false,
-		 	showCancelButton: false,
-		 	focusConfirm: true,
-		 	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
-		 	confirmButtonAriaLabel: 'Thumbs up, great!'
-		 });
+		// Swal.fire({
+		// 	title: '',
+		// 	icon: 'info',
+		// 	width: 700,
+		// 	html: '<div class="info_pop"><h3 style="font-family: Arial Narrow;color:#2c80f5;font-weight:bold;">Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>Kami mengingatkan agar segera melengkapi data-data anda.<br> ' +
+		// 		'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.</div>' +
+		// 		'<hr>' +
+		// 		'<p style="font-weight: bold; color: red;font-size:15px;font-family: Arial Narrow;text-align:left;">Informasi Update Terbaru</p>' +
+		// 		'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
+		// 		'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
+		// 		'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
+		// 		'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
+		// 		'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
+		// 		'<li>Verifikasi Surat Hukuman Disiplin</li>' +
+		// 		'<li>Verifikasi Surat Tindak Pidana</li>' +
+		// 		'</ol>' +
+		// 		'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
+		// 	customClass: {
+		// 		popup: 'format-pre'
+		// 	},
+		// 	showCloseButton: false,
+		// 	showCancelButton: false,
+		// 	focusConfirm: true,
+		// 	confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
+		// 	confirmButtonAriaLabel: 'Thumbs up, great!'
+		// });
 	</script>
 
 	<!-- SSO LIB -->
