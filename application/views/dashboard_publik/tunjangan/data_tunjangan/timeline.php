@@ -71,13 +71,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Verifikasi Admin</p>
+                                        <p  style="background-color: ">Verifikasi Admin</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -91,13 +91,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Verifikasi Kepala Subbagian Kepegawaian</p>
+                                        <p  style="background-color: ">Verifikasi Kepala Subbagian Kepegawaian</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -112,25 +112,25 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Verifikasi Sekretaris Dinas</p>
+                                        <p  style="background-color: ">Verifikasi Sekretaris Dinas</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Selesai</p>
+                                        <p  style="background-color: ">Selesai</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -145,13 +145,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Selesai</p>
+                                        <p  style="background-color: ">Selesai</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -169,13 +169,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Verifikasi Admin</p>
+                                        <p  style="background-color: ">Verifikasi Admin</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -189,13 +189,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Verifikasi Kepala Subbagian</p>
+                                        <p  style="background-color: ">Verifikasi Kepala Subbagian</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
@@ -209,13 +209,13 @@
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
-                                        <p  style="background-color: #aca9b1">Selesai</p>
+                                        <p  style="background-color: ">Selesai</p>
                                     </div>
                                     
                                     <div class="point"></div>
 
                                     <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: #aca9b1;">-</h4>
+                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
                                     </div>
                                 </li>
                                 ';
