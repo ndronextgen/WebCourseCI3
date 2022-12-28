@@ -317,7 +317,7 @@
 								</ul>
 							</li> -->
 
-							<li class=""><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" title="Download Panduan Penggunaan"><i class="icon-home icon-white"></i> Panduan Penggunaan</a></li>
+							<li class=""><a href="<?php echo base_url(); ?>dashboard_publik/download_manualbook" title="Download Panduan Penggunaan"><i class="icon-home icon-white"></i> Panduan</a></li>
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-comment icon-white"></i> Pedoman<b class="caret"></b></a>
@@ -1172,6 +1172,10 @@
 		}
 	</style>
 
+	
+	<!-- '<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
+	'Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>' + -->
+
 	<script type="text/javascript">
 		Swal.fire({
 			title: '',
@@ -1179,7 +1183,7 @@
 			width: 700,
 			html: '<div class="info_pop">' +
 				'<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
-				'Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>' +
+				'</h3>' +
 				'Kami mengingatkan agar segera melengkapi data-data anda.<br>' +
 				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.<br><br>' +
 				'</div>' +
