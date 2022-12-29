@@ -78,7 +78,7 @@
 			processing: 'Memuat...!',
 		},
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			if (aData[8] == "1") {
+			if (aData[8] == "0") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
 				$("td:eq(1)", nRow).css('font-weight', 'bold');

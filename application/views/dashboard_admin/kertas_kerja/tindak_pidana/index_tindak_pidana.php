@@ -311,6 +311,11 @@
 		function batal_form() {
 			$('#modal_all').modal('hide');
 		}
+		function batal_form_selesai() {
+			$('#modal_all').modal('hide');
+			window.location.reload();
+
+		}
 
 		function simpan_pengajuan() {
 

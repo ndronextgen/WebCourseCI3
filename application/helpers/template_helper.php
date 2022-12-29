@@ -111,11 +111,17 @@ function menuAdmin($menuOpen = '')
     $count_surat = 0;
     $count_surat_dari_pegawai = 0;
     $count_laporan = 0;
+    $count_surat_hukdis = 0;
+    $count_surat_tp = 0;
+    $count_surat_karir = 0;
+
     $count_surat_keterangan = countSuratKeterangan();
     $count_surat_tunjangan = countSuratTunjangan();
     $count_surat_kariskarsu = countSuratKariskarsu();
     
     $count_surat_hukdis = countSuratHukdis();
+    $count_surat_tp = countSuratTp();
+    $count_surat_karir = countSuratKarir();
 
     $count_surat_naik_pangkat = countSuratNaikPangkat();
     $count_surat_pensiun = countSuratPensiun();
@@ -123,10 +129,10 @@ function menuAdmin($menuOpen = '')
 
     $count_surat_dari_pegawai = $count_surat_keterangan + $count_surat_tunjangan + $count_surat_kariskarsu;
     //--------
-    $count_surat_dari_admin = $count_surat_hukdis;
-    $count_kebutuhan_pensiun_naikpangkat = $count_surat_hukdis;
+    $count_surat_dari_admin = $count_surat_hukdis + $count_surat_tp + $count_surat_karir;
+    $count_kebutuhan_pensiun_naikpangkat = $count_surat_hukdis + $count_surat_tp;
     //--------
-    $count_surat = $count_surat_keterangan + $count_surat_pengantar + $count_surat_tunjangan + $count_surat_kariskarsu + $count_surat_hukdis;
+    $count_surat = $count_surat_keterangan + $count_surat_pengantar + $count_surat_tunjangan + $count_surat_kariskarsu + $count_surat_hukdis + $count_surat_tp + $count_surat_karir;
 
     $count_laporan_update_data = countLaporanUpdateData();
     $count_laporan_pensiun = countLaporanPensiun();
@@ -390,8 +396,14 @@ function menuAdmin($menuOpen = '')
                                                                                 <i class="flaticon-book"></i>
                                                                             </div>
                                                                             <div class="kt-demo-icon__class">Surat Keterangan Bebas Tindak Pidana</div>
-                                                                        </div>
-                                                                    </span>
+                                                                        </div>';
+                                                                        if ($count_surat_tp > 0) {
+                                                                            echo '<span class="kt-nav__link-badge">
+                                                                                    <span class="kt-badge kt-badge--warning">' . $count_surat_tp . '</span>
+                                                                                </span>';
+                                                                        }
+                                                                        
+                                                                    echo '</span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -419,8 +431,15 @@ function menuAdmin($menuOpen = '')
                                                                     <i class="flaticon-book"></i>
                                                                 </div>
                                                                 <div class="kt-demo-icon__class">Kebutuhan Pengembangan Karir</div>
-                                                            </div>
-                                                        </span>
+                                                            </div>';
+
+                                                            if ($count_surat_karir > 0) {
+                                                                echo '<span class="kt-nav__link-badge">
+                                                                        <span class="kt-badge kt-badge--warning">' . $count_surat_karir . '</span>
+                                                                    </span>';
+                                                            }
+
+                                                        echo '</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1029,29 +1048,100 @@ function countSuratHukdis()
     #admin utama menerima notifikasi ketika
     # status (0,25)
     if ($cek_admin_utama->jml_admin_utama > 0) { 
-        $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress='25')";
+        $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
     #admun wilayah
     # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
-        $kondisi = " AND a.Status_progress in ('21','22','23','24','25','26','3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+        $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
     } else {
         $kondisi = " AND a.Status_progress = 'XX'";
     }
     $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
-    (
-        SELECT
-                                    a.Hukdis_id, a.Created_by, a.Status_progress, jml, id_view
-                                FROM
-                                    tr_hukdis AS a
-                                LEFT JOIN ( 
-                                    SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_hukdis_see 
-                                    WHERE id_view = '$username_id'
-                                    GROUP BY id_view, id_srt 
+                                (
+                                    SELECT
+                                        a.Hukdis_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_hukdis AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_hukdis_see 
+                                        WHERE id_view = '$username_id'
+                                        GROUP BY id_view, id_srt, id_status_srt 
                                 ) AS see ON see.id_srt = a.Hukdis_id AND see.id_status_srt = a.Status_progress 
                                 WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
     return $Query->jumlah;
 }
 
+function countSuratTp()
+{
+    $CI = &get_instance();
+    $CI->load->database();
+    $username_id=$CI->session->userdata('username');
+    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+    $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                            WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
+
+    #admin utama menerima notifikasi ketika
+    # status (0,25)
+    if ($cek_admin_utama->jml_admin_utama > 0) { 
+        $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+    #admun wilayah
+    # status (21,22,23,24,25,26,3)
+    } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+        $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+    } else {
+        $kondisi = " AND a.Status_progress = 'XX'";
+    }
+    $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Tindak_pidana_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_tindak_pidana AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_tindak_pidana_see 
+                                        WHERE id_view = '$username_id'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                ) AS see ON see.id_srt = a.Tindak_pidana_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+    return $Query->jumlah;
+}
+
+function countSuratKarir()
+{
+    $CI = &get_instance();
+    $CI->load->database();
+    $username_id=$CI->session->userdata('username');
+    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+    $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                            WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
+
+    #admin utama menerima notifikasi ketika
+    # status (0,25)
+    if ($cek_admin_utama->jml_admin_utama > 0) { 
+        $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+    #admun wilayah
+    # status (21,22,23,24,25,26,3)
+    } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+        $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+    } else {
+        $kondisi = " AND a.Status_progress = 'XX'";
+    }
+    $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Pengembangan_karir_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pengembangan_karir AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pengembangan_karir_see 
+                                        WHERE id_view = '$username_id'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                ) AS see ON see.id_srt = a.Pengembangan_karir_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+    return $Query->jumlah;
+}
 
 function countSuratNaikPangkat()
 {

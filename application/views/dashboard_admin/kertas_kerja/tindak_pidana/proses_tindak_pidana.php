@@ -114,12 +114,20 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
             <div class="col-sm-12">
                 <div class="form-group">
                     <input type='hidden' name='Tindak_pidana_id' value='<?php echo $Tindak_pidana_id; ?>'>
-                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan Verifikasi Surat TIndak Pidana</button>&nbsp;&nbsp;
+                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan & Kirim Ketahapan Selanjutnya</button>&nbsp;&nbsp;
                     <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
     </form>
+<?php } elseif($Data_tindak_pidana->Status_progress == '3') { ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
 <?php } else { ?>
     <div class="row">
         <div class="col-sm-12">
@@ -133,7 +141,7 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
             </div>
         </div>
     </div>
