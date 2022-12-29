@@ -1541,7 +1541,7 @@ class Func_table
 
             if (strtolower($ext) == 'pdf') {
                 $file = '	<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:void(0);">
-                                <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
+                                <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-file"></i> &nbsp; PDF &nbsp;</button>
                             </a>';
             } else {
                 $file = '	<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">
@@ -1561,7 +1561,7 @@ class Func_table
 
             if (strtolower($ext) == 'pdf') {
                 $file = '	<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:void(0);">
-                                <button type="button" class="btn btn-danger btn-sm" title="' . $file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
+                                <button type="button" class="btn btn-danger btn-sm" title="' . $file_name_ori . '"><i class="fa fa-file"></i> &nbsp; PDF</button>
                             </a>';
             } else {
                 $file = '	<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">

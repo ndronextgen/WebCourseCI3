@@ -1,3 +1,9 @@
+<style type="text/css">
+    .error {
+        border: solid 2px #FF0000;
+    }
+</style>
+
 <?php $Date_now = date('Y-m-d'); ?>
 
 <!-- <div class="box box-info"> -->
@@ -255,6 +261,20 @@
                 return false;
             }
         });
-        // === end: numeric input only ===
+        // === end: numeric input only === 
     })
+
+    // $('#Orientasi_pelayanan').blur(function() {
+    //     if ($.isNumeric($('#Orientasi_pelayanan').val())) {
+    //         if ($('#Orientasi_pelayanan').val() > 100) {
+    //             alert('Nilai tidak bisa lebih dari 100');
+    //             $('#Orientasi_pelayanan').addClass("error");
+    //         } else {
+    //             $('#Orientasi_pelayanan').removeClass("error");
+    //         }
+    //     } else {
+    //         alert('Silahkan input angka.');
+    //         $('#Orientasi_pelayanan').addClass("error");
+    //     }
+    // });
 </script>
