@@ -15,7 +15,7 @@ class Data_pengembangan_karir extends CI_Controller
 		$this->load->helper('template');
 		$this->load->helper('file');
 		$this->load->library('func_table');
-		//$this->load->library('func_wa_hukdis');
+		$this->load->library('func_wa_pengembangan_karir');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_pengembangan_karir', 'pengembangan_karir');
 		$this->load->library('upload');
@@ -64,6 +64,7 @@ class Data_pengembangan_karir extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
+			$see = $this->func_table->see_admin_karir($username, $key->Pengembangan_karir_id);
 			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pengembangan_karir/download_surat/' . $key->Pengembangan_karir_id . '" href="javascript:void(0);">
 										<i class="fa fa-file"></i> Download
 								</a>';
@@ -73,6 +74,17 @@ class Data_pengembangan_karir extends CI_Controller
 			$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
 							</a>';
+			
+			if($see=='0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')){
+				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
+								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
+							</a>';
+			} else {
+				
+				$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
+								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
+							</a>';
+			}
 			$button_edit = '<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-edit" style="color:#fff !important;"></i> &nbsp;Edit
 							</a>';
@@ -88,7 +100,7 @@ class Data_pengembangan_karir extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
-			$see = $this->func_table->see_admin_karir($username, $key->Pengembangan_karir_id);
+			
 
 			$row[] = $no;
 			$row[] = $button;
@@ -236,7 +248,7 @@ class Data_pengembangan_karir extends CI_Controller
 			if ($Q_insert) {
 				#wa/email to pegawai
 				#wa/email to admin bersangkutan
-				//$send_notif_hd_pegawai 	= $this->func_wa_hukdis->notif_hd_admin_tambah($Pengembangan_karir_id);
+				$send_notif_karir_pegawai 	= $this->func_wa_pengembangan_karir->notif_karir_admin_tambah($Pengembangan_karir_id);
 			}
 			#end wa/email
 			$status = true;
@@ -418,24 +430,22 @@ class Data_pengembangan_karir extends CI_Controller
 
 
 
-		if ($Data_pengembangan_karir->is_dinas == '1' and ($Data_pengembangan_karir->Status_progress == '0' || $Data_pengembangan_karir->Status_progress == '25' || $Data_pengembangan_karir->Status_progress == '28')) { //bidang dan sekretariat
+		if (($Data_pengembangan_karir->Status_progress == '0' || $Data_pengembangan_karir->Status_progress == '25' || $Data_pengembangan_karir->Status_progress == '28')) { //bidang dan sekretariat
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_pengembangan_karir->is_dinas == '1' and $Data_pengembangan_karir->Status_progress == '21') { //diverifikasi admin
+		} else if ($Data_pengembangan_karir->Status_progress == '21') { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_pengembangan_karir->is_dinas == '1' and $Data_pengembangan_karir->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_pengembangan_karir->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
-		} else if ($Data_pengembangan_karir->is_dinas != '1' and $Data_pengembangan_karir->Status_progress == '0') { //diverifikasi admin
+		} else if ($Data_pengembangan_karir->Status_progress == '0') { //diverifikasi admin
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_pengembangan_karir->is_dinas != '1' and $Data_pengembangan_karir->Status_progress == '21') { //diverifikasi kaksubbag terkait
-			$terima = "27";
-			$tolak = "28";
-		} else if ($Data_pengembangan_karir->is_dinas != '1' and ($Data_pengembangan_karir->Status_progress == '0' || $Data_pengembangan_karir->Status_progress == '25' || $Data_pengembangan_karir->Status_progress == '28')) { //diverifikasi admin
-			$terima = "21";
-			$tolak = "24";
+		} else if ($Data_pengembangan_karir->Status_progress == '3') { //selesai hanya view aja
+			$terima = "3";
+			$tolak = "3";
+			$this->func_table->in_tosee_karir($Data_pengembangan_karir->Created_by, $Pengembangan_karir_id, $Data_pengembangan_karir->Status_progress, $username);
 		} else {
 			$terima = "2";
 			$tolak = "1";
@@ -540,7 +550,7 @@ class Data_pengembangan_karir extends CI_Controller
 					if ($this->db->insert('tr_pengembangan_karir_triger', $data_triger)) {
 						$status = true;
 						//$see = $this->func_table->in_tosee_kaku($surat->Created_by, $Kariskarsu_id, $status_verify, $this->session->userdata("username"));
-						//$send_notif_hd = $this->func_wa_hukdis->notif_hd_update($Pengembangan_karir_id);
+						$send_notif_karir = $this->func_wa_pengembangan_karir->notif_karir_update($Pengembangan_karir_id);
 					} else {
 						$message = 'Gagal menyimpan data.';
 					}
@@ -671,8 +681,8 @@ class Data_pengembangan_karir extends CI_Controller
 				$mpdf->Output($Data->nama_pegawai . '.pdf', 'I');
 
 				// === read notif ===
-				// $username = $this->session->userdata('username');
-				// $this->func_table->in_tosee_tj($p->Created_by, $Tunjangan_id, $p->Status_progress, $username);
+				$username = $this->session->userdata('username');
+				$this->func_table->in_tosee_tj($p->Created_by, $Pengembangan_karir_id, $p->Status_progress, $username);
 			} else {
 				echo 'Request tidak valid.1';
 			}

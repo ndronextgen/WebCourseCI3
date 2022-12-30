@@ -742,21 +742,44 @@ class Func_table
     {
 
         $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
-                                        if(isnull(fa.user_create),0,1) as status_view
-                                    FROM
-                                        tr_hukdis as a
-                                    LEFT JOIN (
-                                        SELECT
-                                            b.Id, b.user_create, b.id_srt, b.id_view,
-                                            b.tgl_view, b.id_status_srt, b.tgl_update
-                                        FROM
-                                            tr_hukdis_see as b
-                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
-                                    ) AS fa ON fa.id_srt = a.Hukdis_id AND fa.id_status_srt = a.Status_progress
-                                    WHERE a.Hukdis_id='$id_surat'")->row();
+        $username_id=$CI->session->userdata('username');
+        $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+        $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+        $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                                WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
-        return $Query->status_view;
+        #admin utama menerima notifikasi ketika
+        # status (0,25)
+        if ($cek_admin_utama->jml_admin_utama > 0) { 
+            $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
+        } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+            $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Hukdis_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_hukdis AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_hukdis_see 
+                                        -- WHERE id_view = '$username_id'
+                                        WHERE id_view = '$id' AND id_srt='$id_surat'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                    ) AS see ON see.id_srt = a.Hukdis_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) AND a.Hukdis_id='$id_surat' $kondisi ) AS DATA")->row();
+        #kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
+        # jika 0 maka tidak ada notif baru dab status view dijadikan 1 supaya tidak ada notif
+        if($Query->jumlah > 0){
+            $status_view = '0';
+        } else {
+            $status_view = '1';
+        }
+        return $status_view;
     }
 
     function in_tosee_hukdis($id, $id_surat, $status_surat, $id_view)
@@ -845,23 +868,45 @@ class Func_table
     #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
     function see_admin_tp($id, $id_surat)
     {
-
         $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
-                                        if(isnull(fa.user_create),0,1) as status_view
-                                    FROM
-                                        tr_tindak_pidana as a
-                                    LEFT JOIN (
-                                        SELECT
-                                            b.Id, b.user_create, b.id_srt, b.id_view,
-                                            b.tgl_view, b.id_status_srt, b.tgl_update
-                                        FROM
-                                            tr_tindak_pidana_see as b
-                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
-                                    ) AS fa ON fa.id_srt = a.Tindak_pidana_id AND fa.id_status_srt = a.Status_progress
-                                    WHERE a.Tindak_pidana_id='$id_surat'")->row();
+        $username_id=$CI->session->userdata('username');
+        $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+        $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+        $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                                WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
-        return $Query->status_view;
+        #admin utama menerima notifikasi ketika
+        # status (0,25)
+        if ($cek_admin_utama->jml_admin_utama > 0) { 
+            $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
+        } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+            $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Tindak_pidana_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_tindak_pidana AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_tindak_pidana_see 
+                                        -- WHERE id_view = '$username_id'
+                                        WHERE id_view = '$id' AND id_srt='$id_surat'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                    ) AS see ON see.id_srt = a.Tindak_pidana_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) AND a.Tindak_pidana_id='$id_surat' $kondisi ) AS DATA")->row();
+        # kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
+        # jika 0 maka tidak ada notif baru dab status view dijadikan 1 supaya tidak ada notif
+        if($Query->jumlah > 0){
+            $status_view = '0';
+        } else {
+            $status_view = '1';
+        }
+        return $status_view;
     }
 
     function in_tosee_tp($id, $id_surat, $status_surat, $id_view)
@@ -950,23 +995,44 @@ class Func_table
     #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
     function see_admin_karir($id, $id_surat)
     {
-
         $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
-                                        if(isnull(fa.user_create),0,1) as status_view
-                                    FROM
-                                        tr_pengembangan_karir as a
-                                    LEFT JOIN (
-                                        SELECT
-                                            b.Id, b.user_create, b.id_srt, b.id_view,
-                                            b.tgl_view, b.id_status_srt, b.tgl_update
-                                        FROM
-                                            tr_pengembangan_karir_see as b
-                                        WHERE b.id_view = '$id' AND b.id_srt='$id_surat'
-                                    ) AS fa ON fa.id_srt = a.Pengembangan_karir_id AND fa.id_status_srt = a.Status_progress
-                                    WHERE a.Pengembangan_karir_id='$id_surat'")->row();
+        $username_id=$CI->session->userdata('username');
+        $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+        $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+        $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                                WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
-        return $Query->status_view;
+        #admin utama menerima notifikasi ketika
+        # status (0,25)
+        if ($cek_admin_utama->jml_admin_utama > 0) { 
+            $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
+        } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+            $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Pengembangan_karir_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pengembangan_karir AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pengembangan_karir_see 
+                                        WHERE id_view = '$id' AND id_srt='$id_surat'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                    ) AS see ON see.id_srt = a.Pengembangan_karir_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) AND a.Pengembangan_karir_id='$id_surat' $kondisi ) AS DATA")->row();
+        # kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
+        # jika 0 maka tidak ada notif baru dab status view dijadikan 1 supaya tidak ada notif
+        if($Query->jumlah > 0){
+            $status_view = '0';
+        } else {
+            $status_view = '1';
+        }
+        return $status_view;
     }
 
     function in_tosee_karir($id, $id_surat, $status_surat, $id_view)
@@ -1198,7 +1264,7 @@ class Func_table
         $kode =  sprintf("%04s", $Nur);
         //[nomor_urut]/KG.11.04/D
         //$nomorbaru = $Nur . "/SE/" . $Tahun;
-        $nomorbaru = $Nur . "/KG.9.00/D";
+        $nomorbaru = $Nur . "/KG.04.01/D";
 
         $Query_update = $CI->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_pengembangan_karir = Nomor_terakhir_pengembangan_karir + 1");
 

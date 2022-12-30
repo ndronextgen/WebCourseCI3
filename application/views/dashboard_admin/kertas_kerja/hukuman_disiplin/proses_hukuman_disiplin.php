@@ -1,7 +1,7 @@
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h5 class="panel-title"><a data-toggle="collapse" href="#detail_pengaduan"><i class="fa fa-angle-double-right"></i> Detail Surat Tunjangan</a></h5>
+            <h5 class="panel-title"><a data-toggle="collapse" href="#detail_pengaduan"><i class="fa fa-angle-double-right"></i> Detail Surat Hukuman Disiplin</a></h5>
         </div>
         <div id="detail_pengaduan" class="panel-collapse expand collapse show">
 
@@ -119,12 +119,20 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
             <div class="col-sm-12">
                 <div class="form-group">
                     <input type='hidden' name='Hukdis_id' value='<?php echo $Hukdis_id; ?>'>
-                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_hukdis()"><i class="fa fa-save"></i> Simpan Verifikasi Pengajuan Surat Hukuman Disiplin</button>&nbsp;&nbsp;
+                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_hukdis()"><i class="fa fa-save"></i> Simpan & Kirim Ketahap Selanjutnya</button>&nbsp;&nbsp;
                     <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
     </form>
+<?php } elseif($Data_hukdis->Status_progress == '3') { ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
 <?php } else { ?>
     <div class="row">
         <div class="col-sm-12">
@@ -138,7 +146,7 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
             </div>
         </div>
     </div>

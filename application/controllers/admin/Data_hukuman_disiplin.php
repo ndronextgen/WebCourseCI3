@@ -64,15 +64,24 @@ class Data_hukuman_disiplin extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
+			$see = $this->func_table->see_admin_hukdis($username, $key->Hukdis_id);
 			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" href="javascript:void(0);">
 										<i class="fa fa-file"></i> Download
 								</a>';
 			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" target="_blank">
 			// 							<i class="fa fa-file"></i> Download
 			// 					</a>';
-			$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
-								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
+			if($see=='0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')){
+				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
 							</a>';
+			} else {
+				
+				$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+							<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
+						</a>';
+			}
+			
 			$button_edit = '<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-edit" style="color:#fff !important;"></i> &nbsp;Edit
 							</a>';
@@ -88,12 +97,7 @@ class Data_hukuman_disiplin extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
-			$see = $this->func_table->see_admin_hukdis($username, $key->Hukdis_id);
-			// if ($key->Status_progress == '0') {
-			// 	$see = '1';
-			// } else {
-			// 	$see = '0';
-			// }
+			
 
 			$row[] = $no;
 			$row[] = $button;
@@ -102,7 +106,6 @@ class Data_hukuman_disiplin extends CI_Controller
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
 			$row[] = $see;
-
 			$data[] = $row;
 		}
 		$output = array(
@@ -416,24 +419,22 @@ class Data_hukuman_disiplin extends CI_Controller
 
 
 
-		if ($Data_hukdis->is_dinas == '1' and ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28')) { //bidang dan sekretariat
+		if (($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28')) { //bidang dan sekretariat
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_hukdis->is_dinas == '1' and $Data_hukdis->Status_progress == '21') { //diverifikasi admin
+		} else if ($Data_hukdis->Status_progress == '21') { //diverifikasi admin
 			$terima = "22";
 			$tolak = "25";
-		} else if ($Data_hukdis->is_dinas == '1' and $Data_hukdis->Status_progress == '22') { //diverifikasi kepegawaian
+		} else if ($Data_hukdis->Status_progress == '22') { //diverifikasi kepegawaian
 			$terima = "23";
 			$tolak = "26";
-		} else if ($Data_hukdis->is_dinas != '1' and $Data_hukdis->Status_progress == '0') { //diverifikasi admin
+		} else if ($Data_hukdis->Status_progress == '0') { //diverifikasi admin
 			$terima = "21";
 			$tolak = "24";
-		} else if ($Data_hukdis->is_dinas != '1' and $Data_hukdis->Status_progress == '21') { //diverifikasi kaksubbag terkait
-			$terima = "27";
-			$tolak = "28";
-		} else if ($Data_hukdis->is_dinas != '1' and ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28')) { //diverifikasi admin
-			$terima = "21";
-			$tolak = "24";
+		} else if ($Data_hukdis->Status_progress == '3') { //selesai hanya view aja
+			$terima = "3";
+			$tolak = "3";
+			$this->func_table->in_tosee_hukdis($Data_hukdis->Created_by, $Hukdis_id, $Data_hukdis->Status_progress, $username);
 		} else {
 			$terima = "2";
 			$tolak = "1";
@@ -671,8 +672,8 @@ class Data_hukuman_disiplin extends CI_Controller
 				$mpdf->Output($Data->nama_pegawai . '.pdf', 'I');
 
 				// === read notif ===
-				// $username = $this->session->userdata('username');
-				// $this->func_table->in_tosee_tj($p->Created_by, $Tunjangan_id, $p->Status_progress, $username);
+				$username = $this->session->userdata('username');
+				$this->func_table->in_tosee_hukdis($p->Created_by, $Hukdis_id, $p->Status_progress, $username);
 			} else {
 				echo 'Request tidak valid.1';
 			}
