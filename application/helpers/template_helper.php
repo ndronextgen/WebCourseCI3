@@ -430,7 +430,7 @@ function menuAdmin($menuOpen = '')
                                                                 <div class="kt-demo-icon__preview">
                                                                     <i class="flaticon-book"></i>
                                                                 </div>
-                                                                <div class="kt-demo-icon__class">Kebutuhan Pengembangan Karir</div>
+                                                                <div class="kt-demo-icon__class">Kebutuhan Pengembangan Karir (Izin/Tugas Belajar)</div>
                                                             </div>';
 
                                                             if ($count_surat_karir > 0) {
