@@ -61,10 +61,10 @@
                     </div>
                 </li>
                     ';
-                    }
 
-                    if ($data->id_status == 24 or $data->id_status == 25 or $data->id_status == 26 or $data->id_status == 28) {
-                        goto exit_1;
+                        if ($data->id_status == 24 or $data->id_status == 25 or $data->id_status == 26 or $data->id_status == 28) {
+                            goto exit_1;
+                        }
                     }
 
                     // $id_srt = $data->id_srt;
