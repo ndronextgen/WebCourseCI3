@@ -221,7 +221,7 @@
 															if ($surat->id_status_srt == 0 || $surat->id_status_srt == 25 || $surat->id_status_srt == 28) {
 																//menunggu
 																//echo '<button type="button" id="btnProses" class="btn btn-brand"><i class="flaticon-notes"></i> Proses</button>&nbsp;&nbsp;';
-																echo '<a href="javascript:;" onclick="proses_data('.$surat->id_srt.')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
+																echo '<a id="btn_prss" href="javascript:;" onclick="proses_data('.$surat->id_srt.')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
 															}
 															else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
 																if($surat->select_ttd=='basah'){
@@ -275,13 +275,16 @@ function proses_data(Id) {
 		data:{
             Id: Id
 		},
+		beforeSend: function() {
+			$('#btn_prss').prop("disabled", true);
+		},
 		success: function(data) {
 			$('#modal_all_small .modal-dialog .modal-content .modal-body').html(data);
 		}
 	});
 	$('#modal_all_small').modal('show'); // show bootstrap modal
 	$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
-	//alert('a');
+	//alert('a'); 
 }
 function batal_form() {
     $('#modal_all_small').modal('hide');
