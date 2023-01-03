@@ -57,19 +57,18 @@
                         if ($data->id_status == 24 or $data->id_status == 25 or $data->id_status == 26 or $data->id_status == 28) {
                             goto exit_1;
                         }
-                    }
 
-                    // $id_srt = $data->id_srt;
-                    // $sSQL = "SELECT is_dinas from tbl_data_srt_ket where id_srt = '$id_srt'";
-                    // $is_dinas = $this->db->query($sSQL)->row()->is_dinas;
+                        // $id_srt = $data->id_srt;
+                        // $sSQL = "SELECT is_dinas from tbl_data_srt_ket where id_srt = '$id_srt'";
+                        // $is_dinas = $this->db->query($sSQL)->row()->is_dinas;
 
-                    switch ($data->is_dinas) {
-                        case 1:
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '24'    // ditolak admin
-                            ) {
-                                echo '
+                        switch ($data->is_dinas) {
+                            case 1:
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '24'    // ditolak admin
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -84,13 +83,13 @@
                                     </div>
                                 </li>
                                 ';
-                            }
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '21' or // Diverifikasi admin
-                                $data->id_status == '25'    // ditolak kasubbag kepegawaian
-                            ) {
-                                echo '
+                                }
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '21' or // Diverifikasi admin
+                                    $data->id_status == '25'    // ditolak kasubbag kepegawaian
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -104,14 +103,14 @@
                                     </div>
                                 </li>
                                 ';
-                            }
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '21' or // Diverifikasi admin
-                                $data->id_status == '22' or // Diverifikasi kasubbag
-                                $data->id_status == '26'    // ditolak sekdis
-                            ) {
-                                echo '
+                                }
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '21' or // Diverifikasi admin
+                                    $data->id_status == '22' or // Diverifikasi kasubbag
+                                    $data->id_status == '26'    // ditolak sekdis
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -137,14 +136,14 @@
                                     </div>
                                 </li>
                                 ';
-                            }
-                            if (
-                                // $data->id_status == '0' or  // menunggu
-                                // $data->id_status == '21' or // Diverifikasi admin
-                                // $data->id_status == '22' or // Diverifikasi kasubbag
-                                $data->id_status == '23'    // Diverifikasi sekdis
-                            ) {
-                                echo '
+                                }
+                                if (
+                                    // $data->id_status == '0' or  // menunggu
+                                    // $data->id_status == '21' or // Diverifikasi admin
+                                    // $data->id_status == '22' or // Diverifikasi kasubbag
+                                    $data->id_status == '23'    // Diverifikasi sekdis
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -158,17 +157,17 @@
                                     </div>
                                 </li>
                                 ';
-                            }
+                                }
 
-                            break;
+                                break;
 
-                        case 0:
-                        case 2:
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '24'    // ditolak admin
-                            ) {
-                                echo '
+                            case 0:
+                            case 2:
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '24'    // ditolak admin
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -182,13 +181,13 @@
                                     </div>
                                 </li>
                                 ';
-                            }
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '21' or // Diverifikasi admin
-                                $data->id_status == '28'    // ditolak kasubbag
-                            ) {
-                                echo '
+                                }
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '21' or // Diverifikasi admin
+                                    $data->id_status == '28'    // ditolak kasubbag
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -202,13 +201,13 @@
                                     </div>
                                 </li>
                                 ';
-                            }
-                            if (
-                                $data->id_status == '0' or  // menunggu
-                                $data->id_status == '21' or // Diverifikasi admin
-                                $data->id_status == '27'    // Diverifikasi kasubbag
-                            ) {
-                                echo '
+                                }
+                                if (
+                                    $data->id_status == '0' or  // menunggu
+                                    $data->id_status == '21' or // Diverifikasi admin
+                                    $data->id_status == '27'    // Diverifikasi kasubbag
+                                ) {
+                                    echo '
                                 <li class="ul-li-timeline">
                                     <div class="content">
                                         <h3>-</h3>
@@ -222,11 +221,11 @@
                                     </div>
                                 </li>
                                 ';
-                            }
+                                }
 
-                            break;
+                                break;
+                        }
                     }
-
                     exit_1:
                 }
                 ?>
