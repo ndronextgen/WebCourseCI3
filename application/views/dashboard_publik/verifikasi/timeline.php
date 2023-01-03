@@ -55,7 +55,7 @@
                     ';
 
                         $data_id_status = $data->id_status;
-                        $data_is_dinas = $data_is_dinas;
+                        $data_is_dinas = $data->is_dinas;
                     }
 
                     if ($data_id_status == 24 or $data_id_status == 25 or $data_id_status == 26 or $data_id_status == 28) {
