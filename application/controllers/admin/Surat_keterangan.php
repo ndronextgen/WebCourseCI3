@@ -889,7 +889,7 @@ class Surat_keterangan extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 

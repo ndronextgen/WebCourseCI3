@@ -2547,9 +2547,9 @@ function headerTitle()
                         (date_add(str_to_date(substring(nip,1,8), '%Y%m%d'), interval 58 year))
                     )
                     , INTERVAL 12 MONTH) <= CURRENT_DATE(),'1', '0') as kuning,
-                lokasi_kerja 
+                lokasi_kerja, status_pegawai 
         from tbl_data_pegawai) a 
-        where a.masa_pensiun > 0  $cond
+        where a.masa_pensiun > 0 AND a.status_pegawai NOT IN (1 ,10)  $cond
         order by a.tgl_pensiun asc) DATA
         WHERE DATA.kuning = '1'")->row();
 
@@ -2584,6 +2584,7 @@ function headerTitle()
     where c.id_pangkat is not null 
     order by kuning DESC) DATA
             WHERE DATA.kuning ='1'")->row();
+
     //return $q->jumlah;
     echo '<div class="kt-subheader kt-grid__item" id="kt_subheader" style="margin-bottom: 35px;">
         <div class="kt-container ">

@@ -161,6 +161,19 @@
 	<link rel="stylesheet" href="<?= base_url('asset/timeline-master/style.css'); ?>">
 	<!-- END: PROGRESS TIMELINE -->
 
+	<!-- jquery-confirm -->
+	<link rel="stylesheet" href="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.css'); ?>">
+	<script src="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
+
+	<!-- css badge status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">
@@ -526,9 +539,32 @@
 				data: formData,
 				processData: false,
 				contentType: false,
+				before: function() {
+					$('btn_tmb').attr('disabled', true);
+				},
 				success: function(response) {
 					$('#modal_all').modal('hide');
-					alert(response);
+					// alert(response);
+					// reload_table();
+
+					const result = JSON.parse(response);
+					$.confirm({
+						icon: (result.status == true) ? 'fa fa-info' : 'fa fa-warning',
+						title: (result.status == true) ? 'Info' : 'Gagal',
+						content: result.message,
+						type: (result.status == true) ? 'green' : 'red',
+						buttons: {
+							ok: {
+								text: 'OK',
+								btnClass: (result.status == true) ? 'btn-green' : 'btn-red',
+								action: function() {
+									$('btn-tmb').attr('disabled', false);
+									reload_table();
+								}
+							}
+						}
+					})
+
 					reload_table();
 				}
 			});
@@ -581,8 +617,8 @@
 			$navbarHeight = $('.navbar').height();
 			$mainWrapperPadding = 5; //parseInt($(".content-wrapper").css("padding-top"));
 			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
-			console.log($navbarHeight);
-			console.log($newMainWrapperPadding);
+			// console.log($navbarHeight);
+			// console.log($newMainWrapperPadding);
 
 			if ($navbarHeight > $defaultNavbarHeight) {
 				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
@@ -593,6 +629,24 @@
 			setPadding();
 		});
 		// === end: main container top menyesuikan tinggi navbar ===
+
+		// begin: progress timeline joe 2023.01.02
+		function showTimeline(id_srt) {
+			$.ajax({
+				url: "<?php echo site_url('verifikasi/show_timeline'); ?>",
+				type: "POST",
+				data: {
+					id_srt: id_srt
+				},
+				success: function(data) {
+					$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('.modal-footer').hide(); // show bootstrap modal
+			$('#modal_all_md').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
+		}
+		// end: progress timeline joe 2023.01.02
 	</script>
 
 </body>
