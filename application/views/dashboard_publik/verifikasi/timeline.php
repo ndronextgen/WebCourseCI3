@@ -27,6 +27,8 @@
 
                 <?php
                 if (isset($data_history)) {
+                    $data_id_status = '';
+                    $data_is_dinas = '';
                     foreach ($data_history as $data) {
                         $nama_user = ucwords(strtolower($this->func_table->removeTitleFromName($data->nama_pegawai)));
                         echo '
