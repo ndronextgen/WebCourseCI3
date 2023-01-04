@@ -4,6 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Verifikasi extends CI_Controller
 {
+	
+	/*
+		***	Controller : Verifikasi.php
+	*/
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -327,6 +332,9 @@ class Verifikasi extends CI_Controller
 
 	function simpan_verifikasi_kep()
 	{
+		$status = false;
+		$message = '';
+
 		$Id 			= $this->input->post('Id'); //id surat
 		$username 		= $this->session->userdata('username');
 		$status_verify 	= $this->input->post('status_verify');
@@ -357,13 +365,11 @@ class Verifikasi extends CI_Controller
 			$hist_srt['id_status_srt'] = $status_verify;
 			$hist_srt['keterangan_ditolak'] = $alasan_ditolak;
 			if ($this->db->insert('tbl_history_srt_ket', $hist_srt)) {
-				$status = true;
 				$see = $this->func_table->in_tosee_sk($Q_select->id_user, $Id, $status_verify, $this->session->userdata("id_user"));
-				$message = 'Berhasil verifikasi.';
 				$status = true;
+				$message = 'Berhasil verifikasi.';
 			} else {
 				$message = 'Gagal verifikasi.';
-				$status = false;
 			}
 
 			if ($Q_select->select_ttd == 'digital' and ($status_verify == '23' || $status_verify == '27')) {
@@ -380,7 +386,6 @@ class Verifikasi extends CI_Controller
 			$send_notif_sk 	= $this->func_wa_sk->notif_sk_update($Id);
 		} else {
 			$message = 'Gagal verifikasi.';
-			$status = false;
 		}
 		// echo $message;
 
@@ -390,8 +395,6 @@ class Verifikasi extends CI_Controller
 		];
 		echo json_encode($result);
 	}
-
-
 
 	function form_detail()
 	{
@@ -540,3 +543,5 @@ class Verifikasi extends CI_Controller
 		$this->load->view('dashboard_publik/verifikasi/timeline', $a);
 	}
 }
+// End of file Verifikasi.php
+// Location: ./application/controllers/Verifikasi.php
