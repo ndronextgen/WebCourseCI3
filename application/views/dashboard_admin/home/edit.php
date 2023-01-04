@@ -1735,27 +1735,26 @@
 		// alert(yy);
 		$("#status_pegawai").change(function() {
 			var speg = $("#status_pegawai").val();
-
-
 			if (speg === "1" || speg === "10") {
 				// $("#id_golongan").val('0');
-				// $("#id_golongan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_golongan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_status_jabatan").val('0');
-				// $("#id_status_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_status_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_rumpun_jabatan").val('0');
-				// $("#id_rumpun_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_rumpun_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_jabatan").val('0');
-				// $("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#lokasi_kerja").val('0');
-				// $("#lokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#lokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#sublokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#seksi").val('0');
-				// $("#seksi").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#seksi").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_eselon").val('0');
-				// $("#id_eselon").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_eselon").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_jabatan").val('0');
-				// $("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#tanggal_mulai_pangkat").val('');
-				// $("#tanggal_mulai_pangkat").addClass("avoid-clicks");
+				$("#tanggal_mulai_pangkat").addClass("avoid-clicks");
 			} else {
 				$("#id_golongan").val('0');
 				$("#id_golongan").selectpicker('refresh').trigger('change').attr('disabled', false);
@@ -1776,7 +1775,6 @@
 				$("#tanggal_mulai_pangkat").val('');
 				$("#tanggal_mulai_pangkat").removeClass("avoid-clicks");
 			}
-
 		});
 		$(document).ready(function() {
 			//onload
@@ -1784,23 +1782,24 @@
 			//alert(speg);
 			if (speg === "1" || speg === "10") {
 				// $("#id_golongan").val('0');
-				// $("#id_golongan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_golongan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_status_jabatan").val('0');
-				// $("#id_status_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_status_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_rumpun_jabatan").val('0');
-				// $("#id_rumpun_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_rumpun_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_jabatan").val('0');
-				// $("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#lokasi_kerja").val('0');
-				// $("#lokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#lokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#sublokasi_kerja").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#seksi").val('0');
-				// $("#seksi").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#seksi").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_eselon").val('0');
-				// $("#id_eselon").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_eselon").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#id_jabatan").val('0');
-				// $("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
+				$("#id_jabatan").selectpicker('refresh').trigger('change').attr('disabled', true);
 				// $("#tanggal_mulai_pangkat").val('');
-				// $("#tanggal_mulai_pangkat").addClass("avoid-clicks");
+				$("#tanggal_mulai_pangkat").addClass("avoid-clicks");
 			}
 		});
 
