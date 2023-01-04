@@ -704,7 +704,7 @@ class Surat_keterangan extends CI_Controller
 
 						// == read notif ===
 						$this->func_table->in_tosee_sk($p->id_user, $p->id_srt, $p->id_status_srt, $p->id_user);
-						
+
 						$this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/export_digital', $d);
 					} else {
 						echo 'Request tidak valid.';
