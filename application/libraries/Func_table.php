@@ -328,7 +328,7 @@ class Func_table
         $cek = $ci->db->query("SELECT count(*) as jml FROM tbl_data_srt_ket_see 
                                         WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO tbl_data_srt_ket_see 
+            $Query = $ci->db->query("INSERT INTO tbl_data_srt_ket_see 
                                 SET 
                                 user_create = $id,
                                 id_srt =  '$id_surat',
@@ -337,7 +337,7 @@ class Func_table
                                 id_status_srt = '$status_surat',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE tbl_data_srt_ket_see 
+            $Query = $ci->db->query("UPDATE tbl_data_srt_ket_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
         }
@@ -347,8 +347,8 @@ class Func_table
     function count_see_sk($id)
     {
 
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
                                 (
                                     SELECT
                                         fa.user_create,
@@ -376,14 +376,14 @@ class Func_table
     // === verifikasi surat keterangan pegawai ===
     function count_see_verifikasi($id)
     {
-        $CI = &get_instance();
-        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+        $ci = &get_instance();
+        $cek_kepegawaian = $ci->db->query("SELECT count(*) as jml_kepegawaian
                                             FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id'")->row();
 
-        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+        $cek_sekdis      = $ci->db->query("SELECT count(*) as jml_sekdis
                                             FROM view_sekdis WHERE id_pegawai = '$id'")->row();
 
-        $cek_kasubag     = $CI->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
+        $cek_kasubag     = $ci->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
                                             FROM view_kasubag WHERE id_pegawai = '$id'")->row();
 
         if ($cek_kepegawaian->jml_kepegawaian > 0) {
@@ -395,7 +395,7 @@ class Func_table
         } else {
             $kondisi = " AND a.id_status_srt = 'XX'";
         }
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
         (
             SELECT
                                         a.id_srt, a.id_user, a.nama, a.id_status_srt , jml, id_view
@@ -413,8 +413,8 @@ class Func_table
     function see_public($id, $id_surat)
     {
 
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT
                                         if(isnull(fa.user_create),0,1) as status_view
                                     FROM
                                         tbl_data_srt_ket as a
@@ -435,23 +435,23 @@ class Func_table
     function in_tosee_masa_pensiun_admin($nrk)
     {
 
-        $CI = &get_instance();
+        $ci = &get_instance();
 
-        $user_view = $CI->session->userdata("username");
+        $user_view = $ci->session->userdata("username");
         $tgl_now = date('Y-m-d H:i:s');
-        //$Query = $CI->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
+        //$Query = $ci->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
 
-        $cek = $CI->db->query("SELECT count(*) as jml FROM masa_pensiun_see 
+        $cek = $ci->db->query("SELECT count(*) as jml FROM masa_pensiun_see 
                                         WHERE nrk='$nrk' AND user_view = '$user_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO masa_pensiun_see 
+            $Query = $ci->db->query("INSERT INTO masa_pensiun_see 
                                 SET 
                                 nrk = $nrk,
                                 user_view =  '$user_view',
                                 tgl_view = '$tgl_now',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE masa_pensiun_see 
+            $Query = $ci->db->query("UPDATE masa_pensiun_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE nrk='$nrk' AND user_view = '$user_view' ");
         }
@@ -461,23 +461,23 @@ class Func_table
     function in_tosee_naik_pangkat_admin($nrk)
     {
 
-        $CI = &get_instance();
+        $ci = &get_instance();
 
-        $user_view = $CI->session->userdata("username");
+        $user_view = $ci->session->userdata("username");
         $tgl_now = date('Y-m-d H:i:s');
-        //$Query = $CI->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
+        //$Query = $ci->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
 
-        $cek = $CI->db->query("SELECT count(*) as jml FROM naik_pangkat_see 
+        $cek = $ci->db->query("SELECT count(*) as jml FROM naik_pangkat_see 
                                         WHERE nrk='$nrk' AND user_view = '$user_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO naik_pangkat_see 
+            $Query = $ci->db->query("INSERT INTO naik_pangkat_see 
                                 SET 
                                 nrk = $nrk,
                                 user_view =  '$user_view',
                                 tgl_view = '$tgl_now',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE naik_pangkat_see 
+            $Query = $ci->db->query("UPDATE naik_pangkat_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE nrk='$nrk' AND user_view = '$user_view' ");
         }
@@ -488,8 +488,8 @@ class Func_table
     // tunjangan see
     function count_see_tj($id)
     {
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
                                 (
                                     SELECT
                                         fa.user_create,
@@ -512,8 +512,8 @@ class Func_table
     function see_public_tj($id, $id_surat)
     {
 
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT
                                         if(isnull(fa.user_create),0,1) as status_view
                                     FROM
                                         tr_tunjangan as a
@@ -533,16 +533,16 @@ class Func_table
     function in_tosee_tj($id, $id_surat, $status_surat, $id_view)
     {
 
-        $CI = &get_instance();
+        $ci = &get_instance();
 
-        //$user_view = $CI->session->userdata("username");
+        //$user_view = $ci->session->userdata("username");
         $tgl_now = date('Y-m-d H:i:s');
-        //$Query = $CI->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
+        //$Query = $ci->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
 
-        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_tunjangan_see 
+        $cek = $ci->db->query("SELECT count(*) as jml FROM tr_tunjangan_see 
                                         WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO tr_tunjangan_see 
+            $Query = $ci->db->query("INSERT INTO tr_tunjangan_see 
                                 SET 
                                 user_create = $id,
                                 id_srt =  '$id_surat',
@@ -551,7 +551,7 @@ class Func_table
                                 id_status_srt = '$status_surat',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE tr_tunjangan_see 
+            $Query = $ci->db->query("UPDATE tr_tunjangan_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
         }
@@ -562,14 +562,14 @@ class Func_table
     function count_see_verifikasi_tunjangan($id)
     {
 
-        $CI = &get_instance();
-        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+        $ci = &get_instance();
+        $cek_kepegawaian = $ci->db->query("SELECT count(*) as jml_kepegawaian
                                             FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
 
-        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+        $cek_sekdis      = $ci->db->query("SELECT count(*) as jml_sekdis
                                             FROM view_sekdis WHERE nrk = '$id'")->row();
 
-        $cek_kasubag     = $CI->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
+        $cek_kasubag     = $ci->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
                                             FROM view_kasubag WHERE nrk = '$id'")->row();
 
         if ($cek_kepegawaian->jml_kepegawaian > 0) {
@@ -581,7 +581,7 @@ class Func_table
         } else {
             $kondisi = " AND a.Status_progress = 'XX'";
         }
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
         (
             SELECT
                                         a.Tunjangan_id, a.Created_by, a.Status_progress, jml, id_view
@@ -601,8 +601,8 @@ class Func_table
     // kariskarsu see
     function count_see_kaku($id)
     {
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
                                 (
                                     SELECT
                                         fa.user_create,
@@ -625,8 +625,8 @@ class Func_table
     function see_public_kaku($id, $id_surat)
     {
 
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT
                                         if(isnull(fa.user_create),0,1) as status_view
                                     FROM
                                         tr_kariskarsu as a
@@ -646,16 +646,16 @@ class Func_table
     function in_tosee_kaku($id, $id_surat, $status_surat, $id_view)
     {
 
-        $CI = &get_instance();
+        $ci = &get_instance();
 
-        //$user_view = $CI->session->userdata("username");
+        //$user_view = $ci->session->userdata("username");
         $tgl_now = date('Y-m-d H:i:s');
-        //$Query = $CI->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
+        //$Query = $ci->db->query("SELECT Bulan from master_bulan where Kode = '$bulan'")->row();
 
-        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_kariskarsu_see 
+        $cek = $ci->db->query("SELECT count(*) as jml FROM tr_kariskarsu_see 
                                         WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO tr_kariskarsu_see 
+            $Query = $ci->db->query("INSERT INTO tr_kariskarsu_see 
                                 SET 
                                 user_create = $id,
                                 id_srt =  '$id_surat',
@@ -664,7 +664,7 @@ class Func_table
                                 id_status_srt = '$status_surat',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE tr_kariskarsu_see 
+            $Query = $ci->db->query("UPDATE tr_kariskarsu_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
         }
@@ -675,14 +675,14 @@ class Func_table
     function count_see_verifikasi_kariskarsu($id)
     {
 
-        $CI = &get_instance();
-        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+        $ci = &get_instance();
+        $cek_kepegawaian = $ci->db->query("SELECT count(*) as jml_kepegawaian
                                             FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
 
-        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+        $cek_sekdis      = $ci->db->query("SELECT count(*) as jml_sekdis
                                             FROM view_sekdis WHERE nrk = '$id'")->row();
 
-        $cek_kasubag     = $CI->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
+        $cek_kasubag     = $ci->db->query("SELECT count(*) as jml_sudinupt, id_lokasi_kerja
                                             FROM view_kasubag WHERE nrk = '$id'")->row();
 
         if ($cek_kepegawaian->jml_kepegawaian > 0) {
@@ -694,7 +694,7 @@ class Func_table
         } else {
             $kondisi = " AND a.Status_progress = 'XX'";
         }
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
         (
             SELECT
                                         a.Kariskarsu_id, a.Created_by, a.Status_progress, jml, id_view
@@ -715,8 +715,8 @@ class Func_table
     // hukdis see
     function count_see_hukdis($id)
     {
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
                                 (
                                     SELECT
                                         fa.user_create,
@@ -784,12 +784,12 @@ class Func_table
     function in_tosee_hukdis($id, $id_surat, $status_surat, $id_view)
     {
 
-        $CI = &get_instance();
+        $ci = &get_instance();
         $tgl_now = date('Y-m-d H:i:s');
-        $cek = $CI->db->query("SELECT count(*) as jml FROM tr_hukdis_see 
+        $cek = $ci->db->query("SELECT count(*) as jml FROM tr_hukdis_see 
                                         WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
         if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
-            $Query = $CI->db->query("INSERT INTO tr_hukdis_see 
+            $Query = $ci->db->query("INSERT INTO tr_hukdis_see 
                                 SET 
                                 user_create = '$id',
                                 id_srt =  '$id_surat',
@@ -798,7 +798,7 @@ class Func_table
                                 id_status_srt = '$status_surat',
                                 tgl_update = '$tgl_now'");
         } else {
-            $Query = $CI->db->query("UPDATE tr_hukdis_see 
+            $Query = $ci->db->query("UPDATE tr_hukdis_see 
                                 SET tgl_update = '$tgl_now'
                                 WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
         }
@@ -809,11 +809,11 @@ class Func_table
     function count_see_verifikasi_hukdis($id)
     {
 
-        $CI = &get_instance();
-        $cek_kepegawaian = $CI->db->query("SELECT count(*) as jml_kepegawaian
+        $ci = &get_instance();
+        $cek_kepegawaian = $ci->db->query("SELECT count(*) as jml_kepegawaian
                                             FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
 
-        $cek_sekdis      = $CI->db->query("SELECT count(*) as jml_sekdis
+        $cek_sekdis      = $ci->db->query("SELECT count(*) as jml_sekdis
                                             FROM view_sekdis WHERE nrk = '$id'")->row();
 
         if ($cek_kepegawaian->jml_kepegawaian > 0) {
@@ -823,7 +823,7 @@ class Func_table
         } else {
             $kondisi = " AND a.Status_progress = 'XX'";
         }
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
         (
             SELECT
                                         a.Hukdis_id, a.Created_by, a.Status_progress, jml, id_view
@@ -843,8 +843,8 @@ class Func_table
     // Tindak Pidana see
     function count_see_tp($id)
     {
-        $CI = &get_instance();
-        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
                                 (
                                     SELECT
                                         fa.user_create,
