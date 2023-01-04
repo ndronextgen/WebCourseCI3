@@ -19,24 +19,24 @@
                     <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
                 </tr>
                 <tr>
-                    <td>NIP / Nomor Identitas</td>
+                    <td>NIP / NRK</td>
                     <td>:</td>
-                    <td><?php echo $Data->nip; ?></td>
+                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
                 </tr>
                 <tr>
-                    <td>Satuan Organisasi</td>
+                    <td>Pangkat / Golongan</td>
                     <td>:</td>
-                    <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
                 </tr>
                 <tr>
-                    <td>Tempat / Tanggal Lahir</td>
+                    <td>Jabatan</td>
                     <td>:</td>
-                    <td><?php echo $Data->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($Data->tanggal_lahir); ?></td>
+                    <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
                 </tr>
                 <tr>
-                    <td>Alamat / tempat tinggal</td>
+                    <td>Unit Kerja</td>
                     <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
+                    <td><?php echo str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
                 </tr>
                 
             </table>

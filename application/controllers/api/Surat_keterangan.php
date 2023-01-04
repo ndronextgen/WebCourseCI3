@@ -85,9 +85,9 @@ class Surat_Keterangan extends CI_Controller {
 			$cond .= " AND a.id_status_srt=".$status;
 		}
 
-		$q = "SELECT a.*, b.nama_surat as jenis_surat, c.nama_status as status,
-					if(isnull(jml) AND a.id_status_srt not in ('0','23'),'1', jml) as jml, 
-					if(a.jenis_pengajuan_surat='X',concat(e.keterangan,'(',a.jenis_pengajuan_surat_lainnya,')'),e.keterangan)as keterangan_pengajuan
+		$q = "SELECT a.*, b.nama_surat as jenis_surat, c.id_status, c.nama_status as status, c.nama_status_next, c.backcolor, c.fontcolor,
+					if(isnull(jml) AND a.id_status_srt not in ('0','23'), '1', jml) as jml, 
+					if(a.jenis_pengajuan_surat='X', concat(e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')'), e.keterangan) as keterangan_pengajuan
 				FROM tbl_data_srt_ket a 
 				LEFT JOIN tbl_master_surat b on a.jenis_surat = b.id_mst_srt 
 				LEFT JOIN tbl_status_surat c on a.id_status_srt = c.id_status 
