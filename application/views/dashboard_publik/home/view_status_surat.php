@@ -67,18 +67,15 @@
 				<td>:</td>
 				<td>
 					<?php
-					// if ($data->status == 'Selesai') {
-					// 	echo '<span class="badge bg-green">' . $data->status . '</span>';
-					// } else if ($data->status == 'Menunggu') {
-					// 	echo '<span class="badge bg-yellow">' . $data->status . '</span>';
-					// } else if ($data->status == 'Sedang Diproses') {
-					// 	echo '<span class="badge bg-blue">' . $data->status . '</span>';
-					// } else if ($data->status == 'Ditolak') {
-					// 	echo '<span class="badge bg-red">' . $data->status . '</span>';
-					// } else {
-					// 	echo '<span class="badge bg-dark">' . $data->status . '</span>';
-					// }
-					echo str_replace('<br>', ' ', $data->nama_status_next);
+					if ((int) $data->id_status_srt == 21) {
+						if ($data->is_dinas == 1) {
+							echo 'Menunggu Verifikasi Kepala Subkoordinator Kepegawaian';
+						} else {
+							echo 'Menunggu Verifikasi Kepala Subbagian';
+						}
+					} else {
+						echo str_replace('<br>', ' ', $data->nama_status_next);
+					}
 					?>
 				</td>
 			</tr>

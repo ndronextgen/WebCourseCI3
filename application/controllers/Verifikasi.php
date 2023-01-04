@@ -241,7 +241,7 @@ class Verifikasi extends CI_Controller
 					break;
 				case 3:
 					$status_surat = '<span class="badge btn-success btn-flat badge-status" 
-									onclick="showTimeline(' . $key->id_srt . ')" style="background-color; #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 24:
 				case 25:
@@ -473,7 +473,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_history_srt_ket";
+				order by his.created_at";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -540,7 +540,8 @@ class Verifikasi extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_publik/verifikasi/timeline', $a);
+		// $this->load->view('dashboard_publik/verifikasi/timeline', $a);
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 	}
 }
 // End of file Verifikasi.php

@@ -170,6 +170,15 @@
 	<link href="<?= base_url() ?>asset/sso/css/style.css" rel="stylesheet" />
 	<!-- <link href="<?= base_url() ?>asset/sso/css/all.min.css.css" rel="stylesheet" /> -->
 
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">

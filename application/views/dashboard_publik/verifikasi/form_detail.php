@@ -61,7 +61,7 @@
                                         echo 'Menunggu Verifikasi Kepala Subbagian';
                                     }
                                 } else {
-                                    echo $Data->nama_status_next;
+                                    echo str_replace('<br>', ' ', $Data->nama_status_next);
                                 }
                                 ?>
                             </td>
