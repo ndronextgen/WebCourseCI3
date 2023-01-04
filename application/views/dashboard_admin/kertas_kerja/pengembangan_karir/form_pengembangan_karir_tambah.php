@@ -1,3 +1,9 @@
+<style>
+input::placeholder, textarea::placeholder {
+	font-weight: 200;
+	font-size: 12px;
+}
+</style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
 <script>
@@ -54,13 +60,31 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	<div class="col-3">
 		<div class="form-group">
 			<label>Tahun Mulai</label>
-			<input type='text' name='Periode_awal' class="form-control input-sm" id='Periode_awal' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+			<?php 
+				$start = date('Y', strtotime(date("Y-m-d"). ' - 10 year'));
+				$end   = date('Y', strtotime(date("Y-m-d"). ' + 20 year'));
+				echo '<select name="some_field"  id="Periode_awal" name="Periode_awal" class="selectpicker form-control input-sm"  data-show-subtext="true" data-live-search="true">';
+				foreach (range($start, $end) as $x) {
+					echo '<option value="'.$x.'"'.($x == date("Y") ? ' selected="selected"' : '').'>'.$x.'</option>';
+				}
+				echo '</select>';
+			?>
+			<!-- <input type='month' name='Periode_awal' class="form-control input-sm" id='Periode_awal' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"> -->
 		</div>
 	</div>
 	<div class="col-3">
 		<div class="form-group">
 			<label>Tahun Selesai</label>
-			<input type='text' name='Periode_akhir' class="form-control input-sm" id='Periode_akhir' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+			<?php 
+				$start = date('Y', strtotime(date("Y-m-d"). ' - 10 year'));
+				$end   = date('Y', strtotime(date("Y-m-d"). ' + 20 year'));
+				echo '<select name="some_field" id="Periode_akhir" name="Periode_akhir" class="selectpicker form-control input-sm" data-show-subtext="true" data-live-search="true">';
+				foreach (range($start, $end) as $x) {
+					echo '<option value="'.$x.'"'.($x == date("Y") ? ' selected="selected"' : '').' >'.$x.'</option>';
+				}
+				echo '</select>';
+			?>
+			<!-- <input type='month' name='Periode_akhir' class="form-control input-sm" id='Periode_akhir' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"> -->
 		</div>
 	</div>
 	<div class="col-6">
@@ -79,7 +103,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 			<input type='hidden' name='lokasi_admin' value='<?php echo $id_lokasi_kerja; ?>'>
 			<input type='hidden' name='Pengembangan_karir_id' value='<?php echo $Pengembangan_karir_id; ?>'>
 			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan Pengajuan</button>
-			<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>
+			<button type="button" style='float:right;' class="btn btn-danger btn-sm mr-1" onclick="batal_form()">Batal</button>
 		</div>
 	</div>
 </div>
@@ -109,4 +133,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 				}
 		})
 	});
+	$("#Periode_awal").selectpicker();
+	$("#Periode_akhir").selectpicker();
+
 </script>
