@@ -144,7 +144,7 @@
 					contentType: false,
 					beforeSend: function() {
 						$('#btn_tmb').text('Menyimpan...');
-						$('#btn_tmb').attr('disabled', true);
+						$('#btn_tmb').prop('disabled', true);
 					},
 					success: function(response) {
 						let arrPesan = response.split("|");

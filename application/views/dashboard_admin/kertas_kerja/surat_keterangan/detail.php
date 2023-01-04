@@ -221,9 +221,10 @@
 															if ($surat->id_status_srt == 0 || $surat->id_status_srt == 25 || $surat->id_status_srt == 28) {
 																//menunggu
 																//echo '<button type="button" id="btnProses" class="btn btn-brand"><i class="flaticon-notes"></i> Proses</button>&nbsp;&nbsp;';
-																echo '<a href="javascript:;" onclick="proses_data(' . $surat->id_srt . ')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
-															} else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
-																if ($surat->select_ttd == 'basah') {
+																echo '<a id="btn_prss" href="javascript:(0);" onclick="proses_data('.$surat->id_srt.')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
+															}
+															else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
+																if($surat->select_ttd=='basah'){
 																	echo '<button type="button" id="btnProsesUpload" class="btn btn-brand"><i class="flaticon-upload-1"></i> Simpan Upload</button>&nbsp;&nbsp;';
 																} else {
 																	echo '';
@@ -264,36 +265,36 @@
 
 </body>
 <script>
-	// prosesdata surat keterangan
-	function proses_data(Id) {
-		save_method = 'verifikasi';
-		$.ajax({
-			url: "<?php echo site_url('admin/Surat_keterangan/form_verifikasi'); ?>",
-			type: "POST",
-			data: {
-				Id: Id
-			},
-			success: function(data) {
-				$('#modal_all_small .modal-dialog .modal-content .modal-body').html(data);
-			}
-		});
-		$('#modal_all_small').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
-		//alert('a');
-	}
-
-	function batal_form() {
-		$('#modal_all_small').modal('hide');
-	}
-
-	function batal_form_md() {
-		$('#modal_all_medium').modal('hide');
-	}
-
-	function simpan_pengajuan() {
-		var formData = new FormData($('#form_pengajuan')[0]);
-		var url;
-		url = "<?php echo site_url('admin/Surat_keterangan/processSave'); ?>";
+// prosesdata surat keterangan
+function proses_data(Id) {
+	save_method = 'verifikasi';
+	$.ajax({
+		url: "<?php echo site_url('admin/Surat_keterangan/form_verifikasi'); ?>",
+		type: "POST",
+		data:{
+            Id: Id
+		},
+		beforeSend: function() {
+			$('#btn_prss').prop("disabled", true);
+		},
+		success: function(data) {
+			$('#modal_all_small .modal-dialog .modal-content .modal-body').html(data);
+		}
+	});
+	$('#modal_all_small').modal('show'); // show bootstrap modal
+	$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
+	//alert('a'); 
+}
+function batal_form() {
+    $('#modal_all_small').modal('hide');
+}
+function batal_form_md() {
+    $('#modal_all_medium').modal('hide');
+}
+function simpan_pengajuan() {
+var formData = new FormData($('#form_pengajuan')[0]);
+	var url;
+	url = "<?php echo site_url('admin/Surat_keterangan/processSave'); ?>";
 
 		$.ajax({
 			url: url,

@@ -345,7 +345,11 @@
 				data: formData,
 				processData: false,
 				contentType: false,
-				success: function(response) {
+				beforeSend: function() {
+					$('#btn_simpan_verifikasi').text('Menyimpan...');
+					$('#btn_simpan_verifikasi').prop('disabled', true);
+				},
+				success: function(response) { 
 					let url_cook = getCookie('url');
 					$('#modal_all').modal('hide');
 					const result = JSON.parse(response);
