@@ -543,7 +543,27 @@ class Data_tunjangan extends CI_Controller
 			echo 'Request tidak valid.2';
 		}
 	}
+
+	function delete_tunjangan()
+	{
+		$Tunjangan_id = $this->input->post('Tunjangan_id');
+
+		$delete = $this->db->delete('tr_tunjangan', array('tunjangan_id' => $Tunjangan_id));
+		if ($delete) {
+			$message =  'Data berhasil dihapus';
+			$status = true;
+		} else {
+			$message = 'Data gagal dihapus';
+			$status = false;
+		}
+		$result = [
+			'message' => $message,
+			'status' => $status
+		];
+
+		echo json_encode($result);
+	}
 }
 
-/* End of file data_riwayat_jabatan.php */
-/* Location: ./application/controllers/data_riwayat_jabatan.php */
+// End of file Data_tunjangan.php
+// Location: ./application/controllers/admin/Data_tunjangan.php
