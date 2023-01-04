@@ -22,9 +22,6 @@
 	}
 </style>
 
-
-
-
 <div class="table-responsive">
 	<button type="button" class="btn btn-success active btn-sm" onclick="tambah_surat_hukdis()"><i class="fa fa-plus"></i> Tambah Surat Hukuman Disiplin</button>
 	<hr>
@@ -91,34 +88,32 @@
 		"dom": '<"top"flp<"clear">>rt<"bottom"ifp<"clear">>'
 	});
 
-	function tambah_surat_hukdis()
-		{
-			save_method = 'tambah';
-				$.ajax({
-				url: "<?php echo site_url('admin/Data_hukuman_disiplin/tambah_hukuman_disiplin'); ?>",
-				type: "POST",
-				success: function(data) {
-					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
-				}
-				});
-			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all').modal('show'); // show bootstrap modal
-			$('.modal-title').text('Tambah Surat Hukuman Disiplin Pegawai'); // Set Title to Bootstrap modal title
-		}
+	function tambah_surat_hukdis() {
+		save_method = 'tambah';
+		$.ajax({
+			url: "<?php echo site_url('admin/Data_hukuman_disiplin/tambah_hukuman_disiplin'); ?>",
+			type: "POST",
+			success: function(data) {
+				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Tambah Surat Hukuman Disiplin Pegawai'); // Set Title to Bootstrap modal title
+	}
 
-	function edit_surat_hukdis(Hukdis_id)
-	{
+	function edit_surat_hukdis(Hukdis_id) {
 		save_method = 'edit';
-			$.ajax({
+		$.ajax({
 			url: "<?php echo site_url('admin/Data_hukuman_disiplin/edit_hukuman_disiplin'); ?>",
 			type: "POST",
-			data:{
+			data: {
 				Hukdis_id: Hukdis_id
 			},
 			success: function(data) {
 				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 			}
-			});
+		});
 		$('.modal-footer').hide(); // show bootstrap modal
 		$('#modal_all').modal('show'); // show bootstrap modal
 		$('.modal-title').text('Ubah Surat Hukuman Disiplin Pegawai'); // Set Title to Bootstrap modal title
