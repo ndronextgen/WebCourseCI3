@@ -309,6 +309,11 @@
 		}
 
 		function batal_form() {
+			$(".modal-backdrop").remove();
+			$('#modal_all').modal('hide');
+		}
+		function close_form() {
+			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 		}
 		function batal_form_selesai() {
@@ -318,27 +323,37 @@
 
 		function simpan_pengajuan() {
 
-			var filter_pegawai 	= $("#filter_pegawai").val();
-			var Keterangan 		= $("#Keterangan").val();
-			var Periode_awal 	= $("#Periode_awal").val();
-			var Periode_akhir 	= $("#Periode_akhir").val();
-			var Keperluan 		= $("#Keperluan").val();
-			if (filter_pegawai == '') {
-				alert('Pilih Pegawai...!');
-			} else if(Keterangan==''){
-				alert('Isi Keterangan!');
-			} else if(Keperluan==''){
-				alert('Isi Keperluan!');
-			} else  {
-				if(Periode_awal !='' && Periode_akhir==''){
-					alert('Isi Tahun Selesai!');
-				} else if(Periode_awal =='' && Periode_akhir!=''){
-					alert('Isi Tahun Mulai!');
-				} else {
-					ajax_simpan_pengajuan();
+			var formData = new FormData($('#form_pengembangan_karir')[0]);
+			var	url = "<?php echo site_url('admin/Data_pengembangan_karir/simpan_validasi'); ?>";
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						ajax_simpan_pengajuan()
+					} else {
+						swal.fire({
+							type: 'error',
+							title: result.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
+					}
 				}
-				
-			}
+			});
+			
 		}
 
 
@@ -372,7 +387,7 @@
 							type: 'success',
 							title: 'Data berhasil disimpan!',
 							showConfirmButton: false,
-							timer: 1500
+							timer: 1800
 						});
 						$('#btn_tmb').text('Simpan');
 						$('#btn_tmb').attr('disabled', false);
@@ -383,6 +398,7 @@
 					} else {
 						console.log(response);
 					}
+					$(".modal-backdrop").remove();
 					$('#modal_all').modal('hide');
 				}
 			});

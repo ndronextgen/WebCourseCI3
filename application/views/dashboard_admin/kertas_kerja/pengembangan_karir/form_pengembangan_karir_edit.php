@@ -42,6 +42,9 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		</div>
 	</div>
 	<div class="col-12">
+		<div id='table_info'></div>
+	</div>
+	<div class="col-12">
 		<div class="form-group">
 			<label>Keterangan</label>
 			<textarea name="Keterangan" id="Keterangan" class="form-control input-sm" placeholder='Telah memperoleh ijazah Strata I Program Studi Teknik Informarmatika Universitas Mercu Buana'><?php echo $Data->Keterangan; ?></textarea>
@@ -51,13 +54,37 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	<div class="col-3">
 		<div class="form-group">
 			<label>Tahun Mulai</label>
-			<input type='text' name='Periode_awal' value="<?php echo $Data->Periode_awal; ?>" class="form-control input-sm" id='Periode_awal' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+			<select id="Periode_awal" name="Periode_awal" class="selectpicker form-control input-sm" data-style="btn btn-primary btn-sm" data-show-subtext='true' data-live-search='true' style="padding: 0px 0px !important;" <?php echo $kond; ?>> 
+				<option value=''>- Pilih Tahun Selesai -</option>
+				<?php 
+					for ($i=2005; $i<=2023; $i++) {
+						echo "<option value='$i'";
+						if ($i == $Data->Periode_awal) {
+							echo ' selected';
+						}
+						echo ">$i</option>";
+					}
+				?>
+				</select>
+			<!-- <input type='text' name='Periode_awal' value="<?php //echo $Data->Periode_awal; ?>" class="form-control input-sm" id='Periode_awal' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"> -->
 		</div>
 	</div>
 	<div class="col-3">
 		<div class="form-group">
 			<label>Tahun Selesai</label>
-			<input type='text' name='Periode_akhir' value="<?php echo $Data->Periode_akhir; ?>" class="form-control input-sm" id='Periode_akhir' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+			<select id="Periode_akhir" name="Periode_akhir" class="selectpicker form-control input-sm" data-style="btn btn-primary btn-sm" data-show-subtext='true' data-live-search='true' style="padding: 0px 0px !important;" <?php echo $kond; ?>> 
+				<option value=''>- Pilih Tahun Selesai -</option>
+				<?php 
+					for ($i=2005; $i<=2023; $i++) {
+						echo "<option value='$i'";
+						if ($i == $Data->Periode_akhir) {
+							echo ' selected';
+						}
+						echo ">$i</option>";
+					}
+				?>
+				</select>
+			<!-- <input type='text' name='Periode_akhir' value="<?php //echo $Data->Periode_akhir; ?>" class="form-control input-sm" id='Periode_akhir' maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"> -->
 		</div>
 	</div>
 	<div class="col-6">
@@ -75,8 +102,8 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		<div class="form-group">
 			<input type='hidden' name='lokasi_admin' value='<?php echo $id_lokasi_kerja; ?>'>
 			<input type='hidden' name='Pengembangan_karir_id' value='<?php echo $Pengembangan_karir_id; ?>'>
-			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan Pengajuan</button>
-			<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>
+			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan</button>
+			<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="close_form()">Batal</button>
 		</div>
 	</div>
 </div>
@@ -106,4 +133,17 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 				}
 		})
 	});
+	// filter pegawai
+	$('#filter_pegawai').change(function() {
+		var filter_pegawai = $('#filter_pegawai').val();
+		$.ajax({
+				type : "POST",
+				url : "<?php echo site_url('admin/Data_pengembangan_karir/get_elm_pegawai') ?>",
+				data : {filter_pegawai:filter_pegawai},
+				success: function(data) {
+					$('#table_info').html(data);
+				}
+		})
+	});
+	
 </script>
