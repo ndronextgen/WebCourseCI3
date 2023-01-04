@@ -223,7 +223,7 @@ class Verifikasi extends CI_Controller
 				case 21:
 					if ($key->is_dinas == 1) {
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator Kepegawaian</span>';
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
 					} else {
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
 									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
@@ -404,7 +404,7 @@ class Verifikasi extends CI_Controller
 			"SELECT
 				a.id_srt, a.id_user, a.nama, 
 				a.nip, a.nrk, a.alamat_domisili, 
-				a.status_pegawai, a.keterangan, 
+				a.status_pegawai, a.is_dinas, a.keterangan, 
 				a.jenis_surat, a.jenis_pengajuan_surat, 
 				a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
 				a.id_status_srt, a.keterangan_ditolak, 
@@ -412,7 +412,7 @@ class Verifikasi extends CI_Controller
 				a.id_user_proses, a.is_download, 
 				a.file_name, a.file_name_ori, 
 				a.nomor_surat, a.Created_at, a.Updated_at, a.Updated_by,
-				b.nama_surat, nama_status as `status`, sort, sort_bidang,
+				b.nama_surat, nama_status as `status`, nama_status_next, sort, sort_bidang,
 				IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
 				list.lokasi_kerja, list.dinas, list.nama_lokasi_kerja
 			FROM
@@ -421,7 +421,7 @@ class Verifikasi extends CI_Controller
 				SELECT id_mst_srt, nama_surat FROM tbl_master_surat
 			) AS b ON b.id_mst_srt = a.jenis_surat
 			LEFT JOIN (
-				SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
 			) AS c ON c.id_status = a.id_status_srt
 			LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
 			LEFT JOIN (
@@ -474,7 +474,7 @@ class Verifikasi extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
@@ -537,7 +537,7 @@ class Verifikasi extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		$this->load->view('dashboard_publik/verifikasi/timeline', $a);

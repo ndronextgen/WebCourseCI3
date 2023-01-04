@@ -30,10 +30,10 @@ class Srt_ket extends CI_Controller
 				case 21:
 					if ($r->is_dinas == 1) {
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator Kepegawaian</span>';
+										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
 					} else {
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
 					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
 					// 						onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
@@ -176,7 +176,8 @@ class Srt_ket extends CI_Controller
 	{
 		$Id = $this->input->post('id_srt');
 		$data = $this->db->query(
-			"SELECT a.*, b.nama_surat as jenis_surat, c.nama_status as status, e.nama_lengkap, f.keterangan as pengajuan_surat_lain
+			"SELECT a.*, b.nama_surat as jenis_surat, c.nama_status as status, c.nama_status_next, e.nama_lengkap, 
+				f.keterangan as pengajuan_surat_lain
 			from tbl_data_srt_ket a 
 			left join tbl_master_surat b on a.jenis_surat = b.id_mst_srt 
 			left join tbl_status_surat c on a.id_status_srt = c.id_status 
@@ -192,7 +193,7 @@ class Srt_ket extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
@@ -212,7 +213,7 @@ class Srt_ket extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
