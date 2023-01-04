@@ -26,10 +26,10 @@
             <ul class="ul-li-timeline">
 
                 <?php
-                if (isset($data_history)) {
+                if ($data_history->num_rows() > 0) {
                     $data_id_status = '';
                     $data_is_dinas = '';
-                    foreach ($data_history as $data) {
+                    foreach ($data_history->result() as $data) {
                         $nama_user = ucwords(strtolower($this->func_table->removeTitleFromName($data->nama_pegawai)));
                         echo '
                 <li class="ul-li-timeline">

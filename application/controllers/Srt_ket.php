@@ -165,11 +165,13 @@ class Srt_ket extends CI_Controller
 		//output to json format
 		echo json_encode($output);
 	}
+
 	public function srt_edit($id_srt)
 	{
 		$data = $this->tbl_data_srt_ket->get_by_id($id_srt);
 		echo json_encode($data);
 	}
+
 	public function srt_view()
 	{
 		$Id = $this->input->post('id_srt');
@@ -216,6 +218,7 @@ class Srt_ket extends CI_Controller
 
 		$this->load->view('dashboard_publik/home/view_status_surat', $a);
 	}
+
 	public function srt_update()
 	{
 		$this->_validate_srt();
@@ -240,6 +243,7 @@ class Srt_ket extends CI_Controller
 		$this->tbl_data_srt_ket->update(array('id_srt' => $this->input->post('id_srt')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
+
 	public function srt_delete()
 	{
 		$id_srt = $this->input->post('id_srt');
@@ -249,6 +253,7 @@ class Srt_ket extends CI_Controller
 		$this->tbl_data_srt_ket->delete_by_id($id_srt);
 		echo json_encode(array("status" => TRUE));
 	}
+
 	private function _validate_srt()
 	{
 		$data = array();
@@ -346,7 +351,7 @@ class Srt_ket extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
