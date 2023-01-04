@@ -107,6 +107,15 @@
 		}
 	</style>
 
+	<!-- css badge status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">
@@ -343,11 +352,11 @@
 								<table id="table_srt_ket" class="table table-striped table-bordered" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>No.</th>
+											<th style="text-align: center;">No.</th>
 											<th>Nama Surat</th>
 											<th>Tanggal Pengajuan</th>
 											<th>Keperluan</th>
-											<th>Status</th>
+											<th style="text-align: center;">Status</th>
 											<th>Aksi</th>
 										</tr>
 									</thead>
@@ -829,8 +838,8 @@
 			$navbarHeight = $('.navbar').height();
 			$mainWrapperPadding = 5; //parseInt($(".content-wrapper").css("padding-top"));
 			$newMainWrapperPadding = $mainWrapperPadding + $navbarHeight - $defaultNavbarHeight;
-			console.log($navbarHeight);
-			console.log($newMainWrapperPadding);
+			// console.log($navbarHeight);
+			// console.log($newMainWrapperPadding);
 
 			if ($navbarHeight > $defaultNavbarHeight) {
 				$(".content-wrapper").css("padding-top", $newMainWrapperPadding);
