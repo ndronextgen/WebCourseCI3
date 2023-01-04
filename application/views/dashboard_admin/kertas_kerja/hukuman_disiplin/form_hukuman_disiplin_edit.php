@@ -58,6 +58,9 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	</div>
 
 </div>
+<div class="col-12">
+		<div id='table_info'></div>
+	</div>
 <div class="row" style='padding:0px;display:none;'>
 	<div class="col-12">
 		<div class="form-group">
@@ -73,7 +76,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		<div class="form-group">
 			<input type='hidden' name='lokasi_admin' value='<?php echo $id_lokasi_kerja; ?>'>
 			<input type='hidden' name='Hukdis_id' value='<?php echo $Hukdis_id; ?>'>
-			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan Pengajuan</button>
+			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan</button>
 			<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>
 		</div>
 	</div>
@@ -101,6 +104,18 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 				success: function(data) {
 					$('#filter_pegawai').val(data);
 					$("#filter_pegawai").selectpicker('refresh').empty().append(data).selectpicker('refresh').trigger('change');
+				}
+		})
+	});
+	// filter pegawai
+	$('#filter_pegawai').change(function() {
+		var filter_pegawai = $('#filter_pegawai').val();
+		$.ajax({
+				type : "POST",
+				url : "<?php echo site_url('admin/Data_hukuman_disiplin/get_elm_pegawai') ?>",
+				data : {filter_pegawai:filter_pegawai},
+				success: function(data) {
+					$('#table_info').html(data);
 				}
 		})
 	});

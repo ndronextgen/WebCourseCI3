@@ -167,6 +167,97 @@ class Data_hukuman_disiplin extends CI_Controller
 		//echo $ak->lokasi_kerja;
 	}
 
+	public function get_elm_pegawai() {
+		$filter_pegawai = $this->input->post('filter_pegawai');
+		$data_id_pegawai = isset($filter_pegawai) ? $filter_pegawai : '';
+		if($data_id_pegawai != ''){
+			$kond = " AND a.id_pegawai = '$data_id_pegawai'";
+		} else {
+			$kond = " AND a.id_pegawai = 'x'";
+		}
+		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+										golongan, uraian, nama_jabatan
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+									LEFT JOIN (
+										SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+									) as c ON c.id_status_pegawai =  a.status_pegawai
+									LEFT JOIN (
+										SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+									) as d ON d.id_golongan =  a.id_golongan
+									LEFT JOIN (
+										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+									) as e ON e.id_nama_jabatan =  a.id_jabatan
+									WHERE nrk != '' $kond")->row();
+		$Data = isset($Data) ? $Data : '';
+		$a['Data'] = $Data;
+
+		if($Data != ''){
+			$this->load->view('dashboard_admin/kertas_kerja/hukuman_disiplin/table_info.php', $a);
+		} 
+		
+	}
+
+	public function simpan_validasi(){
+		$status = false;
+		$message = '';
+
+		$Hukdis_id 		= $this->input->post('Hukdis_id');
+		$id_pegawai 	= $this->input->post('filter_pegawai');
+		$Type_surat 	= $this->input->post('Type_surat');
+
+		if($id_pegawai!=''){
+
+			$data_pegawai = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+												a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+												golongan, uraian, nama_jabatan
+											FROM tbl_data_pegawai as a
+											LEFT JOIN (
+														SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+													) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+											LEFT JOIN (
+												SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+											) as c ON c.id_status_pegawai =  a.status_pegawai
+											LEFT JOIN (
+												SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+											) as d ON d.id_golongan =  a.id_golongan
+											LEFT JOIN (
+												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+											) as e ON e.id_nama_jabatan =  a.id_jabatan
+											WHERE a.id_pegawai = '$id_pegawai'")->row();
+			if($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == ''){
+				$status = false;
+				$message = "Lengkapi data pegawai yang akan diajukan terlebih dahulu!";
+			} else {
+			
+				if($id_pegawai ==''){
+					$status = false;
+					$message = "Pegawai Harus Diisi!";
+				} else if($Type_surat ==''){
+					$status = false;
+					$message = "Jenis Surat Harus Diisi!";
+				}  else {
+					$status = True;
+					$message = "OK";
+				}
+			}
+		} else {
+			$status = false;
+			$message = "Pilih Pegawai!";
+		}
+
+		$result = [
+			'status' => $status,
+			'message' => $message
+		];
+		echo json_encode($result);
+	}
+
 	public function simpan_tambah()
 	{
 		$status = false;

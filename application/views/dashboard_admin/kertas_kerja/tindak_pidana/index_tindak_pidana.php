@@ -319,12 +319,37 @@
 
 		function simpan_pengajuan() {
 
-			var filter_pegawai 	= $("#filter_pegawai").val();
-			if (filter_pegawai == '') {
-				alert('Pilih Pegawai...!');
-			} else  {
-				ajax_simpan_pengajuan();
-			}
+			var formData = new FormData($('#form_tindak_pidana')[0]);
+			var	url = "<?php echo site_url('admin/Data_tindak_pidana/simpan_validasi'); ?>";
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						ajax_simpan_pengajuan()
+					} else {
+						swal.fire({
+							type: 'error',
+							title: result.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
+					}
+				}
+			});
+
 		}
 
 

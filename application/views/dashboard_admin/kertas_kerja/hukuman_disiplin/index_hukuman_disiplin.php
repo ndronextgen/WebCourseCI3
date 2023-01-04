@@ -309,24 +309,47 @@
 		}
 
 		function batal_form() {
+			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 		}
 		function batal_form_selesai() {
+			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 			window.location.reload();
 		}
 
 		function simpan_pengajuan() {
+			
+			var formData = new FormData($('#form_hukdis')[0]);
+			var	url = "<?php echo site_url('admin/Data_hukuman_disiplin/simpan_validasi'); ?>";
 
-			var type_surat 		= $("#type_surat").val();
-			var filter_pegawai 	= $("#filter_pegawai").val();
-			if (filter_pegawai == '') {
-				alert('Pilih Pegawai...!');
-			} else if (type_surat == '') {
-				alert('Pilih Type Surat...!');
-			} else  {
-				ajax_simpan_pengajuan();
-			}
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						ajax_simpan_pengajuan()
+					} else {
+						swal.fire({
+							type: 'error',
+							title: result.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
+					}
+				}
+			});
 		}
 
 
@@ -360,7 +383,7 @@
 							type: 'success',
 							title: 'Data berhasil disimpan!',
 							showConfirmButton: false,
-							timer: 1500
+							timer: 1800
 						});
 						$('#btn_tmb').text('Simpan');
 						$('#btn_tmb').attr('disabled', false);

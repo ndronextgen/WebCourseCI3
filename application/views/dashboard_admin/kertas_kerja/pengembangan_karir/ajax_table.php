@@ -146,4 +146,5 @@
 		$('#modal_all').modal('show'); // show bootstrap modal
 		$('.modal-title').text('Detail/Proses Verifikasi Pengembangan Karir'); // Set Title to Bootstrap modal title
 	}
+	
 </script>
