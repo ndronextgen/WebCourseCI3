@@ -68,7 +68,7 @@
                     // $sSQL = "SELECT is_dinas from tbl_data_srt_ket where id_srt = '$id_srt'";
                     // $is_dinas = $this->db->query($sSQL)->row()->is_dinas;
 
-                    switch ($data_is_dinas) {
+                    switch ((int) $data_is_dinas) {
                         case 1:
                             if (
                                 $data_id_status == '0' or  // menunggu
