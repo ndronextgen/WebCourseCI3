@@ -105,7 +105,7 @@ class Arsip_pribadi extends CI_Controller
 				$this->arsip_pribadi_model->update(array('id_arsip_pribadi' => $insert_id), $upd);
 			}
 		} else {
-			// $status = false;
+			$status = false;
 		}
 
 		echo json_encode(array("status" => $status));

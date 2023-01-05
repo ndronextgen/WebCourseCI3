@@ -207,7 +207,13 @@ class Arsip_sk extends CI_Controller
 
 		if ($this->input->post('title_sk') == '') {
 			$data['inputerror'][] = 'title_sk';
-			$data['error_string'][] = 'Judul SK wajib di isi';
+			$data['error_string'][] = 'Judul SK wajib di isi'; 
+			$data['status'] = FALSE;
+		}
+
+		if ($_FILES['file_sk']['name'] == '') {
+			$data['inputerror'][] = 'file_sk';
+			$data['error_string'][] = 'File wajib ada.';
 			$data['status'] = FALSE;
 		}
 
