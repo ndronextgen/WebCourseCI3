@@ -172,17 +172,17 @@ class Arsip_sk extends CI_Controller
 	private function _do_upload($id, $id_jenis_sk, $id_ref = 0)
 	{
 		$dir = "SK_" . $id_jenis_sk . "_" . $id_ref . '_' . $id;
-		$path = "/asset/upload/SK/" . $dir;
+		$path = "./asset/upload/SK/" . $dir;
 		log_message('debug', 'path: ' . $path);
 
 		$config['upload_path']          = $path;
 		$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
 		$config['max_size']             = 50000; //set max size allowed in Kilobyte
 
-		$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
 		if (!is_dir($dir)) {
 			// mkdir($config['upload_path'], 0775, TRUE);
-			mkdir($root . $path, 0755, true);
+			mkdir($path, 0755, true);
 		}
 		// if (!is_dir($path)) {
 		// 	mkdir($path, 0755, true);
