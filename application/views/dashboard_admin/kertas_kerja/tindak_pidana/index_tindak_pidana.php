@@ -11,14 +11,15 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/fixedHeader.dataTables.min.css'); ?>" />
-	
-	
+
+
 	<style type="text/css">
 		.avoid-clicks {
-				pointer-events: none;
-				background-color: #dbdbdb;
-				cursor: no-drop;
-			}
+			pointer-events: none;
+			background-color: #dbdbdb;
+			cursor: no-drop;
+		}
+
 		.modal-header {
 			border-bottom-color: #f4f4f4;
 		}
@@ -215,6 +216,15 @@
 		}
 	</style>
 
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -311,6 +321,7 @@
 		function batal_form() {
 			$('#modal_all').modal('hide');
 		}
+
 		function batal_form_selesai() {
 			$('#modal_all').modal('hide');
 			window.location.reload();
@@ -320,7 +331,7 @@
 		function simpan_pengajuan() {
 
 			var formData = new FormData($('#form_tindak_pidana')[0]);
-			var	url = "<?php echo site_url('admin/Data_tindak_pidana/simpan_validasi'); ?>";
+			var url = "<?php echo site_url('admin/Data_tindak_pidana/simpan_validasi'); ?>";
 
 			$.ajax({
 				url: url,
@@ -356,10 +367,10 @@
 		function ajax_simpan_pengajuan() {
 			var formData = new FormData($('#form_tindak_pidana')[0]);
 			var url;
-			
-			if(save_method == 'tambah'){
+
+			if (save_method == 'tambah') {
 				url = "<?php echo site_url('admin/Data_tindak_pidana/simpan_tambah'); ?>";
-			} else if(save_method == 'edit'){
+			} else if (save_method == 'edit') {
 				url = "<?php echo site_url('admin/Data_tindak_pidana/simpan_edit'); ?>";
 			}
 
@@ -376,7 +387,7 @@
 				success: function(response) {
 					console.log(response);
 					//let url_cook = getCookie('url');
-					
+
 					const result = JSON.parse(response);
 					if (result.status == true) {
 						swal.fire({
@@ -398,33 +409,34 @@
 				}
 			});
 		}
-		
 
-	function delete_surat_tindak_pidana(Tindak_pidana_id) {
-		var i = "Hapus ?";
-		var b = "Data Dihapus";
-		if (!confirm(i)) return false;
-		$.ajax({
-			type: "post",
-			data: "Tindak_pidana_id=" + Tindak_pidana_id,
-			url: "<?php echo site_url('admin/Data_tindak_pidana/delete_tindak_pidana') ?>",
-			success: function(s) {
-				alert(s);
-				window.location.reload();
-			}
-		});
-	}
-	function simpan_verifikasi_tindak_pidana() {
 
-		var status_verify = $("#status_verify").val();
-		if (status_verify == '') {
-			alert('Tentukan Verifikasi...!');
-		} else {
-			ajax_simpan_verifikasi_tindak_pidana();
+		function delete_surat_tindak_pidana(Tindak_pidana_id) {
+			var i = "Hapus ?";
+			var b = "Data Dihapus";
+			if (!confirm(i)) return false;
+			$.ajax({
+				type: "post",
+				data: "Tindak_pidana_id=" + Tindak_pidana_id,
+				url: "<?php echo site_url('admin/Data_tindak_pidana/delete_tindak_pidana') ?>",
+				success: function(s) {
+					alert(s);
+					window.location.reload();
+				}
+			});
 		}
-	}
 
-	function ajax_simpan_verifikasi_tindak_pidana() {
+		function simpan_verifikasi_tindak_pidana() {
+
+			var status_verify = $("#status_verify").val();
+			if (status_verify == '') {
+				alert('Tentukan Verifikasi...!');
+			} else {
+				ajax_simpan_verifikasi_tindak_pidana();
+			}
+		}
+
+		function ajax_simpan_verifikasi_tindak_pidana() {
 			var formData = new FormData($('#form_verifikasi_tindak_pidana')[0]);
 			var url;
 			url = "<?php echo site_url('admin/Data_tindak_pidana/processSave'); ?>";

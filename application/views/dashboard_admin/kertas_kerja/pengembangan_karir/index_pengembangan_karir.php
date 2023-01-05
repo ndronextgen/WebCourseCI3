@@ -11,14 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/fixedHeader.dataTables.min.css'); ?>" />
-	
-	
+
 	<style type="text/css">
 		.avoid-clicks {
-				pointer-events: none;
-				background-color: #dbdbdb;
-				cursor: no-drop;
-			}
+			pointer-events: none;
+			background-color: #dbdbdb;
+			cursor: no-drop;
+		}
+
 		.modal-header {
 			border-bottom-color: #f4f4f4;
 		}
@@ -215,6 +215,15 @@
 		}
 	</style>
 
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -312,10 +321,12 @@
 			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 		}
+
 		function close_form() {
 			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 		}
+
 		function batal_form_selesai() {
 			$('#modal_all').modal('hide');
 			window.location.reload();
@@ -324,7 +335,7 @@
 		function simpan_pengajuan() {
 
 			var formData = new FormData($('#form_pengembangan_karir')[0]);
-			var	url = "<?php echo site_url('admin/Data_pengembangan_karir/simpan_validasi'); ?>";
+			var url = "<?php echo site_url('admin/Data_pengembangan_karir/simpan_validasi'); ?>";
 
 			$.ajax({
 				url: url,
@@ -353,17 +364,17 @@
 					}
 				}
 			});
-			
+
 		}
 
 
 		function ajax_simpan_pengajuan() {
 			var formData = new FormData($('#form_pengembangan_karir')[0]);
 			var url;
-			
-			if(save_method == 'tambah'){
+
+			if (save_method == 'tambah') {
 				url = "<?php echo site_url('admin/Data_pengembangan_karir/simpan_tambah'); ?>";
-			} else if(save_method == 'edit'){
+			} else if (save_method == 'edit') {
 				url = "<?php echo site_url('admin/Data_pengembangan_karir/simpan_edit'); ?>";
 			}
 
@@ -380,7 +391,7 @@
 				success: function(response) {
 					console.log(response);
 					//let url_cook = getCookie('url');
-					
+
 					const result = JSON.parse(response);
 					if (result.status == true) {
 						swal.fire({
@@ -403,33 +414,34 @@
 				}
 			});
 		}
-		
 
-	function delete_surat_pengembangan_karir(Pengembangan_karir_id) {
-		var i = "Hapus ?";
-		var b = "Data Dihapus";
-		if (!confirm(i)) return false;
-		$.ajax({
-			type: "post",
-			data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
-			url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
-			success: function(s) {
-				alert(s);
-				window.location.reload();
-			}
-		});
-	}
-	function simpan_verifikasi_pengembangan_karir() {
 
-		var status_verify = $("#status_verify").val();
-		if (status_verify == '') {
-			alert('Tentukan Verifikasi...!');
-		} else {
-			ajax_simpan_verifikasi_pengembangan_karir();
+		function delete_surat_pengembangan_karir(Pengembangan_karir_id) {
+			var i = "Hapus ?";
+			var b = "Data Dihapus";
+			if (!confirm(i)) return false;
+			$.ajax({
+				type: "post",
+				data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
+				url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
+				success: function(s) {
+					alert(s);
+					window.location.reload();
+				}
+			});
 		}
-	}
 
-	function ajax_simpan_verifikasi_pengembangan_karir() {
+		function simpan_verifikasi_pengembangan_karir() {
+
+			var status_verify = $("#status_verify").val();
+			if (status_verify == '') {
+				alert('Tentukan Verifikasi...!');
+			} else {
+				ajax_simpan_verifikasi_pengembangan_karir();
+			}
+		}
+
+		function ajax_simpan_verifikasi_pengembangan_karir() {
 			var formData = new FormData($('#form_verifikasi_pengembangan_karir')[0]);
 			var url;
 			url = "<?php echo site_url('admin/Data_pengembangan_karir/processSave'); ?>";

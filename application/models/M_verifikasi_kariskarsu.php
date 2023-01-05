@@ -36,7 +36,7 @@
 						a.Kariskarsu_id, 
 						a.Perkawinan_ke, 
 						a.Status_progress,
-						b.nama_status, 
+						b.nama_status, b.nama_status_next, b.backcolor, b.fontcolor,
 						a.Notes, 
 						a.File_surat_nikah, 
 						a.File_kk, 
@@ -54,7 +54,8 @@
 					FROM
 						tr_kariskarsu AS a
 					LEFT JOIN (
-						SELECT id_status, nama_status FROM tbl_status_surat
+						SELECT id_status, nama_status, nama_status_next, backcolor, fontcolor 
+						FROM tbl_status_surat
 					) as b ON b.id_status = a.Status_progress
 					LEFT JOIN (
 						SELECT username, nama_lengkap FROM tbl_user_login

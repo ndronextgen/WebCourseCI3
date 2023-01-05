@@ -1,3 +1,9 @@
+<style type="text/css">
+    .modal-body {
+        overflow-y: auto;
+    }
+</style>
+
 <div class="box box-info">
     <div class="box-header">
         <div class="box-tools pull-right">

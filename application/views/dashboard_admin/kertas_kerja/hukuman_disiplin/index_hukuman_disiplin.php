@@ -30,7 +30,7 @@
 			display: unset;
 		}
 
-		.badge {
+		/* .badge {
 			display: inline-block;
 			min-width: 10px;
 			padding: 3px 7px;
@@ -43,7 +43,7 @@
 			vertical-align: middle;
 			background-color: #777;
 			border-radius: 10px;
-		}
+		} */
 
 		.modal-header .close {
 			margin-top: -2px;
@@ -81,7 +81,7 @@
 			border-color: #00acd6;
 		}
 
-		.btn {
+		/* .btn {
 			display: inline-block;
 			padding: 6px 12px;
 			margin-bottom: 0;
@@ -101,7 +101,7 @@
 			background-image: none;
 			border: 1px solid transparent;
 			border-radius: 4px;
-		}
+		} */
 
 		.btn-group-xs>.btn,
 		.btn-xs {
@@ -212,6 +212,15 @@
 			white-space: nowrap;
 			vertical-align: baseline;
 			border-radius: 0.25em;
+		}
+	</style>
+
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
 		}
 	</style>
 

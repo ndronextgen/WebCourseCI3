@@ -192,11 +192,54 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				$button_download = '';
 			}
 
+			// === begin: badge-status ===
+			switch ((int) $key->Status_progress) {
+				case 0:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 21:
+					if ($key->is_dinas == 1) {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
+					} else {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+					}
+					// $status_surat = '<span class="badge btn-warning badge-status" 
+					// 						onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 22:
+				case 27:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+				case 23:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 3:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 24:
+				case 25:
+				case 28:
+				case 26:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				default:
+					$status_surat = '<span class="badge btn-dark badge-status" 
+												onclick="showTimeline(\'' . $key->Tindak_pidana_id . '\')">' . $key->nama_status_next . '</span>';
+					break;
+			}
+			// === end: badge-status ===
 
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
-			$row[] = $key->nama_status;
+			// $row[] = $key->nama_status;
+			$row[] = $status_surat;
 			$row[] = $key->Created_at;
 			$row[] = $data_bold;
 			$data[] = $row;
