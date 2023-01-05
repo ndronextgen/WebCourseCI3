@@ -935,6 +935,8 @@ class CI_Upload
 		}
 
 		$dir = $this->upload_path;
+		echo $dir;
+		die;
 		if (!is_dir($dir)) {
 			$dir = $this->upload_path;
 			mkdir($dir, 0755, true);
