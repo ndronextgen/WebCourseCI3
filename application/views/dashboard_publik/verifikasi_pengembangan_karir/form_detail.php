@@ -1,3 +1,9 @@
+<style type="text/css">
+    .modal-body {
+        overflow-y: auto;
+    }
+</style>
+
 <div class="box box-info">
     <div class="box-header">
         <div class="box-tools pull-right">
@@ -12,49 +18,49 @@
                     <div class="hr hr-18 hr-double dotted"></div>
 
                     <table class='table' cellspacing='10' cellpadding='5'>
-                <tr>
-                    <td width='260px'>Nama Lengkap</td>
-                    <td width='1px'>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
-                </tr>
-                <tr>
-                    <td>NIP / Nomor Identitas</td>
-                    <td>:</td>
-                    <td><?php echo $Data->nip; ?></td>
-                </tr>
-                <tr>
-                    <td>Satuan Organisasi</td>
-                    <td>:</td>
-                    <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
-                </tr>
-                <tr>
-                    <td>Tempat / Tanggal Lahir</td>
-                    <td>:</td>
-                    <td><?php echo $Data->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($Data->tanggal_lahir); ?></td>
-                </tr>
-                <tr>
-                    <td>Alamat / tempat tinggal</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
-                </tr>
-                <tr>
-                    <td>Keterangan</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Keterangan; ?></td>
-                </tr>
-                <tr>
-                    <td>Periode</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Periode_awal.' - '.$Data_pengembangan_karir->Periode_akhir; ?></td>
-                </tr>
-                <tr>
-                    <td>Digunakan Untuk</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
-                </tr>
+                        <tr>
+                            <td width='260px'>Nama Lengkap</td>
+                            <td width='1px'>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIP / NRK</td>
+                            <td>:</td>
+                            <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Satuan Organisasi</td>
+                            <td>:</td>
+                            <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Keterangan</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Keterangan; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Periode</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Periode_awal . ' - ' . $Data_pengembangan_karir->Periode_akhir; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Digunakan Untuk</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
+                        </tr>
 
-            </table>
-                    
+                    </table>
+
                 </div>
             </div>
     </div><!-- /.box-body -->

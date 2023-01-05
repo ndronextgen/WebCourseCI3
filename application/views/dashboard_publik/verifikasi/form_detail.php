@@ -52,7 +52,19 @@
                         <tr>
                             <td width='150px'>Status Surat</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $Data->status; ?></td>
+                            <td>
+                                <?php
+                                if ((int) $Data->id_status_srt == 21) {
+                                    if ($Data->is_dinas == 1) {
+                                        echo 'Menunggu Verifikasi Kepala Subkoordinator Kepegawaian';
+                                    } else {
+                                        echo 'Menunggu Verifikasi Kepala Subbagian';
+                                    }
+                                } else {
+                                    echo str_replace('<br>', ' ', $Data->nama_status_next);
+                                }
+                                ?>
+                            </td>
                         </tr>
                         <tr>
                             <td width='150px'>Tanggal Dibuat</td>
@@ -85,223 +97,30 @@
 
 <!-- <div class="box-body"> -->
 
-    <div class="box" style="background-color: #f1f1f6; border: 1px solid grey;">
+<div class="box" style="background-color: #f1f1f6; border: 1px solid grey;">
 
-        <legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;">
-            <h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4>
-        </legend>
+    <legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;">
+        <h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4>
+    </legend>
 
-        <div class="box-body">
+    <div class="box-body">
 
-            <div class="container" style="width:auto; padding-bottom: 25px;">
-                <div class="timeline">
-                    <ul class="ul-li-timeline">
+        <div class="container" style="width: auto;">
+            <div class="timeline">
+                <ul class="ul-li-timeline">
 
-                        <?php
-                        if (isset($data_history)) {
-                            foreach ($data_history as $data) {
-                                $nama_user = ucwords(strtolower($this->func_table->removeTitleFromName($data->nama_pegawai)));
-                                echo '
-								<li class="ul-li-timeline">
-									<div class="content">
-										<h3>' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . '</h3>
-										<p>' . $data->nama_status . '';
-                                if ($data->id_status == '24' or $data->id_status == '25' or $data->id_status == '26' or $data->id_status == '28') {
-                                    echo '<br><br>Alasan ditolak: ';
-                                    if ($data->keterangan_ditolak == '') {
-                                        echo '-';
-                                    } else {
-                                        echo $data->keterangan_ditolak;
-                                    }
-                                }
-                                echo '</p>
-									</div>
-									<div class="point"></div>
+                    <?php
+                    $data1['data_history'] = $data_history;
+                    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content', $data1);
+                    ?>
 
-									<div class="date">
-										<h4 style="padding: 15px 0;">' . $nama_user . '</h4>
-									</div>
-								</li>
-								';
-                            }
-
-
-
-                            $id_srt = $data->id_srt;
-                            $sSQL = "SELECT is_dinas from tbl_data_srt_ket where id_srt = '$id_srt'";
-                            $is_dinas = $this->db->query($sSQL)->row()->is_dinas;
-
-                            switch ($is_dinas) {
-                                case 1:
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '24'    // ditolak admin
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Verifikasi Admin</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '21' or // verifikasi admin
-                                        $data->id_status == '25'    // ditolak kasubbag kepegawaian
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Verifikasi Kepala Subbagian Kepegawaian</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '21' or // verifikasi admin
-                                        $data->id_status == '22' or // verifikasi kasubbag
-                                        $data->id_status == '26'    // ditolak sekdis
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Verifikasi Sekretaris Dinas</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Selesai</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '21' or // verifikasi admin
-                                        $data->id_status == '22' or // verifikasi kasubbag
-                                        $data->id_status == '23'    // verifikasi sekdis
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Selesai</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-
-                                    break;
-
-                                case 0 or 2:
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '24'    // ditolak admin
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Verifikasi Admin</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '21' or // verifikasi admin
-                                        $data->id_status == '28'    // ditolak kasubbag
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Verifikasi Kepala Subbagian</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-                                    if (
-                                        $data->id_status == '0' or  // menunggu
-                                        $data->id_status == '21' or // verifikasi admin
-                                        $data->id_status == '27'    // verifikasi kasubbag
-                                    ) {
-                                        echo '
-                                <li class="ul-li-timeline">
-                                    <div class="content">
-                                        <h3>-</h3>
-                                        <p  style="background-color: ">Selesai</p>
-                                    </div>
-                                    
-                                    <div class="point"></div>
-
-                                    <div class="date">
-                                        <h4 style="padding: 15px 0; background-color: ;">-</h4>
-                                    </div>
-                                </li>
-                                ';
-                                    }
-
-                                    break;
-                            }
-                        }
-                        ?>
-
-                    </ul>
-                </div>
+                </ul>
             </div>
-
         </div>
 
     </div>
+
+</div>
 
 <!-- </div> -->
 

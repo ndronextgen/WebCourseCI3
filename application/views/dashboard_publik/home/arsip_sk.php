@@ -289,7 +289,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3" id="label-photo">Upload File </label>
+							<label class="control-label col-md-3" id="label-photo">Upload File </label> 
 							<div class="col-md-9">
 								<div id="file_preview" style="float: left; padding-right: 10px;"></div>
 								<input id="file_sk" name="file_sk" type="file" class="form-control" style="font-size: 12px; width: 310px;" />

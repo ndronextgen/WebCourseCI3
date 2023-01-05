@@ -32,13 +32,13 @@
 		<thead>
 			<tr>
 				<th class="td_head" width='1px'>No</th>
-				<th class="td_head" width='80px' style="text-align: center;">Aksi</th>
+				<th class="td_head" width='80px'>Aksi</th>
 				<th class="td_head">Nama Pegawai</th>
 				<th class="td_head">Keterangan</th>
 				<th class="td_head">Periode</th>
 				<th class="td_head">Keperluan</th>
-				<th class="td_head">Status</th>
-				<th class="td_head" style="text-align: center;">Tanggal Dibuat</th>
+				<th class="td_head" width='180px' style="text-align: center;">Status</th>
+				<th class="td_head">Tanggal Dibuat</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -53,27 +53,27 @@
 			"url": "<?php echo site_url('admin/Data_pengembangan_karir/table_data_pengembangan_karir') ?>",
 			"type": "POST"
 		},
-		"aoColumns": [{
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "left"
-		}, {
-			"sClass": "left"
-		}, {
-			"sClass": "left"
-		}, {
-			"sClass": "left"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}],
 		"columnDefs": [{
 			"targets": [-1],
 			"orderable": false,
-		}, ],
+		}],
+		"aoColumns": [{
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}],
 		language: {
 			processing: 'Memuat...!',
 		},
@@ -96,34 +96,32 @@
 		"dom": '<"top"flp<"clear">>rt<"bottom"ifp<"clear">>'
 	});
 
-	function tambah_surat_pengembangan_karir()
-		{
-			save_method = 'tambah';
-				$.ajax({
-				url: "<?php echo site_url('admin/Data_pengembangan_karir/tambah_pengembangan_karir'); ?>",
-				type: "POST",
-				success: function(data) {
-					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
-				}
-				});
-			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all').modal('show'); // show bootstrap modal
-			$('.modal-title').text('Tambah Surat Pengembangan Karir Pegawai'); // Set Title to Bootstrap modal title
-		}
+	function tambah_surat_pengembangan_karir() {
+		save_method = 'tambah';
+		$.ajax({
+			url: "<?php echo site_url('admin/Data_pengembangan_karir/tambah_pengembangan_karir'); ?>",
+			type: "POST",
+			success: function(data) {
+				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Tambah Surat Pengembangan Karir Pegawai'); // Set Title to Bootstrap modal title
+	}
 
-	function edit_surat_pengembangan_karir(Pengembangan_karir_id)
-	{
+	function edit_surat_pengembangan_karir(Pengembangan_karir_id) {
 		save_method = 'edit';
-			$.ajax({
+		$.ajax({
 			url: "<?php echo site_url('admin/Data_pengembangan_karir/edit_pengembangan_karir'); ?>",
 			type: "POST",
-			data:{
+			data: {
 				Pengembangan_karir_id: Pengembangan_karir_id
 			},
 			success: function(data) {
 				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 			}
-			});
+		});
 		$('.modal-footer').hide(); // show bootstrap modal
 		$('#modal_all').modal('show'); // show bootstrap modal
 		$('.modal-title').text('Ubah Surat Pengembangan Karir Pegawai'); // Set Title to Bootstrap modal title

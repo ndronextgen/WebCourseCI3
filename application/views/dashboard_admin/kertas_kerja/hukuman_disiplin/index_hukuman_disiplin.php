@@ -11,14 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/fixedHeader.dataTables.min.css'); ?>" />
-	
-	
+
 	<style type="text/css">
 		.avoid-clicks {
-				pointer-events: none;
-				background-color: #dbdbdb;
-				cursor: no-drop;
-			}
+			pointer-events: none;
+			background-color: #dbdbdb;
+			cursor: no-drop;
+		}
+
 		.modal-header {
 			border-bottom-color: #f4f4f4;
 		}
@@ -30,7 +30,7 @@
 			display: unset;
 		}
 
-		.badge {
+		/* .badge {
 			display: inline-block;
 			min-width: 10px;
 			padding: 3px 7px;
@@ -43,7 +43,7 @@
 			vertical-align: middle;
 			background-color: #777;
 			border-radius: 10px;
-		}
+		} */
 
 		.modal-header .close {
 			margin-top: -2px;
@@ -81,7 +81,7 @@
 			border-color: #00acd6;
 		}
 
-		.btn {
+		/* .btn {
 			display: inline-block;
 			padding: 6px 12px;
 			margin-bottom: 0;
@@ -101,7 +101,7 @@
 			background-image: none;
 			border: 1px solid transparent;
 			border-radius: 4px;
-		}
+		} */
 
 		.btn-group-xs>.btn,
 		.btn-xs {
@@ -215,6 +215,15 @@
 		}
 	</style>
 
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -309,34 +318,57 @@
 		}
 
 		function batal_form() {
+			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 		}
+
 		function batal_form_selesai() {
+			$(".modal-backdrop").remove();
 			$('#modal_all').modal('hide');
 			window.location.reload();
 		}
 
 		function simpan_pengajuan() {
 
-			var type_surat 		= $("#type_surat").val();
-			var filter_pegawai 	= $("#filter_pegawai").val();
-			if (filter_pegawai == '') {
-				alert('Pilih Pegawai...!');
-			} else if (type_surat == '') {
-				alert('Pilih Type Surat...!');
-			} else  {
-				ajax_simpan_pengajuan();
-			}
-		}
+			var formData = new FormData($('#form_hukdis')[0]);
+			var url = "<?php echo site_url('admin/Data_hukuman_disiplin/simpan_validasi'); ?>";
 
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						ajax_simpan_pengajuan()
+					} else {
+						swal.fire({
+							type: 'error',
+							title: result.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
+					}
+				}
+			});
+		}
 
 		function ajax_simpan_pengajuan() {
 			var formData = new FormData($('#form_hukdis')[0]);
 			var url;
-			
-			if(save_method == 'tambah'){
+
+			if (save_method == 'tambah') {
 				url = "<?php echo site_url('admin/Data_hukuman_disiplin/simpan_tambah'); ?>";
-			} else if(save_method == 'edit'){
+			} else if (save_method == 'edit') {
 				url = "<?php echo site_url('admin/Data_hukuman_disiplin/simpan_edit'); ?>";
 			}
 
@@ -353,14 +385,14 @@
 				success: function(response) {
 					console.log(response);
 					//let url_cook = getCookie('url');
-					
+
 					const result = JSON.parse(response);
 					if (result.status == true) {
 						swal.fire({
 							type: 'success',
 							title: 'Data berhasil disimpan!',
 							showConfirmButton: false,
-							timer: 1500
+							timer: 1800
 						});
 						$('#btn_tmb').text('Simpan');
 						$('#btn_tmb').attr('disabled', false);
@@ -375,33 +407,33 @@
 				}
 			});
 		}
-		
 
-	function delete_surat_hukdis(Hukdis_id) {
-		var i = "Hapus ?";
-		var b = "Data Dihapus";
-		if (!confirm(i)) return false;
-		$.ajax({
-			type: "post",
-			data: "Hukdis_id=" + Hukdis_id,
-			url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
-			success: function(s) {
-				alert(s);
-				window.location.reload();
-			}
-		});
-	}
-	function simpan_verifikasi_hukdis() {
 
-		var status_verify = $("#status_verify").val();
-		if (status_verify == '') {
-			alert('Tentukan Verifikasi...!');
-		} else {
-			ajax_simpan_verifikasi_hukdis();
+		function delete_surat_hukdis(Hukdis_id) {
+			var i = "Hapus ?";
+			var b = "Data Dihapus";
+			if (!confirm(i)) return false;
+			$.ajax({
+				type: "post",
+				data: "Hukdis_id=" + Hukdis_id,
+				url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
+				success: function(s) {
+					alert(s);
+					window.location.reload();
+				}
+			});
 		}
-	}
 
-	function ajax_simpan_verifikasi_hukdis() {
+		function simpan_verifikasi_hukdis() {
+			var status_verify = $("#status_verify").val();
+			if (status_verify == '') {
+				alert('Tentukan Verifikasi...!');
+			} else {
+				ajax_simpan_verifikasi_hukdis();
+			}
+		}
+
+		function ajax_simpan_verifikasi_hukdis() {
 			var formData = new FormData($('#form_verifikasi_hukdis')[0]);
 			var url;
 			url = "<?php echo site_url('admin/Data_hukuman_disiplin/processSave'); ?>";

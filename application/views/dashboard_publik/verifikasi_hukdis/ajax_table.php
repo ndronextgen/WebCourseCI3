@@ -18,12 +18,12 @@
 						<thead>
 							<tr>
 								<th width='1px'>No</th>
-								<th width='80px' style="text-align: center;">Aksi</th>
+								<th width='80px'>Aksi</th>
 								<th>Nama Pegawai</th>
 								<th>Tipe Surat</th>
 								<!-- <th>Keterangan</th> -->
 								<th>Status</th>
-								<th style="text-align: center;">Tanggal Dibuat</th>
+								<th>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>
@@ -47,6 +47,19 @@
 		"columnDefs": [{
 			"targets": [-0],
 			"orderable": false,
+		}],
+		"aoColumns": [{
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "left"
 		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			if (aData[6] == "21" || aData[6] == "22") {

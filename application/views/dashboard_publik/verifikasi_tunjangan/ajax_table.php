@@ -21,7 +21,7 @@
 								<th width='0px'>Aksi</th>
 								<th>Peraturan</th>
 								<th>Nama Pegawai</th>
-								<th>Status</th>
+								<th style="text-align: center;">Status</th>
 								<th>Tanggal Dibuat</th>
 							</tr>
 						</thead>
@@ -46,6 +46,20 @@
 		"columnDefs": [{
 			"targets": [-0],
 			"orderable": false,
+		}],
+		// set column align
+		"aoColumns": [{
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "left"
 		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			if (aData[6] == "21" || aData[6] == "22") {

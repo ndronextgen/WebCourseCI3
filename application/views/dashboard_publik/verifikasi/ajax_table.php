@@ -47,7 +47,23 @@
 		"columnDefs": [{
 			"targets": [-0],
 			"orderable": false,
-		}, ],
+		}],
+		// set column align
+		"aoColumns": [{
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "left"
+		}, {
+			"sClass": "left"
+		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			if (aData[7] == "21" || aData[7] == "22") {
 				/*mapping*/

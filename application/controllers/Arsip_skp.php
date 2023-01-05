@@ -184,11 +184,19 @@ class Arsip_skp extends CI_Controller
 		$data['error_string'] = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
+
 		if ($this->input->post('title_skp') == '') {
 			$data['inputerror'][] = 'title_skp';
 			$data['error_string'][] = 'Judul skp wajib di isi';
 			$data['status'] = FALSE;
 		}
+
+		if ($_FILES['file_skp']['name'] == '') {
+			$data['inputerror'][] = 'file_skp';
+			$data['error_string'][] = 'File wajib ada.';
+			$data['status'] = FALSE;
+		}
+
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);
 			exit();

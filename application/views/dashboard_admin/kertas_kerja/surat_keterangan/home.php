@@ -1,5 +1,14 @@
 <?php headAdminHtml(); ?>
 
+<!-- css badge status -->
+<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 <body style="background-image: url(<?php echo base_url() . 'assets_admin/media/bg/header.jpg'; ?>); background-position: center top; background-size: 100% 350px;" class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-menu kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
 	<?php
 	headerAdmin();

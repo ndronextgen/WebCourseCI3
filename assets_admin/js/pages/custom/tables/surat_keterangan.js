@@ -228,7 +228,7 @@ function search() {
 
 //delete
 function deleteSuratKeterangan(id) {
-    if (confirm("Apakah kamu yakin mau menghapus data ini kah?")) {
+    if (confirm("Apakah kamu yakin mau menghapus data ini  ?")) {
         let url = getCookie("url");
         let param = {
             id_surat: id,

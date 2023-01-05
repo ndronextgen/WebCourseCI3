@@ -27,20 +27,20 @@
 		<thead>
 			<tr>
 				<th class="td_head" width='1px' rowspan='2'>No</th>
-				<th class="td_head" width='80px' rowspan='2' style="text-align: center;">Aksi</th>
+				<th class="td_head" width='80px' rowspan='2'>Aksi</th>
 				<th class="td_head" rowspan='2'>Nama Pegawai</th>
 				<th class="td_head" rowspan='2'>Perihal</th>
-				<th class="td_head" rowspan='2'>Status</th>
+				<th class="td_head" rowspan='2'style="text-align: center;">Status</th>
 				<th class="td_head" colspan='6' style="text-align: center;">File Pendukung</th>
-				<th class="td_head" rowspan='2' style="text-align: center;">Tanggal Dibuat</th>
+				<th class="td_head" rowspan='2'>Tanggal Dibuat</th>
 			</tr>
 			<tr>
 				<th class="td_head">Surat Nikah</th>
-				<th class="td_head">KK</th>
+				<th class="td_head" style="text-align: center;">KK</th>
 				<th class="td_head">KTP Suami</th>
 				<th class="td_head">KTP Istri</th>
 				<th class="td_head">SK CPNS/PNS</th>
-				<th class="td_head">Foto</th>
+				<th class="td_head" style="text-align: center;">Foto</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -58,8 +58,6 @@
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
-			"sClass": "center"
-		}, {
 			"sClass": "left"
 		}, {
 			"sClass": "left"
@@ -79,6 +77,8 @@
 			"sClass": "center"
 		}, {
 			"sClass": "center"
+		}, {
+			"sClass": "left"
 		}],
 		"columnDefs": [{
 			"targets": [-1],

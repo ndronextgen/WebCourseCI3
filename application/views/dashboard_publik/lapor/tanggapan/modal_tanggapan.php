@@ -1,8 +1,11 @@
+<!-- jquery-confirm -->
+<link rel="stylesheet" href="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.css'); ?>">
+	<script src="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
 <div class="box-body">
     <span>
         <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #32a6a8;">Nama Lengkap : <?php echo $Data->nama_pegawai; ?></small>
         <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #bd74fc;">NIP : <?php echo $Data->nip; ?></small>
-        <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #e0b438;">Judul Lapor : <?php echo $Data_lapor->Judul_laporan; ?></small>
+        <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #e0b438;">Judul Lapor : <?php echo $Data_lapor->Isi_laporan; ?></small>
 
     </span>
     <div id="table_tanggapan"></div>

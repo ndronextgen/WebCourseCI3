@@ -26,8 +26,8 @@
 	<thead>
 		<tr height='50px;'>
 			<td class="td_head" width='10px'>No.</td>
-			<td class="td_head" width='120px'>Aksi</td>
-			<td class="td_head">Status Terakhir</td>
+			<td class="td_head" width='180px'>Aksi</td>
+			<td class="td_head" width='200px'>Status Terakhir</td>
 			<td class="td_head">Dibuat Oleh</td>
 			<td class="td_head">Tanggal Dibuat</td>
 		</tr>
@@ -46,13 +46,13 @@
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
 			"sClass": "center"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}],
 		language: {
 			processing: 'Memuat...',

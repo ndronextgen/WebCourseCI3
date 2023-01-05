@@ -214,7 +214,7 @@ echo '</div>'; ?>
             <div class="col-sm-12">
                 <div class="form-group">
                     <input type='hidden' name='Tunjangan_id' value='<?php echo $Tunjangan_id; ?>'>
-                    <button type="button" style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tunjangan()"><i class="fa fa-save"></i> Simpan Verifikasi Pengajuan Surat Tunjangan</button>&nbsp;&nbsp;
+                    <button type="button" style='float:right;' id="btn_simpan_verifikasi" class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tunjangan()"><i class="fa fa-save"></i> Simpan Verifikasi Pengajuan Surat Tunjangan</button>&nbsp;&nbsp;
                     <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>

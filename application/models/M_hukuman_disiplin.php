@@ -42,13 +42,14 @@ class M_hukuman_disiplin extends CI_Model
 						a.Updated_by, 
 						a.Updated_at,
 						c.nama_lengkap,
-						b.nama_status,
+						b.nama_status, b.nama_status_next, b.backcolor, b.fontcolor,
 						d.nama_type as nama_type,
 						e.nama_pegawai
 					FROM
 						tr_hukdis AS a
 					LEFT JOIN (
-						SELECT id_status, nama_status FROM tbl_status_surat
+						SELECT id_status, nama_status, nama_status_next, backcolor, fontcolor
+						FROM tbl_status_surat
 					) as b ON b.id_status = a.Status_progress
 					LEFT JOIN (
 						SELECT username, nama_lengkap FROM tbl_user_login
