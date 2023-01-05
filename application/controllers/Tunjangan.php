@@ -163,12 +163,12 @@ class Tunjangan extends CI_Controller
 
 			$row = array();
 
-			$button_view 		= '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-eye"></i> &nbsp;Detail</a>';
-			$button_edit 		= '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-edit"></i> &nbsp;Edit</a>';
-			$button_delete 		= '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-trash"></i> &nbsp;Hapus</a>';
+			$button_view 		= '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-eye"></i>&nbsp;Detail</a>';
+			$button_edit 		= '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-edit"></i>&nbsp;Edit</a>';
+			$button_delete 		= '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-trash"></i>&nbsp;Hapus</a>';
 			$button_download 	= '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tunjangan/download_surat/' . $key->Tunjangan_id . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="Download">
-											<i class="fa fa-file"></i> &nbsp;Download
+											<i class="fa fa-file"></i>&nbsp;Download
 										</button>
 									</a>';
 
@@ -205,17 +205,48 @@ class Tunjangan extends CI_Controller
 			$row[] = $key->Digaji_menurut;
 
 			// $row[] = $key->nama_status;
-			if ($key->nama_status == "Selesai") {
-				$status_surat = '<span class="badge btn-success btn-flat" onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="cursor: pointer;">Selesai</span>';
-			} else if ($key->nama_status == "Menunggu") {
-				$status_surat = '<span class="badge btn-warning btn-flat" onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="cursor: pointer;">Menunggu</span>';
-			} else if ($key->nama_status == "Sedang Diproses") {
-				$status_surat = '<span class="badge btn-primary btn-flat" onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="cursor: pointer;">Sedang Diproses</span>';
-			} else if ($key->nama_status == "Ditolak") {
-				$status_surat = '<span class="badge btn-danger btn-flat" onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="cursor: pointer;">Ditolak</span>';
-			} else {
-				$status_surat = '<span class="badge btn-dark btn-flat" onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="cursor: pointer;">' . $key->nama_status . '</span>';
+			// === begin: badge-status ===
+			switch ((int) $key->Status_progress) {
+				case 0:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 21:
+					if ($key->is_dinas == 1) {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
+					} else {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+					}
+					// $status_surat = '<span class="badge btn-warning badge-status" 
+					// 						onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 22:
+				case 27:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+				case 23:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 3:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 24:
+				case 25:
+				case 28:
+				case 26:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				default:
+					$status_surat = '<span class="badge btn-dark badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')">' . $key->nama_status_next . '</span>';
+					break;
 			}
+			// === end: badge-status ===
 			$row[] = $status_surat;
 
 			$row[] = $key->Created_at;
@@ -866,7 +897,7 @@ class Tunjangan extends CI_Controller
 
 		$sSQL = "SELECT
 					his.tunjangan_id,
-					his.user_created,
+					his.user_created, surat.is_dinas,
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
 					stat.id_status,
@@ -885,11 +916,11 @@ class Tunjangan extends CI_Controller
 				where
 					his.tunjangan_id = '$tunjangan_id' 
 				order by
-					his.user_created,
-					his.id";
-		$rsSQL = $this->db->query($sSQL)->result();
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/timeline', $a);
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/timeline', $a);
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 	}
 }

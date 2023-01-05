@@ -40,7 +40,7 @@
 									<tr>
 										<th width='0px' style='text-align: center;'>Aksi</th>
 										<th>Peraturan</th>
-										<th>Status</th>
+										<th style="text-align: center;">Status</th>
 										<th>Tanggal Dibuat</th>
 									</tr>
 								</thead>
@@ -67,9 +67,9 @@
 				}, {
 					"sClass": "left"
 				}, {
-					"sClass": "left"
-				}, {
 					"sClass": "center"
+				}, {
+					"sClass": "left"
 				}],
 				"columnDefs": [{
 					"targets": [-1],
@@ -144,7 +144,7 @@
 					contentType: false,
 					beforeSend: function() {
 						$('#btn_tmb').text('Menyimpan...');
-						$('#btn_tmb').attr('disabled', true);
+						$('#btn_tmb').prop('disabled', true);
 					},
 					success: function(response) {
 						let arrPesan = response.split("|");

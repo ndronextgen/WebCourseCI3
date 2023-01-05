@@ -29,7 +29,7 @@
 	}
 </style>
 
-<?php echo form_open_multipart('dashboard_publik/simpan_surat', 'class="form-horizontal"'); ?>
+<?php echo form_open_multipart('dashboard_publik/simpan_surat', 'class="form-horizontal form-modal"'); ?>
 <!-- Main content -->
 <section id="data-sk" class="content" style="padding-right: 0px; padding-left: 0px;"> 
 
@@ -176,8 +176,8 @@
 						<hr>
 
 						<div class="control-group">
-							<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form()"><i class="fa fa-times"></i>&nbsp;&nbsp;Batal</button>
-							<button type="submit" style='float:right;' class="btn btn-success  btn-sm"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan Data</button>
+							<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form ()"><i class="fa fa-times"></i>&nbsp;&nbsp;Batal</button>
+							<button type="submit" style='float:right;' id="btnSubmit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan Data</button>
 						</div>
 						<input type="hidden" name="id_param" value="<?php echo $id_param; ?>">
 						<input type="hidden" name="st" value="<?php echo $st; ?>">
@@ -213,6 +213,12 @@
 				"targets": [-1], //last column
 				"orderable": false, //set not orderable
 			}, ],
+		});
+
+		$("form.form-modal").submit(function (e) {
+			e.preventDefault();
+			$("#btnSubmit").prop("disabled", true);
+			this.submit();
 		});
 
 	});

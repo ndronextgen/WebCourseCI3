@@ -90,10 +90,53 @@ class Data_tunjangan extends CI_Controller
 				$see = '0';
 			}
 
+			// === begin: badge-status ===
+			switch ((int) $key->Status_progress) {
+				case 0:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 21:
+					if ($key->is_dinas == 1) {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
+					} else {
+						$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+					}
+					// $status_surat = '<span class="badge btn-warning badge-status" 
+					// 						onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 22:
+				case 27:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+				case 23:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 3:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 24:
+				case 25:
+				case 28:
+				case 26:
+					$status_surat = '<span class="badge badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				default:
+					$status_surat = '<span class="badge btn-dark badge-status" 
+												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')">' . $key->nama_status_next . '</span>';
+					break;
+			}
+			// === end: badge-status ===
 
 			$row[] = $no;
 			$row[] = $button;
-			$row[] = $key->nama_status;
+			// $row[] = $key->nama_status;
+			$row[] = $status_surat;
 			$row[] = $this->func_table->name_format($key->nama_lengkap);
 			$row[] = $key->Created_at;
 			$row[] = $see;
@@ -543,7 +586,27 @@ class Data_tunjangan extends CI_Controller
 			echo 'Request tidak valid.2';
 		}
 	}
+
+	function delete_tunjangan()
+	{
+		$Tunjangan_id = $this->input->post('Tunjangan_id');
+
+		$delete = $this->db->delete('tr_tunjangan', array('tunjangan_id' => $Tunjangan_id));
+		if ($delete) {
+			$message =  'Data berhasil dihapus';
+			$status = true;
+		} else {
+			$message = 'Data gagal dihapus';
+			$status = false;
+		}
+		$result = [
+			'message' => $message,
+			'status' => $status
+		];
+
+		echo json_encode($result);
+	}
 }
 
-/* End of file data_riwayat_jabatan.php */
-/* Location: ./application/controllers/data_riwayat_jabatan.php */
+// End of file Data_tunjangan.php
+// Location: ./application/controllers/admin/Data_tunjangan.php

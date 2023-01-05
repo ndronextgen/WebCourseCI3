@@ -209,6 +209,15 @@
 		}
 	</style>
 
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -308,19 +317,67 @@
 			$('#modal_all').modal('hide');
 		}
 
-		function delete_lapor(Id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Id=" + Id,
-				url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-				success: function(s) {
-					alert(s);
-					reload_table();
+		// function delete_lapor(Id) {
+		// 	var i = "Hapus ?";
+		// 	var b = "Data Dihapus";
+		// 	if (!confirm(i)) return false;
+		// 	$.ajax({
+		// 		type: "post",
+		// 		data: "Id=" + Id,
+		// 		url: "<?php echo site_url('Lapor/delete_lapor') ?>",
+		// 		success: function(s) {
+		// 			alert(s);
+		// 			reload_table();
+		// 		}
+		// 	});
+		// }
+
+		function delete_tunjangan(Tunjangan_id) {
+			let q = 'Hapus data permohonan tunjangan keluarga?';
+			let i = 'Data berhasil dihapus.';
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: "Tunjangan_id=" + Tunjangan_id,
+								url: "<?php echo site_url('admin/data_tunjangan/delete_tunjangan') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										icon: 'fa fa-info',
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+
+									window.location.reload();
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+									$jQ.dialog({
+										icon: 'fa fa-info',
+										title: 'Info',
+										content: e,
+										type: 'red',
+										backgroundDismiss: true
+									});
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
+			})
 		}
 
 		function simpan_verifikasi_tunjangan() {
@@ -345,6 +402,10 @@
 				data: formData,
 				processData: false,
 				contentType: false,
+				beforeSend: function() {
+					$('#btn_simpan_verifikasi').text('Menyimpan...');
+					$('#btn_simpan_verifikasi').prop('disabled', true);
+				},
 				success: function(response) {
 					let url_cook = getCookie('url');
 					$('#modal_all').modal('hide');
@@ -369,3 +430,6 @@
 	</script>
 	<!-- end script page -->
 </body>
+
+<!-- End of file index_tunjangan.php -->
+<!-- Location: ./application/views/dashboard_admin/tunjangan/index_tunjangan.php -->

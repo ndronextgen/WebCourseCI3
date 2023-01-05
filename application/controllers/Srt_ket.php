@@ -11,7 +11,7 @@ class Srt_ket extends CI_Controller
 		$this->load->library('func_table');
 		date_default_timezone_set('Asia/Bangkok');
 	}
-	public function srt_datatables() 
+	public function srt_datatables()
 	{
 		// Datatables Variables
 		$id = $this->session->userdata('id_pegawai');
@@ -20,17 +20,50 @@ class Srt_ket extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($list as $r) {
-			if ($r->nama_status == "Selesai") {
-				$status_surat = '<span class="badge btn-success btn-flat" onclick="showTimeline(' . $r->id_srt . ')" style="cursor: pointer;">Selesai</span>';
-			} else if ($r->nama_status == "Menunggu") {
-				$status_surat = '<span class="badge btn-warning btn-flat" onclick="showTimeline(' . $r->id_srt . ')" style="cursor: pointer;">Menunggu</span>';
-			} else if ($r->nama_status == "Sedang Diproses") {
-				$status_surat = '<span class="badge btn-primary btn-flat" onclick="showTimeline(' . $r->id_srt . ')" style="cursor: pointer;">Sedang Diproses</span>';
-			} else if ($r->nama_status == "Ditolak") {
-				$status_surat = '<span class="badge btn-danger btn-flat" onclick="showTimeline(' . $r->id_srt . ')" style="cursor: pointer;">Ditolak</span>';
-			} else {
-				$status_surat = '<span class="badge btn-dark btn-flat" onclick="showTimeline(' . $r->id_srt . ')" style="cursor: pointer;">' . $r->nama_status . '</span>';
+
+			// === begin: badge-status ===
+			switch ((int) $r->id_status) {
+				case 0:
+					$status_surat = '<span class="badge btn-light btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+					break;
+				case 21:
+					if ($r->is_dinas == 1) {
+						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
+					} else {
+						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+					}
+					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+					// 						onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+					break;
+				case 22:
+				case 27:
+					$status_surat = '<span class="badge btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+				case 23:
+					$status_surat = '<span class="badge btn-info btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+					break;
+				case 3:
+					$status_surat = '<span class="badge btn-success btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+					break;
+				case 24:
+				case 25:
+				case 28:
+				case 26:
+					$status_surat = '<span class="badge btn-danger btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
+					break;
+				default:
+					$status_surat = '<span class="badge btn-dark btn-flat badge-status" 
+									onclick="showTimeline(' . $r->id_srt . ')">' . $r->nama_status_next . '</span>';
+					break;
 			}
+			// === end: badge-status ===
+
 			$see = $this->func_table->see_public($id, $r->id_srt);
 			$no++;
 			$row = array();
@@ -38,6 +71,7 @@ class Srt_ket extends CI_Controller
 			$row[] = $no;
 			$row[] = $r->nama_surat;
 			$row[] = $r->tgl_surat;
+
 			// begin: change by joe 2022.10.14
 			// $row[] = $r->keterangan;
 			if (strtolower($r->jenis_pengajuan_surat) == 'x') {
@@ -47,6 +81,7 @@ class Srt_ket extends CI_Controller
 			}
 			// $row[] = $r->jenis_pengajuan_surat;
 			// end: change by joe 2022.10.14
+
 			$row[] = $status_surat;
 			$button = '';
 			switch ($r->id_status_srt) {
@@ -55,10 +90,10 @@ class Srt_ket extends CI_Controller
 				case 25:
 				case 26:
 					//ditolak
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
-					<!--		<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Detail" onclick="lihat_detail_ditolak(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-list-alt"></i> &nbsp;Detail</a>-->
-					<!--		<a class="btn btn-sm btn-primary" href="' . base_url() . 'dashboard_publik/pengajuan_surat_detail/' . $r->id_srt . '" title="Detail"><i class="glyphicon glyphicon-list-alt"></i> &nbsp;Detail</a>-->';
-					$button .= '<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i> &nbsp;Hapus</a>';
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+					<!--		<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Detail" onclick="lihat_detail_ditolak(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Detail</a>-->
+					<!--		<a class="btn btn-sm btn-primary" href="' . base_url() . 'dashboard_publik/pengajuan_surat_detail/' . $r->id_srt . '" title="Detail"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Detail</a>-->';
+					$button .= '<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp;Hapus</a>';
 					break;
 
 				case 2:
@@ -69,26 +104,26 @@ class Srt_ket extends CI_Controller
 					// 		<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-o"></i> Download</button>
 					// 	</a>';
 					//proses
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
 								<a class="btn btn-sm btn-primary" target="_blank" href="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" title="Download">
-									<i class="glyphicon glyphicon-download"></i> &nbsp;Download
+									<i class="glyphicon glyphicon-download"></i>&nbsp;Download
 								</a>';
 					break;
 
 				case 3:
 					if ($r->select_ttd == 'basah') {
 						//selesai
-						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
+						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
 									<a href="' . base_url() . 'admin/surat_keterangan/download_surat_finished_public/' . $r->id_srt . '" target="_blank">
-										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-o"></i> &nbsp;Download</button>
+										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-o"></i>&nbsp;Download</button>
 									</a>';
 						break;
 					} else {
 						//selesai
-						$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
+						$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
 									<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat_digital/' . $r->id_srt . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="Download">
-											<i class="fa fa-file-o"></i> &nbsp;Download
+											<i class="fa fa-file-o"></i>&nbsp;Download
 										</button>
 									</a>';
 						break;
@@ -96,22 +131,22 @@ class Srt_ket extends CI_Controller
 
 				case 0:
 					//menunggu
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
-								<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-pencil"></i> &nbsp;Edit</a>
-					 			<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i> &nbsp;Hapus</a>';
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+								<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</a>
+								<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp;Hapus</a>';
 					break;
 				case 21:
 				case 22:
 				case 23:
 					//proses
-					$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>';
+					$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>';
 					break;
 				case 27:
 					//proses
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i> &nbsp;Detail</a>
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
 								<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" href="javascript:void(0);">
 									<button type="button" class="btn btn-warning btn-sm" title="Download">
-										<i class="fa fa-file-o"></i> &nbsp;Download (-)
+										<i class="fa fa-file-o"></i>&nbsp;Download (-)
 										</button>
 								</a>';
 					break;
@@ -130,16 +165,19 @@ class Srt_ket extends CI_Controller
 		//output to json format
 		echo json_encode($output);
 	}
+
 	public function srt_edit($id_srt)
 	{
 		$data = $this->tbl_data_srt_ket->get_by_id($id_srt);
 		echo json_encode($data);
 	}
+
 	public function srt_view()
 	{
 		$Id = $this->input->post('id_srt');
 		$data = $this->db->query(
-			"SELECT a.*, b.nama_surat as jenis_surat, c.nama_status as status, e.nama_lengkap, f.keterangan as pengajuan_surat_lain
+			"SELECT a.*, b.nama_surat as jenis_surat, c.nama_status as status, c.nama_status_next, e.nama_lengkap, 
+				f.keterangan as pengajuan_surat_lain
 			from tbl_data_srt_ket a 
 			left join tbl_master_surat b on a.jenis_surat = b.id_mst_srt 
 			left join tbl_status_surat c on a.id_status_srt = c.id_status 
@@ -155,7 +193,7 @@ class Srt_ket extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
@@ -174,13 +212,14 @@ class Srt_ket extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+				order by his.created_at";
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
 		$this->load->view('dashboard_publik/home/view_status_surat', $a);
 	}
+
 	public function srt_update()
 	{
 		$this->_validate_srt();
@@ -205,6 +244,7 @@ class Srt_ket extends CI_Controller
 		$this->tbl_data_srt_ket->update(array('id_srt' => $this->input->post('id_srt')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
+
 	public function srt_delete()
 	{
 		$id_srt = $this->input->post('id_srt');
@@ -214,6 +254,7 @@ class Srt_ket extends CI_Controller
 		$this->tbl_data_srt_ket->delete_by_id($id_srt);
 		echo json_encode(array("status" => TRUE));
 	}
+
 	private function _validate_srt()
 	{
 		$data = array();
@@ -263,17 +304,17 @@ class Srt_ket extends CI_Controller
 		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 		$count_see_tj 		= $this->func_table->count_see_tj($this->session->userdata('username'));
 		$count_see_kaku		= $this->func_table->count_see_kaku($this->session->userdata('username'));
-		
+
 		$total = $count_see + $count_see_tj + $count_see_kaku;
-		
+
 		if ($count_see > 0) {
 			$res_count_see = '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
 		} else {
 			$res_count_see = '';
 		}
-		
+
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total. '</span>';
+			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
 		} else {
 			$res_total = '';
 		}
@@ -291,7 +332,7 @@ class Srt_ket extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
@@ -311,7 +352,7 @@ class Srt_ket extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);

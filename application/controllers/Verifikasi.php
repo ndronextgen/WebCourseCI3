@@ -4,6 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Verifikasi extends CI_Controller
 {
+	
+	/*
+		***	Controller : Verifikasi.php
+	*/
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -160,14 +165,15 @@ class Verifikasi extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
+
 			$button = '	<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->id_srt . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
-			# jika user adalah kasubag kepegawaian
-			# maka kyang ditampilkan adalah surat yang statusnya ('21','22','23','24','25','26','3')
-			# dan tombolverifikasi muncul di status 21
-			# jika user adalah sekdis tombol 22
 
+			# jika user adalah kasubag kepegawaian
+			# maka yang ditampilkan adalah surat yang statusnya ('21','22','23','24','25','26','3')
+			# dan tombol verifikasi muncul di status 21
+			# jika user adalah sekdis tombol 22
 
 			if ($status_verifikasi == 'kepegawaian' and ($key->id_status_srt == '21' || $key->id_status_srt == '26')) {
 				$button_verifikasi = '	<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_kep(' . "'" . $key->id_srt . "'" . ')">
@@ -208,12 +214,55 @@ class Verifikasi extends CI_Controller
 				$button_download = '';
 			}
 
+			// === begin: badge-status ===
+			switch ((int) $key->id_status_srt) {
+				case 0:
+					$status_surat = '<span class="badge btn-light btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 21:
+					if ($key->is_dinas == 1) {
+						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subkoordinator<br>Kepegawaian</span>';
+					} else {
+						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
+					}
+					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
+					// 						onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 22:
+				case 27:
+					$status_surat = '<span class="badge btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+				case 23:
+					$status_surat = '<span class="badge btn-info btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 3:
+					$status_surat = '<span class="badge btn-success btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				case 24:
+				case 25:
+				case 28:
+				case 26:
+					$status_surat = '<span class="badge btn-danger btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
+					break;
+				default:
+					$status_surat = '<span class="badge btn-dark btn-flat badge-status" 
+									onclick="showTimeline(' . $key->id_srt . ')">' . $key->nama_status_next . '</span>';
+					break;
+			}
+			// === end: badge-status ===
 
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = $key->nama_surat;
 			$row[] = $this->func_table->name_format($key->nama);
-			$row[] = $key->status;
+			// $row[] = $key->status;
+			$row[] = $status_surat;
 			$row[] = $key->keterangan_pengajuan;
 			$row[] = $key->tgl_proses;
 			$row[] = $data_bold;
@@ -283,6 +332,9 @@ class Verifikasi extends CI_Controller
 
 	function simpan_verifikasi_kep()
 	{
+		$status = false;
+		$message = '';
+
 		$Id 			= $this->input->post('Id'); //id surat
 		$username 		= $this->session->userdata('username');
 		$status_verify 	= $this->input->post('status_verify');
@@ -313,11 +365,11 @@ class Verifikasi extends CI_Controller
 			$hist_srt['id_status_srt'] = $status_verify;
 			$hist_srt['keterangan_ditolak'] = $alasan_ditolak;
 			if ($this->db->insert('tbl_history_srt_ket', $hist_srt)) {
-				$status = true;
 				$see = $this->func_table->in_tosee_sk($Q_select->id_user, $Id, $status_verify, $this->session->userdata("id_user"));
-				$message = 'Berhasil menyimpan data.';
+				$status = true;
+				$message = 'Berhasil verifikasi.';
 			} else {
-				$message = 'Gagal menyimpan data.';
+				$message = 'Gagal verifikasi.';
 			}
 
 			if ($Q_select->select_ttd == 'digital' and ($status_verify == '23' || $status_verify == '27')) {
@@ -333,12 +385,16 @@ class Verifikasi extends CI_Controller
 			}
 			$send_notif_sk 	= $this->func_wa_sk->notif_sk_update($Id);
 		} else {
-			$message = 'Gagal menyimpan data.';
+			$message = 'Gagal verifikasi.';
 		}
-		echo $message;
+		// echo $message;
+
+		$result = [
+			'status' => $status,
+			'message' => $message
+		];
+		echo json_encode($result);
 	}
-
-
 
 	function form_detail()
 	{
@@ -348,7 +404,7 @@ class Verifikasi extends CI_Controller
 			"SELECT
 				a.id_srt, a.id_user, a.nama, 
 				a.nip, a.nrk, a.alamat_domisili, 
-				a.status_pegawai, a.keterangan, 
+				a.status_pegawai, a.is_dinas, a.keterangan, 
 				a.jenis_surat, a.jenis_pengajuan_surat, 
 				a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
 				a.id_status_srt, a.keterangan_ditolak, 
@@ -356,7 +412,7 @@ class Verifikasi extends CI_Controller
 				a.id_user_proses, a.is_download, 
 				a.file_name, a.file_name_ori, 
 				a.nomor_surat, a.Created_at, a.Updated_at, a.Updated_by,
-				b.nama_surat, nama_status as `status`, sort, sort_bidang,
+				b.nama_surat, nama_status as `status`, nama_status_next, sort, sort_bidang,
 				IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
 				list.lokasi_kerja, list.dinas, list.nama_lokasi_kerja
 			FROM
@@ -365,7 +421,7 @@ class Verifikasi extends CI_Controller
 				SELECT id_mst_srt, nama_surat FROM tbl_master_surat
 			) AS b ON b.id_mst_srt = a.jenis_surat
 			LEFT JOIN (
-				SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
 			) AS c ON c.id_status = a.id_status_srt
 			LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
 			LEFT JOIN (
@@ -398,7 +454,7 @@ class Verifikasi extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $Id;
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
@@ -417,8 +473,8 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+				order by his.created_at";
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
@@ -455,4 +511,38 @@ class Verifikasi extends CI_Controller
 
 		echo json_encode($result);
 	}
+
+	function show_timeline()
+	{
+		// ===== surat keterangan history =====
+		$id_srt = $this->input->post('id_srt');
+
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
+					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
+					his.created_at,
+					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
+					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
+					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
+				from tbl_history_srt_ket his
+					join tbl_data_srt_ket surat
+						on surat.id_srt = his.id_srt
+					join tbl_status_surat stat
+						on stat.id_status = his.id_status_srt
+					left join tbl_data_pegawai peg
+						on peg.id_pegawai = his.created_by
+					left join tbl_user_login log
+						on log.id_user_login = his.created_by
+					left join tbl_master_lokasi_kerja lok
+						on lok.id_lokasi_kerja = peg.lokasi_kerja
+				where his.id_srt = '$id_srt'
+				order by his.created_at, his.id_history_srt_ket";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		// $this->load->view('dashboard_publik/verifikasi/timeline', $a);
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+	}
 }
+// End of file Verifikasi.php
+// Location: ./application/controllers/Verifikasi.php

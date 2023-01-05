@@ -25,8 +25,6 @@ class M_tunjangan extends CI_Model
 			$kond_lokasi = " AND a.id_pegawai = '$id_pegawai'";
 		}
 
-
-
 		$query = "SELECT
 						a.Id, 
 						a.id_pegawai, 
@@ -35,7 +33,7 @@ class M_tunjangan extends CI_Model
 						a.Tunjangan_id, 
 						a.Digaji_menurut, 
 						a.Status_progress,
-						b.nama_status, 
+						b.nama_status, b.nama_status_next, b.backcolor, b.fontcolor,
 						a.Notes, 
 						a.Created_by, 
 						c.nama_lengkap,
@@ -45,7 +43,8 @@ class M_tunjangan extends CI_Model
 					FROM
 						tr_tunjangan AS a
 					LEFT JOIN (
-						SELECT id_status, nama_status FROM tbl_status_surat
+						SELECT id_status, nama_status, nama_status_next, backcolor, fontcolor
+						FROM tbl_status_surat
 					) as b ON b.id_status = a.Status_progress
 					LEFT JOIN (
 						SELECT username, nama_lengkap FROM tbl_user_login

@@ -13,7 +13,7 @@ class Keluarga extends CI_Controller
 	}
 
 	public function keluarga_datatables()
-	{
+	{ 
 		// Datatables Variables
 		$id = $this->session->userdata('id_pegawai');
 		$list = $this->tbl_data_keluarga->get_datatables($id);
@@ -154,7 +154,7 @@ class Keluarga extends CI_Controller
 
 		if ($validate_keluarga['status'] == true) {
 			$insert_id = $this->tbl_data_keluarga->save($data);
-
+			
 			if ($insert_id) {
 				if ($_FILES['arsipPribadi_file']['name'] != '') {
 					$ins = [

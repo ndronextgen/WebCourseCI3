@@ -1,3 +1,9 @@
+<style type="text/css">
+    .modal-body {
+        overflow-y: auto;
+    }
+</style>
+
 <div class="box box-info">
     <div class="box-header">
         <div class="box-tools pull-right">
@@ -18,31 +24,30 @@
                     <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
                 </tr>
                 <tr>
-                    <td>NIP / Nomor Identitas</td>
+                    <td>NIP / NRK</td>
                     <td>:</td>
-                    <td><?php echo $Data->nip; ?></td>
+                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
                 </tr>
                 <tr>
-                    <td>Satuan Organisasi</td>
+                    <td>Pangkat / Golongan</td>
                     <td>:</td>
-                    <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
                 </tr>
                 <tr>
-                    <td>Tempat / Tanggal Lahir</td>
+                    <td>Jabatan</td>
                     <td>:</td>
-                    <td><?php echo $Data->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($Data->tanggal_lahir); ?></td>
+                    <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
                 </tr>
                 <tr>
-                    <td>Alamat / tempat tinggal</td>
+                    <td>Unit Kerja</td>
                     <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
+                    <td><?php echo str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
                 </tr>
                 <tr>
                     <td>Keterangan</td>
                     <td>:</td>
                     <td><?php echo $Data_hukdis->nama_type; ?></td>
                 </tr>
-
             </table>
                     <div class="row">
                         <div class="col-xs-4">

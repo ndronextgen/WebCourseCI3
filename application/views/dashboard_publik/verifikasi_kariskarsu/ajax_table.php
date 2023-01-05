@@ -47,15 +47,11 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		responsive: true,
+		// responsive: true,
 		"ajax": {
 			"url": "<?php echo site_url('Verifikasi_kariskarsu/table_data_verifikasi_kariskarsu') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-0],
-			"orderable": false,
-		}, ],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
@@ -65,26 +61,26 @@
 		}, {
 			"sClass": "left"
 		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
+			"sClass": "center"
+		}, {
 			"sClass": "left"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
-		}, {
-			"sClass": "center"
 		}],
 		"columnDefs": [{
 			"targets": [-1],
 			"orderable": false,
-		}, ],
+		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			if (aData[11] == "21" || aData[11] == "22") {
 				/*mapping*/

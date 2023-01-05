@@ -179,9 +179,14 @@ class Arsip_sk extends CI_Controller
 		$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
 		$config['max_size']             = 50000; //set max size allowed in Kilobyte
 
-		if (!is_dir($config['upload_path'])) {
-			mkdir($config['upload_path'], 0775, TRUE);
+		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+		if (!is_dir($dir)) {
+			// mkdir($config['upload_path'], 0775, TRUE);
+			mkdir($path, 0775, true);
 		}
+		// if (!is_dir($path)) {
+		// 	mkdir($path, 0755, true);
+		// }
 
 		log_message('debug', $path);
 		$this->load->library('upload', $config);
@@ -208,6 +213,12 @@ class Arsip_sk extends CI_Controller
 		if ($this->input->post('title_sk') == '') {
 			$data['inputerror'][] = 'title_sk';
 			$data['error_string'][] = 'Judul SK wajib di isi';
+			$data['status'] = FALSE;
+		}
+
+		if ($_FILES['file_sk']['name'] == '') {
+			$data['inputerror'][] = 'file_sk';
+			$data['error_string'][] = 'File wajib ada.';
 			$data['status'] = FALSE;
 		}
 

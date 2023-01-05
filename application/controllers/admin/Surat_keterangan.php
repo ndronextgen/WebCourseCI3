@@ -704,7 +704,7 @@ class Surat_keterangan extends CI_Controller
 
 						// == read notif ===
 						$this->func_table->in_tosee_sk($p->id_user, $p->id_srt, $p->id_status_srt, $p->id_user);
-						
+
 						$this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/export_digital', $d);
 					} else {
 						echo 'Request tidak valid.';
@@ -889,7 +889,7 @@ class Surat_keterangan extends CI_Controller
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
 
-		$sSQL = "SELECT his.id_srt, his.created_by,
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
 					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
@@ -909,7 +909,7 @@ class Surat_keterangan extends CI_Controller
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_history_srt_ket";
-		$rsSQL = $this->db->query($sSQL)->result();
+		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		$this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);

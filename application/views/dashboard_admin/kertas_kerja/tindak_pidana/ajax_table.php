@@ -32,10 +32,10 @@
 		<thead>
 			<tr>
 				<th class="td_head" width='1px'>No</th>
-				<th class="td_head" width='80px' style="text-align: center;">Aksi</th>
+				<th class="td_head" width='80px'>Aksi</th>
 				<th class="td_head">Nama Pegawai</th>
-				<th class="td_head">Status</th>
-				<th class="td_head" style="text-align: center;">Tanggal Dibuat</th>
+				<th class="td_head" width='180px' style="text-align: center;">Status</th>
+				<th class="td_head">Tanggal Dibuat</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -50,21 +50,21 @@
 			"url": "<?php echo site_url('admin/Data_tindak_pidana/table_data_tindak_pidana') ?>",
 			"type": "POST"
 		},
+		"columnDefs": [{
+			"targets": [-1],
+			"orderable": false,
+		}],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
 			"sClass": "left"
 		}, {
 			"sClass": "center"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}],
-		"columnDefs": [{
-			"targets": [-1],
-			"orderable": false,
-		}, ],
 		language: {
 			processing: 'Memuat...!',
 		},
