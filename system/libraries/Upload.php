@@ -952,9 +952,15 @@ class CI_Upload
 			$last_dir = basename($dir) . '/';
 			$parent_dir = str_replace($last_dir, '', $dir);
 
-			echo $parent_dir . ' - ' . $last_dir;
-			die;
-			if (!file_exists($dir)) {
+			// if (!file_exists($dir)) {
+			// 	mkdir($dir, 0755, true);
+			// }
+
+			if (!is_dir($parent_dir)) {
+				mkdir($parent_dir, 0755, true);
+			}
+
+			if (!is_dir($dir)) {
 				mkdir($dir, 0755, true);
 			}
 
