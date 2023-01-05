@@ -957,13 +957,15 @@ class CI_Upload
 			// }
 
 			if (!is_dir($parent_dir)) {
-				echo 'parent';
 				mkdir($parent_dir, 0755, true);
+				echo 'parent-passed';
+				die;
 			}
 
 			if (!is_dir($dir)) {
-				echo 'last';
 				mkdir($dir, 0755, true);
+				echo 'last-passed';
+				die;
 			}
 
 			// === cek apa folder sudah ada ===
