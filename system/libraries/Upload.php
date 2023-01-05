@@ -934,7 +934,8 @@ class CI_Upload
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
 
-		$dir = $this->upload_path;
+		$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+		$dir = $root . $this->upload_path;
 		echo $dir;
 		die;
 		if (!is_dir($dir)) {
