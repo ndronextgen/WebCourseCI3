@@ -178,8 +178,11 @@ class Arsip_pribadi extends CI_Controller
 		$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
 		$config['max_size']             = 50000; //set max size allowed in Kilobyte
 
-		if (!is_dir($config['upload_path'])) {
-			mkdir($config['upload_path'], 0775, TRUE);
+		
+		$dir = $config['upload_path'];
+		if (!is_dir($dir)) {
+			// mkdir($config['upload_path'], 0775, TRUE);
+			mkdir($dir, 0755, true);
 		}
 
 		$this->load->library('upload', $config);
