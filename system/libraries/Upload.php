@@ -934,19 +934,10 @@ class CI_Upload
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
 
-		var_dump($this->upload_path);
-		if (!is_dir($this->upload_path)) {
-			$root = $_SERVER["DOCUMENT_ROOT"];
-			if (substr($this->upload_path, 0, 1) == '.') {
-				var_dump(substr($this->upload_path, 1));
-			}
+		$dir = $this->upload_path;
+		if (!is_dir($dir)) {
 			$dir = $this->upload_path;
-
-
-			var_dump(substr($this->upload_path, 0, 1));
-			if (!file_exists($dir)) {
-				mkdir($dir, 0755, true);
-			}
+			mkdir($dir, 0755, true);
 		}
 
 		if (!is_dir($this->upload_path)) {
