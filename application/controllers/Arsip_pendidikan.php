@@ -52,7 +52,7 @@ class Arsip_pendidikan extends CI_Controller
 			// === end: kolom "file" ===
 
 			$row[] = '	<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit_pendidikan(' . "'" . $r->id_arsip_pendidikan . "'" . ')"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-					  	<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pendidikan(' . "'" . $r->id_arsip_pendidikan . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pendidikan(' . "'" . $r->id_arsip_pendidikan . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
 						<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_download_pendidikan" data-id="' . utf8_encode($r->id_arsip_pendidikan) . '" data-title="Download" title="Download Data"><i class="fa fa-download"></i></button>';
 
 			$data[] = $row;
@@ -218,6 +218,12 @@ class Arsip_pendidikan extends CI_Controller
 		if ($this->input->post('title_pendidikan') == '') {
 			$data['inputerror'][] = 'title_pendidikan';
 			$data['error_string'][] = 'Judul pendidikan wajib di isi';
+			$data['status'] = FALSE;
+		}
+
+		if ($_FILES['file_pendidikan']['name'] == '') {
+			$data['inputerror'][] = 'file_pendidikan';
+			$data['error_string'][] = 'File wajib ada.';
 			$data['status'] = FALSE;
 		}
 

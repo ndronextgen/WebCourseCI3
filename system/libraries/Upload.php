@@ -934,25 +934,9 @@ class CI_Upload
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
 
-		$dir = $this->upload_path;
-		if (!is_dir($dir)) {
-			$dir = $this->upload_path;
-			mkdir($dir, 0755, true);
-		}
-
 		if (!is_dir($this->upload_path)) {
-
-			// === jika tidak ada foldernya, buat dulu ===
-			$dir = $this->upload_path;
-			if (!file_exists($dir)) {
-				mkdir($dir, 0755, true);
-			}
-
-			// === cek apa folder sudah ada ===
-			if (!is_dir($dir)) {
-				$this->set_error('upload_no_filepath', 'error');
-				return FALSE;
-			}
+			$this->set_error('upload_no_filepath', 'error');
+			return FALSE;
 		}
 
 		if (!is_really_writable($this->upload_path)) {
