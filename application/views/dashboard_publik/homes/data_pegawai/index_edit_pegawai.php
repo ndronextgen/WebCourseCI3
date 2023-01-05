@@ -2,6 +2,16 @@
 
 <!-- data pegawai -->
 <!-- <section id="data-pegawai" class="content"> -->
+<style>
+            .signature-pad {
+                position: relative;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 200px;
+                background-color: white;
+            }
+</style>
 <div class="callout callout-info">
 	<h4>Edit Data Pegawai</h4>
 	<p>Silahkan Lengkapi data utama pegawai, foto serta data-data arsip digital Dan lain-lain.</p>
@@ -379,7 +389,7 @@
 														<input type="hidden" id="old_signature_path" name='old_signature_path' value="<?php echo $signature_path; ?>" />
 													</div>
 													<div class="input-group"><br>
-														<button class="btn btn-sm btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-edit"></i> Buat Tanda Tangan</button>
+														<button id="btnCollapse" class="btn btn-sm btn-default" type="button"><i class="fa fa-edit"></i> Buat Tanda Tangan</button>
 													</div>
 												</div>
 
@@ -421,12 +431,13 @@
 																	<!-- <ul class="sigNav">
 																	<li class="clearButton"><a href="#clear">Clear</a></li>
 																</ul> -->
-																	<div class="sig sigWrapper" style="height:auto;">
+																	<div class="sig sigWrapper" style="height:auto;position:relative;overflow:hidden">
 																		<div class="typed"></div>
-																		<canvas class="sign-pad" id="sign-pad" width="250" height="150"></canvas>
+																		<canvas id="signature-pad" class="signature-pad" width="270" height="180" style="touch-action: none; user-select: none;border: 1px solid #d1d1d1;margin-bottom: 10px;"></canvas>
+																		<!-- <canvas class="sign-pad" id="sign-pad" width="280" height="210"></canvas> -->
 																	</div>
 																	<button type='button' class='btn btn-sm btn-primary' id="sign_btn" onclick="save_sign()">Simpan</button>
-																	<a type='button' class='btn btn-sm btn-warning clearButton' href="#clear">Hapus</a>
+																	<a id="clearButton" type='button' class='btn btn-sm btn-warning clearButton' href="#clear">Hapus</a>
 																	<button type='button' class='btn btn-sm btn-danger' id="cancel_btn" onclick="cancel_sign()">Batal</button>
 																</div>
 															</div>
@@ -1681,45 +1692,88 @@
 			keyboard: true
 		});
 	}
-
 	$(document).ready(function() {
-		$('#signArea').signaturePad({
-			drawOnly: true,
-			drawBezierCurves: true,
-			lineTop: 200
-		});
+		// var canvas = document.getElementById('sign-pad');
+		// canvas.getContext("2d");
+		// $('#signArea').signaturePad({
+		// 	drawOnly: true,
+		// 	drawBezierCurves: true,
+		// 	lineTop: 0,
+		// 	penCap: 'butt',
+		// });
+
 	});
+
+	var canvas = document.getElementById('signature-pad');
+	document.getElementById('btnCollapse').addEventListener('click', function () {
+		$("#collapseExample").collapse();
+		signaturePad.clear();
+		var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+		console.log(ratio);
+		canvas.width = canvas.offsetWidth * ratio;
+		canvas.height = canvas.offsetHeight * ratio;
+		canvas.getContext("2d").scale(ratio, ratio);
+	});
+
+	var signaturePad = new SignaturePad(canvas, {
+		backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+		minWidth: 1,
+		maxWidth: 1,
+		penColor: "rgb(0 135 255)"
+	});
+
+	var cel = document.getElementById('clearButton');
+	if(cel){
+		cel.addEventListener('click', function () {
+			signaturePad.clear();
+		});
+	}
 
 	function save_sign() {
 		//$('#signature_pic').focus();
 		//document.getElementById('#signature_pic').focus();
 		//$('#signature_pic').focus();
-		$('html, body').animate({
-			scrollTop: $('#tanggal_lahir').offset().top
-		}, 'fast');
-		html2canvas([document.getElementById('sign-pad')], {
-			onrendered: function(canvas) {
-				var canvas_img_data = canvas.toDataURL('image/png');
-				var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
-				console.log(img_data);
-				var element = document.getElementById('signature_pic');
-				element.style = '';
-				document.getElementById("signature_pic").style.backgroundImage = "url('data:image/(png|jpg);base64," + img_data + "')";
-				//document.getElementById("kt_edit_signature").classList.add("kt-avatar--changed");
-				document.getElementById("signature_pic").style.backgroundSize = "100% 100%";
-				document.getElementById("signature_pic").style.width = "100px";
-				document.getElementById("signature_pic").style.height = "100px";
-				document.getElementById("dig_signature").value = img_data;
-			}
-		});
+		// $('html, body').animate({
+		// 	scrollTop: $('#tanggal_lahir').offset().top
+		// }, 'fast');
+		// html2canvas([document.getElementById('sign-pad')], {
+		// 	onrendered: function(canvas) {
+		// 		var ctx = canvas.getContext("2d");
+		// 		ctx.fillStyle = "#0000";
+    	// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+    	// 		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		// 		var canvas_img_data = canvas.toDataURL('image/png');
+		// 		var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
+		// 		var element = document.getElementById('signature_pic');
+		// 		element.style = '';
+		// 		document.getElementById("signature_pic").style.backgroundImage = "url('data:image/(png|jpg);base64," + img_data + "')";
+		// 		//document.getElementById("kt_edit_signature").classList.add("kt-avatar--changed");
+		// 		document.getElementById("signature_pic").style.backgroundSize = "100% 100%";
+		// 		document.getElementById("signature_pic").style.width = "100px";
+		// 		document.getElementById("signature_pic").style.height = "100px";
+		// 		document.getElementById("dig_signature").value = img_data;
+		// 	}
+		// });
+
+		var data = signaturePad.toDataURL('image/svg+xml');
+		console.log(encodeURIComponent(data));
+		document.getElementById("dig_signature").value = encodeURIComponent(data);
+		var element = document.getElementById('signature_pic');
+		element.style = '';
+		document.getElementById("signature_pic").style.backgroundImage = `url(${data})`;
+		document.getElementById("signature_pic").style.backgroundSize = "100% 100%";
+		document.getElementById("signature_pic").style.width = "100px";
+		document.getElementById("signature_pic").style.height = "100px";
 	}
 
 	function cancel_sign() {
-		var old_sign = $('#old_signature_path').val();
-		//alert(old_sign);
-		document.getElementById("signature_pic").style.backgroundImage = "url('" + old_sign + "')";
+		// var old_sign = $('#old_signature_path').val();
+		// //alert(old_sign);
+		// document.getElementById("signature_pic").style.backgroundImage = "url('" + old_sign + "')";
 		document.getElementById("signature_pic").style.backgroundRepeat = "no-repeat";
 		document.getElementById("dig_signature").value = '';
+		signaturePad.clear();
 	}
 
 	// === prevent keypress on specified control ===
@@ -1733,4 +1787,20 @@
 			return false;
 		});
 	});
+
+</script>
+
+<script type="text/javascript">
+    
+    var el = document.getElementById('save-ttd');
+	if(el) {
+		el.addEventListener('click', function () {
+			if (signaturePad.isEmpty()) {
+				return alert("Please provide a signature first.");
+			}
+			const form = document.getElementById("ttdForm");
+			
+			form.submit();
+		});
+	}
 </script>
