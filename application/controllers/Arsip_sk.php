@@ -182,7 +182,7 @@ class Arsip_sk extends CI_Controller
 		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
 		if (!is_dir($dir)) {
 			// mkdir($config['upload_path'], 0775, TRUE);
-			mkdir($path, 0755, true);
+			mkdir($path, 0775, true);
 		}
 		// if (!is_dir($path)) {
 		// 	mkdir($path, 0755, true);
