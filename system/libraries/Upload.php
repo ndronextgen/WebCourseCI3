@@ -934,14 +934,14 @@ class CI_Upload
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
 
-		$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
-		$dir = $root . $this->upload_path;
-		echo $root;
-		die;
-		if (!is_dir($dir)) {
-			$dir = $this->upload_path;
-			mkdir($dir, 0755, true);
-		}
+		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+		// $dir = $root . $this->upload_path;
+		// echo $root;
+		// die;
+		// if (!is_dir($dir)) {
+		// 	$dir = $this->upload_path;
+		// 	mkdir($dir, 0755, true);
+		// }
 
 		if (!is_dir($this->upload_path)) {
 
