@@ -184,6 +184,10 @@ class Arsip_sk extends CI_Controller
 			// mkdir($config['upload_path'], 0775, TRUE);
 			mkdir($dir, 0755, true);
 		}
+		if (!is_dir($path)) {
+			// mkdir($config['upload_path'], 0775, TRUE);
+			mkdir($path, 0755, true);
+		}
 
 		log_message('debug', $path);
 		$this->load->library('upload', $config);
