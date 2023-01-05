@@ -58,7 +58,7 @@ class Arsip_pribadi extends CI_Controller
 			$data[] = $row;
 
 			$no++;
-			skip_row: 
+			skip_row:
 		}
 
 		$output = array(
@@ -105,7 +105,7 @@ class Arsip_pribadi extends CI_Controller
 				$this->arsip_pribadi_model->update(array('id_arsip_pribadi' => $insert_id), $upd);
 			}
 		} else {
-			$status = false;
+			// $status = false;
 		}
 
 		echo json_encode(array("status" => $status));
@@ -206,6 +206,12 @@ class Arsip_pribadi extends CI_Controller
 		if ($this->input->post('title_pribadi') == '') {
 			$data['inputerror'][] = 'title_pribadi';
 			$data['error_string'][] = 'Judul Data Pribadi wajib di isi';
+			$data['status'] = FALSE;
+		}
+
+		if ($_FILES['file_pribadi']['name'] == '') {
+			$data['inputerror'][] = 'file_pribadi';
+			$data['error_string'][] = 'File wajib ada.';
 			$data['status'] = FALSE;
 		}
 
