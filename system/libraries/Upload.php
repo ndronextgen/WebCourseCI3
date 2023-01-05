@@ -957,10 +957,12 @@ class CI_Upload
 			// }
 
 			if (!is_dir($parent_dir)) {
+				echo 'parent';
 				mkdir($parent_dir, 0755, true);
 			}
 
 			if (!is_dir($dir)) {
+				echo 'last';
 				mkdir($dir, 0755, true);
 			}
 
