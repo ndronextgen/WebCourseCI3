@@ -275,7 +275,9 @@
 	</div>
 
 	<?php scrollTop(); ?>
-
+	<!-- jquery-confirm -->
+	<link rel="stylesheet" href="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.css'); ?>">
+	<script src="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.js'); ?>"></scr
 	<!-- begin script global -->
 	<script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
 	<script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
@@ -286,6 +288,7 @@
 	<script src="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets_admin/datatables/dataTables.fixedHeader.min.js'); ?>"></script>
 	<!-- begin script page -->
+		
 
 	<script type="text/javascript">
 		function load_data_hukuman_disiplin() {
@@ -378,18 +381,57 @@
 		
 
 	function delete_surat_hukdis(Hukdis_id) {
-		var i = "Hapus ?";
-		var b = "Data Dihapus";
-		if (!confirm(i)) return false;
-		$.ajax({
-			type: "post",
-			data: "Hukdis_id=" + Hukdis_id,
-			url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
-			success: function(s) {
-				alert(s);
-				window.location.reload();
-			}
-		});
+		// var i = "Hapus ?";
+		// var b = "Data Dihapus";
+		// if (!confirm(i)) return false;
+		// $.ajax({
+		// 	type: "post",
+		// 	data: "Hukdis_id=" + Hukdis_id,
+		// 	url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
+		// 	success: function(s) {
+		// 		alert(s);
+		// 		window.location.reload();
+		// 	}
+		// });
+			var q = "Hapus data Hukuman Disiplin?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: {
+									Hukdis_id: Hukdis_id,
+								},
+								url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
+								success: function(s) {
+									// $.dialog({
+									// 	title: 'Info',
+									// 	content: i,
+									// 	type: 'green',
+									// 	backgroundDismiss: true
+									// });
+									alert(s);
+									
+
+									reload_table();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
+				}
+			})
 	}
 	function simpan_verifikasi_hukdis() {
 
