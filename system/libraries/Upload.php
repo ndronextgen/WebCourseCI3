@@ -948,7 +948,13 @@ class CI_Upload
 			// === jika tidak ada foldernya, buat dulu ===
 			$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
 			$dir = $root . $this->upload_path;
-			echo basename($dir); die;
+
+			$last_dir = basename($dir) . '/';
+			$parent_dir = str_replace($last_dir, '', $dir);
+
+			echo $parent_dir;
+			echo $last_dir;
+			die;
 			if (!file_exists($dir)) {
 				mkdir($dir, 0755, true);
 			}
