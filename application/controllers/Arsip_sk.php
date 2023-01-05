@@ -179,10 +179,10 @@ class Arsip_sk extends CI_Controller
 		$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
 		$config['max_size']             = 50000; //set max size allowed in Kilobyte
 
-		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+		$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
 		if (!is_dir($dir)) {
 			// mkdir($config['upload_path'], 0775, TRUE);
-			mkdir($path, 0755, true);
+			mkdir($root . $path, 0755, true);
 		}
 		// if (!is_dir($path)) {
 		// 	mkdir($path, 0755, true);
