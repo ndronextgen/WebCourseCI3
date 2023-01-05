@@ -22,8 +22,6 @@ class Data_pengembangan_karir extends CI_Controller
 		date_default_timezone_set('Asia/Bangkok');
 	}
 
-
-
 	public function index()
 	{
 		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
@@ -74,13 +72,13 @@ class Data_pengembangan_karir extends CI_Controller
 			$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
 							</a>';
-			
-			if($see=='0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')){
+
+			if ($see == '0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')) {
 				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
 							</a>';
 			} else {
-				
+
 				$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_pengembangan_karir(' . "'" . $key->Pengembangan_karir_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
 							</a>';
@@ -92,21 +90,21 @@ class Data_pengembangan_karir extends CI_Controller
 								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
 							</a>';
 			if ($key->Status_progress == '0') {
-				$button = $button_view . ' ' . $button_edit. ' ' . $button_delete;
-			} elseif ($key->Status_progress == '21' AND $user_type == 'administrator' AND ($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')) {
-				$button = $button_view . ' ' . $button_edit. ' ' . $button_delete;
+				$button = $button_view . ' ' . $button_edit . ' ' . $button_delete;
+			} elseif ($key->Status_progress == '21' and $user_type == 'administrator' and ($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) {
+				$button = $button_view . ' ' . $button_edit . ' ' . $button_delete;
 			} elseif ($key->Status_progress == '3') {
 				$button = $button_view . ' ' . $button_download;
 			} else {
 				$button = $button_view;
 			}
-			
+
 
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->Keterangan;
-			$row[] = $key->Periode_awal.'-'.$key->Periode_akhir;
+			$row[] = $key->Periode_awal . '-' . $key->Periode_akhir;
 			$row[] = $key->Keperluan;
 			$row[] = $key->nama_status;
 			$row[] = $key->Created_at;
@@ -139,13 +137,14 @@ class Data_pengembangan_karir extends CI_Controller
 		$this->load->view('dashboard_admin/kertas_kerja/pengembangan_karir/form_pengembangan_karir_tambah', $a);
 	}
 
-	public function get_pegawai() {
+	public function get_pegawai()
+	{
 		//$id_pegawai = '';
 		$data = '';
 		$lokasi_kerja = $this->input->post('lokasi_kerja');
 		$id_pegawai = $this->input->post('id_pegawai');
 		$data_id_pegawai = isset($id_pegawai) ? $id_pegawai : '';
-		if($lokasi_kerja != ''){
+		if ($lokasi_kerja != '') {
 			$kond = " AND p.lokasi_kerja = '$lokasi_kerja'";
 		} else {
 			$kond = " AND p.lokasi_kerja = 'x'";
@@ -156,26 +155,26 @@ class Data_pengembangan_karir extends CI_Controller
 										SELECT lokasi_kerja, id_lokasi_kerja FROM tbl_master_lokasi_kerja
 									) AS lk ON lk.id_lokasi_kerja = p.lokasi_kerja
 								WHERE p.id_pegawai != '--' $kond")->result();
-		
+
 		$data .= "<option value=''>- Pilih Pegawai -</option>";
-			foreach ($pegawai as $o) {
-				if ($o->id_pegawai==$data_id_pegawai) {
-					$cek = " selected";
-				}
-				else {
-					$cek = "";
-				}
-				$data .= "<option value='$o->id_pegawai' $cek>$o->nama_pegawai</option>";
+		foreach ($pegawai as $o) {
+			if ($o->id_pegawai == $data_id_pegawai) {
+				$cek = " selected";
+			} else {
+				$cek = "";
 			}
-			echo $data;
-		
+			$data .= "<option value='$o->id_pegawai' $cek>$o->nama_pegawai</option>";
+		}
+		echo $data;
+
 		//echo $ak->lokasi_kerja;
 	}
 
-	public function get_elm_pegawai() {
+	public function get_elm_pegawai()
+	{
 		$filter_pegawai = $this->input->post('filter_pegawai');
 		$data_id_pegawai = isset($filter_pegawai) ? $filter_pegawai : '';
-		if($data_id_pegawai != ''){
+		if ($data_id_pegawai != '') {
 			$kond = " AND a.id_pegawai = '$data_id_pegawai'";
 		} else {
 			$kond = " AND a.id_pegawai = 'x'";
@@ -201,13 +200,13 @@ class Data_pengembangan_karir extends CI_Controller
 		$Data = isset($Data) ? $Data : '';
 		$a['Data'] = $Data;
 
-		if($Data != ''){
+		if ($Data != '') {
 			$this->load->view('dashboard_admin/kertas_kerja/pengembangan_karir/table_info.php', $a);
-		} 
-		
+		}
 	}
 
-	public function simpan_validasi(){
+	public function simpan_validasi()
+	{
 		$status = false;
 		$message = '';
 
@@ -218,7 +217,7 @@ class Data_pengembangan_karir extends CI_Controller
 		$Periode_akhir 			= $this->input->post('Periode_akhir');
 		$Keperluan 				= $this->input->post('Keperluan');
 
-		if($id_pegawai!=''){
+		if ($id_pegawai != '') {
 
 			$data_pegawai = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
@@ -238,25 +237,25 @@ class Data_pengembangan_karir extends CI_Controller
 												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 											) as e ON e.id_nama_jabatan =  a.id_jabatan
 											WHERE id_pegawai = '$id_pegawai'")->row();
-			if($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == ''){
+			if ($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == '') {
 				$status = false;
 				$message = "Lengkapi data pegawai yang akan diajukan terlebih dahulu!";
-			} else{
-			
-				if($id_pegawai ==''){
+			} else {
+
+				if ($id_pegawai == '') {
 					$status = false;
 					$message = "Pegawai Harus Diisi!";
-				} else if($Keterangan ==''){
+				} else if ($Keterangan == '') {
 					$status = false;
 					$message = "Keterangan Harus Diisi!";
-				} else if($Keperluan ==''){
+				} else if ($Keperluan == '') {
 					$status = false;
 					$message = "Keperluan Harus Diisi!";
 				} else {
-					if($Periode_awal !='' && $Periode_akhir==''){
+					if ($Periode_awal != '' && $Periode_akhir == '') {
 						$status = false;
 						$message = "Isi Tahun Selesai!";
-					} else if($Periode_awal =='' && $Periode_akhir!=''){
+					} else if ($Periode_awal == '' && $Periode_akhir != '') {
 						$status = false;
 						$message = "Isi Tahun Mulai!";
 					} else {
@@ -281,11 +280,11 @@ class Data_pengembangan_karir extends CI_Controller
 	{
 		$status = false;
 		$message = '';
-		
+
 		$Updated_by 		= $this->session->userdata('username');
 		$Act 				= '0';
 		$Date_now 			= date('Y-m-d H:i:s');
-		
+
 		$Created_by 		= $this->session->userdata('username');
 		$Updated_by 		= $this->session->userdata('username');
 		$Pengembangan_karir_id 	= $this->input->post('Pengembangan_karir_id');
@@ -300,7 +299,7 @@ class Data_pengembangan_karir extends CI_Controller
 		#jika admin lokasi maka status 0 
 		#jika admin utama maka status 21 //verifikasi admin
 		$lokasi_admin 		= $this->input->post('lokasi_admin');
-		if($lokasi_admin == '0' || $lokasi_admin == '' || $lokasi_admin == null || $lokasi_admin == '52'){
+		if ($lokasi_admin == '0' || $lokasi_admin == '' || $lokasi_admin == null || $lokasi_admin == '52') {
 			$Status_progress 	= '21'; //verifikasi admin
 		} else {
 			$Status_progress 	= '0'; //menunggu
@@ -347,7 +346,7 @@ class Data_pengembangan_karir extends CI_Controller
 			$data_triger['User_created'] 		= $Updated_by;
 			$data_triger['Created_at'] 			= $Date_now;
 			$Q_insert = $this->db->insert('tr_pengembangan_karir_triger', $data_triger);
-			
+
 			//$see = $this->func_table->in_tosee_tj($Created_by, $Tunjangan_id, '0', $Created_by);
 			#wa/email
 			if ($Q_insert) {
@@ -359,7 +358,6 @@ class Data_pengembangan_karir extends CI_Controller
 			$status = true;
 			$message = 'Berhasil';
 		} else {
-			$status = false;
 			$message = 'Gagal';
 		}
 		$result = [
@@ -367,7 +365,6 @@ class Data_pengembangan_karir extends CI_Controller
 			'message' => $message
 		];
 		echo json_encode($result);
-
 	}
 
 	function edit_pengembangan_karir()
@@ -391,11 +388,11 @@ class Data_pengembangan_karir extends CI_Controller
 	{
 		$status = false;
 		$message = '';
-		
+
 		$Updated_by 		= $this->session->userdata('username');
 		$Act 				= '0';
 		$Date_now 			= date('Y-m-d H:i:s');
-		
+
 		$Pengembangan_karir_id 	= $this->input->post('Pengembangan_karir_id');
 		$Type_surat 		= $this->input->post('Type_surat');
 		$lokasi_kerja 		= $this->input->post('lokasi_kerja');
@@ -409,7 +406,7 @@ class Data_pengembangan_karir extends CI_Controller
 		#jika admin lokasi maka status 0 
 		#jika admin utama maka status 21 //verifikasi admin
 		$lokasi_admin 		= $this->input->post('lokasi_admin');
-		if($lokasi_admin == '0' || $lokasi_admin == '' || $lokasi_admin == null || $lokasi_admin == '52'){
+		if ($lokasi_admin == '0' || $lokasi_admin == '' || $lokasi_admin == null || $lokasi_admin == '52') {
 			$Status_progress 	= '21'; //verifikasi admin
 		} else {
 			$Status_progress 	= '0'; //menunggu
@@ -454,7 +451,7 @@ class Data_pengembangan_karir extends CI_Controller
 			// $data_triger['User_created'] 	= $Updated_by;
 			// $data_triger['Created_at'] 		= $Date_now;
 			// $Q_insert = $this->db->insert('tr_triger_tunjangan', $data_triger);
-			
+
 			//$see = $this->func_table->in_tosee_tj($Created_by, $Tunjangan_id, '0', $Created_by);
 			#wa/email
 			// if ($Q_insert) {
@@ -466,7 +463,6 @@ class Data_pengembangan_karir extends CI_Controller
 			$status = true;
 			$message = 'Berhasil';
 		} else {
-			$status = false;
 			$message = 'Gagal';
 		}
 		$result = [
@@ -474,7 +470,6 @@ class Data_pengembangan_karir extends CI_Controller
 			'message' => $message
 		];
 		echo json_encode($result);
-
 	}
 
 	function delete_pengembangan_karir()
@@ -492,7 +487,7 @@ class Data_pengembangan_karir extends CI_Controller
 	{
 		$Pengembangan_karir_id = $this->input->post('Pengembangan_karir_id');
 		$username 	= $this->session->userdata('username');
-		
+
 		$Data_pengembangan_karir = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -731,7 +726,7 @@ class Data_pengembangan_karir extends CI_Controller
 												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 											) as e ON e.id_nama_jabatan =  a.id_jabatan
 											WHERE id_pegawai = '$Data_pengembangan_karir->id_pegawai'")->row();
-				
+
 				$d['Data'] = $Data;
 				$d['Data_pengembangan_karir'] = $Data_pengembangan_karir;
 				$d['Pengembangan_karir_id'] = $Pengembangan_karir_id;
@@ -748,31 +743,31 @@ class Data_pengembangan_karir extends CI_Controller
 					left join tbl_master_lokasi_kerja d on a.lokasi_kerja = d.id_lokasi_kerja
 					where a.id_jabatan = 1
 				");
-				
+
 				foreach ($q->result() as $p) {
 					$d['kadis'] = $p;
 					$d['penandatangan'] = $p;
-								if ($p->signature != '') {
-									$signature =  './asset/foto_pegawai/signature/' . $p->signature;
-									// $stamp =  base_url(). 'asset/foto_pegawai/signature/combine/stamp/' . $p->stamp;
-									//$Combine_image 	= $this->func_table->Combine_signature($signature, $p->signature, $stamp);
-									if (file_exists($signature)) {
-										$d['signature'] = base_url() . 'asset/foto_pegawai/signature/' . $p->signature;
-									} else {
-										$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
-									}
-									//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p->signature;
-									$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
-								}
+					if ($p->signature != '') {
+						$signature =  './asset/foto_pegawai/signature/' . $p->signature;
+						// $stamp =  base_url(). 'asset/foto_pegawai/signature/combine/stamp/' . $p->stamp;
+						//$Combine_image 	= $this->func_table->Combine_signature($signature, $p->signature, $stamp);
+						if (file_exists($signature)) {
+							$d['signature'] = base_url() . 'asset/foto_pegawai/signature/' . $p->signature;
+						} else {
+							$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
+						}
+						//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p->signature;
+						$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
+					}
 				}
 				$nama_jabatan_new = isset($d['kadis']->nama_jabatan) ? $d['kadis']->nama_jabatan : '';
 				$ttd_unit_new = isset($d['kadis']->ttd_unit) ? $d['kadis']->ttd_unit : '';
 				$penandatangan_new = isset($d['penandatangan']->nama_jabatan) ? $d['penandatangan']->nama_jabatan : '';
 				$d['ket_ttd'] = $nama_jabatan_new . '<br>' . $ttd_unit_new . '<br>';
 				$Date_now = date('Y-m-d');
-				
 
-				
+
+
 				$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [215.9, 332]]); //F4
 				$html = $this->load->view('dashboard_admin/kertas_kerja/pengembangan_karir/export_digital', $d, true);
 				$mpdf->AddPage('P', '', '', '', '', 20, 20, 16, 25, 18, 12);
@@ -797,5 +792,5 @@ class Data_pengembangan_karir extends CI_Controller
 	}
 }
 
-/* End of file data_riwayat_jabatan.php */
-/* Location: ./application/controllers/data_riwayat_jabatan.php */
+// End of file Data_pengembangan_karir.php
+// Location: ./application/controllers/Data_pengembangan_karir.php

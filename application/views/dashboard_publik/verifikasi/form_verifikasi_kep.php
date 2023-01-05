@@ -49,7 +49,19 @@
                             <tr>
                                 <td width='150px'>Status Surat</td>
                                 <td width='2px'>:</td>
-                                <td><?php echo $Data->status; ?></td>
+                                <td>
+                                    <?php
+                                    if ((int) $Data->id_status_srt == 21) {
+                                        if ($Data->is_dinas == 1) {
+                                            echo 'Menunggu Verifikasi Kepala Subkoordinator Kepegawaian';
+                                        } else {
+                                            echo 'Menunggu Verifikasi Kepala Subbagian';
+                                        }
+                                    } else {
+                                        echo str_replace('<br>', ' ', $Data->nama_status_next);
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td width='150px'>Tanggal Dibuat</td>
