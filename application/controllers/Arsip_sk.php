@@ -182,6 +182,7 @@ class Arsip_sk extends CI_Controller
 
 		$root = $_SERVER["DOCUMENT_ROOT"];
 		$dir = $root . $dir;
+		echo $dir; die;
 		if (!is_dir($dir)) {
 			// mkdir($config['upload_path'], 0775, TRUE);
 			mkdir($dir, 0755, true);
