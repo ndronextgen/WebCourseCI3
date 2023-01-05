@@ -934,45 +934,9 @@ class CI_Upload
 			$this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
 		}
 
-		// $root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
-		// $dir = $root . $this->upload_path;
-		// echo $root;
-		// die;
-		// if (!is_dir($dir)) {
-		// 	$dir = $this->upload_path;
-		// 	mkdir($dir, 0755, true);
-		// }
-
 		if (!is_dir($this->upload_path)) {
-
-			// === jika tidak ada foldernya, buat dulu ===
-			$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
-			$dir = $root . $this->upload_path;
-
-			$last_dir = basename($dir) . '/';
-			$parent_dir = str_replace($last_dir, '', $dir);
-
-			// if (!file_exists($dir)) {
-			// 	mkdir($dir, 0755, true);
-			// }
-
-			if (!is_dir($parent_dir)) {
-				mkdir($parent_dir, 0755, true);
-				echo 'parent-passed';
-				die;
-			}
-
-			if (!is_dir($dir)) {
-				mkdir($dir, 0755, true);
-				echo 'last-passed';
-				die;
-			}
-
-			// === cek apa folder sudah ada ===
-			if (!is_dir($dir)) {
-				$this->set_error('upload_no_filepath', 'error');
-				return FALSE;
-			}
+			$this->set_error('upload_no_filepath', 'error');
+			return FALSE;
 		}
 
 		if (!is_really_writable($this->upload_path)) {
