@@ -946,10 +946,10 @@ class CI_Upload
 		if (!is_dir($this->upload_path)) {
 
 			// === jika tidak ada foldernya, buat dulu ===
-			$dir = $this->upload_path;
+			$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
+			$dir = $root . $this->upload_path;
 			if (!file_exists($dir)) {
-				$root = $_SERVER["DOCUMENT_ROOT"] . '/si-adik';
-				mkdir($root . $dir, 0755, true);
+				mkdir($dir, 0755, true);
 			}
 
 			// === cek apa folder sudah ada ===
