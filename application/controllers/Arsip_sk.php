@@ -180,7 +180,7 @@ class Arsip_sk extends CI_Controller
 		$config['allowed_types']        = 'gif|jpg|jpeg|png|pdf';
 		$config['max_size']             = 50000; //set max size allowed in Kilobyte
 
-		if ($this->upload->realpath($dir) !== FALSE) {
+		if (realpath($dir) !== FALSE) {
 			$dir = str_replace('\\', '/', realpath($dir));
 		}
 		if (!is_dir($dir)) {
