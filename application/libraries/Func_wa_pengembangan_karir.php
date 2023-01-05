@@ -92,8 +92,8 @@ function Notifikasi_data($Pengembangan_karir_id){
                                             a.Notes, a.Created_by, a.Created_at,a.Updated_by, a.Updated_at,
                                             nama_status as `status`, sort, sort_bidang,
                                             c.nama_pegawai as nama, e.nama_lengkap,
-                                            'wongndro@gmail.com' as email, '08121835654' as telepon
-                                            -- if(isnull(e.email) OR e.email='','wongndro@gmail.com', e.email ) as email, if(isnull(e.telepon) OR e.telepon='','08121835654', e.telepon ) as telepon
+                                            -- 'wongndro@gmail.com' as email, '08121835654' as telepon
+                                            if(isnull(e.email) OR e.email='','wongndro@gmail.com', e.email ) as email, if(isnull(e.telepon) OR e.telepon='','08121835654', e.telepon ) as telepon
                                         FROM
                                             tr_pengembangan_karir AS a
                                         LEFT JOIN (
@@ -116,8 +116,8 @@ function Notifikasi_admin_penerima($Pengembangan_karir_id){
     
     $Query_admin = $CI->db->query("SELECT 
                                     nama_lengkap, username,
-                                    'wongndro@gmail.com' as email_admin, '08121835654' as telepon_admin
-                                    -- if(isnull(email) OR email='','wongndro@gmail.com', email ) as email_admin, if(isnull(telepon) OR telepon='','08121835654', telepon ) as telepon_admin
+                                    -- 'wongndro@gmail.com' as email_admin, '08121835654' as telepon_admin
+                                    if(isnull(email) OR email='','wongndro@gmail.com', email ) as email_admin, if(isnull(telepon) OR telepon='','08121835654', telepon ) as telepon_admin
                                     
                                     FROM view_dinas")->result();
     
@@ -129,8 +129,8 @@ function Notifikasi_kasubag(){
     # Query_notif_beta
     $Query_admin = $CI->db->query("SELECT 
                                         nama_pegawai, nrk,
-                                        'wongndro@gmail.com' as email_kasubag, '08121835654' as telepon_kasubag
-                                        -- email as email_kasubag, telepon as telepon_kasubag
+                                        -- 'wongndro@gmail.com' as email_kasubag, '08121835654' as telepon_kasubag
+                                        email as email_kasubag, telepon as telepon_kasubag
                                     FROM view_kasubag_kepegawaian")->row();
     
     return $Query_admin;
@@ -140,8 +140,8 @@ function Notifikasi_sekdis(){
     # Query_notif_beta
     $Query_admin = $CI->db->query("SELECT 
                                         nama_pegawai, nrk,
-                                        'wongndro@gmail.com' as email_sekdis, '08121835654' as telepon_sekdis
-                                        -- email as email_sekdis, telepon as telepon_sekdis
+                                        -- 'wongndro@gmail.com' as email_sekdis, '08121835654' as telepon_sekdis
+                                        email as email_sekdis, telepon as telepon_sekdis
                                     FROM view_sekdis")->row();
     
     return $Query_admin;
@@ -152,8 +152,8 @@ function Notifikasi_kasubag_sudinupt($id_lokasi){
     # Query_notif_beta
     $Query_admin = $CI->db->query("SELECT 
                                         nama_pegawai, nrk,
-                                        'wongndro@gmail.com' as email_sudinupt, '08121835654' as telepon_sudinupt
-                                        -- email as email_sudinupt, telepon as telepon_sudinupt
+                                        -- 'wongndro@gmail.com' as email_sudinupt, '08121835654' as telepon_sudinupt
+                                        email as email_sudinupt, telepon as telepon_sudinupt
                                     FROM view_kasubag WHERE id_lokasi_kerja = '$id_lokasi'")->result();
     
     return $Query_admin;
