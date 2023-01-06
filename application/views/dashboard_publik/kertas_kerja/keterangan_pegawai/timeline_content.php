@@ -1,15 +1,21 @@
 <?php
 if ($data_history->num_rows() > 0) {
+    $rows = $data_history->num_rows();
+    $row = 0;
     $data_id_status = '';
     $data_is_dinas = '';
     foreach ($data_history->result() as $data) {
+        $row++;
+        $state = ($row < $rows) ? 'past' : 'current';
+
         $nama_user = ucwords(strtolower($this->func_table->removeTitleFromName($data->nama_pegawai)));
         echo '
             <li class="ul-li-timeline">
                 <div class="content">
-                    <h3>' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . '</h3>';
+                    <h3 class="item-' . $state . '-h3">' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . $row . $rows . '</h3>';
+                    // <h3 class="item-' . ($row < $rows) ? 'past' : 'curent' . '-h3">' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . '</h3>';
         echo '
-            <p>' . $data->nama_status . '';
+            <p class="item-' . $state . '-p">' . $data->nama_status . '';
         if ($data->id_status == '24' or $data->id_status == '25' or $data->id_status == '26' or $data->id_status == '28') {
             echo '<br><br>Alasan ditolak: ';
             if ($data->keterangan_ditolak == '') {
@@ -25,7 +31,7 @@ if ($data_history->num_rows() > 0) {
                 <div class="point"></div>
 
                 <div class="date">
-                    <h4 style="padding: 15px 0;">' . $nama_user . '</h4>
+                    <h4 class="item-' . $state . '-h4" style="padding: 15px 0px;">' . $nama_user . '</h4>
                 </div>
             </li>
                 ';
@@ -51,15 +57,15 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
+                            <h3 class="item-future-h3">-</h3>
                             <!--<p  style="background-color: #aca9b1">Diverifikasi Admin</p>-->
-                            <p  style="background-color: ">Diverifikasi Admin</p>
+                            <p class="item-future-p">Diverifikasi Admin</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -72,14 +78,14 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Diverifikasi Kepala Subkoordinator Kepegawaian</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Diverifikasi Kepala Subkoordinator Kepegawaian</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -93,26 +99,26 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Diverifikasi Sekretaris Dinas</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Diverifikasi Sekretaris Dinas</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Selesai</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Selesai</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -126,14 +132,14 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Selesai</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Selesai</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -150,14 +156,14 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Diverifikasi Admin</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Diverifikasi Admin</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -170,14 +176,14 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Diverifikasi Kepala Subbagian</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Diverifikasi Kepala Subbagian</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
@@ -190,14 +196,14 @@ if ($data_history->num_rows() > 0) {
                 echo '
                     <li class="ul-li-timeline">
                         <div class="content">
-                            <h3>-</h3>
-                            <p  style="background-color: ">Selesai</p>
+                            <h3 class="item-future-h3">-</h3>
+                            <p class="item-future-p">Selesai</p>
                         </div>
                         
                         <div class="point"></div>
 
                         <div class="date">
-                            <h4 style="padding: 15px 0; background-color: ;">-</h4>
+                            <h4 class="item-future-h4" style="padding: 15px 0px;">-</h4>
                         </div>
                     </li>
                     ';
