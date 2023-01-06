@@ -1603,18 +1603,19 @@ class Dashboard_Publik extends CI_Controller
 		}
 	}
 
-	public function signature_test(){
+	public function signature_test()
+	{
 		$i = $this->input;
-		if(!empty($i->post("formUrl"))){
-    		$data_uri  = urldecode($i->post("formUrl"));
-    		$encoded_image = explode(",", $data_uri)[1];
-    		$decoded_image = base64_decode($encoded_image);
-    		$dir 	  = './asset/foto_pegawai/signature/';
-    		$filename = md5(date("dmYhisA")).".svg";
-    		file_put_contents($dir . $filename, $decoded_image);
+		if (!empty($i->post("formUrl"))) {
+			$data_uri  = urldecode($i->post("formUrl"));
+			$encoded_image = explode(",", $data_uri)[1];
+			$decoded_image = base64_decode($encoded_image);
+			$dir 	  = './asset/foto_pegawai/signature/';
+			$filename = md5(date("dmYhisA")) . ".svg";
+			file_put_contents($dir . $filename, $decoded_image);
 			$this->session->set_flashdata("saved", base_url($dir . $filename));
 			redirect(base_url("dashboard_publik/signature_test"));
-		}else{
+		} else {
 			$this->load->view('dashboard_publik/homes/data_pegawai/signature_test');
 		}
 	}
@@ -2175,7 +2176,7 @@ class Dashboard_Publik extends CI_Controller
 						$data_uri  = urldecode($dig_signature);
 						$encoded_image = explode(",", $data_uri)[1];
 						$decoded_image = base64_decode($encoded_image);
-						
+
 						$filename = md5(date("dmYhisA"));
 						// --
 						$file_name = './asset/foto_pegawai/signature/' . $filename . '.svg';
@@ -2585,6 +2586,11 @@ class Dashboard_Publik extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	public function Alreadyopenpopup()
+	{
+		$this->session->set_userdata("alreadyOpenPopup", true);
 	}
 }
 
