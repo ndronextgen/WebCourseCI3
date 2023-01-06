@@ -81,7 +81,8 @@ function headAdminHtml()
     echo '
 	<!-- BEGIN: PROGRESS TIMELINE -->
 	<link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="' . base_url("assets_admin/timeline-master/style.css") . '">
+	<!--<link rel="stylesheet" href="' . base_url("assets_admin/timeline-master/style.css") . '">-->
+	<link rel="stylesheet" href="' . base_url("asset/timeline-master/style.css") . '">
 	<!-- END: PROGRESS TIMELINE -->
     ';
     // ========== end:progress timeline ==========
