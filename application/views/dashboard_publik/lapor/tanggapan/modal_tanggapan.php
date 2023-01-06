@@ -1,6 +1,7 @@
 <!-- jquery-confirm -->
 <link rel="stylesheet" href="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.css'); ?>">
-	<script src="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
+<script src="<?php echo base_url('asset/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
+
 <div class="box-body">
     <span>
         <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #32a6a8;">Nama Lengkap : <?php echo $Data->nama_pegawai; ?></small>

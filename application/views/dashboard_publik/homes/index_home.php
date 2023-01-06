@@ -15,6 +15,9 @@
 	<link href="<?php echo base_url(); ?>asset/bootstrap/css/bootstrap.min2.css" rel="stylesheet">
 	<script src="<?php echo base_url(); ?>asset/bootstrap/js/bootstrap.min3.js"></script>
 	<!-- Font Awesome Icons -->
+
+	<script type="text/javascript" src="https://szimek.github.io/signature_pad/js/signature_pad.umd.js"></script>
+
 	<link href="<?php echo base_url(); ?>asset/plugins/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<!-- Ionicons -->
 	<link href="<?php echo base_url(); ?>asset/plugins/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
@@ -147,10 +150,10 @@
 	</style>
 
 	<script src="<?= base_url() ?>asset/signature/main_style/numeric-1.2.6.min.js"></script>
-	<script src="<?= base_url() ?>asset/signature/main_style/bezier.js"></script>
+	<!-- <script src="<?= base_url() ?>asset/signature/main_style/bezier.js"></script>
 	<script src="<?= base_url() ?>asset/signature/main_style/jquery.signaturepad.js"></script>
 	<link href="<?= base_url() ?>asset/signature/main_style/assets/jquery.signaturepad.css" rel="stylesheet" />
-	<script type='text/javascript' src="<?= base_url() ?>asset/signature/main_style/html2canvas.js"></script>
+	<script type='text/javascript' src="<?= base_url() ?>asset/signature/main_style/html2canvas.js"></script> -->
 
 	<!-- new sso -->
 	<link href="<?= base_url() ?>asset/sso/css/style.css" rel="stylesheet" />
@@ -233,19 +236,19 @@
 										<span class="hidden-xs">Verifikasi &nbsp;
 											<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
 											<?php if (
-													$count_see_verifikasi > 0
-													or $count_see_verifikasi_tj > 0
-													or $count_see_verifikasi_kaku > 0
-													or $count_see_verifikasi_hukdis > 0
-													or $count_see_verifikasi_tp > 0
-													or $count_see_verifikasi_karir > 0
-												) { ?>
+												$count_see_verifikasi > 0
+												or $count_see_verifikasi_tj > 0
+												or $count_see_verifikasi_kaku > 0
+												or $count_see_verifikasi_hukdis > 0
+												or $count_see_verifikasi_tp > 0
+												or $count_see_verifikasi_karir > 0
+											) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi
-																										+ $count_see_verifikasi_tj
-																										+ $count_see_verifikasi_kaku
-																										+ $count_see_verifikasi_hukdis
-																										+ $count_see_verifikasi_tp
-																										+ $count_see_verifikasi_karir; ?></span>
+																								+ $count_see_verifikasi_tj
+																								+ $count_see_verifikasi_kaku
+																								+ $count_see_verifikasi_hukdis
+																								+ $count_see_verifikasi_tp
+																								+ $count_see_verifikasi_karir; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
@@ -275,12 +278,12 @@
 											</a>
 										</li>
 										<?php
-											#hanya admin kepegawaian dan sekdis yg bisa akses ini
-											$id_pegawai = $this->session->userdata('id_pegawai');
-											$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
-											$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
-											if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
-												?>
+										#hanya admin kepegawaian dan sekdis yg bisa akses ini
+										$id_pegawai = $this->session->userdata('id_pegawai');
+										$query_exist_view_kk = $this->db->query("SELECT COUNT(*) as jml FROM view_kasubag_kepegawaian WHERE id_pegawai = '$id_pegawai'")->row();
+										$query_exist_view_sekdis = $this->db->query("SELECT COUNT(*) as jml FROM view_sekdis WHERE id_pegawai = '$id_pegawai'")->row();
+										if ($query_exist_view_kk->jml > 0 || $query_exist_view_sekdis->jml > 0) {
+										?>
 											<li>
 												<a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin &nbsp;
 													<!--<small class="badge" style="font-size: 9px;padding: 5px;background: #f7e928;color:#d9351c;">Baru!</small>&nbsp;-->
@@ -334,11 +337,11 @@
 									$ft = $foto;
 									if ($ft == "") {
 										$ft = "nofoto.png";
-										?>
+									?>
 										<img src="<?php echo base_url(); ?>asset/foto_pegawai/no-image/<?php echo $ft; ?>" class="user-image" alt="User Image" style="" />
 									<?php
 									} else {
-										?>
+									?>
 										<img src="<?php echo base_url(); ?>asset/foto_pegawai/thumb/<?php echo $ft; ?>" class="user-image" alt="User Image" style="" />
 									<?php
 									}
@@ -1172,43 +1175,50 @@
 		}
 	</style>
 
-	
+
 	<!-- '<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
 	'Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>' + -->
 
-	<script type="text/javascript">
-		Swal.fire({
-			title: '',
-			icon: 'info',
-			width: 700,
-			html: '<div class="info_pop">' +
-				'<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
-				'</h3>' +
-				'Kami mengingatkan agar segera melengkapi data-data anda.<br>' +
-				'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.<br><br>' +
-				'</div>' +
-				'<hr>' +
-				'<p style="font-weight: bold; color: red; font-size: 15px; font-family: Arial Narrow; text-align: left;">' +
-				'Informasi Update Terbaru</p>' +
-				'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
-				'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-				'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-				'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
-				'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
-				'<li>Verifikasi Surat Hukuman Disiplin</li>' +
-				'<li>Verifikasi Surat Tindak Pidana</li>' +
-				'</ol>' +
-				'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
-			customClass: {
-				popup: 'format-pre'
-			},
-			showCloseButton: false,
-			showCancelButton: false,
-			focusConfirm: true,
-			confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
-			confirmButtonAriaLabel: 'Thumbs up, great!'
-		});
-	</script>
+	<?php if (!$this->session->userdata("alreadyOpenPopup")) { ?>
+		<script type="text/javascript">
+			Swal.fire({
+				title: '',
+				icon: 'info',
+				width: 700,
+				html: '<div class="info_pop">' +
+					'<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
+					'</h3>' +
+					'Kami mengingatkan agar segera melengkapi data-data anda.<br>' +
+					'Data yang diinput merupakan data yang sebenarnya dan dapat dipertanggungjawabkan.<br><br>' +
+					'</div>' +
+					'<hr>' +
+					'<p style="font-weight: bold; color: red; font-size: 15px; font-family: Arial Narrow; text-align: left;">' +
+					'Informasi Update Terbaru</p>' +
+					'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
+					'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
+					'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
+					'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
+					'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
+					'<li>Verifikasi Surat Hukuman Disiplin</li>' +
+					'<li>Verifikasi Surat Tindak Pidana</li>' +
+					'</ol>' +
+					'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
+				customClass: {
+					popup: 'format-pre'
+				},
+				showCloseButton: false,
+				showCancelButton: false,
+				focusConfirm: true,
+				confirmButtonText: '<i class="fa fa-thumbs-up"></i> Oke!',
+				confirmButtonAriaLabel: 'Thumbs up, great!'
+			}).then((result) => {
+				$.ajax({
+					url: "<?= base_url("dashboard_publik/Alreadyopenpopup"); ?>",
+					type: "GET"
+				});
+			});
+		</script>
+	<?php } ?>
 
 	<!-- SSO LIB -->
 	<script type="text/javascript" src="<?php echo base_url(); ?>asset/sso/js/all.js"></script>

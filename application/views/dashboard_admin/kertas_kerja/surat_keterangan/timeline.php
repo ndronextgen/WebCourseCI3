@@ -26,7 +26,6 @@
     }
 </style>
 
-
 <div class="box-body">
 
     <div class="container" style="width: auto;">

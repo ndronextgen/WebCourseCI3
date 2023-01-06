@@ -1603,6 +1603,23 @@ class Dashboard_Publik extends CI_Controller
 		}
 	}
 
+	public function signature_test()
+	{
+		$i = $this->input;
+		if (!empty($i->post("formUrl"))) {
+			$data_uri  = urldecode($i->post("formUrl"));
+			$encoded_image = explode(",", $data_uri)[1];
+			$decoded_image = base64_decode($encoded_image);
+			$dir 	  = './asset/foto_pegawai/signature/';
+			$filename = md5(date("dmYhisA")) . ".svg";
+			file_put_contents($dir . $filename, $decoded_image);
+			$this->session->set_flashdata("saved", base_url($dir . $filename));
+			redirect(base_url("dashboard_publik/signature_test"));
+		} else {
+			$this->load->view('dashboard_publik/homes/data_pegawai/signature_test');
+		}
+	}
+
 	public function simpan()
 	{
 		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") {
@@ -2153,18 +2170,24 @@ class Dashboard_Publik extends CI_Controller
 						$files = array($image1, $image2, $image3);
 						array_map('unlink', $files);
 						//--
-						$imagedata = base64_decode($dig_signature);
+						$imagedata = base64_decode($dig_signature); //old
+
+						//new
+						$data_uri  = urldecode($dig_signature);
+						$encoded_image = explode(",", $data_uri)[1];
+						$decoded_image = base64_decode($encoded_image);
+
 						$filename = md5(date("dmYhisA"));
 						// --
-						$file_name = './asset/foto_pegawai/signature/' . $filename . '.png';
-						$file_name_medium = './asset/foto_pegawai/signature/medium/' . $filename . '.png';
-						$file_name_thumb = './asset/foto_pegawai/signature/thumb/' . $filename . '.png';
+						$file_name = './asset/foto_pegawai/signature/' . $filename . '.svg';
+						$file_name_medium = './asset/foto_pegawai/signature/medium/' . $filename . '.svg';
+						$file_name_thumb = './asset/foto_pegawai/signature/thumb/' . $filename . '.svg';
 
-						file_put_contents($file_name, $imagedata);
-						file_put_contents($file_name_medium, $imagedata);
-						file_put_contents($file_name_thumb, $imagedata);
+						file_put_contents($file_name, $decoded_image);
+						file_put_contents($file_name_medium, $decoded_image);
+						file_put_contents($file_name_thumb, $decoded_image);
 						// --
-						$upd['signature'] = $filename . '.png';
+						$upd['signature'] = $filename . '.svg';
 					}
 
 					if ($this->db->update("tbl_data_pegawai", $upd, $id)) {
@@ -2563,6 +2586,11 @@ class Dashboard_Publik extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	public function Alreadyopenpopup()
+	{
+		$this->session->set_userdata("alreadyOpenPopup", true);
 	}
 }
 

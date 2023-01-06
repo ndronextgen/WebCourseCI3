@@ -611,11 +611,11 @@
 			$('#modal_timeline').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Perjalanan Pengajuan Surat Permohonan Tunjangan Keluarga'); // Set Title to Bootstrap modal title
 		}
-		// === end: progress timeline ===
-
 		function tutup_form() {
 			$('#modal_timeline').modal('hide');
 		}
+		// === end: progress timeline ===
+
 	</script>
 
 </body>
