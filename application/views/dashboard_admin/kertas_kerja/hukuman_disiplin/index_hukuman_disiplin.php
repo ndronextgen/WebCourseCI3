@@ -445,13 +445,13 @@
 								},
 								url: "<?php echo site_url('admin/Data_hukuman_disiplin/delete_hukdis') ?>",
 								success: function(s) {
-									// $.dialog({
-									// 	title: 'Info',
-									// 	content: i,
-									// 	type: 'green',
-									// 	backgroundDismiss: true
-									// });
-									alert(s);
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+									
 									
 
 									reload_table();
