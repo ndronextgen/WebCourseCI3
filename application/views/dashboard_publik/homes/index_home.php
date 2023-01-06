@@ -15,6 +15,9 @@
 	<link href="<?php echo base_url(); ?>asset/bootstrap/css/bootstrap.min2.css" rel="stylesheet">
 	<script src="<?php echo base_url(); ?>asset/bootstrap/js/bootstrap.min3.js"></script>
 	<!-- Font Awesome Icons -->
+
+	<script type="text/javascript" src="https://szimek.github.io/signature_pad/js/signature_pad.umd.js"></script>
+
 	<link href="<?php echo base_url(); ?>asset/plugins/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<!-- Ionicons -->
 	<link href="<?php echo base_url(); ?>asset/plugins/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
@@ -147,10 +150,10 @@
 	</style>
 
 	<script src="<?= base_url() ?>asset/signature/main_style/numeric-1.2.6.min.js"></script>
-	<script src="<?= base_url() ?>asset/signature/main_style/bezier.js"></script>
+	<!-- <script src="<?= base_url() ?>asset/signature/main_style/bezier.js"></script>
 	<script src="<?= base_url() ?>asset/signature/main_style/jquery.signaturepad.js"></script>
 	<link href="<?= base_url() ?>asset/signature/main_style/assets/jquery.signaturepad.css" rel="stylesheet" />
-	<script type='text/javascript' src="<?= base_url() ?>asset/signature/main_style/html2canvas.js"></script>
+	<script type='text/javascript' src="<?= base_url() ?>asset/signature/main_style/html2canvas.js"></script> -->
 
 	<!-- new sso -->
 	<link href="<?= base_url() ?>asset/sso/css/style.css" rel="stylesheet" />
