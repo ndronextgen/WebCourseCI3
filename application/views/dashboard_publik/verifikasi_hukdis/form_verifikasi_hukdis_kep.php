@@ -18,37 +18,37 @@
                     <div class="hr hr-18 hr-double dotted"></div>
 
                     <table class='table no-border' cellspacing='10' cellpadding='5'>
-                <tr>
-                    <td width='260px'>Nama Lengkap</td>
-                    <td width='1px'>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
-                </tr>
-                <tr>
-                    <td>NIP / NRK</td>
-                    <td>:</td>
-                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
-                </tr>
-                <tr>
-                    <td>Pangkat / Golongan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
-                </tr>
-                <tr>
-                    <td>Jabatan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
-                </tr>
-                <tr>
-                    <td>Unit Kerja</td>
-                    <td>:</td>
-                    <td><?php echo str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
-                </tr>
-                <tr>
-                    <td>Keterangan</td>
-                    <td>:</td>
-                    <td><?php echo $Data_hukdis->nama_type; ?></td>
-                </tr>
-            </table>
+                        <tr>
+                            <td width='150px'>Nama Lengkap</td>
+                            <td width='1px'>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIP / NRK</td>
+                            <td>:</td>
+                            <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Kerja</td>
+                            <td>:</td>
+                            <td><?php echo str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Keterangan</td>
+                            <td>:</td>
+                            <td><?php echo $Data_hukdis->nama_type; ?></td>
+                        </tr>
+                    </table>
                     <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -93,8 +93,6 @@
 </div>
 
 <script type="text/javascript">
-    
-
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
         const targetDiv = document.getElementById("divKet");

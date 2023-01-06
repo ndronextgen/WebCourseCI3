@@ -18,48 +18,56 @@
                     <div class="hr hr-18 hr-double dotted"></div>
 
                     <table class='table' cellspacing='10' cellpadding='5'>
-                <tr>
-                    <td width='260px'>Nama Lengkap</td>
-                    <td width='1px'>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
-                </tr>
-                <tr>
-                    <td>NIP / NRK</td>
-                    <td>:</td>
-                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
-                </tr>
-                <tr>
-                    <td>Pangkat / Golongan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
-                </tr>
-                <tr>
-                    <td>Jabatan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
-                </tr>
-                <tr>
-                    <td>Satuan Organisasi</td>
-                    <td>:</td>
-                    <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
-                </tr>
-                <tr>
-                    <td>Keterangan</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Keterangan; ?></td>
-                </tr>
-                <tr>
-                    <td>Periode</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Periode_awal.' - '.$Data_pengembangan_karir->Periode_akhir; ?></td>
-                </tr>
-                <tr>
-                    <td>Digunakan Untuk</td>
-                    <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
-                </tr>
+                        <tr>
+                            <td width='150px'>Nama Lengkap</td>
+                            <td width='1px'>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIP / NRK</td>
+                            <td>:</td>
+                            <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Satuan Organisasi</td>
+                            <td>:</td>
+                            <td>
+                                <?php
+                                $lokasi = ucwords(strtolower($Data->nama_lokasi_kerja));
+                                $lokasi = str_replace('Dan', 'dan', $lokasi);
+                                $lokasi = str_replace('Dki', 'DKI', $lokasi);
+                                // echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja)));
+                                echo $lokasi;
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Keterangan</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Keterangan; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Periode</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Periode_awal . ' - ' . $Data_pengembangan_karir->Periode_akhir; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Digunakan Untuk</td>
+                            <td>:</td>
+                            <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
+                        </tr>
 
-            </table>
+                    </table>
                     <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -104,8 +112,6 @@
 </div>
 
 <script type="text/javascript">
-    
-
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
         const targetDiv = document.getElementById("divKet");

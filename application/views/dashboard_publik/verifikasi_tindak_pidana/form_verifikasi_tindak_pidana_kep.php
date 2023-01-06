@@ -19,7 +19,7 @@
 
                     <table class='table' cellspacing='10' cellpadding='5'>
                 <tr>
-                    <td width='260px'>Nama Lengkap</td>
+                    <td width='150px'>Nama Lengkap</td>
                     <td width='1px'>:</td>
                     <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
                 </tr>

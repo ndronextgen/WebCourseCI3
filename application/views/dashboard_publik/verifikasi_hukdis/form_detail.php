@@ -19,7 +19,7 @@
 
                     <table class='table no-border' cellspacing='10' cellpadding='5'>
                 <tr>
-                    <td width='260px'>Nama Lengkap</td>
+                    <td width='150px'>Nama Lengkap</td>
                     <td width='1px'>:</td>
                     <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
                 </tr>
@@ -77,12 +77,10 @@
 <hr style="border: 1px solid #1c8baf; margin-bottom: 15px; ">
 
 <div class="control-group">
-    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
+    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
 </div>
 
 <script type="text/javascript">
-    
-
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
         const targetDiv = document.getElementById("divKet");

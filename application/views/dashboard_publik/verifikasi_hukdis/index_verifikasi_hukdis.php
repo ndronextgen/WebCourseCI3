@@ -385,7 +385,7 @@
 
 				<!-- Modal kabeh -->
 				<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
-					<div class="modal-dialog modal-lg">
+					<div class="modal-dialog modal-md">
 						<!-- Modal content-->
 						<div class="modal-content">
 							<div class="modal-header">
@@ -569,7 +569,7 @@
 			});
 		}
 
-		function tutup_form() {
+		function tutup_form_detail() {
 			$('#modal_all').modal('hide');
 		}
 
@@ -595,8 +595,48 @@
 			setPadding();
 		});
 		// === end: main container top menyesuikan tinggi navbar ===
+
+		// === begin: progress timeline ===
+		function showTimeline(id) {
+			$.ajax({
+				url: "<?php echo site_url('verifikasi_hukdis/show_timeline'); ?>",
+				type: "post",
+				data: {
+					hukdis_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Hukuman Disiplin'); // Set Title to Bootstrap modal title
+		}
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// === end: progress timeline ===
 	</script>
 
 </body>
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+			</div>
+			<!-- <div class="modal-footer" hidden="true">
+				<button type="button" class="btn btn-success btn-flat btn-sm" onClick="simpan()">
+					<span class="fa fa-ok" aria-hidden="true"></span> Simpan
+				</button>
+			</div> -->
+		</div>
+	</div>
+</div>
 
 </html>
