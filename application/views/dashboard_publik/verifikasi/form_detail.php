@@ -127,5 +127,5 @@
 <hr style="border: 1px solid #1c8baf; margin-bottom: 15px; ">
 
 <!-- <div class="control-group"> -->
-<button id='' type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: 0px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
+<button id='' type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: 0px; margin-right: 0px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
 <!-- </div> -->

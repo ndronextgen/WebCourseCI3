@@ -96,7 +96,6 @@
 }
 
 .timeline ul li .date h4 {
-	/* background-color: #e1ccec; */
 	background-color: #e4e4e4;
 	width: 200px;
 	font-size: small;
@@ -108,8 +107,8 @@
 
 .timeline ul li .content h3 {
 	padding: 8px 0px 5px 0px;
-	/* top-right-bottom-left */
 	background-color: #afafaf;
+	/* width: 200px; */
 	margin-bottom: 0px;
 	text-align: center;
 	border-top-left-radius: 10px;
@@ -120,6 +119,7 @@
 .timeline ul li .content p {
 	padding: 10px 20px;
 	background-color: #e4e4e4;
+	/* width: 200px; */
 	margin-top: 0px;
 	text-align: center;
 	border-bottom-left-radius: 10px;
@@ -129,32 +129,32 @@
 
 /* === past item === */
 .item-past-h3 {
-	border-left: 2px solid #ffff9c;
-	border-top: 2px solid #ffff9c;
-	border-right: 2px solid #ffff9c;
+	border-left: 2px solid #ff4f4f;
+	border-top: 2px solid #ff4f4f;
+	border-right: 2px solid #ff4f4f;
 }
 .item-past-h4 {
-	border: 2px solid #ffff9c;
+	border: 2px solid #ff4f4f;
 }
 .item-past-p {
-	border-left: 2px solid #ffff9c;
-	border-bottom: 2px solid #ffff9c;
-	border-right: 2px solid #ffff9c;
+	border-left: 2px solid #ff4f4f;
+	border-bottom: 2px solid #ff4f4f;
+	border-right: 2px solid #ff4f4f;
 }
 
 /* === current item === */
 .item-current-h3 {
-	border-left: 4px solid #00db00;
-	border-top: 4px solid #00db00;
-	border-right: 4px solid #00db00;
+	border-left: 5px solid #00db00;
+	border-top: 5px solid #00db00;
+	border-right: 5px solid #00db00;
 }
 .item-current-h4 {
-	border: 4px solid #00db00;
+	border: 5px solid #00db00;
 }
 .item-current-p {
-	border-left: 4px solid #00db00;
-	border-bottom: 4px solid #00db00;
-	border-right: 4px solid #00db00;
+	border-left: 5px solid #00db00;
+	border-bottom: 5px solid #00db00;
+	border-right: 5px solid #00db00;
 }
 
 /* === future item === */
