@@ -174,6 +174,24 @@
 		}
 	</style>
 
+	<!-- horizontal timeline -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/global/fonts.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/wizard.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/plugins/global/plugins.bundle.css">
+
+	<!-- horizontal timeline -->
+	<style type="text/css">
+		.kt-wizard-v1 .kt-wizard-v1__nav .kt-wizard-v1__nav-items .kt-wizard-v1__nav-item .kt-wizard-v1__nav-body .kt-wizard-v1__nav-label {
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		.page-header {
+			border-bottom: 0px;
+			margin: 10px 0 10px 0;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">
@@ -506,11 +524,11 @@
 				},
 				type: "POST",
 				success: function(data) {
-					$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
 			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all_md').modal('show'); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Form Verifikasi Surat Pegawai'); // Set Title to Bootstrap modal title
 		}
 
@@ -578,11 +596,11 @@
 				},
 				type: "POST",
 				success: function(data) {
-					$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
 			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all_md').modal('show'); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Form Detail Surat Pegawai'); // Set Title to Bootstrap modal title
 		}
 
@@ -603,8 +621,8 @@
 			});
 		}
 
-		function tutup_form() {
-			$('#modal_all_md').modal('hide');
+		function tutup_form_detail() {
+			$('#modal_all').modal('hide');
 		}
 
 		// === begin: main container top menyesuikan tinggi navbar ===
@@ -639,12 +657,16 @@
 					id_srt: id_srt
 				},
 				success: function(data) {
-					$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
 			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all_md').modal('show'); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
+		}
+
+		function tutup_form() {
+			$('#modal_all').modal('hide');
 		}
 		// end: progress timeline joe 2023.01.02
 	</script>

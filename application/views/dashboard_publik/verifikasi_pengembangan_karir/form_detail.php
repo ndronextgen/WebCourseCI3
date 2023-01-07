@@ -69,6 +69,13 @@
 
                     </table>
 
+                    <hr>
+
+                    <?php
+                    $data1['data_history'] = $data_history;
+                    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                    ?>
+
                 </div>
             </div>
     </div><!-- /.box-body -->

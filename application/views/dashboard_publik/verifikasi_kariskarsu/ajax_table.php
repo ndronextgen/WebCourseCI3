@@ -47,7 +47,7 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		// responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Verifikasi_kariskarsu/table_data_verifikasi_kariskarsu') ?>",
 			"type": "POST"

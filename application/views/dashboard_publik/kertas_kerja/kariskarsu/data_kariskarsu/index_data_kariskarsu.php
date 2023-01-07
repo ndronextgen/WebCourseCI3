@@ -36,10 +36,10 @@
 						<table id="table_kariskasru" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th width='80px' rowspan='2' style="vertical-align: middle; text-align: center;">Aksi</th>
+									<th width='80px' rowspan='2' style="vertical-align: middle;">Aksi</th>
 									<th rowspan='2' style="vertical-align: middle;">Nama Pegawai</th>
 									<th rowspan='2' style="vertical-align: middle;">Perihal</th>
-									<th rowspan='2' style="vertical-align: middle;">Status</th>
+									<th rowspan='2' style="vertical-align: middle; text-align: center;">Status</th>
 									<th colspan='6' style="text-align: center;">File Pendukung</th>
 									<th rowspan='2' style="vertical-align: middle;">Tanggal Dibuat</th>
 								</tr>

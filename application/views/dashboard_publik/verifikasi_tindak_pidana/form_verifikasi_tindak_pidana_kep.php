@@ -18,33 +18,49 @@
                     <div class="hr hr-18 hr-double dotted"></div>
 
                     <table class='table' cellspacing='10' cellpadding='5'>
-                <tr>
-                    <td width='150px'>Nama Lengkap</td>
-                    <td width='1px'>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
-                </tr>
-                <tr>
-                    <td>NIP / NRK</td>
-                    <td>:</td>
-                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
-                </tr>
-                <tr>
-                    <td>Pangkat / Golongan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
-                </tr>
-                <tr>
-                    <td>Jabatan</td>
-                    <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
-                </tr>
-                <tr>
-                    <td>Unit Kerja</td>
-                    <td>:</td>
-                    <td><?php echo str_replace('Dan','dan',str_replace('Dki','DKI',ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
-                </tr>
+                        <tr>
+                            <td width='150px'>Nama Lengkap</td>
+                            <td width='1px'>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIP / NRK</td>
+                            <td>:</td>
+                            <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pangkat / Golongan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Kerja</td>
+                            <td>:</td>
+                            <td><?php echo str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($Data->nama_lokasi_kerja)))); ?></td>
+                        </tr>
 
-            </table>
+                    </table>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <?php
+                                $data1['data_history'] = $data_history;
+                                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
                     <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -59,7 +75,7 @@
                         <div class="col-xs-8" id="divKet" style="display:none;">
                             <div class="form-group">
                                 <label>Alasan Ditolak</label>
-                                <input type='text' name="ket" id="ket" class="form-control input-sm">
+                                <input type='text' name="ket" id="ket" class="form-control input-md">
                             </div>
                         </div>
                     </div>
@@ -86,11 +102,11 @@
         </form>
     </div><!-- /.box-body -->
 
+    <button type="button" style='float:right; margin-top: -20px; margin-right: 15px;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
+
 </div>
 
 <script type="text/javascript">
-    
-
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
         const targetDiv = document.getElementById("divKet");
