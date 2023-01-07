@@ -337,6 +337,34 @@ class Verifikasi_tunjangan extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat tunjangan history =====
+		$sSQL = "SELECT
+					his.tunjangan_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tunjangan_track his
+					join tr_tunjangan surat on surat.tunjangan_id = his.tunjangan_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tunjangan_id = '$Tunjangan_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tunjangan history =====
+
 		$this->load->view('dashboard_publik/verifikasi_tunjangan/form_verifikasi_tunjangan_kep', $a);
 	}
 
@@ -461,6 +489,34 @@ class Verifikasi_tunjangan extends CI_Controller
 		//$a['Id'] 		= $Id;
 		$a['Data'] 		= $Data;
 
+		// ===== surat tunjangan history =====
+		$sSQL = "SELECT
+					his.tunjangan_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tunjangan_track his
+					join tr_tunjangan surat on surat.tunjangan_id = his.tunjangan_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tunjangan_id = '$Tunjangan_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tunjangan history =====
+
 		$this->load->view('dashboard_publik/verifikasi_tunjangan/form_detail', $a);
 	}
 
@@ -506,7 +562,7 @@ class Verifikasi_tunjangan extends CI_Controller
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
 					stat.id_status,
-					stat.nama_status,
+					stat.nama_status, stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
 					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,

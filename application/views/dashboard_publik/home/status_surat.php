@@ -116,6 +116,19 @@
 		}
 	</style>
 
+	<!-- horizontal timeline -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/global/fonts.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/wizard.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/plugins/global/plugins.bundle.css">
+
+	<!-- horizontal timeline -->
+	<style type="text/css">
+		.kt-wizard-v1 .kt-wizard-v1__nav .kt-wizard-v1__nav-items .kt-wizard-v1__nav-item .kt-wizard-v1__nav-body .kt-wizard-v1__nav-label {
+			font-size: 14px;
+			font-weight: bold;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">

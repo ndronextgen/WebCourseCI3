@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Verifikasi extends CI_Controller
 {
-	
+
 	/*
 		***	Controller : Verifikasi.php
 	*/
@@ -327,6 +327,31 @@ class Verifikasi extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat keterangan history =====
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
+					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
+					his.created_at,
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
+					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
+					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
+					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
+				from tbl_history_srt_ket his
+					join tbl_data_srt_ket surat
+						on surat.id_srt = his.id_srt
+					join tbl_status_surat stat
+						on stat.id_status = his.id_status_srt
+					left join tbl_data_pegawai peg
+						on peg.id_pegawai = his.created_by
+					left join tbl_user_login log
+						on log.id_user_login = his.created_by
+					left join tbl_master_lokasi_kerja lok
+						on lok.id_lokasi_kerja = peg.lokasi_kerja
+				where his.id_srt = '$Id'
+				order by his.created_at, his.id_history_srt_ket";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+		// ===== /surat keterangan history =====
+
 		$this->load->view('dashboard_publik/verifikasi/form_verifikasi_kep', $a);
 	}
 
@@ -421,7 +446,8 @@ class Verifikasi extends CI_Controller
 				SELECT id_mst_srt, nama_surat FROM tbl_master_surat
 			) AS b ON b.id_mst_srt = a.jenis_surat
 			LEFT JOIN (
-				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
+				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang 
+				FROM tbl_status_surat
 			) AS c ON c.id_status = a.id_status_srt
 			LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
 			LEFT JOIN (
@@ -452,12 +478,10 @@ class Verifikasi extends CI_Controller
 		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
 
 		// ===== surat keterangan history =====
-		$id_srt = $Id;
-
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
@@ -472,8 +496,8 @@ class Verifikasi extends CI_Controller
 						on log.id_user_login = his.created_by
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
-				where his.id_srt = '$id_srt'
-				order by his.created_at";
+				where his.id_srt = '$Id'
+				order by his.created_at, his.id_history_srt_ket";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -520,7 +544,7 @@ class Verifikasi extends CI_Controller
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc

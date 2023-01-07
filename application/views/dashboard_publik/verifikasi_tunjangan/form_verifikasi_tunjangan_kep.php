@@ -7,7 +7,6 @@
 <div class="box box-info">
     <div class="box-header">
         <div class="box-tools pull-right">
-            <!-- <div class="label bg-aqua">Form Sisa Cuti Pegawai</div> -->
             <div id='loading'></div>
         </div>
     </div>
@@ -153,6 +152,20 @@
                             </td>
                         </tr>
                     </table>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <?php
+                                $data1['data_history'] = $data_history;
+                                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
                     <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -192,9 +205,13 @@
             </div>
 
         </form>
-    </div><!-- /.box-body -->
+    </div>
+
+    <button type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: -20px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
 
 </div>
+
+
 
 <script type="text/javascript">
     let e = 'Proses hapus data bermasalah.';

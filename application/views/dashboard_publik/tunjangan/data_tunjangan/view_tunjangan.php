@@ -1,10 +1,11 @@
+
 <div id='ajax_content'>
     <!-- <section id="data-hukuman" class="content"> -->
 
     <div class="row">
         <div class="col-xs-12">
             <div class="nav-tabs-custom">
-                <div class="tab-content">
+                <div class="tab-content" style="padding-bottom: 0px;">
                     <div class="page-header">
                         <h4># View Data tunjangan &nbsp;&nbsp;&nbsp;</h4>
                     </div>
@@ -133,15 +134,24 @@
                                     <p>Keterangan ini saya buat dengan sesungguhnya dan apabila keterangan ini ternyata <b>tidak benar (palsu), saya bersedia dituntut dimuka pengadilan berdasarkan Undang-undang yang berlaku, dan bersedia mengembalikan semua penghasilan yang telah saya terima yang seharusnya bukan menjadi hak saya.</b></p>
                                 </td>
                             </tr>
+
                             <tr>
-                                <td colspan='3'>
+                                <td colspan="3">
+                                    <!-- start timeline -->
+                                    <?php
+                                    $data1['data_history'] = $data_history;
+                                    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                                    ?>
+                                    <!-- end:timeline -->
                                 </td>
                             </tr>
+
                         </table>
-                        <button id='' type='button' onclick="batal_form()" class='btn btn-danger btn-sm' style='float:right;'>close</button>
                     </form>
 
                 </div>
+
+                <button id='' type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: -5px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
             </div>
         </div><!-- /.col -->
     </div><!-- /.row -->

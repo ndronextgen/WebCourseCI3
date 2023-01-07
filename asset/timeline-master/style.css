@@ -97,7 +97,7 @@
 
 .timeline ul li .date h4 {
 	/* background-color: #e1ccec; */
-	background-color: #e1d9ec;
+	background-color: #e4e4e4;
 	width: 200px;
 	font-size: small;
 	font-weight: bold;
@@ -109,7 +109,7 @@
 .timeline ul li .content h3 {
 	padding: 8px 0px 5px 0px;
 	/* top-right-bottom-left */
-	background-color: #be9fe1;
+	background-color: #afafaf;
 	margin-bottom: 0px;
 	text-align: center;
 	border-top-left-radius: 10px;
@@ -119,7 +119,7 @@
 
 .timeline ul li .content p {
 	padding: 10px 20px;
-	background-color: #e1d9ec;
+	background-color: #e4e4e4;
 	margin-top: 0px;
 	text-align: center;
 	border-bottom-left-radius: 10px;

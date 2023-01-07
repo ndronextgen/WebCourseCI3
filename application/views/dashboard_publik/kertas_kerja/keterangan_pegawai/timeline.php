@@ -21,18 +21,18 @@
 
 <div class="box-body">
 
-    <div class="container" style="width: auto;">
-        <div class="timeline">
-            <ul class="ul-li-timeline">
+    <!-- <div class="container" style="width: auto;"> -->
+        <!-- <div class="timeline"> -->
+            <!-- <ul class="ul-li-timeline"> -->
 
                 <?php
                 $data1['data_history'] = $data_history;
-                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content', $data1);
+                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
                 ?>
 
-            </ul>
-        </div>
-    </div>
+            <!-- </ul> -->
+        <!-- </div> -->
+    <!-- </div> -->
 
 </div>
 

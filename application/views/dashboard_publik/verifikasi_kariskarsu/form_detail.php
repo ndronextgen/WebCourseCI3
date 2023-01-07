@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="nav-tabs-custom">
-            <div class="tab-content">
+            <div class="tab-content" style="padding-bottom: 0px;;">
                 <div class="page-header">
                     <h4>
                         <?php
@@ -255,15 +255,24 @@
                                 <td colspan='4'>Demikian laporan ini saya buat dengan sesungguhnya untuk dapat dipergunakan sebagaimana mestinya.</td>
                             </tr> -->
 
-                </table>
+                    <tr>
+                        <td colspan="5">
+                            <?php
+                            $data1['data_history'] = $data_history;
+                            $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                            ?>
+                        </td>
+                    </tr>
 
-                <button id='' type='button' onclick="batal_form()" class='btn btn-danger btn-sm' style='float:right;'>close</button>
+                </table>
 
             </div>
         </div>
     </div><!-- /.col -->
 </div><!-- /.row -->
+<button type="button" style='float:right; margin-top: -5px; margin-right: 15px;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp; Tutup</button>
 <!-- </section> -->
+
 
 <script type="text/javascript">
     var Kariskarsu_id = $("#Kariskarsu_id").val();

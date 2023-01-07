@@ -259,7 +259,7 @@ class Verifikasi_hukdis extends CI_Controller
 	function form_verifikasi_hukdis_kep()
 	{
 		$Hukdis_id = $this->input->post('Hukdis_id');
-		
+
 		$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -322,6 +322,34 @@ class Verifikasi_hukdis extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat hukuman disiplin history =====
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$Hukdis_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat hukuman disiplin history =====
+
 		$this->load->view('dashboard_publik/verifikasi_hukdis/form_verifikasi_hukdis_kep', $a);
 	}
 
@@ -356,7 +384,7 @@ class Verifikasi_hukdis extends CI_Controller
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
-			
+
 			if ($this->db->insert('tr_hukdis_triger', $data_triger)) {
 				$status = true;
 				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Hukdis_id, $status_verify, $this->session->userdata("username"));
@@ -394,7 +422,7 @@ class Verifikasi_hukdis extends CI_Controller
 	function form_detail()
 	{
 		$Hukdis_id = $this->input->post('Hukdis_id');
-		
+
 		$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -460,6 +488,34 @@ class Verifikasi_hukdis extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat hukuman disiplin history =====
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$Hukdis_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat hukuman disiplin history =====
+
 		$this->load->view('dashboard_publik/verifikasi_hukdis/form_detail', $a);
 	}
 
@@ -504,8 +560,7 @@ class Verifikasi_hukdis extends CI_Controller
 					his.user_created, surat.is_dinas,
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
-					stat.id_status,
-					stat.nama_status,
+					stat.id_status, stat.nama_status, stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
 					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,

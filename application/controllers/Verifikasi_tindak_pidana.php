@@ -170,7 +170,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			# jika user adalah sekdis tombol 22
 
 
-			if (($status_verifikasi == 'kepegawaian' OR $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
+			if (($status_verifikasi == 'kepegawaian' or $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
@@ -256,7 +256,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 	function form_verifikasi_tindak_pidana_kep()
 	{
 		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
-		
+
 		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -314,6 +314,34 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat tindak pidana history =====
+		$sSQL = "SELECT
+					his.tindak_pidana_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tindak_pidana_track his
+					join tr_tindak_pidana surat on surat.tindak_pidana_id = his.tindak_pidana_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tindak_pidana_id = '$Tindak_pidana_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tindak pidana history =====
+
 		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
 	}
 
@@ -344,11 +372,11 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		if ($Q_update) {
 			$Q_select = $this->db->query("SELECT * FROM tr_tindak_pidana WHERE Tindak_pidana_id='$Tindak_pidana_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Tindak_pidana_id']= $Tindak_pidana_id;
+			$data_triger['Tindak_pidana_id'] = $Tindak_pidana_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
-			
+
 			if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
 				$status = true;
 				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Tindak_pidana_id, $status_verify, $this->session->userdata("username"));
@@ -386,7 +414,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 	function form_detail()
 	{
 		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
-		
+
 		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -446,6 +474,34 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
+		// ===== surat tindak pidana history =====
+		$sSQL = "SELECT
+					his.tindak_pidana_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tindak_pidana_track his
+					join tr_tindak_pidana surat on surat.tindak_pidana_id = his.tindak_pidana_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tindak_pidana_id = '$Tindak_pidana_id' 
+				order by
+					his.created_at";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tindak pidana history =====
+
 		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
 	}
 
@@ -490,8 +546,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 					his.user_created, surat.is_dinas,
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
-					stat.id_status,
-					stat.nama_status,
+					stat.id_status, stat.nama_status, stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
 					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
