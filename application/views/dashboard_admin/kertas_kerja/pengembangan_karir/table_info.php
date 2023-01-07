@@ -7,12 +7,12 @@
 	<tr>
 		<td>NIP / NRK</td>
 		<td>:</td>
-		<td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
+		<td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
 	</tr>
 	<tr>
 		<td>Pangkat / Golongan</td>
 		<td>:</td>
-		<td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
+		<td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
 	</tr>
 	<tr>
 		<td>Jabatan</td>
@@ -22,6 +22,13 @@
 	<tr>
 		<td>Satuan Organisasi</td>
 		<td>:</td>
-		<td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+		<td>
+			<?php
+			$lokasi = $Data->nama_lokasi_kerja;
+			$lokasi = str_replace('Dan', 'dan', ucwords(strtolower($lokasi)));
+			$lokasi = str_replace('Dki', 'DKI', ucwords(strtolower($lokasi)));
+			echo $lokasi;
+			?>
+		</td>
 	</tr>
 </table>
