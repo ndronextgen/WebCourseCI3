@@ -588,6 +588,10 @@
 				data: formData,
 				processData: false,
 				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').prop('disabled', true);
+				},
 				success: function(response) {
 					$('#modal_all').modal('hide');
 					// alert(response);
@@ -602,7 +606,8 @@
 						type: resp.tipe == 1 ? 'green' : 'red',
 						backgroundDismiss: true
 					});
-
+					$('#btn_tmb').text('Simpan');
+					$('#btn_tmb').attr('disabled', false);
 					reload_table();
 				}
 			});

@@ -10,10 +10,12 @@ class Lapor extends CI_Controller
 		$this->load->helper('file');
 		$this->load->library('func_table');
 		$this->load->library('func_table_lapor');
+		$this->load->library('func_wa_lapor');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_lapor', 'lapor');
 		$this->load->library('upload');
 		// $this->load->model('arsip_hukuman_model');
+		date_default_timezone_set("Asia/Jakarta");
 	}
 
 	public function index()
@@ -235,7 +237,7 @@ class Lapor extends CI_Controller
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
 		$Kategori 		= $this->input->post('Kategori');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -292,6 +294,7 @@ class Lapor extends CI_Controller
 			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor")->row();
 			$last_id = $Query_Getid->Id;
 			$see = $this->func_table_lapor->in_tosee_lapor($Created_by, $last_id, '0', $Created_by);
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tambah($last_id);
 			$result = [
 				'status' => 'Berhasil simpan data lapor.',
 				'tipe' => 1,
@@ -333,7 +336,7 @@ class Lapor extends CI_Controller
 		$Kategori 		= $this->input->post('Kategori');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -483,10 +486,11 @@ class Lapor extends CI_Controller
 	{
 		$Id 		= $this->input->post('Id');
 		$username 	= $this->session->userdata('username');
+		$user_type 	= $this->session->userdata('stts');
 
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_create = date("Y-m-d h:i:s");
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_create = date("Y-m-d H:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Lapor_id'] = $Id;
 		$data['username'] = $username;
@@ -502,7 +506,12 @@ class Lapor extends CI_Controller
 			$last_id = $Query_Getid->Id;
 			$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
 			$Query_update_lapor = $this->db->query("UPDATE tr_lapor SET Tanggapan_id = '$last_id', Updated_at= '$tgl_update' WHERE Id='$Id'");
-			$result = 'Berhasil';
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tanggapi($last_id, $Id, $username, $user_type);
+			if($send_notif_lapor){
+				$result = 'Berhasil';
+			} else {
+				$result = 'Gagal Kirim Notif';
+			}
 		} else {
 			$result = 'Gagal';
 		}
@@ -521,7 +530,7 @@ class Lapor extends CI_Controller
 	{
 		$Id = $this->input->post('Id');
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Tanggapan'] 	= $Tanggapan;
 		$data['updated_at'] = $tgl_update;

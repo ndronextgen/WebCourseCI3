@@ -82,80 +82,59 @@
 
 #----------------------------------- WA EMAIL -------------------------------
 #----------------------------------------------------------------------------
-function Notifikasi_data($Pengembangan_karir_id){
+function Notifikasi_data($Id){
     $CI = &get_instance();
     #Query_notif_beta
-    $Query_data_surat = $CI->db->query("SELECT
-                                            a.Id, 
-                                            a.id_pegawai, a.lokasi_kerja_pegawai, a.is_dinas, 
-                                            a.Pengembangan_karir_id, a.Status_progress,
-                                            a.Notes, a.Created_by, a.Created_at,a.Updated_by, a.Updated_at,
-                                            nama_status as `status`, sort, sort_bidang,
-                                            c.nama_pegawai as nama, e.nama_lengkap,
-                                            -- 'wongndro@gmail.com' as email, '08121835654' as telepon
-                                            if(isnull(e.email) OR e.email='','wongndro@gmail.com', e.email ) as email, if(isnull(e.telepon) OR e.telepon='','08121835654', e.telepon ) as telepon
+    $Query_lapor = $CI->db->query("SELECT
+                                            a.Id, a.Tanggapan_id, a.id_pegawai, 
+	                                        a.id_lokasi_kerja,  a.Kategori,  a.Judul_laporan,  
+                                            a.Isi_laporan,  a.File_upload,  a.Created_by,  a.Created_at,  a.Updated_at,
+                                            c.nama_pegawai as nama,
+                                            if(isnull(c.email) OR c.email='','wongndro@gmail.com', c.email ) as email, if(isnull(c.telepon) OR c.telepon='','08121835654', c.telepon ) as telepon
                                         FROM
-                                            tr_pengembangan_karir AS a
+                                            tr_lapor AS a
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
-                                        ) as b ON b.id_status = a.Status_progress
-                                        LEFT JOIN (
-                                                SELECT id_pegawai, nama_pegawai FROM tbl_data_pegawai
+                                                SELECT id_pegawai, nama_pegawai, email, telepon FROM tbl_data_pegawai
                                         ) AS c ON c.id_pegawai = a.id_pegawai
-                                        LEFT JOIN (
-                                                SELECT username, nama_lengkap, email, telepon FROM tbl_user_login
-                                        ) AS e ON e.username = a.Created_by
-                                            WHERE a.Id != '' AND Pengembangan_karir_id = '$Pengembangan_karir_id'")->row();
-    return $Query_data_surat;
+                                            WHERE a.Id != '' AND Id = '$Id'")->row();
+    return $Query_lapor;
 }
 
-function Notifikasi_admin_penerima($Pengembangan_karir_id){
+function Notifikasi_data_tanggap($Id){
     $CI = &get_instance();
-    # Query_notif_beta
-    # Admin lokasi jika bidang dan sekretariat maka langsung administrator utama
-    
+    #Query_notif_beta
+    $Query_lapor = $CI->db->query("SELECT
+                                        a.Id, 
+                                        a.Lapor_Id, 
+                                        a.Username, 
+                                        a.Created_at, 
+                                        a.Tanggapan, 
+                                        a.Updated_at,
+                                        nama_lengkap,
+                                        if(isnull(e.email) OR e.email='','wongndro@gmail.com', e.email ) as email_admin, if(isnull(e.telepon) OR e.telepon='','08121835654', e.telepon ) as telepon_admin
+                                    FROM
+                                        tr_lapor_tanggapan AS a
+                                    LEFT JOIN (
+                                            SELECT username, nama_lengkap, email, telepon FROM tbl_user_login
+                                    ) AS e ON e.username = a.Username
+                                    WHERE a.Id != '' AND Id = '$Id' limit 0,1")->row();
+    return $Query_lapor;
+}
+
+function Notifikasi_admin_penerima(){
+    $CI = &get_instance();
     $Query_admin = $CI->db->query("SELECT 
                                     nama_lengkap, username,
-                                    -- 'wongndro@gmail.com' as email_admin, '08121835654' as telepon_admin
                                     if(isnull(email) OR email='','wongndro@gmail.com', email ) as email_admin, if(isnull(telepon) OR telepon='','08121835654', telepon ) as telepon_admin
-                                    
                                     FROM view_dinas")->result();
-    
     return $Query_admin;
 }
-
-function Notifikasi_kasubag(){
+function Notifikasi_admin_penerima_wilayah($lokasi_kerja){
     $CI = &get_instance();
-    # Query_notif_beta
     $Query_admin = $CI->db->query("SELECT 
-                                        nama_pegawai, nrk,
-                                        -- 'wongndro@gmail.com' as email_kasubag, '08121835654' as telepon_kasubag
-                                        email as email_kasubag, telepon as telepon_kasubag
-                                    FROM view_kasubag_kepegawaian")->row();
-    
-    return $Query_admin;
-}
-function Notifikasi_sekdis(){
-    $CI = &get_instance();
-    # Query_notif_beta
-    $Query_admin = $CI->db->query("SELECT 
-                                        nama_pegawai, nrk,
-                                        -- 'wongndro@gmail.com' as email_sekdis, '08121835654' as telepon_sekdis
-                                        email as email_sekdis, telepon as telepon_sekdis
-                                    FROM view_sekdis")->row();
-    
-    return $Query_admin;
-}
-
-function Notifikasi_kasubag_sudinupt($id_lokasi){
-    $CI = &get_instance();
-    # Query_notif_beta
-    $Query_admin = $CI->db->query("SELECT 
-                                        nama_pegawai, nrk,
-                                        -- 'wongndro@gmail.com' as email_sudinupt, '08121835654' as telepon_sudinupt
-                                        email as email_sudinupt, telepon as telepon_sudinupt
-                                    FROM view_kasubag WHERE id_lokasi_kerja = '$id_lokasi'")->result();
-    
+                                    nama_lengkap, username,
+                                    if(isnull(email) OR email='','wongndro@gmail.com', email ) as email_admin, if(isnull(telepon) OR telepon='','08121835654', telepon ) as telepon_admin
+                                    FROM view_admin_wilayah WHERE id_lokasi_kerja = '$lokasi_kerja'")->result();
     return $Query_admin;
 }
 
@@ -195,34 +174,31 @@ Daerah Khusus Ibukota Jakarta 10150";
     return $footer_notif;
 }
 
-function notif_karir_admin_tambah($Pengembangan_karir_id){
+function notif_lapor_tambah($Id){
     $CI = &get_instance();
     $CI->load->helper('send_email');
     $CI->load->helper('wa');
     
     // ---------------------------
     $tgl_now = date('Y-m-d H:i:s');
-    $data_penerima  = $CI->func_wa_pengembangan_karir->Notifikasi_data($Pengembangan_karir_id);
-    $Hari 			= $CI->func_wa_pengembangan_karir->gethari(date('l', strtotime($data_penerima->Updated_at)));
-    $Tanggal_indo 	= $Hari . ' ' . $CI->func_wa_pengembangan_karir->tgl_indonesia($data_penerima->Updated_at);
+    $data_penerima  = $CI->func_wa_lapor->Notifikasi_data($Id);
+    $Hari 			= $CI->func_wa_lapor->gethari(date('l', strtotime($data_penerima->Updated_at)));
+    $Tanggal_indo 	= $Hari . ' ' . $CI->func_wa_lapor->tgl_indonesia($data_penerima->Updated_at);
     $Jam			= date("H:i:s", strtotime($data_penerima->Updated_at));
 
-    $Sapaan 		= $CI->func_wa_pengembangan_karir->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
-    $data_admin     = $CI->func_wa_pengembangan_karir->Notifikasi_admin_penerima($data_penerima->Pengembangan_karir_id);
-    $data_kasubag   = $CI->func_wa_pengembangan_karir->Notifikasi_kasubag();
-    $data_sekdis    = $CI->func_wa_pengembangan_karir->Notifikasi_sekdis();
-
+    $Sapaan 		= $CI->func_wa_lapor->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
+    $data_admin     = $CI->func_wa_lapor->Notifikasi_admin_penerima($data_penerima->Id);
+    $data_wilayah   = $CI->func_wa_lapor->Notifikasi_admin_penerima_wilayah($data_penerima->id_lokasi_kerja);
 
 // ---- to pembuat surat
-    $message_pembuat = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
+    $message_pembuat = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
     
-Selamat Anda telah berhasil Tambah <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
+Selamat Anda telah berhasil Tambah <b>Lapor</b> dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
 
     $objSendWA = SendWANotif([
@@ -231,101 +207,93 @@ Selamat Anda telah berhasil Tambah <b>Surat Keterangan Pengembangan Karir</b> da
     ]);
 
     $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
+        'subject' => 'Si-ADiK (Lapor)',
         'email' => $data_penerima->email,
         'message' => $message_pembuat
     ]);
 // ----
 
-    if($data_penerima->Status_progress=='0'){ //yang bikin admin wilayah
-
-// ---- to admin terkait
+// ---- to administrator terkait
 foreach($data_admin as $key){
-$message_admin_terkait = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
+$message_administrator = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Surat Keterangan Pengembangan Karir</b> baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/><br/>
+' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Aduan/Lapor</b> baru, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
 
     $objSendWA = SendWANotif([
         'phone' => $key->telepon_admin,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
+        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_administrator)))
     ]);
 
     $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
+        'subject' => 'Si-ADiK (Lapor)',
         'email' => $key->email_admin,
-        'message' => $message_admin_terkait
+        'message' => $message_administrator
     ]);
 }
-// ----
+// ---- to admin wilayah
+foreach($data_wilayah as $key){
+$message_admin_wilayah = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
-    } elseif($data_penerima->Status_progress=='21'){ //yang bikin admin dinas
+' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Aduan/Lapor</b> baru, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-// ---- to kasubag kepegawaian #3 jika dinas
-$message_kepegawaian = 'Hai <b>' . $data_kasubag->nama_pegawai . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Surat Keterangan Pengembangan Karir</b> baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_kasubag->telepon_kasubag,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_kepegawaian)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_kasubag->email_kasubag,
-        'message' => $message_kepegawaian
-    ]);
-// ----
+    
+        $objSendWA = SendWANotif([
+            'phone' => $key->telepon_admin,
+            'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_wilayah)))
+        ]);
+    
+        $objSendMail = sendMail([
+            'subject' => 'Si-ADiK (Lapor)',
+            'email' => $key->email_admin,
+            'message' => $message_admin_wilayah
+        ]);
     }
 }
 
-function notif_karir_update($id_surat){
+function notif_lapor_tanggapi($Id, $lapor_id, $username, $user_type){
     $CI = &get_instance();
     $CI->load->helper('send_email');
     $CI->load->helper('wa');
     // ---------------------------
     $tgl_now = date('Y-m-d H:i:s');
-    $data_penerima  = $CI->func_wa_pengembangan_karir->Notifikasi_data($id_surat);
-    $Hari 			= $CI->func_wa_pengembangan_karir->gethari(date('l', strtotime($data_penerima->Updated_at)));
-    $Tanggal_indo 	= $Hari . ' ' . $CI->func_wa_pengembangan_karir->tgl_indonesia($data_penerima->Updated_at);
+    $data_penerima  = $CI->func_wa_lapor->Notifikasi_data($lapor_id);
+    $data_tanggapan = $CI->func_wa_lapor->Notifikasi_data_tanggap($Id);
+    $Hari 			= $CI->func_wa_lapor->gethari(date('l', strtotime($data_penerima->Updated_at)));
+    $Tanggal_indo 	= $Hari . ' ' . $CI->func_wa_lapor->tgl_indonesia($data_penerima->Updated_at);
     $Jam			= date("H:i:s", strtotime($data_penerima->Updated_at));
-    $Sapaan 		= $CI->func_wa_pengembangan_karir->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
-    $data_admin     = $CI->func_wa_pengembangan_karir->Notifikasi_admin_penerima($data_penerima->Pengembangan_karir_id);
-    $data_kasubag   = $CI->func_wa_pengembangan_karir->Notifikasi_kasubag();
-    $data_sekdis    = $CI->func_wa_pengembangan_karir->Notifikasi_sekdis();
-    $data_sudinupt  = $CI->func_wa_pengembangan_karir->Notifikasi_kasubag_sudinupt($data_penerima->lokasi_kerja_pegawai);
+    $Sapaan 		= $CI->func_wa_lapor->get_sapaan(strtotime(date("H:i:s", strtotime($data_penerima->Updated_at))));
+
+    $data_admin     = $CI->func_wa_lapor->Notifikasi_admin_penerima($data_penerima->Id);
+    $data_wilayah   = $CI->func_wa_lapor->Notifikasi_admin_penerima_wilayah($data_penerima->id_lokasi_kerja);
     // --------------------------
 
-
-    #jika status update 
-    if($data_penerima->Status_progress=='2'){ //sedang proses
-#kirim notifikasi kepada pegawai & admin yang update
+    #cek terlebih dahulu type user (admin/public)
+    #jika admin maka beri notif kepada si pelapor, jika public maka berikan notif kepada admin utama dan wilayah
+    if($user_type=='publik'){
+#kirim notifikasi kepada pegawai public & admin terkait
 // ---- to pegawai terkait
+
 $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
 
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
+Selamat Anda telah berhasil Memberi tanggapan terhadap laporan anda dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
 
     $objSendWA = SendWANotif([
@@ -334,546 +302,111 @@ $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
     ]);
 
     $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
+        'subject' => 'Si-ADiK (Lapor)',
         'email' => $data_penerima->email,
         'message' => $message_pegawai_terkait
     ]);
 // ----
 
-// ---- to admin update
+// ---- to administrator terkait
 foreach($data_admin as $key){
-$message_admin_update = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
+$message_administrator = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
+' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $key->telepon_email,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $key->email_admin,
-        'message' => $message_admin_update
-    ]);
-}
-// ----
-
-
-    } else if($data_penerima->Status_progress=='21'){ //Verifikasi Admin
-#kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-// ---- to admin terkait #1
-$message_admin_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_admin_terkait
-    ]);
-// ----
-
-// ---- to admin update #2
-foreach($data_admin as $key){
-$message_admin_update = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
 
     $objSendWA = SendWANotif([
         'phone' => $key->telepon_admin,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
+        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_administrator)))
     ]);
 
     $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
+        'subject' => 'Si-ADiK (Lapor)',
         'email' => $key->email_admin,
-        'message' => $message_admin_update
+        'message' => $message_administrator
     ]);
 }
-// ----
+// ---- to admin wilayah
+foreach($data_wilayah as $key){
+$message_admin_wilayah = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
-// ---- to kasubag kepegawaian #3 jika dinas
-$message_kepegawaian = 'Hai <b>' . $data_kasubag->nama_pegawai . '</b>, <br/>
+' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Surat Keterangan Pengembangan Karir</b> baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_kasubag->telepon_kasubag,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_kepegawaian)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_kasubag->email_kasubag,
-        'message' => $message_kepegawaian
-    ]);
+    
+        $objSendWA = SendWANotif([
+            'phone' => $key->telepon_admin,
+            'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_wilayah)))
+        ]);
+    
+        $objSendMail = sendMail([
+            'subject' => 'Si-ADiK (Lapor)',
+            'email' => $key->email_admin,
+            'message' => $message_admin_wilayah
+        ]);
+    }
 // ----
 
-} else if($data_penerima->Status_progress=='22'){ //Verifikasi kasubag
-#kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-// ---- to pegawai terkait #1
-$message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_pegawai_terkait
-    ]);
-// ----
-
-// ---- to kasubag update #2
-$message_admin_update = 'Hai <b>' . $data_kasubag->nama_pegawai . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_kasubag->telepon_kasubag,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_kasubag->email_kasubag,
-        'message' => $message_admin_update
-    ]);
-// ----
-// ---- to sekdis #3
-$message_sekdis = 'Hai <b>' . $data_sekdis->nama_pegawai . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Surat Keterangan Pengembangan Karir</b> baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_sekdis->telepon_sekdis,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_sekdis)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_sekdis->email_sekdis,
-        'message' => $message_sekdis
-    ]);
-// ----
-    } else if($data_penerima->Status_progress=='23'){ //Verifikasi sekdis
-#kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-// ---- to pegawai terkait #1
-$message_admin_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_admin_terkait
-    ]);
-// ----
-
-// ---- to sekdis update #2
-$message_admin_update = 'Hai <b>' . $data_sekdis->nama_pegawai . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_sekdis->telepon_sekdis,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_sekdis->email_sekdis,
-        'message' => $message_admin_update
-    ]);
-// ----
-// ---- to admin terkait #3
-foreach($data_admin as $key){
-$message_admin_terkait = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Surat Keterangan Pengembangan Karir</b> baru, Mohon agar dilakukan verifikasi ketahap selanjutnya.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $key->telepon_admin,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $key->email_admin,
-        'message' => $message_admin_terkait
-    ]);
-}
-#DITOLAKKKK
-} else if($data_penerima->Status_progress=='1' || $data_penerima->Status_progress=='24'){ //Diltolak admin
-#kirim notifikasi kepada pegawai, admin yang update, kasubag kepegawaian
-// ---- to pegawai terkait #1
-$message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_pegawai_terkait
-    ]);
-// ----
-
-// ---- to admin update #2
-foreach($data_admin as $key){
-$message_admin_update = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $key->telepon_admin,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $key->email_admin,
-        'message' => $message_admin_update
-    ]);
-}
-// ----
-    } else if($data_penerima->Status_progress=='25' ){ //ditolak kasubag
-
-// ---- to pegawai terkait #1
-$message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_pegawai_terkait
-    ]);
-// ----
-
-// ---- to kasubag update #2
-$message_admin_update = 'Hai <b>' . $data_kasubag->nama_pegawai . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_kasubag->telepon_kasubag,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_kasubag->email_kasubag,
-        'message' => $message_admin_update
-    ]);
-// ----
-
-// ---- to admin update #3
-foreach($data_admin as $key){
-$message_admin_update = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b>.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $key->telepon_admin,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $key->email_admin,
-        'message' => $message_admin_update
-    ]);
-}
-// ----
-
-} else if($data_penerima->Status_progress=='26' ){ //ditolak sekdis
-
-// ---- to pegawai terkait #1
-$message_admin_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_admin_terkait
-    ]);
-// ----
-
-// ---- to admin update #2
-$message_admin_update = 'Hai <b>' . $data_sekdis->nama_pegawai . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_sekdis->telepon_sekdis,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_sekdis->email_sekdis,
-        'message' => $message_admin_update
-    ]);
-// ----
-
-// ---- to kasubag update #3
-$message_admin_update = 'Hai <b>' . $data_kasubag->nama_pegawai . '</b>, <br/>
-
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b>.<br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-<b>Alasan	 	 : ' . $data_penerima->keterangan_ditolak . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $data_kasubag->telepon_kasubag,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_kasubag->email_kasubag,
-        'message' => $message_admin_update
-    ]);
-// ----
-
-} else if($data_penerima->Status_progress=='3' ){ //Selesai
+    } else if($user_type=='administrator'){
 #kirim notifikasi kepada pegawai, admin yang update
-// ---- to pegawai terkait #1
-$message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama_lengkap . '</b>, <br/>
+// ---- to admin update #1
+$message_admin_update = 'Hai <b>' . $data_tanggapan->nama_lengkap . '</b>, <br/>
 
-' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK terhadap usulan <b>Surat Keterangan Pengembangan Karir</b> anda, Surat keterangan sudah dapat diunduh<br/><br/>
+Selamat Anda telah berhasil Memeberi tanggapan terhadap laporan anda dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
+'.$CI->func_wa_lapor->Get_footer().'
 ';
 
     $objSendWA = SendWANotif([
-        'phone' => $data_penerima->telepon,
-        'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
-    ]);
-
-    $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $data_penerima->email,
-        'message' => $message_pegawai_terkait
-    ]);
-// ----
-
-// ---- to admin update #2
-foreach($data_admin as $key){
-$message_admin_update = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
-
-Selamat Anda telah berhasil Verifikasi <b>Surat Keterangan Pengembangan Karir</b> dalam aplikasi Si-ADiK. <br/><br/>
-
-<b>Prihal Surat 	 : Surat Keterangan Pengembangan Karir</b> <br/>
-<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
-<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
-<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
-<b>Status	 	 : ' . $data_penerima->status . '</b> <br/>
-'.$CI->func_wa_pengembangan_karir->Get_footer().'
-';
-
-    $objSendWA = SendWANotif([
-        'phone' => $key->telepon_admin,
+        'phone' => $data_tanggapan->telepon_admin,
         'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_admin_update)))
     ]);
 
     $objSendMail = sendMail([
-        'subject' => 'Si-ADiK (Surat Pengembangan Karir)',
-        'email' => $key->email_admin,
+        'subject' => 'Si-ADiK (Lapor)',
+        'email' => $data_tanggapan->email_admin,
         'message' => $message_admin_update
     ]);
-}
+// -----
+$message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
+
+' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>.<br/><br/>
+
+<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
+<b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
+<b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
+'.$CI->func_wa_lapor->Get_footer().'
+';
+    
+        $objSendWA = SendWANotif([
+            'phone' => $data_penerima->telepon,
+            'message' => str_replace('</b>', '*', str_replace('<b>', '*', str_replace('<br/>', '', $message_pegawai_terkait)))
+        ]);
+    
+        $objSendMail = sendMail([
+            'subject' => 'Si-ADiK (Lapor)',
+            'email' => $data_penerima->email,
+            'message' => $message_pegawai_terkait
+        ]);
 // ----
-
+} 
 }
-
-}
-
 #----------------------------------------------------------------------------
 #----------------------------------- END WA EMAIL ---------------------------
 		
