@@ -164,7 +164,7 @@
         </form>
     </div><!-- /.box-body -->
 
-    <button type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: -5px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
+    <button type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: -20px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
 
 </div>
 
