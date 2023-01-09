@@ -344,7 +344,7 @@ class Verifikasi_hukdis extends CI_Controller
 				where
 					his.hukdis_id = '$Hukdis_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -510,7 +510,7 @@ class Verifikasi_hukdis extends CI_Controller
 				where
 					his.hukdis_id = '$Hukdis_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -575,7 +575,7 @@ class Verifikasi_hukdis extends CI_Controller
 				where
 					his.hukdis_id = '$hukdis_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
