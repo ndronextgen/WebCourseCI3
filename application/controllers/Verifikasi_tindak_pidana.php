@@ -336,7 +336,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				where
 					his.tindak_pidana_id = '$Tindak_pidana_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -496,7 +496,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				where
 					his.tindak_pidana_id = '$Tindak_pidana_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -561,7 +561,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 				where
 					his.tindak_pidana_id = '$tindak_pidana_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
