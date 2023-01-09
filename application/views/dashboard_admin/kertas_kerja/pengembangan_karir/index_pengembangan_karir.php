@@ -417,18 +417,55 @@
 
 
 		function delete_surat_pengembangan_karir(Pengembangan_karir_id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
-				url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
-				success: function(s) {
-					alert(s);
-					window.location.reload();
+			// var i = "Hapus ?";
+			// var b = "Data Dihapus";
+			// if (!confirm(i)) return false;
+			// $.ajax({
+			// 	type: "post",
+			// 	data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
+			// 	url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
+			// 	success: function(s) {
+			// 		alert(s);
+			// 		window.location.reload();
+			// 	}
+			// });
+			var q = "Hapus data pengembangan karir?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
+								url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+
+									window.location.reload();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
+			})
+
+
 		}
 
 		function simpan_verifikasi_pengembangan_karir() {

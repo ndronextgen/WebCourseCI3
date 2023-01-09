@@ -268,7 +268,7 @@ function deleteSuratNaikPangkat(id) {
 			if (resp.status == true) {
 				swal.fire({
 					type: "success",
-					title: "Data berhasil dihapus!",
+					title: "Data berhasil dihapus !",
 					showConfirmButton: false,
 					timer: 1500,
 				});
