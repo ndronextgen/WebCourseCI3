@@ -48,10 +48,10 @@
 </div>
 
 <br>
+<hr>
 <h4 style='text-align: center;'>
     Timeline Surat
 </h4>
-<hr>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';

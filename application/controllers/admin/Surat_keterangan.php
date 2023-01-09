@@ -892,7 +892,7 @@ class Surat_keterangan extends CI_Controller
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
@@ -912,7 +912,8 @@ class Surat_keterangan extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);
+		// $this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 	}
 }
 

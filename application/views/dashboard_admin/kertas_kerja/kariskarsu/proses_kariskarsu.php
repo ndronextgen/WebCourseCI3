@@ -308,7 +308,6 @@
 <h4 style='text-align: center;'>
     Timeline Surat
 </h4>
-<hr>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -349,8 +348,8 @@ echo '</div>'; ?>
     <h4 style='text-align: center;'>
         Form Verifikasi
     </h4>
-    <hr>
-
+    <br>
+    
     <form id="form_verifikasi_kariskarsu" name="form_verifikasi_kariskarsu" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-4">
