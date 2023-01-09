@@ -149,7 +149,7 @@
     </div>
 </div>
 
-<h4 style='text-align: center;'>
+<h4 style='text-align: center; margin-top: -20px;'>
     Timeline Surat
 </h4>
 
@@ -186,9 +186,15 @@ echo '</div>';
 echo '</div>';
 echo '</div>'; ?>
 
+<hr>
+
 <?php if ($Data_tunjangan->Status_progress == '0' || $Data_tunjangan->Status_progress == '25' || $Data_tunjangan->Status_progress == '28') { ?>
-    <hr>
-    <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+    
+    <h4 style='text-align: center;'>
+        Form Verifikasi
+    </h4>
+    <br>
+
     <form id="form_pengajuan" name="form_pengajuan" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-4">

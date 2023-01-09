@@ -55,7 +55,7 @@ judulPage();
 				</div>
 			</form>
 		</section>
-  	</div>
+	</div>
 <!-- end content page -->
 <?php
 footerPage();

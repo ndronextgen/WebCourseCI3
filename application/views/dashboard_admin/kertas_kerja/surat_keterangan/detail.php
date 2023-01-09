@@ -286,7 +286,7 @@
 			}
 		});
 		$('#modal_all_small').modal('show'); // show bootstrap modal
-		$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
+		$('.modal-title').text('Verifikasi Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
 		//alert('a'); 
 	}
 

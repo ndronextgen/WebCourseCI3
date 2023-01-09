@@ -801,6 +801,39 @@ class Data_hukuman_disiplin extends CI_Controller
 			echo 'Request tidak valid.2';
 		}
 	}
+
+	function show_timeline()
+	{
+		// ===== surat hukuman disiplin history =====
+		$hukdis_id = $this->input->post('hukdis_id');
+
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$hukdis_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+	}
 }
 
 // End of file Data_hukuman_disiplin.php
