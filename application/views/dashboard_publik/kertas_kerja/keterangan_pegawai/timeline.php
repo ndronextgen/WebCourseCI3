@@ -37,5 +37,5 @@
 <hr style="border: 1px solid #1c8baf; margin-bottom: 15px; ">
 
 <div class="control-group">
-    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
+    <button type="button" style='float:right;' class="btn btn-danger btn-sm" data-dismiss="modal""><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
 </div>

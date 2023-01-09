@@ -109,6 +109,8 @@
                     </p>
 
                     <hr>
+                    <h4 style="text-align: center;">Timeline Surat</h4>
+                    <br>
 
                     <div class="row">
                         <div class="col-xs-12">
@@ -122,6 +124,8 @@
                     </div>
 
                     <hr>
+                    <h4 style="text-align: center;">Form Verifikasi</h4>
+                    <br>
 
                     <div class="row">
                         <div class="col-xs-4">

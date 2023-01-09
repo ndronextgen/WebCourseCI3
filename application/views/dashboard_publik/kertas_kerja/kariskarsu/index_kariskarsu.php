@@ -399,7 +399,7 @@
 				<!-- </section> -->
 
 				<div class="callout callout-info">
-					<h4>KARIS/KARSU</h4>
+					<h4>Surat Permohonan KARIS/KARSU</h4>
 					<p>Fasilitas untuk mengajukan Surat Permohonan KARIS/KARSU</p>
 				</div>
 

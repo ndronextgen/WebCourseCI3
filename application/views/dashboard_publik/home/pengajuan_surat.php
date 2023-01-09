@@ -1,9 +1,7 @@
 <style type="text/css">
 	.modal-header {
-		/* background-color: #1caf9a; */
-		background-color: #1c8baf;
-		/* padding: 16px 16px; */
-		color: #FFF;
+		/* background-color: #1c8baf; */
+		/* color: #FFF; */
 	}
 
 	label {
@@ -12,79 +10,30 @@
 
 	/* Important part */
 	.modal-dialog {
-		overflow-y: initial !important
+		/* overflow-y: initial !important */
 	}
 
 	.modal-body {
-		overflow-y: auto;
-		background-color: #f1f1f6;
-		padding-bottom: 0px;
-		padding-top: 0px;
+		/* overflow-y: auto; */
+		/* background-color: #f1f1f6; */
+		/* padding-bottom: 0px;
+		padding-top: 0px; */
 
 	}
 
 	.select2-selection__rendered {
-		/* background-color: #ababab; */
-		background-color: #defee2;
+		/* background-color: #defee2; */
 	}
 </style>
 
 <?php echo form_open_multipart('dashboard_publik/simpan_surat', 'class="form-horizontal form-modal"'); ?>
+
 <!-- Main content -->
-<section id="data-sk" class="content" style="padding-right: 0px; padding-left: 0px;"> 
-
-	<!-- <div class="callout callout-info" style="margin-bottom: 0px">
-		<h3>Surat Keterangan Pegawai</h3>
-		Silahkan isi data sesuai Form dibawah ini :
-	</div> -->
-
-
-	<!-- <?php //if ($this->session->flashdata('gagalupload')) { 
-			?>
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-			<h4>GAGAL !!!</h4>
-			<?php //echo $this->session->flashdata('gagalupload'); 
-			?>
-		</div>
-	<?php //} 
-	?>
-	<?php //if ($this->session->flashdata('gagalupload2')) { 
-	?>
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-			<h4>GAGAL !!!</h4>
-			<?php //echo $this->session->flashdata('gagalupload'); 
-			?>
-		</div>
-	<?php //} 
-	?>
-	<?php //if ($this->session->flashdata('gagalupload3')) { 
-	?>
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-			<h4>GAGAL !!!</h4>
-			<?php //echo $this->session->flashdata('gagalupload3'); 
-			?>
-		</div>
-	<?php //} 
-	?>
-	<?php //if ($this->session->flashdata('gagalupload4')) { 
-	?>
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-			<h4>GAGAL !!!</h4>
-			<?php //echo $this->session->flashdata('gagalupload4'); 
-			?>
-		</div>
-	<?php //} 
-	?> -->
-
-
+<!-- <section id="data-sk" class="content"> 
 	<div class="row">
 		<div class="col-xs-12">
-			<div class="nav-tabs-custom" style="margin-bottom: 0px">
-				<div class="tab-content" style="padding-top: 0px">
+			<div class="nav-tabs-custom"> -->
+				<div class="tab-content">
 					<div class="box-body table-responsive">
 						<div class="box-body">
 							<div class="row">
@@ -134,8 +83,6 @@
 										</div><!-- /.input group -->
 									</div>
 
-
-
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon">Keperluan :</span>
@@ -173,11 +120,11 @@
 							</div>
 						</div>
 
-						<hr>
+						<hr style="border: 1px solid #b2b2b2; margin-top: 0px; margin-bottom: 10px;">
 
 						<div class="control-group">
-							<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form ()"><i class="fa fa-times"></i>&nbsp;&nbsp;Batal</button>
-							<button type="submit" style='float:right;' id="btnSubmit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan Data</button>
+							<button type="button" style='float: right; margin-left: 5px;' class="btn btn-danger btn-sm" data-dismiss="modal""><i class="fa fa-times"></i>&nbsp; Batal</button>
+							<button type="submit" style='float: right;' id="btnSubmit" class="btn btn-success btn-sm"><i class="fa fa-save"></i>&nbsp; Simpan Data</button>
 						</div>
 						<input type="hidden" name="id_param" value="<?php echo $id_param; ?>">
 						<input type="hidden" name="st" value="<?php echo $st; ?>">
@@ -185,10 +132,10 @@
 						<?php echo form_close(); ?>
 					</div>
 				</div>
-			</div><!-- /.col -->
-		</div><!-- /.row -->
+			<!-- </div>
+		</div>
 	</div>
-</section><!-- /.content -->
+</section> -->
 
 
 

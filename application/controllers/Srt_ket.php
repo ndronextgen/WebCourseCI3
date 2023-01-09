@@ -90,10 +90,10 @@ class Srt_ket extends CI_Controller
 				case 25:
 				case 26:
 					//ditolak
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
-					<!--		<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Detail" onclick="lihat_detail_ditolak(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Detail</a>-->
-					<!--		<a class="btn btn-sm btn-primary" href="' . base_url() . 'dashboard_publik/pengajuan_surat_detail/' . $r->id_srt . '" title="Detail"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Detail</a>-->';
-					$button .= '<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp;Hapus</a>';
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
+					<!--		<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Detail" onclick="lihat_detail_ditolak(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; Detail</a>-->
+					<!--		<a class="btn btn-sm btn-primary" href="' . base_url() . 'dashboard_publik/pengajuan_surat_detail/' . $r->id_srt . '" title="Detail"><i class="glyphicon glyphicon-list-alt"></i>&nbsp; Detail</a>-->';
+					$button .= '<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp; Hapus</a>';
 					break;
 
 				case 2:
@@ -104,26 +104,26 @@ class Srt_ket extends CI_Controller
 					// 		<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-o"></i> Download</button>
 					// 	</a>';
 					//proses
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
 								<a class="btn btn-sm btn-primary" target="_blank" href="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" title="Download">
-									<i class="glyphicon glyphicon-download"></i>&nbsp;Download
+									<i class="glyphicon glyphicon-download"></i>&nbsp; Download
 								</a>';
 					break;
 
 				case 3:
 					if ($r->select_ttd == 'basah') {
 						//selesai
-						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
 									<a href="' . base_url() . 'admin/surat_keterangan/download_surat_finished_public/' . $r->id_srt . '" target="_blank">
-										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-o"></i>&nbsp;Download</button>
+										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="glyphicon glyphicon-download"></i>&nbsp; Download</button>
 									</a>';
 						break;
 					} else {
 						//selesai
-						$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+						$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
 									<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat_digital/' . $r->id_srt . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="Download">
-											<i class="fa fa-file-o"></i>&nbsp;Download
+											<i class="glyphicon glyphicon-download"></i>&nbsp; Download
 										</button>
 									</a>';
 						break;
@@ -131,22 +131,22 @@ class Srt_ket extends CI_Controller
 
 				case 0:
 					//menunggu
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
-								<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</a>
-								<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp;Hapus</a>';
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
+								<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a>
+								<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-trash"></i>&nbsp; Hapus</a>';
 					break;
 				case 21:
 				case 22:
 				case 23:
 					//proses
-					$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>';
+					$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>';
 					break;
 				case 27:
 					//proses
-					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Detail</a>
+					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
 								<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" href="javascript:void(0);">
 									<button type="button" class="btn btn-warning btn-sm" title="Download">
-										<i class="fa fa-file-o"></i>&nbsp;Download (-)
+										<i class="glyphicon glyphicon-download"></i>&nbsp; Download (-)
 										</button>
 								</a>';
 					break;

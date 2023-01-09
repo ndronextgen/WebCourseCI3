@@ -70,6 +70,8 @@
                     </table>
 
                     <hr>
+                    <h4 style="text-align: center;">Timeline Surat</h4>
+                    <br>
 
                     <?php
                     $data1['data_history'] = $data_history;
