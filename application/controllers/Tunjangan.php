@@ -943,7 +943,7 @@ class Tunjangan extends CI_Controller
 				where
 					his.tunjangan_id = '$tunjangan_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
