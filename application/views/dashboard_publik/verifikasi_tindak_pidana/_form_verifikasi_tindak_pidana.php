@@ -55,7 +55,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-8" id="divKet" style="display:none;">
+                        <div class="col-xs-8" id="divKet" style="display: none;">
                             <div class="form-group">
                                 <label>Alasan Ditolak</label>
                                 <input type='text' name="ket" id="ket" class="form-control input-sm">
@@ -74,7 +74,7 @@
                     <div class="row">
                         <div class="col-xs-4"></div>
                         <div class="col-xs-4">
-                            <div id="loading" style='text-align:center;'>
+                            <div id="loading" style='text-align: center;'>
                             </div>
                         </div>
                         <div class="col-xs-4"></div>

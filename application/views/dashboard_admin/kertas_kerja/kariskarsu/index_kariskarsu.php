@@ -258,7 +258,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -442,7 +442,7 @@
 	<!-- end script page -->
 </body>
 
-<div class="modal fade" id="modal_timeline" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">

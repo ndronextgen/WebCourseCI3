@@ -52,6 +52,7 @@
 <h4 style='text-align: center;'>
     Timeline Surat
 </h4>
+<br>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -95,8 +96,12 @@ $id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) { //admin-utama
     ?>
     <?php if ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28') { ?>
-        <hr>
-        <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+
+        <h4 style='text-align: center;'>
+            Form Verifikasi
+        </h4>
+        <br>
+
         <form id="form_verifikasi_hukdis" name="form_verifikasi_hukdis" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4">

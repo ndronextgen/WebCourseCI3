@@ -5,8 +5,6 @@
         </div>
         <div id="detail_pengaduan" class="panel-collapse expand collapse show">
 
-
-
             <br>
             <h4 style='text-align: center;'>
                 Surat Tindak Pidana
@@ -92,8 +90,12 @@ $id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) { //admin-utama
     ?>
     <?php if ($Data_tindak_pidana->Status_progress == '0' || $Data_tindak_pidana->Status_progress == '25' || $Data_tindak_pidana->Status_progress == '28') { ?>
-        <hr>
-        <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+
+        <h4 style='text-align: center;'>
+            Form Verifikasi
+        </h4>
+        <br>
+
         <form id="form_verifikasi_tindak_pidana" name="form_verifikasi_tindak_pidana" method="post">
             <div class="row">
                 <div class="col-md-4">
@@ -122,8 +124,8 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
                 <div class="col-sm-12">
                     <div class="form-group">
                         <input type='hidden' name='Tindak_pidana_id' value='<?php echo $Tindak_pidana_id; ?>'>
-                        <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan & Kirim Ketahapan Selanjutnya</button>&nbsp;&nbsp;
-                        <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                        <button type="button" id='btn_verifikasi' style='float: right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan & Kirim Ketahapan Selanjutnya</button>&nbsp;&nbsp;
+                        <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                     </div>
                 </div>
             </div>
@@ -132,7 +134,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+                    <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -140,7 +142,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                    <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -149,7 +151,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+                <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
             </div>
         </div>
     </div>

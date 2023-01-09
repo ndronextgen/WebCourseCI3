@@ -152,6 +152,7 @@
 <h4 style='text-align: center; margin-top: -20px;'>
     Timeline Surat
 </h4>
+<br>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -189,7 +190,7 @@ echo '</div>'; ?>
 <hr>
 
 <?php if ($Data_tunjangan->Status_progress == '0' || $Data_tunjangan->Status_progress == '25' || $Data_tunjangan->Status_progress == '28') { ?>
-    
+
     <h4 style='text-align: center;'>
         Form Verifikasi
     </h4>

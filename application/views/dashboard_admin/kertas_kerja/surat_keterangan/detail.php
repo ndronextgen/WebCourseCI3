@@ -151,9 +151,11 @@
 													<?php } ?>
 													<!-- end jika basah -->
 
+													<br>
 													<h4 style='text-align: center;'>
 														Timeline Surat
 													</h4>
+													<br>
 
 													<!-- start timeline -->
 													<?php
@@ -388,7 +390,7 @@
 	}
 </script>
 
-<div class="modal fade" id="modal_all_small" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modal_all_small" data-backdrop="static" tabindex="-1">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -408,7 +410,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="modal_all_medium" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modal_all_medium" data-backdrop="static" tabindex="-1">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">
