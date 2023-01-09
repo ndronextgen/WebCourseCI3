@@ -107,6 +107,22 @@
                         * Jika diterima maka akan dilanjutkan ketahap selanjutnya <br>
                         * Jika ditolak maka akan dikembalikan kepada pegawai bersangkutan dan berikan alasannya
                     </p>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <?php
+                                $data1['data_history'] = $data_history;
+                                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
                     <div class="row">
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -121,7 +137,7 @@
                         <div class="col-xs-8" id="divKet" style="display:none;">
                             <div class="form-group">
                                 <label>Alasan Ditolak</label>
-                                <input type='text' name="ket" id="ket" class="form-control input-sm">
+                                <input type='text' name="ket" id="ket" class="form-control input-md">
                             </div>
                         </div>
                     </div>
@@ -137,7 +153,7 @@
                     <div class="row">
                         <div class="col-xs-4"></div>
                         <div class="col-xs-4">
-                            <div id="loading" style='text-align:center;'>
+                            <div id="loading" style='text-align: center;'>
                             </div>
                         </div>
                         <div class="col-xs-4"></div>
@@ -148,7 +164,11 @@
         </form>
     </div><!-- /.box-body -->
 
+    <button type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: -20px; margin-right: 15px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
+
 </div>
+
+
 <script>
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();

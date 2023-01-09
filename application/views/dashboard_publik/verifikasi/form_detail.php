@@ -97,35 +97,35 @@
 
 <!-- <div class="box-body"> -->
 
-<div class="box" style="background-color: #f1f1f6; border: 1px solid grey;">
+<!-- <div class="box" style="background-color: #f1f1f6; border: 1px solid grey;"> -->
 
-    <legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;">
-        <h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4>
-    </legend>
+<!-- <legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;"> -->
+<!-- <h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4> -->
+<!-- </legend> -->
 
-    <div class="box-body">
+<div class="box-body">
 
-        <div class="container" style="width: auto;">
-            <div class="timeline">
-                <ul class="ul-li-timeline">
+    <!-- <div class="container" style="width: auto;"> -->
+    <!-- <div class="timeline"> -->
+    <!-- <ul class="ul-li-timeline"> -->
 
-                    <?php
-                    $data1['data_history'] = $data_history;
-                    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content', $data1);
-                    ?>
+    <?php
+    $data1['data_history'] = $data_history;
+    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+    ?>
 
-                </ul>
-            </div>
-        </div>
-
-    </div>
+    <!-- </ul> -->
+    <!-- </div> -->
+    <!-- </div> -->
 
 </div>
 
 <!-- </div> -->
 
+<!-- </div> -->
+
 <hr style="border: 1px solid #1c8baf; margin-bottom: 15px; ">
 
-<div class="control-group">
-    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
-</div>
+<!-- <div class="control-group"> -->
+<button id='' type='button' onclick="tutup_form_detail()" class='btn btn-danger btn-sm' style='float:right; margin-top: 0px; margin-right: 0px;'><i class="fa fa-times"></i>&nbsp; Tutup</button>
+<!-- </div> -->

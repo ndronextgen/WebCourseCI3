@@ -12,8 +12,7 @@ if ($data_history->num_rows() > 0) {
         echo '
             <li class="ul-li-timeline">
                 <div class="content">
-                    <h3 class="item-' . $state . '-h3">' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . $row . $rows . '</h3>';
-                    // <h3 class="item-' . ($row < $rows) ? 'past' : 'curent' . '-h3">' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . '</h3>';
+                    <h3 class="item-' . $state . '-h3">' . date_format(date_create($data->created_at), 'd M Y - H:i:s') . '</h3>';
         echo '
             <p class="item-' . $state . '-p">' . $data->nama_status . '';
         if ($data->id_status == '24' or $data->id_status == '25' or $data->id_status == '26' or $data->id_status == '28') {

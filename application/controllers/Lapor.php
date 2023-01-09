@@ -9,10 +9,13 @@ class Lapor extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
+		$this->load->library('func_wa_lapor');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_lapor', 'lapor');
 		$this->load->library('upload');
 		// $this->load->model('arsip_hukuman_model');
+		date_default_timezone_set("Asia/Jakarta");
 	}
 
 	public function index()
@@ -146,6 +149,7 @@ class Lapor extends CI_Controller
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
+		$username = $this->session->userdata('username');
 
 		$listing 		= $this->lapor->listing($user_type, $id_lokasi_kerja, $id_pegawai);
 		$jumlah_filter 	= $this->lapor->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -156,7 +160,7 @@ class Lapor extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			//$jml_c = '1';
+			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 			$button = '
 				<a type="button" class="btn btn-info btn-xs" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
@@ -174,7 +178,7 @@ class Lapor extends CI_Controller
 
 					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
 						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>Pdf</button>
+						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i> Pdf</button>
 					</a>';
 					} else {
 						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
@@ -193,11 +197,11 @@ class Lapor extends CI_Controller
 			$row[] = $button;
 			$row[] = $file;
 			$row[] = $key->Kategori;
-			//$row[] = $key->Judul_laporan;
 			$row[] = $key->Isi_laporan;
 			$row[] = $key->nama_pegawai;
 			$row[] = $tanggapan;
 			$row[] = $key->Created_at;
+			$row[] = $see;
 
 			$data[] = $row;
 		}
@@ -229,10 +233,11 @@ class Lapor extends CI_Controller
 	{
 
 		$Id 			= $this->session->userdata('id_pegawai');
+		$Created_by 	= $this->session->userdata('username');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
 		$Kategori 		= $this->input->post('Kategori');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -274,20 +279,32 @@ class Lapor extends CI_Controller
 
 
 		$data['id_pegawai'] = $Id;
+		$data['Tanggapan_id'] = '0';
 		$data['id_lokasi_kerja'] = $lokasi_kerja;
 		$data['Kategori'] = $Kategori;
 		//$data['Judul_laporan'] = $Judul_laporan;
 		$data['Isi_laporan'] = $Isi_laporan;
 		$data['File_upload'] = $new_name_file;
-		$data['created_at'] = $Date_now;
-		$data['updated_at'] = $Date_now;
+		$data['Created_by'] = $Created_by;
+		$data['Created_at'] = $Date_now;
+		$data['Updated_at'] = $Date_now;
 
-		$this->db->insert('tr_lapor', $data);
-		// echo 'Berhasil';
-		$result = [
-			'status' => 'Berhasil simpan data lapor.',
-			'tipe' => 1,
-		];
+		$result_in = $this->db->insert('tr_lapor', $data);
+		if($result_in){
+			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor")->row();
+			$last_id = $Query_Getid->Id;
+			$see = $this->func_table_lapor->in_tosee_lapor($Created_by, $last_id, '0', $Created_by);
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tambah($last_id);
+			$result = [
+				'status' => 'Berhasil simpan data lapor.',
+				'tipe' => 1,
+			];
+		} else {
+			$result = [
+				'status' => 'Gagal simpan data lapor.',
+				'tipe' => 1,
+			];
+		}
 		echo json_encode($result);
 	}
 
@@ -319,7 +336,7 @@ class Lapor extends CI_Controller
 		$Kategori 		= $this->input->post('Kategori');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -418,6 +435,7 @@ class Lapor extends CI_Controller
 
 		$del_lapor = $this->db->query("DELETE FROM tr_lapor WHERE Id = '$Id'");
 		$del_tanggapan = $this->db->query("DELETE FROM tr_lapor_tanggapan WHERE Lapor_id = '$Id'");
+		$del_tanggapan_see = $this->db->query("DELETE FROM tr_lapor_see WHERE Lapor_id = '$Id'");
 		if ($del_lapor) {
 			echo 'Data Dihapus';
 		} else {
@@ -468,10 +486,11 @@ class Lapor extends CI_Controller
 	{
 		$Id 		= $this->input->post('Id');
 		$username 	= $this->session->userdata('username');
+		$user_type 	= $this->session->userdata('stts');
 
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_create = date("Y-m-d h:i:s");
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_create = date("Y-m-d H:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Lapor_id'] = $Id;
 		$data['username'] = $username;
@@ -479,8 +498,24 @@ class Lapor extends CI_Controller
 		$data['created_at'] = $tgl_create;
 		$data['updated_at'] = $tgl_update;
 
-		$this->db->insert('tr_lapor_tanggapan', $data);
-		echo 'Berhasil';
+		$result_in = $this->db->insert('tr_lapor_tanggapan', $data);
+
+		if($result_in){
+			$Query_GetLapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor_tanggapan")->row();
+			$last_id = $Query_Getid->Id;
+			$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
+			$Query_update_lapor = $this->db->query("UPDATE tr_lapor SET Tanggapan_id = '$last_id', Updated_at= '$tgl_update' WHERE Id='$Id'");
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tanggapi($last_id, $Id, $username, $user_type);
+			if($send_notif_lapor){
+				$result = 'Berhasil';
+			} else {
+				$result = 'Gagal Kirim Notif';
+			}
+		} else {
+			$result = 'Gagal';
+		}
+		echo $result;
 	}
 
 	function edit_tanggapan()
@@ -495,7 +530,7 @@ class Lapor extends CI_Controller
 	{
 		$Id = $this->input->post('Id');
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Tanggapan'] 	= $Tanggapan;
 		$data['updated_at'] = $tgl_update;
@@ -515,27 +550,15 @@ class Lapor extends CI_Controller
 
 	public function notify_lapor()
 	{
-		$count_see_kaku		= $this->func_table->count_see_kaku($this->session->userdata('username'));
-		$count_see_tj 		= $this->func_table->count_see_tj($this->session->userdata('username'));
-		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
-		
-		$total = $count_see + $count_see_tj + $count_see_kaku;
-
-		// if ($count_see_kaku > 0) {
-		// 	$res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
-		// } else {
-		// 	$res_count_see_kaku = '';
-		// }
-
-		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+		$count_lapor		= $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+		if ($count_lapor > 0) {
+			$res_count_lapor = '<span class="badge btn-warning btn-flat">' . $count_lapor . '</span>';
 		} else {
-			$res_total = '';
+			$res_count_lapor = '';
 		}
 
 		$result = [
-			// 'kariskarsu' => $res_count_see_kaku,
-			'ttl_kertas_kerja' => $res_total
+			'notify_lapor' => $res_count_lapor
 		];
 
 		echo json_encode($result);

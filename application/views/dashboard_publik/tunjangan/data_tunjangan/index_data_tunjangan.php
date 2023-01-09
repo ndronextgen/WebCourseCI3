@@ -38,9 +38,9 @@
 							<table id="table_tunjangan" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 								<thead>
 									<tr>
-										<th width='0px' style='text-align: center;'>Aksi</th>
+										<th width='1px'>Aksi</th>
 										<th>Peraturan</th>
-										<th style="text-align: center;">Status</th>
+										<th width='180px' style="text-align: center;">Status</th>
 										<th>Tanggal Dibuat</th>
 									</tr>
 								</thead>

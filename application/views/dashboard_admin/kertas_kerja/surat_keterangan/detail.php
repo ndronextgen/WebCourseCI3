@@ -150,6 +150,11 @@
 														<!-- end jika basah -->
 													<?php } ?>
 													<!-- end jika basah -->
+
+													<h4 style='text-align: center;'>
+														Timeline Surat
+													</h4>
+
 													<!-- start timeline -->
 													<?php
 													echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -221,10 +226,9 @@
 															if ($surat->id_status_srt == 0 || $surat->id_status_srt == 25 || $surat->id_status_srt == 28) {
 																//menunggu
 																//echo '<button type="button" id="btnProses" class="btn btn-brand"><i class="flaticon-notes"></i> Proses</button>&nbsp;&nbsp;';
-																echo '<a id="btn_prss" href="javascript:(0);" onclick="proses_data('.$surat->id_srt.')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
-															}
-															else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
-																if($surat->select_ttd=='basah'){
+																echo '<a id="btn_prss" href="javascript:(0);" onclick="proses_data(' . $surat->id_srt . ')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
+															} else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
+																if ($surat->select_ttd == 'basah') {
 																	echo '<button type="button" id="btnProsesUpload" class="btn btn-brand"><i class="flaticon-upload-1"></i> Simpan Upload</button>&nbsp;&nbsp;';
 																} else {
 																	echo '';
@@ -282,7 +286,7 @@ function proses_data(Id) {
 		}
 	});
 	$('#modal_all_small').modal('show'); // show bootstrap modal
-	$('.modal-title').text('Form Verifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
+	$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
 	//alert('a'); 
 }
 function batal_form() {

@@ -76,7 +76,7 @@
 			</div>
 		</div>
 	</div>
- 
+
 	<?php scrollTop(); ?>
 
 	<!-- begin script global -->

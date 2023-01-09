@@ -74,7 +74,7 @@
 		.modal-body {
 			/* 100% = dialog height, 120px = header + footer */
 			/* max-height: calc(100% - 120px); */
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 
 		#viewDiv {
@@ -163,6 +163,38 @@
 	<!-- new sso -->
 	<link href="<?= base_url() ?>asset/sso/css/style.css" rel="stylesheet" />
 	<!-- <link href="<?= base_url() ?>asset/sso/css/all.min.css.css" rel="stylesheet" /> -->
+
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
+	<!-- begin: progress timeline -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="<?= base_url('asset/timeline-master/style.css'); ?>">
+	<!-- end: progress timeline -->
+
+	<!-- horizontal timeline -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/global/fonts.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/wizard.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/plugins/global/plugins.bundle.css">
+
+	<!-- horizontal timeline -->
+	<style type="text/css">
+		.kt-wizard-v1 .kt-wizard-v1__nav .kt-wizard-v1__nav-items .kt-wizard-v1__nav-item .kt-wizard-v1__nav-body .kt-wizard-v1__nav-label {
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		.page-header {
+			border-bottom: 0px;
+			margin: 10px 0 10px 0;
+		}
+	</style>
 
 </head>
 
@@ -532,8 +564,53 @@
 			setPadding();
 		});
 		// === end: main container top menyesuikan tinggi navbar ===
+
+		function tutup_form_detail() {
+			$('#modal_all').modal('hide');
+		}
+
+		// === begin: progress timeline ===
+		function showTimeline(id) {
+			$.ajax({
+				url: "<?php echo site_url('kariskarsu/show_timeline'); ?>",
+				type: "post",
+				data: {
+					kariskarsu_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Permohonan KARIS/KARSU'); // Set Title to Bootstrap modal title
+		}
+
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// === end: progress timeline ===
 	</script>
 
 </body>
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+			</div>
+			<!-- <div class="modal-footer" hidden="true">
+				<button type="button" class="btn btn-success btn-flat btn-sm" onClick="simpan()">
+					<span class="fa fa-ok" aria-hidden="true"></span> Simpan
+				</button>
+			</div> -->
+		</div>
+	</div>
+</div>
 
 </html>

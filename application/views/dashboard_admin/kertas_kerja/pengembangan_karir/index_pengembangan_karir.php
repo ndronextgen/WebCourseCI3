@@ -415,7 +415,6 @@
 			});
 		}
 
-
 		function delete_surat_pengembangan_karir(Pengembangan_karir_id) {
 			// var i = "Hapus ?";
 			// var b = "Data Dihapus";
@@ -469,7 +468,6 @@
 		}
 
 		function simpan_verifikasi_pengembangan_karir() {
-
 			var status_verify = $("#status_verify").val();
 			if (status_verify == '') {
 				alert('Tentukan Verifikasi...!');

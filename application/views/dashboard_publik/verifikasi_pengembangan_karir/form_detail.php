@@ -69,6 +69,13 @@
 
                     </table>
 
+                    <hr>
+
+                    <?php
+                    $data1['data_history'] = $data_history;
+                    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                    ?>
+
                 </div>
             </div>
     </div><!-- /.box-body -->
@@ -76,7 +83,7 @@
     <hr style="border: 1px solid #1c8baf; margin-bottom: 15px; ">
 
     <div class="control-group">
-        <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
+        <button type="button" style='float:right; margin-top: -5px;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
     </div>
 
 </div>

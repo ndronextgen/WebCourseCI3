@@ -174,6 +174,24 @@
 		}
 	</style>
 
+	<!-- horizontal timeline -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/global/fonts.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/css/wizard.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets_admin/plugins/global/plugins.bundle.css">
+
+	<!-- horizontal timeline -->
+	<style type="text/css">
+		.kt-wizard-v1 .kt-wizard-v1__nav .kt-wizard-v1__nav-items .kt-wizard-v1__nav-item .kt-wizard-v1__nav-body .kt-wizard-v1__nav-label {
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		.page-header {
+			border-bottom: 0px;
+			margin: 10px 0 10px 0;
+		}
+	</style>
+
 </head>
 
 <body class="skin-blue layout-top-nav">
@@ -385,7 +403,7 @@
 
 				<!-- Modal kabeh -->
 				<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
-					<div class="modal-dialog modal-md">
+					<div class="modal-dialog modal-lg">
 						<!-- Modal content-->
 						<div class="modal-content">
 							<div class="modal-header">
@@ -611,6 +629,7 @@
 			$('#modal_timeline').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Bebas Tindak Pidana'); // Set Title to Bootstrap modal title
 		}
+
 		function tutup_form() {
 			$('#modal_timeline').modal('hide');
 		}
@@ -620,7 +639,7 @@
 </body>
 
 <div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">

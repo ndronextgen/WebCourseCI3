@@ -29,8 +29,6 @@
 	}
 </style>
 
-
-
 <div class="modal-body" style="padding-right: 0px; padding-bottom: 0px; padding-left: 0px; padding-top: 0px;">
 	<table class="table table-bordered" style="border: 2px solid #d8d8d8; margin-bottom: 10px;">
 		<tbody>
@@ -107,31 +105,33 @@
 
 	<div></div>
 
-	<div class="box" style="background-color: #f1f1f6; border: 1px solid grey;">
+	<!-- <div class="box" style="background-color: #f1f1f6; border: 1px solid grey;"> -->
 
-		<legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;">
-			<h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4>
-		</legend>
+		<!-- <legend style="border-bottom: 1px solid #1c8baf; border-top: 1px solid #1c8baf; text-align: center;"> -->
+			<!-- <h4 style="font-size: medium;">Perjalanan Pengajuan Surat Keterangan Pegawai</h4> -->
+		<!-- </legend> -->
 
 		<div class="box-body">
 
-			<div class="container" style="width:auto; padding-bottom: 25px;">
-				<div class="timeline">
-					<ul class="ul-li-timeline">
+			<!-- <div class="container" style="width:auto; padding-bottom: 25px;"> -->
+				<!-- <div class="timeline"> -->
+					<!-- <ul class="ul-li-timeline"> -->
 
 						<?php
 						$data1['data_history'] = $data_history;
-						$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content', $data1);
+						$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
 						?>
 
-					</ul>
-				</div>
-			</div>
+					<!-- </ul> -->
+				<!-- </div> -->
+			<!-- </div> -->
 
 		</div>
-	</div>
+	<!-- </div> -->
 
-	<div class="control-group">
+	<div></div>
+
+	<!-- <div class="control-group"> -->
 		<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="tutup_form()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
-	</div>
+	<!-- </div> -->
 </div>

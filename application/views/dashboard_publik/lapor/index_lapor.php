@@ -215,7 +215,7 @@
 								</ul>
 							</li>
 
-							<li class="active"><a href="<?php echo base_url(); ?>lapor"><i class="icon-home icon-white"></i> Lapor</a></li>
+							<li class="active"><a href="<?php echo base_url(); ?>lapor"><i class="icon-home icon-white"></i> Lapor&nbsp;<span id='notify_lapor'></span></a></li>
 
 							<?php if ($status_user == 'true') { ?>
 								<li class="dropdown user user-menu">
@@ -470,13 +470,11 @@
 				type: "POST",
 				beforeSend: function(f) {
 					var loading = '';
-					// $('span#notif_count_kariskarsu').html(loading);
-					$('span#ttl_kertas_kerja').html(loading);
+					$('span#notify_lapor').html(loading);
 				},
 				success: function(s) {
 					var obj = JSON.parse(s);
-					// $('span#notif_count_kariskarsu').html(obj.kariskarsu);
-					$('span#ttl_kertas_kerja').html(obj.ttl_kertas_kerja);
+					$('span#notify_lapor').html(obj.notify_lapor);
 				}
 			});
 		}
@@ -590,6 +588,10 @@
 				data: formData,
 				processData: false,
 				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').prop('disabled', true);
+				},
 				success: function(response) {
 					$('#modal_all').modal('hide');
 					// alert(response);
@@ -604,7 +606,8 @@
 						type: resp.tipe == 1 ? 'green' : 'red',
 						backgroundDismiss: true
 					});
-
+					$('#btn_tmb').text('Simpan');
+					$('#btn_tmb').attr('disabled', false);
 					reload_table();
 				}
 			});

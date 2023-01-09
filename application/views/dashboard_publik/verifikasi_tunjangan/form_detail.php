@@ -149,8 +149,13 @@
                                 <p>Keterangan ini saya buat dengan sesungguhnya dan apabila keterangan ini ternyata <b>tidak benar (palsu), saya bersedia dituntut dimuka pengadilan berdasarkan Undang-undang yang berlaku, dan bersedia mengembalikan semua penghasilan yang telah saya terima yang seharusnya bukan menjadi hak saya.</b></p>
                             </td>
                         </tr>
+
                         <tr>
                             <td colspan='3'>
+                                <?php
+                                $data1['data_history'] = $data_history;
+                                $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+                                ?>
                             </td>
                         </tr>
                     </table>
@@ -159,9 +164,10 @@
             </div>
 
         </form>
-    </div><!-- /.box-body -->
+    </div>
 
 </div>
+<button type="button" style='float:right; margin-top: -5px; margin-right: 15px;' class="btn btn-danger btn-sm" onclick="tutup_form_detail()"><i class="fa fa-times"></i>&nbsp;&nbsp;Tutup</button>
 
 <script type="text/javascript">
     table_data_item_pilih = $('#table_data_item_pilih').DataTable({

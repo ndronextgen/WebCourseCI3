@@ -157,7 +157,7 @@ class Tunjangan extends CI_Controller
 		$data = array();
 		$no = $_POST['start'];
 
-		foreach ($listing as $key) { 
+		foreach ($listing as $key) {
 			$no++;
 			$see = $this->func_table->see_public_tj($username, $key->Tunjangan_id);
 
@@ -850,6 +850,34 @@ class Tunjangan extends CI_Controller
 		$a['func_table'] = $this->load->library('func_table');
 		$see = $this->func_table->in_tosee_tj($Data_tunjangan->Created_by, $Tunjangan_id, $Data_tunjangan->Status_progress, $username);
 
+		// ===== surat tunjangan history =====
+		$sSQL = "SELECT
+					his.tunjangan_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tunjangan_track his
+					join tr_tunjangan surat on surat.tunjangan_id = his.tunjangan_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tunjangan_id = '$Tunjangan_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tunjangan history =====
+
 		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/view_tunjangan', $a);
 	}
 
@@ -892,7 +920,7 @@ class Tunjangan extends CI_Controller
 
 	function show_timeline()
 	{
-		// ===== surat keterangan history =====
+		// ===== surat tunjangan history =====
 		$tunjangan_id = $this->input->post('tunjangan_id');
 
 		$sSQL = "SELECT
@@ -900,8 +928,7 @@ class Tunjangan extends CI_Controller
 					his.user_created, surat.is_dinas,
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
-					stat.id_status,
-					stat.nama_status,
+					stat.id_status, stat.nama_status, stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
 					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
@@ -916,7 +943,7 @@ class Tunjangan extends CI_Controller
 				where
 					his.tunjangan_id = '$tunjangan_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 

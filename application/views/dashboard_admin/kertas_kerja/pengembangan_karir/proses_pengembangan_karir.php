@@ -8,7 +8,7 @@
 
 
             <br>
-            <h4 style='text-align:center;'>
+            <h4 style='text-align: center;'>
                 Surat Pengembangan Karir
             </h4>
             <input type='hidden' value='<?php echo $Pengembangan_karir_id; ?>' name='Pengembangan_karir_id' id='Pengembangan_karir_id'>
@@ -21,12 +21,12 @@
                 <tr>
                     <td>NIP / NRK</td>
                     <td>:</td>
-                    <td><?php echo $Data->nip.' / '.$Data->nrk; ?></td>
+                    <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
                 </tr>
                 <tr>
                     <td>Pangkat / Golongan</td>
                     <td>:</td>
-                    <td><?php echo ucwords(strtolower($Data->uraian)).' ( '.$Data->golongan.' )'; ?></td>
+                    <td><?php echo ucwords(strtolower($Data->uraian)) . ' ( ' . $Data->golongan . ' )'; ?></td>
                 </tr>
                 <tr>
                     <td>Jabatan</td>
@@ -36,7 +36,14 @@
                 <tr>
                     <td>Satuan Organisasi</td>
                     <td>:</td>
-                    <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+                    <td>
+                        <?php
+                        $lokasi = $Data->nama_lokasi_kerja;
+                        $lokasi = str_replace('Dan', 'dan', ucwords(strtolower($lokasi)));
+                        $lokasi = str_replace('Dki', 'DKI', ucwords(strtolower($lokasi)));
+                        echo $lokasi;
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Keterangan</td>
@@ -46,20 +53,23 @@
                 <tr>
                     <td>Periode</td>
                     <td>:</td>
-                    <td><?php echo $Data_pengembangan_karir->Periode_awal.' - '.$Data_pengembangan_karir->Periode_akhir; ?></td>
+                    <td><?php echo $Data_pengembangan_karir->Periode_awal . ' - ' . $Data_pengembangan_karir->Periode_akhir; ?></td>
                 </tr>
                 <tr>
                     <td>Digunakan Untuk</td>
                     <td>:</td>
                     <td><?php echo $Data_pengembangan_karir->Keperluan; ?></td>
                 </tr>
-                
+
             </table>
         </div>
     </div>
 </div>
 
-<h2 style='text-align:center;color:black;'>Timeline Surat</h2>
+
+<h4 style='text-align: center;'>
+    Timeline Surat
+</h4>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -93,65 +103,65 @@ echo '</div>';
 echo '</div>';
 echo '</div>';
 echo '</div>'; ?>
-<?php 
+<?php
 #jika bukan administrator utama
 $user_type = $this->session->userdata('stts');
 $id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
-if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){ //admin-utama
-?>
-<?php if ($Data_pengembangan_karir->Status_progress == '0' || $Data_pengembangan_karir->Status_progress == '25' || $Data_pengembangan_karir->Status_progress == '28') { ?>
-    <hr>
-    <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
-    <form id="form_verifikasi_pengembangan_karir" name="form_verifikasi_pengembangan_karir" method="post">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Tentukan Verifikasi</label>
-                    <select class="form-control input-md" name="status_verify" id="status_verify" style='border:2px solid green;'>
-                        <option value="">[ Pilih Verifikasi ]</option>
-                        <option value="<?php echo $terima; ?>">Terima</option>
-                        <option value="<?php echo $tolak; ?>">Tolak</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-8" id="divKet" style="display:none;">
-                <label>Alasan Ditolak</label>
-                <div class="form-group">
-
-                    <input type='text' name="ket" id="ket" class="form-control input-sm" style='border:2px solid green;'>
-                </div>
-            </div>
-        </div>
-
-        <br>
+if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) { //admin-utama
+    ?>
+    <?php if ($Data_pengembangan_karir->Status_progress == '0' || $Data_pengembangan_karir->Status_progress == '25' || $Data_pengembangan_karir->Status_progress == '28') { ?>
         <hr>
+        <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+        <form id="form_verifikasi_pengembangan_karir" name="form_verifikasi_pengembangan_karir" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Tentukan Verifikasi</label>
+                        <select class="form-control input-md" name="status_verify" id="status_verify" style='border:2px solid green;'>
+                            <option value="">[ Pilih Verifikasi ]</option>
+                            <option value="<?php echo $terima; ?>">Terima</option>
+                            <option value="<?php echo $tolak; ?>">Tolak</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-8" id="divKet" style="display:none;">
+                    <label>Alasan Ditolak</label>
+                    <div class="form-group">
+
+                        <input type='text' name="ket" id="ket" class="form-control input-sm" style='border:2px solid green;'>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type='hidden' name='Pengembangan_karir_id' value='<?php echo $Pengembangan_karir_id; ?>'>
+                        <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_pengembangan_karir()"><i class="fa fa-save"></i> Simpan & Kirim Ketahap Selanjutnya</button>&nbsp;&nbsp;
+                        <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+        </form>
+    <?php } elseif ($Data_pengembangan_karir->Status_progress == '3') { ?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <input type='hidden' name='Pengembangan_karir_id' value='<?php echo $Pengembangan_karir_id; ?>'>
-                    <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_pengembangan_karir()"><i class="fa fa-save"></i> Simpan & Kirim Ketahap Selanjutnya</button>&nbsp;&nbsp;
+                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
                     <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
-    </form>
-    <?php } elseif($Data_pengembangan_karir->Status_progress == '3') { ?>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
-<?php } else { ?>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
-<?php } ?>
+    <?php } ?>
 <?php } else { ?>
     <div class="row">
         <div class="col-sm-12">
@@ -162,7 +172,6 @@ if(($id_lokasi_kerja =='0' || $id_lokasi_kerja =='' ||$id_lokasi_kerja =='52')){
     </div>
 <?php } ?>
 <script>
-    
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
         const targetDiv = document.getElementById("divKet");

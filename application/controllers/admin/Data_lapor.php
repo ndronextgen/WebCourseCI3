@@ -14,6 +14,7 @@ class Data_lapor extends CI_Controller
 		/***** LOADING HELPER TO AVOID PHP ERROR ****/
 		$this->load->helper('template');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->model('m_lapor', 'lapor');
 	}
 
@@ -43,6 +44,7 @@ class Data_lapor extends CI_Controller
 	{
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
+		$username = $this->session->userdata('username');
 		$id_pegawai = '';
 
 		$listing 		= $this->lapor->listing($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -54,6 +56,7 @@ class Data_lapor extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
+			$see = $this->func_table_lapor->see_table_admin_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 			$button_ = '
 					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
@@ -98,11 +101,11 @@ class Data_lapor extends CI_Controller
 			$row[] = $button;
 			$row[] = $file;
 			$row[] = $key->Kategori;
-			//$row[] = $key->Judul_laporan;
 			$row[] = $key->Isi_laporan;
 			$row[] = $key->nama_pegawai;
 			$row[] = $tanggapan;
-			$row[] = $key->Created_at;
+			$row[] = $see;
+			$row[] = $see;
 
 			$data[] = $row;
 		}
