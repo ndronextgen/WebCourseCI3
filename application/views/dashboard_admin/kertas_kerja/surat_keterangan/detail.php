@@ -286,7 +286,7 @@ function proses_data(Id) {
 		}
 	});
 	$('#modal_all_small').modal('show'); // show bootstrap modal
-	$('.modal-title').text('Form Varifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
+	$('.modal-title').text('Form Verifikasi Pengajuan Surat'); // Set Title to Bootstrap modal title
 	//alert('a'); 
 }
 function batal_form() {
