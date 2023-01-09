@@ -24,11 +24,29 @@ class App_Login_Model extends CI_Model
 				$sess_data['lokasi_kerja'] = $qad->id_lokasi_kerja;
 
 				$foto = base_url() . 'asset/foto_pegawai/no-image/nofoto.png';
+				$sess_data['isUserShowPopup'] = [];
 				if ($qad->id_pegawai != 0) {
-					$q = $this->db->get_where("tbl_data_pegawai", $qad->id_pegawai);
+					$q = $this->db->get_where("tbl_data_pegawai", ["id_pegawai" => $qad->id_pegawai]);
 					if ($q->num_rows() > 0) {
-						foreach ($q->result() as $row) {
+						$row = $q->row();
+						if (!empty($row->foto)) {
 							$foto = base_url() . 'asset/foto_pegawai/thumb/' . $row->foto;
+						}
+
+						$sess_data['alreadyOpenPopup'] = $qad->is_show_popup;
+						if (date("d") >= "01" && date("Y-m-d", strtotime($row->tgl_show_popup)) > date("Y-m-d")) {
+							$this->reupdate_is_show_popup($qad->id_pegawai);
+							$sess_data['alreadyOpenPopup'] = 0;
+						}
+
+						$config_popup = $this->db->get_where('config_popup');
+						if ($config_popup->num_rows() > 0) {
+							foreach ($config_popup->result() as $pop) :
+								$type = $pop->type == "pegawai" ? "id_" . $pop->type : $pop->type;
+								if (in_array($row->{$type}, explode(",", $pop->value))) :
+									$sess_data['isUserShowPopup'][] = 1;
+								endif;
+							endforeach;
 						}
 					}
 				}
@@ -43,6 +61,15 @@ class App_Login_Model extends CI_Model
 			$this->session->set_flashdata('result_login', "Maaf, kombinasi username dan password yang anda masukkan tidak valid dengan database kami.");
 			header('location:' . base_url() . '');
 		}
+	}
+
+	function reupdate_is_show_popup($id, $value = 0)
+	{
+		$this->db->update("tbl_data_pegawai", [
+			"is_show_popup"  => $value,
+			"tgl_show_popup" => date("Y-m-d"),
+		], ["id_pegawai" => $id]);
+		return $this->db->affected_rows();
 	}
 }
 
