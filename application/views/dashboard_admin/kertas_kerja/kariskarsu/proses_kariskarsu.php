@@ -5,10 +5,8 @@
         </div>
         <div id="detail_pengaduan" class="panel-collapse expand collapse show">
 
-
-
             <br>
-            <h4 style='text-align:center;'>
+            <h4 style='text-align: center;'>
                 <?php
                 if ($Data_kariskarsu->Perkawinan_ke == '1') {
                     echo 'LAPORAN PERKAWINAN PERTAMA';
@@ -306,7 +304,11 @@
     </div>
 </div>
 
-<h2 style='text-align:center;color:black;'>Timeline Surat</h2>
+<hr>
+<h4 style='text-align: center;'>
+    Timeline Surat
+</h4>
+<hr>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
@@ -325,13 +327,13 @@ foreach ($Query_history as $hist) {
         $active = '';
     }
 
-    echo '<div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
-																		<div class="kt-wizard-v1__nav-body">
-																			<div class="kt-wizard-v1__nav-icon"><i class="' . $hist->style . '"></i></div>
-																			<div class="kt-wizard-v1__nav-label">' . $hist->nama_status . '</div>
-																			<div class="kt-wizard-v2__nav-label-desc">' . $hist->Name_user . '<br />' . $hist->Created_at . '</div>
-																		</div>
-																	</div>';
+    echo '  <div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
+                <div class="kt-wizard-v1__nav-body">
+                    <div class="kt-wizard-v1__nav-icon"><i class="' . $hist->style . '"></i></div>
+                    <div class="kt-wizard-v1__nav-label">' . $hist->nama_status . '</div>
+                    <div class="kt-wizard-v2__nav-label-desc">' . $hist->Name_user . '<br />' . $hist->Created_at . '</div>
+                </div>
+            </div>';
 
     $i++;
 }
@@ -340,10 +342,15 @@ echo '</div>';
 echo '</div>';
 echo '</div>';
 echo '</div>'; ?>
+<hr>
 
 <?php if ($Data_kariskarsu->Status_progress == '0' || $Data_kariskarsu->Status_progress == '25' || $Data_kariskarsu->Status_progress == '28') { ?>
+
+    <h4 style='text-align: center;'>
+        Form Verifikasi
+    </h4>
     <hr>
-    <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+
     <form id="form_verifikasi_kariskarsu" name="form_verifikasi_kariskarsu" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-4">

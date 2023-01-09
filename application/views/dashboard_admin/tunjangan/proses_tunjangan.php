@@ -149,7 +149,9 @@
     </div>
 </div>
 
-<h2 style='text-align:center;color:black;'>Timeline Surat</h2>
+<h4 style='text-align: center;'>
+    Timeline Surat
+</h4>
 
 <?php
 echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';

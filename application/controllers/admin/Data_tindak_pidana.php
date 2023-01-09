@@ -66,7 +66,7 @@ class Data_tindak_pidana extends CI_Controller
 			$row = array();
 			$see = $this->func_table->see_admin_tp($username, $key->Tindak_pidana_id);
 			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" href="javascript:void(0);">
-										<i class="fa fa-file"></i> Download
+										<i class="fa fa-file"></i>&nbsp; Download
 								</a>';
 			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_tindak_pidana/download_surat/' . $key->Tindak_pidana_id . '" target="_blank">
 			// 							<i class="fa fa-file"></i> Download
@@ -74,20 +74,21 @@ class Data_tindak_pidana extends CI_Controller
 
 			if ($see == '0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')) {
 				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_tindak_pidana(' . "'" . $key->Tindak_pidana_id . "'" . ')" style="color:#fff !important;">
-								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
+								<i class="fa fa-bookmark" style="color:#fff !important;"></i>&nbsp; Proses
 							</a>';
 			} else {
 
 				$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_surat_tindak_pidana(' . "'" . $key->Tindak_pidana_id . "'" . ')" style="color:#fff !important;">
-								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
+								<i class="fa fa-eye" style="color:#fff !important;"></i>&nbsp; Detail
 							</a>';
 			}
 			$button_edit = '<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_surat_tindak_pidana(' . "'" . $key->Tindak_pidana_id . "'" . ')" style="color:#fff !important;">
-								<i class="fa fa-edit" style="color:#fff !important;"></i> &nbsp;Edit
+								<i class="fa fa-edit" style="color:#fff !important;"></i>&nbsp; Edit
 							</a>';
 			$button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_surat_tindak_pidana(' . "'" . $key->Tindak_pidana_id . "'" . ')" style="color:#fff !important;">
-								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
+								<i class="fa fa-trash" style="color:#fff !important;"></i>&nbsp; Hapus
 							</a>';
+
 			if ($key->Status_progress == '0') {
 				$button = $button_view . ' ' . $button_edit . ' ' . $button_delete;
 			} elseif ($key->Status_progress == '21' and $user_type == 'administrator' and ($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) {
@@ -276,7 +277,7 @@ class Data_tindak_pidana extends CI_Controller
 				$message = "OK";
 			}
 		} else {
-			
+
 			$message = "Pilih Pegawai!";
 		}
 
