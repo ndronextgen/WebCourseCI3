@@ -1112,7 +1112,7 @@ class Kariskarsu extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.kariskarsu_id = '$Kariskarsu_id'
-				order by his.created_at";
+				order by his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -1185,7 +1185,7 @@ class Kariskarsu extends CI_Controller
 				where
 					his.kariskarsu_id = '$kariskarsu_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 

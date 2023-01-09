@@ -127,7 +127,6 @@
 		$('.modal-title').text('Ubah Surat Pengembangan Karir Pegawai'); // Set Title to Bootstrap modal title
 	}
 
-
 	function proses_surat_pengembangan_karir(Pengembangan_karir_id) {
 		save_method = 'verifikasi';
 		$.ajax({

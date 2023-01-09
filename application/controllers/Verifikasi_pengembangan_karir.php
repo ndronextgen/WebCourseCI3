@@ -345,7 +345,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 				where
 					his.pengembangan_karir_id = '$Pengembangan_karir_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -509,7 +509,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 				where
 					his.pengembangan_karir_id = '$Pengembangan_karir_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 
 		$a['data_history'] = $rsSQL;
@@ -574,7 +574,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 				where
 					his.pengembangan_karir_id = '$pengembangan_karir_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 

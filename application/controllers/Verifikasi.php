@@ -347,7 +347,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$Id'
-				order by his.created_at, his.id_history_srt_ket";
+				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -497,7 +497,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$Id'
-				order by his.created_at, his.id_history_srt_ket";
+				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -560,7 +560,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_history_srt_ket";
+				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
