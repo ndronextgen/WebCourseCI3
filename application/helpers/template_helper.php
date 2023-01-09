@@ -121,7 +121,7 @@ function menuAdmin($menuOpen = '')
     $count_surat_keterangan = countSuratKeterangan();
     $count_surat_tunjangan = countSuratTunjangan();
     $count_surat_kariskarsu = countSuratKariskarsu();
-    
+
     $count_surat_hukdis = countSuratHukdis();
     $count_surat_tp = countSuratTp();
     $count_surat_karir = countSuratKarir();
@@ -293,7 +293,7 @@ function menuAdmin($menuOpen = '')
                                 <ul class="kt-menu__subnav">
                                 <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
                                         <a href="javascript:void(0);" class="kt-menu__link kt-menu__toggle">
-                                            <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 4px;"></i>Pengajuan Surat dari Pegawai&nbsp;';
+                                            <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 5px;"></i>Pengajuan Surat dari Pegawai &nbsp; ';
     if ($count_surat_dari_pegawai > 0) {
         echo '<span class="kt-nav__link-badge">
                                                         <span class="kt-badge kt-badge--warning">' . $count_surat_dari_pegawai . '</span>
@@ -305,7 +305,7 @@ function menuAdmin($menuOpen = '')
                                             <ul class="kt-menu__subnav">
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                     <a href="' . base_url() . 'admin/surat_keterangan" class="kt-menu__link ">
-                                                    <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Keterangan Pegawai&nbsp;';
+                                                    <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Keterangan Pegawai &nbsp; ';
     if ($count_surat_keterangan > 0) {
         echo '<span class="kt-nav__link-badge">
                                                                 <span class="kt-badge kt-badge--warning">' . $count_surat_keterangan . '</span>
@@ -316,7 +316,7 @@ function menuAdmin($menuOpen = '')
                                                 </li>
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                     <a href="' . base_url() . 'admin/data_tunjangan" class="kt-menu__link ">
-                                                        <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Tunjangan Keluarga&nbsp;';
+                                                        <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 5px;"></i>Surat Permohonan Tunjangan Keluarga &nbsp; ';
 
     if ($count_surat_tunjangan > 0) {
         echo '<span class="kt-nav__link-badge">
@@ -329,7 +329,7 @@ function menuAdmin($menuOpen = '')
 
                                                 <li class="kt-menu__item " aria-haspopup="true">
                                                 <a href="' . base_url() . 'admin/data_kariskarsu" class="kt-menu__link ">
-                                                    <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat KARIS/KARSU&nbsp;';
+                                                    <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 5px;"></i>Surat Permohonan KARIS/KARSU &nbsp; ';
     if ($count_surat_kariskarsu > 0) {
         echo '<span class="kt-nav__link-badge">
                                                                     <span class="kt-badge kt-badge--warning">' . $count_surat_kariskarsu . '</span>
@@ -343,14 +343,14 @@ function menuAdmin($menuOpen = '')
                                     
                                     <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
                                         <a href="javascript:void(0);" class="kt-menu__link kt-menu__toggle">
-                                            <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Pembuatan Surat oleh Admin&nbsp;';
-                                            
-                                            if ($count_surat_dari_admin > 0) {
-                                                echo '<span class="kt-nav__link-badge">
+                                            <span class="kt-menu__link-text"><i class="flaticon-book" style="padding-right: 5px;"></i>Pembuatan Surat oleh Admin ';
+
+    if ($count_surat_dari_admin > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                         <span class="kt-badge kt-badge--warning">' . $count_surat_dari_admin . '</span>
                                                     </span>';
-                                            }
-                                            echo '<i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i></span>
+    }
+    echo '<i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i></span>
                                         </a>
                                         <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
                                             <ul class="kt-menu__subnav">
@@ -363,17 +363,15 @@ function menuAdmin($menuOpen = '')
                                                                 </div>
                                                                 <div class="kt-demo-icon__class">Kebutuhan Pensiun dan Naik Pangkat</div>
                                                             </div>';
-                                                            if ($count_kebutuhan_pensiun_naikpangkat > 0) {
-                                                                echo '<span class="kt-nav__link-badge">
+    if ($count_kebutuhan_pensiun_naikpangkat > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                         <span class="kt-badge kt-badge--warning">' . $count_kebutuhan_pensiun_naikpangkat . '</span>
                                                                     </span>';
-                                                            }
+    }
 
-                                                        echo '</span>
+    echo '</span>
                                                         <i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
-                                                    </a>
-                                                   
-                                                    
+                                                    </a>                                                    
 
                                                     <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
                                                         <ul class="kt-menu__subnav">
@@ -386,12 +384,12 @@ function menuAdmin($menuOpen = '')
                                                                             </div>
                                                                             <div class="kt-demo-icon__class">Surat Keterangan Hukuman Disiplin</div>
                                                                         </div>';
-                                                                        if ($count_surat_hukdis > 0) {
-                                                                            echo '<span class="kt-nav__link-badge">
+    if ($count_surat_hukdis > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                                     <span class="kt-badge kt-badge--warning">' . $count_surat_hukdis . '</span>
                                                                                 </span>';
-                                                                        }
-                                                                    echo '</span>
+    }
+    echo '</span>
                                                                 </a>
                                                             </li>
                                                             <li class="kt-menu__item " aria-haspopup="true">
@@ -403,13 +401,13 @@ function menuAdmin($menuOpen = '')
                                                                             </div>
                                                                             <div class="kt-demo-icon__class">Surat Keterangan Bebas Tindak Pidana</div>
                                                                         </div>';
-                                                                        if ($count_surat_tp > 0) {
-                                                                            echo '<span class="kt-nav__link-badge">
+    if ($count_surat_tp > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                                     <span class="kt-badge kt-badge--warning">' . $count_surat_tp . '</span>
                                                                                 </span>';
-                                                                        }
-                                                                        
-                                                                    echo '</span>
+    }
+
+    echo '</span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -439,13 +437,13 @@ function menuAdmin($menuOpen = '')
                                                                 <div class="kt-demo-icon__class">Kebutuhan Pengembangan Karir (Izin/Tugas Belajar)</div>
                                                             </div>';
 
-                                                            if ($count_surat_karir > 0) {
-                                                                echo '<span class="kt-nav__link-badge">
+    if ($count_surat_karir > 0) {
+        echo '<span class="kt-nav__link-badge">
                                                                         <span class="kt-badge kt-badge--warning">' . $count_surat_karir . '</span>
                                                                     </span>';
-                                                            }
+    }
 
-                                                        echo '</span>
+    echo '</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1051,18 +1049,18 @@ function countSuratHukdis()
 {
     $CI = &get_instance();
     $CI->load->database();
-    $username_id=$CI->session->userdata('username');
-    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $username_id = $CI->session->userdata('username');
+    $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
     $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
     $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
                                             WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
     #admin utama menerima notifikasi ketika
     # status (0,25)
-    if ($cek_admin_utama->jml_admin_utama > 0) { 
+    if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-    #admun wilayah
-    # status (21,22,23,24,25,26,3)
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
     } else {
@@ -1087,18 +1085,18 @@ function countSuratTp()
 {
     $CI = &get_instance();
     $CI->load->database();
-    $username_id=$CI->session->userdata('username');
-    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $username_id = $CI->session->userdata('username');
+    $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
     $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
     $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
                                             WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
     #admin utama menerima notifikasi ketika
     # status (0,25)
-    if ($cek_admin_utama->jml_admin_utama > 0) { 
+    if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-    #admun wilayah
-    # status (21,22,23,24,25,26,3)
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
     } else {
@@ -1123,18 +1121,18 @@ function countSuratKarir()
 {
     $CI = &get_instance();
     $CI->load->database();
-    $username_id=$CI->session->userdata('username');
-    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $username_id = $CI->session->userdata('username');
+    $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
     $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
     $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
                                             WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
 
     #admin utama menerima notifikasi ketika
     # status (0,25)
-    if ($cek_admin_utama->jml_admin_utama > 0) { 
+    if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-    #admun wilayah
-    # status (21,22,23,24,25,26,3)
+        #admun wilayah
+        # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
     } else {
@@ -1160,22 +1158,22 @@ function countLapor()
 {
     $CI = &get_instance();
     $CI->load->database();
-    $username_id=$CI->session->userdata('username');
-    $lokasi_kerja_id=$CI->session->userdata('lokasi_kerja');
+    $username_id = $CI->session->userdata('username');
+    $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
     $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
     $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
                                             WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
-    
+
     # administrator
-    if ($cek_admin_utama->jml_admin_utama > 0) { 
+    if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " ";
-    #admun wilayah
+        #admun wilayah
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.id_lokasi_kerja = '$lokasi_kerja_id'";
     } else {
         $kondisi = " AND a.id_lokasi_kerja = 'XX'";
     }
-   
+
     $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM (
                                 SELECT if(isnull(DATA.user_create) AND DATA.counter_notif = '0',0,1) as status_view 
                                 FROM
