@@ -617,7 +617,7 @@ class Data_pengembangan_karir extends CI_Controller
 		} else if ($Data_pengembangan_karir->Status_progress == '28') {
 			$kondisi = " WHERE x.id_status in ('0','21' ,'27','28')";
 		} else {
-			$kondisi = " WHERE x.id_status NOT IN ('1', '24', '25', '26', '28') ";
+			$kondisi = " WHERE x.id_status NOT IN ('0', '1', '24', '25', '26', '28') ";
 		}
 
 		if ($Data_pengembangan_karir->is_dinas == '1') { //bidang dan sekretariat
@@ -631,26 +631,54 @@ class Data_pengembangan_karir extends CI_Controller
 			$kond_order = " x.sort_bidang";
 		}
 
-		$Query_history = $this->db->query("SELECT 
-											x.id_status, x.nama_status, x.style, x.sort as urutan, x.sort_bidang as urutan_bidang,
-											y.Pengembangan_karir_id, y.Status_progress, y.Status_name, y.Notes, y.User_created, y.Name_user, y.Created_at
-											FROM tbl_status_surat x
-											LEFT JOIN (
-															SELECT
-																a.Pengembangan_karir_id, 
-																a.Status_progress, 
-																a.Status_name, 
-																a.Notes, 
-																a.User_created, 
-																a.Name_user, 
-																a.Created_at
-															FROM
-																tr_pengembangan_karir_track AS a
-															WHERE a.Pengembangan_karir_id='$Pengembangan_karir_id'
-															GROUP BY a.Pengembangan_karir_id,a.Status_progress
-											) y ON y.Status_progress = x.id_status 
-											$kondisi $kondisi_bidang
-											ORDER BY $kond_order ASC")->result();
+		// $Query_history = $this->db->query("SELECT 
+		// 									x.id_status, x.nama_status, x.style, x.sort as urutan, x.sort_bidang as urutan_bidang,
+		// 									y.Pengembangan_karir_id, y.Status_progress, 
+		// 									y.Status_name, y.Notes, y.User_created, y.Name_user, y.Created_at
+		// 									FROM tbl_status_surat x
+		// 									LEFT JOIN (
+		// 													SELECT
+		// 														a.Pengembangan_karir_id, 
+		// 														a.Status_progress, 
+		// 														a.Status_name, 
+		// 														a.Notes, 
+		// 														a.User_created, 
+		// 														a.Name_user, 
+		// 														a.Created_at
+		// 													FROM
+		// 														tr_pengembangan_karir_track AS a
+		// 													WHERE a.Pengembangan_karir_id='$Pengembangan_karir_id'
+		// 													GROUP BY a.Pengembangan_karir_id,a.Status_progress
+		// 									) y ON y.Status_progress = x.id_status 
+		// 									$kondisi $kondisi_bidang
+		// 									ORDER BY $kond_order ASC")->result();
+
+		$sSQL = "SELECT
+					his.pengembangan_karir_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status,
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_pengembangan_karir_track his
+					join tr_pengembangan_karir surat on surat.pengembangan_karir_id = his.pengembangan_karir_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.pengembangan_karir_id = '$Pengembangan_karir_id' 
+				order by
+					his.created_at, his.status_progress";
+		$Query_history = $this->db->query($sSQL);
+
 		$a['Query_history'] = $Query_history;
 
 		$this->load->view('dashboard_admin/kertas_kerja/pengembangan_karir/proses_pengembangan_karir', $a);
@@ -846,7 +874,8 @@ class Data_pengembangan_karir extends CI_Controller
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
 					stat.id_status,
-					stat.nama_status,
+					-- stat.nama_status,
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
 					stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,

@@ -73,39 +73,48 @@
 </h4>
 <br>
 
-<?php
-echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
-echo '<div class="kt-grid__item">';
-echo '<div class="kt-wizard-v1__nav">';
-echo '<div class="kt-wizard-v1__nav-items">';
-$i = 1;
+<!-- <?php
+        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
+        echo '<div class="kt-grid__item">';
+        echo '<div class="kt-wizard-v1__nav">';
+        echo '<div class="kt-wizard-v1__nav-items">';
+        $i = 1;
 
-foreach ($Query_history as $hist) {
-    $active = '';
-    $txt = '';
-    $download_file = '';
+        foreach ($Query_history as $hist) {
+            $active = '';
+            $txt = '';
+            $download_file = '';
 
-    if ($hist->Status_progress == $Data_pengembangan_karir->Status_progress) {
-        $active = 'current';
-    } else {
-        $active = '';
-    }
+            if ($hist->Status_progress == $Data_pengembangan_karir->Status_progress) {
+                $active = 'current';
+            } else {
+                $active = '';
+            }
 
-    echo '<div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
-																		<div class="kt-wizard-v1__nav-body">
-																			<div class="kt-wizard-v1__nav-icon"><i class="' . $hist->style . '"></i></div>
-																			<div class="kt-wizard-v1__nav-label">' . $hist->nama_status . '</div>
-																			<div class="kt-wizard-v2__nav-label-desc">' . $hist->Name_user . '<br />' . $hist->Created_at . '</div>
-																		</div>
-																	</div>';
+            echo '  <div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
+                <div class="kt-wizard-v1__nav-body">
+                    <div class="kt-wizard-v1__nav-icon"><i class="' . $hist->style . '"></i></div>
+                    <div class="kt-wizard-v1__nav-label">' . $hist->nama_status . '</div>
+                    <div class="kt-wizard-v2__nav-label-desc">' . $hist->Name_user . '<br />' . $hist->Created_at . '</div>
+                </div>
+            </div>';
 
-    $i++;
-}
+            $i++;
+        }
 
-echo '</div>';
-echo '</div>';
-echo '</div>';
-echo '</div>'; ?>
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>'; ?> -->
+
+<!-- start timeline -->
+<div>
+    <?php
+    $data1['data_history'] = $Query_history;
+    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+    ?>
+</div>
+<!-- end:timeline -->
 
 <hr>
 
