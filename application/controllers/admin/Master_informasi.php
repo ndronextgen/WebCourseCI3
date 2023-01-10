@@ -71,19 +71,36 @@ class Master_informasi extends CI_Controller
         redirect(base_url("admin/master_informasi"));
     }
 
+    function delete()
+    {
+        $v = $this->form_validation;
+        $v->set_rules('id', "id", 'required');
+        if ($v->run() == FALSE) {
+            echo json_encode(array("success" => false, 'message' => validation_errors()));
+            exit();
+        }
+        $id = $this->input->post('id');
+
+        if ($this->informasi_model->delete($id)) {
+            echo json_encode(array("success" => true, 'message' => "Data Berhasil dihapus"));
+        } else {
+            echo json_encode(array("success" => false, 'message' => "Data Gagal dihapus"));
+        }
+    }
+
     public function select2_value($type)
     {
         $data = [];
         $q = @$this->input->get("q");
         if ($type == "pegawai") {
             $where["CONCAT(id_pegawai,'_',nama_pegawai) LIKE '%$q%'"] = NULL;
-            $data = $this->config_popup_model->get_list_pegawai([], $where);
+            $data = $this->informasi_model->get_list_pegawai([], $where);
         } elseif ($type == "lokasi_kerja") {
             $where["CONCAT(id_lokasi_kerja,'_',lokasi_kerja) LIKE '%$q%'"] = NULL;
-            $data = $this->config_popup_model->get_list_lokasi_kerja([], $where);
+            $data = $this->informasi_model->get_list_lokasi_kerja([], $where);
         } else {
             $where["CONCAT(id_sub_lokasi_kerja,'_',sub_lokasi_kerja) LIKE '%$q%'"] = NULL;
-            $data = $this->config_popup_model->get_list_sub_lokasi_kerja([], $where);
+            $data = $this->informasi_model->get_list_sub_lokasi_kerja([], $where);
         }
         echo json_encode($data);
     }
