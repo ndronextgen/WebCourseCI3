@@ -121,7 +121,6 @@ function menuAdmin($menuOpen = '')
     $count_surat_keterangan = countSuratKeterangan();
     $count_surat_tunjangan = countSuratTunjangan();
     $count_surat_kariskarsu = countSuratKariskarsu();
-
     $count_surat_hukdis = countSuratHukdis();
     $count_surat_tp = countSuratTp();
     $count_surat_karir = countSuratKarir();
@@ -270,6 +269,13 @@ function menuAdmin($menuOpen = '')
     echo '<span class="kt-menu__link-text"><i class="flaticon-interface-11"></i>&nbsp;Bezeting</span>';
     echo '</a>';
     echo '</li>';
+
+    echo '<li class="kt-menu__item " aria-haspopup="true">';
+    echo '<a href="' . base_url() . 'admin/config_popup" class="kt-menu__link ">';
+    echo '<span class="kt-menu__link-text"><i class="flaticon-settings"></i>&nbsp;Popup Informasi</span>';
+    echo '</a>';
+    echo '</li>';
+
     echo '</ul>';
     echo '</div>';
     echo '</li>';
@@ -1059,7 +1065,7 @@ function countSuratHukdis()
     # status (0,25)
     if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-        #admun wilayah
+        #admin wilayah
         # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
@@ -1095,7 +1101,7 @@ function countSuratTp()
     # status (0,25)
     if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-        #admun wilayah
+        #admin wilayah
         # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
@@ -1131,7 +1137,7 @@ function countSuratKarir()
     # status (0,25)
     if ($cek_admin_utama->jml_admin_utama > 0) {
         $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
-        #admun wilayah
+        #admin wilayah
         # status (21,22,23,24,25,26,3)
     } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
         $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
