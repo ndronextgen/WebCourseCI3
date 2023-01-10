@@ -547,7 +547,8 @@ class Surat_keterangan extends CI_Controller
 				$dt['eselon3'] = null;
 				$d['ket_ttd'] = '';
 				$d['lokasi_kerja_ttd'] = '';
-				$d['signature'] = '';
+				$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
+				$d['stamp'] = '';
 
 				//get data surat
 				$q = $this->db->get_where('tbl_data_srt_ket', ['id_srt' => $id_surat]);
@@ -607,8 +608,8 @@ class Surat_keterangan extends CI_Controller
 										} else {
 											$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 										}
-										$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 									}
+									$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 								}
 
 								//get kadis
@@ -664,9 +665,9 @@ class Surat_keterangan extends CI_Controller
 											$d['signature'] = base_url() . 'asset/foto_pegawai/signature/' . $p3->signature;
 										} else {
 											$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
-										}
-										$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
+										}	
 									}
+									$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 								}
 
 								//get eselon3
@@ -892,7 +893,7 @@ class Surat_keterangan extends CI_Controller
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
@@ -912,7 +913,8 @@ class Surat_keterangan extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);
+		// $this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);
+		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 	}
 }
 
