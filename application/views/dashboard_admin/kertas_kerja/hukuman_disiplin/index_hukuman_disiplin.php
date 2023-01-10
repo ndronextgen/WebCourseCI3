@@ -264,7 +264,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -471,6 +471,44 @@
 				}
 			});
 		}
+
+		// begin: progress timeline joe 2023.01.09
+		function showTimeline(id) {
+			$.ajax({
+				url: "<?php echo site_url('admin/data_hukuman_disiplin/show_timeline'); ?>",
+				type: "POST",
+				data: {
+					hukdis_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Hukuman Disiplin'); // Set Title to Bootstrap modal title
+		}
+
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// end: progress timeline joe 2023.01.09
 	</script>
 	<!-- end script page -->
 </body>
+
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;font-family: system-ui;color: antiquewhite;">
+					Modal Header
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>

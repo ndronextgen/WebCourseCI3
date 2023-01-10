@@ -58,9 +58,7 @@
 
 	<style type="text/css">
 		.modal-header {
-			/* background-color: #1caf9a; */
 			background-color: #1c8baf;
-			/* padding: 16px 16px; */
 			color: #FFF;
 		}
 
@@ -75,11 +73,10 @@
 
 		.modal-body {
 			overflow-y: auto;
-			background-color: #f1f1f6;
+			/* background-color: #f1f1f6; */
 		}
 
 		.select2-selection__rendered {
-			/* background-color: #ababab; */
 			background-color: #defee2;
 		}
 	</style>
@@ -363,7 +360,7 @@
 					<div class="col-xs-12">
 						<div class="nav-tabs-custom">
 							<div class="tab-content">
-								<button class="btn btn-success" onclick="tambah_pengajuan_surat()"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;Tambah Pengajuan Surat</button>
+								<button class="btn btn-success" onclick="tambah_pengajuan_surat()"><i class="glyphicon glyphicon-plus"></i>&nbsp; &nbsp;Tambah Pengajuan Surat</button>
 								<br><br>
 
 								<table id="table_srt_ket" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -502,9 +499,9 @@
 						},
 						success: function(data) {
 							//alert(data);
-							$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
-							$('#modal_all').modal('show'); // show bootstrap modal
-							$('.modal-title').text('Informasi Surat Keterangan'); // Set Title to Bootstrap modal title
+							$('#modal_all_lg .modal-dialog .modal-content .modal-body').html(data);
+							$('#modal_all_lg').modal('show'); // show bootstrap modal
+							$('.modal-title').text('Informasi Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
 							reload_table_srt();
 						}
 					});
@@ -731,10 +728,6 @@
 	</div>
 
 	<script type="text/javascript">
-		function tutup_form() {
-			$('#modal_all').modal('hide');
-		}
-
 		function tambah_pengajuan_surat() {
 			// save_method = 'add';
 			$.ajax({
@@ -837,10 +830,10 @@
 					id_srt: id_srt
 				},
 				success: function(data) {
-					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+					$('#modal_all_lg .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
-			$('#modal_all').modal('show'); // show bootstrap modal
+			$('#modal_all_lg').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
 		}
 		// end: progress timeline joe 2022.11.03
@@ -887,6 +880,20 @@
 					<span class="fa fa-ok" aria-hidden="true"></span> Simpan
 				</button>
 			</div> -->
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modal_all_lg" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true"><i class="fa fa-times"></i></span>
+				</button>
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+			</div>
 		</div>
 	</div>
 </div>

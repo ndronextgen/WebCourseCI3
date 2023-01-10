@@ -152,6 +152,8 @@
 
                         <tr>
                             <td colspan='3'>
+                                <h4 style="text-align: center;">Timeline Surat</h4>
+                                <br>
                                 <?php
                                 $data1['data_history'] = $data_history;
                                 $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);

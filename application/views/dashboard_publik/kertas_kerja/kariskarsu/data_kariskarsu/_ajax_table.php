@@ -60,13 +60,11 @@
 				"processing": true,
 				"serverSide": true,
 				"order": [],
-				responsive: true,
+				"responsive": true,
 				"ajax": {
 					"url": "<?php echo site_url('tunjangan/table_data_tunjangan') ?>",
 					"type": "POST"
-				}
-
-				,
+				},
 				"columnDefs": [{
 						"targets": [-1],
 						"orderable": false,

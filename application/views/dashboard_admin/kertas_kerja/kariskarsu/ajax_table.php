@@ -51,10 +51,15 @@
 	table = $('#table_kariskasru').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('admin/Data_kariskarsu/table_data_kariskarsu') ?>",
 			"type": "POST"
 		},
+		"columnDefs": [{
+			"targets": [-1],
+			"orderable": false,
+		}],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
@@ -80,10 +85,6 @@
 		}, {
 			"sClass": "left"
 		}],
-		"columnDefs": [{
-			"targets": [-1],
-			"orderable": false,
-		}, ],
 		language: {
 			processing: 'Memuat...',
 		},

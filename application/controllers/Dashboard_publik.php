@@ -11,6 +11,7 @@ class Dashboard_Publik extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('jabatan_model');
+		$this->load->model('app_Login_Model');
 		$this->load->model('srt_ket_model');
 		$this->load->model('riwayat_jabatan_model');
 		$this->load->model('history_srt_ket_model');
@@ -2599,7 +2600,8 @@ class Dashboard_Publik extends CI_Controller
 
 	public function Alreadyopenpopup()
 	{
-		$this->session->set_userdata("alreadyOpenPopup", true);
+		$this->app_login_model->reupdate_is_show_popup($this->session->userdata('id_pegawai'), 1);
+		$this->session->set_userdata("alreadyOpenPopup", 1);
 	}
 }
 

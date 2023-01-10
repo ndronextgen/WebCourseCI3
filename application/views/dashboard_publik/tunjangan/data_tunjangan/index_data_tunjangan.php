@@ -28,11 +28,11 @@
 			<div class="col-xs-12">
 				<div class="nav-tabs-custom">
 					<div class="tab-content">
-						<div class="page-header">
+						<!-- <div class="page-header">
 							<h4># Data tunjangan Anda</h4>
-						</div>
-						<button class="btn btn-success" onclick="add_tunjangan()"><i class="glyphicon glyphicon-plus"></i> Tambah Data Tunjangan</button>
-						<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
+						</div> -->
+						<button class="btn btn-success" onclick="add_tunjangan()"><i class="glyphicon glyphicon-plus"></i>&nbsp; &nbsp;Tambah Pengajuan Surat</button>
+						<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i>&nbsp; &nbsp;Reload</button>
 						<hr>
 						<div class='table-responsive'>
 							<table id="table_tunjangan" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
@@ -293,7 +293,7 @@
 				});
 				$('.modal-footer').hide(); // show bootstrap modal
 				$('#modal_all').modal('show'); // show bootstrap modal
-				$('.modal-title').text('View Tunjangan'); // Set Title to Bootstrap modal title
+				$('.modal-title').text('Informasi Surat Permohonan Tunjangan Keluarga'); // Set Title to Bootstrap modal title
 			}
 			
 		</script>

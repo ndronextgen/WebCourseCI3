@@ -153,6 +153,9 @@
                         </tr>
                     </table>
 
+                    <h4 style="text-align: center; margin-top: -20px;">Timeline Surat</h4>
+                    <br>
+
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
@@ -165,6 +168,8 @@
                     </div>
 
                     <hr>
+                    <h4 style="text-align: center;">Form Verifikasi</h4>
+                    <br>
 
                     <div class="row">
                         <div class="col-xs-4">
@@ -180,7 +185,7 @@
                         <div class="col-xs-8" id="divKet" style="display:none;">
                             <div class="form-group">
                                 <label>Alasan Ditolak</label>
-                                <input type='text' name="ket" id="ket" class="form-control input-sm">
+                                <input type='text' name="ket" id="ket" class="form-control input-md">
                             </div>
                         </div>
                     </div>

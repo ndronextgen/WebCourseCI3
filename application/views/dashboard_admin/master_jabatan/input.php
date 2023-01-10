@@ -1,9 +1,10 @@
-<?php headAdminHtml();?>
-<body style="background-image: url(<?php echo base_url().'assets_admin/media/bg/header.jpg'; ?>); background-position: center top; background-size: 100% 350px;" class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-menu kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
+<?php headAdminHtml(); ?>
+
+<body style="background-image: url(<?php echo base_url() . 'assets_admin/media/bg/header.jpg'; ?>); background-position: center top; background-size: 100% 350px;" class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-menu kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
 	<?php
 	headerAdmin();
 	?>
-	
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -29,7 +30,7 @@
 									</div>
 									<div class="kt-portlet__head-toolbar">
 										<div class="kt-portlet__head-wrapper">
-											<a href="<?php echo base_url();?>admin/master_jabatan" class="btn btn-clean btn-icon-sm">
+											<a href="<?php echo base_url(); ?>admin/master_jabatan" class="btn btn-clean btn-icon-sm">
 												<i class="la la-long-arrow-left"></i>
 												Kembali
 											</a>
@@ -37,24 +38,24 @@
 									</div>
 								</div>
 
-								<?php echo form_open('admin/master_jabatan/simpan','class="form-horizontal"'); ?>
+								<?php echo form_open('admin/master_jabatan/simpan', 'class="form-horizontal"'); ?>
 								<input type="hidden" name="id_param" value="<?php echo $id_param; ?>">
 								<input type="hidden" name="st" value="<?php echo $st; ?>">
 
 								<div class="kt-portlet__body">
 									<div class="kt-form col-lg-8">
 										<?php
-										if(validation_errors()) {
+										if (validation_errors()) {
 											echo '<div class="alert alert-warning fade show" role="alert">
 												<div class="alert-icon"><i class="flaticon-warning"></i></div>
-												<div class="alert-text">'.validation_errors().'</div>
+												<div class="alert-text">' . validation_errors() . '</div>
 												<div class="alert-close">
 													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 														<span aria-hidden="true"><i class="la la-close"></i></span>
 													</button>
 												</div>
 											</div>';
-										} 
+										}
 										?>
 										<div class="form-group row">
 											<label class="col-3 col-form-label kt-font-bolder">Status Jabatan</label>
@@ -62,15 +63,14 @@
 												<select name="id_status_jabatan" id="id_status_jabatan" class="form-control">
 													<option value="0">Pilih Status Jabatan</option>
 													<?php
-													foreach($mst_status_jabatan->result_array() as $me) {
-														if($id_status_jabatan==$me['id_status_jabatan']) {
+													foreach ($mst_status_jabatan->result_array() as $me) {
+														if ($id_status_jabatan == $me['id_status_jabatan']) {
 													?>
-													<option value="<?php echo $me['id_status_jabatan']; ?>" selected="selected"><?php echo $me['nama_status_jabatan']; ?></option>
-													<?php
-														}
-														else {
-													?>
-													<option value="<?php echo $me['id_status_jabatan']; ?>"><?php echo $me['nama_status_jabatan']; ?></option>
+															<option value="<?php echo $me['id_status_jabatan']; ?>" selected="selected"><?php echo $me['nama_status_jabatan']; ?></option>
+														<?php
+														} else {
+														?>
+															<option value="<?php echo $me['id_status_jabatan']; ?>"><?php echo $me['nama_status_jabatan']; ?></option>
 													<?php
 														}
 													}
@@ -90,15 +90,14 @@
 												<select name="id_jabatan_atasan" id="id_jabatan_atasan" class="form-control">
 													<option value="0">Pilih Nama Jabatan Atasan</option>
 													<?php
-													foreach($mst_jabatan_atasan->result_array() as $me) {
-														if($id_jabatan_atasan==$me['id_nama_jabatan']) {
+													foreach ($mst_jabatan_atasan->result_array() as $me) {
+														if ($id_jabatan_atasan == $me['id_nama_jabatan']) {
 													?>
-													<option value="<?php echo $me['id_nama_jabatan']; ?>" selected="selected"><?php echo $me['nama_jabatan']; ?></option>
-													<?php
-														}
-														else {
-													?>
-													<option value="<?php echo $me['id_nama_jabatan']; ?>"><?php echo $me['nama_jabatan']; ?></option>
+															<option value="<?php echo $me['id_nama_jabatan']; ?>" selected="selected"><?php echo $me['nama_jabatan']; ?></option>
+														<?php
+														} else {
+														?>
+															<option value="<?php echo $me['id_nama_jabatan']; ?>"><?php echo $me['nama_jabatan']; ?></option>
 													<?php
 														}
 													}
@@ -120,7 +119,7 @@
 										<div class="col-lg-12" align="center">
 											<button type="submit" class="btn btn-brand"><i class="fa fa-save"></i> Simpan Data</button>
 											&nbsp;
-											<a href="<?php echo base_url();?>admin/master_jabatan" class="btn btn-clean btn-icon-sm">
+											<a href="<?php echo base_url(); ?>admin/master_jabatan" class="btn btn-clean btn-icon-sm">
 												<i class="flaticon2-cross"></i>
 												Batal
 											</a>
@@ -137,17 +136,17 @@
 			</div>
 		</div>
 	</div>
- 
+
 	<?php scrollTop(); ?>
 
 	<!-- begin script global -->
-	<script src="<?php echo base_url()?>assets_admin/js/init.js" type="text/javascript"></script>
-	<script src="<?php echo base_url()?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
-	<script src="<?php echo base_url()?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
-	<script src="<?php echo base_url()?>assets_admin/js/global/init.js" type="text/javascript"></script>
+	<script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
+	<script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
+	<script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
+	<script src="<?php echo base_url() ?>assets_admin/js/global/init.js" type="text/javascript"></script>
 	<!-- end script global -->
 
 	<!-- begin script page -->
-	
+
 	<!-- end script page -->
 </body>

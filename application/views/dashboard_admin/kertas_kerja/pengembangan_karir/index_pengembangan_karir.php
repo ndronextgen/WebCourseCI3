@@ -264,7 +264,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -416,18 +416,55 @@
 		}
 
 		function delete_surat_pengembangan_karir(Pengembangan_karir_id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
-				url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
-				success: function(s) {
-					alert(s);
-					window.location.reload();
+			// var i = "Hapus ?";
+			// var b = "Data Dihapus";
+			// if (!confirm(i)) return false;
+			// $.ajax({
+			// 	type: "post",
+			// 	data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
+			// 	url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
+			// 	success: function(s) {
+			// 		alert(s);
+			// 		window.location.reload();
+			// 	}
+			// });
+			var q = "Hapus data pengembangan karir?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: "Pengembangan_karir_id=" + Pengembangan_karir_id,
+								url: "<?php echo site_url('admin/Data_pengembangan_karir/delete_pengembangan_karir') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+
+									window.location.reload();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
+			})
+
+
 		}
 
 		function simpan_verifikasi_pengembangan_karir() {
@@ -477,6 +514,43 @@
 				}
 			});
 		}
+
+		// begin: progress timeline joe 2023.01.09
+		function showTimeline(id) {
+			$.ajax({
+				url: "<?php echo site_url('admin/data_pengembangan_karir/show_timeline'); ?>",
+				type: "POST",
+				data: {
+					pengembangan_karir_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Kebutuhan Pengembangan Karir'); // Set Title to Bootstrap modal title
+		}
+
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// end: progress timeline joe 2023.01.09
 	</script>
 	<!-- end script page -->
 </body>
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;font-family: system-ui;color: antiquewhite;">
+					Modal Header
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>

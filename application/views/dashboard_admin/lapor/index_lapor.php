@@ -337,7 +337,7 @@
 								},
 								url: "<?php echo site_url('Lapor/delete_lapor') ?>",
 								success: function(s) {
-									$.dialog({
+									$jQ.dialog({
 										title: 'Info',
 										content: i,
 										type: 'green',

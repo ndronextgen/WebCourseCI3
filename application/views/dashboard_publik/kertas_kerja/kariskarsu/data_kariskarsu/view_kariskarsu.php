@@ -247,6 +247,8 @@
 
                         <tr>
                             <td colspan="5">
+                                <h4 style="text-align: center;">Timeline Surat</h4>
+                                <br>
                                 <!-- start timeline -->
                                 <?php
                                 $data1['data_history'] = $data_history;

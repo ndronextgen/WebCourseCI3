@@ -258,7 +258,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -369,19 +369,91 @@
 
 
 		function delete_kariskarsu(Kariskarsu_id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
+			// var i = "Hapus ?";
+			// var b = "Data Dihapus";
+			// if (!confirm(i)) return false;
+			// $.ajax({
+			// 	type: "post",
+			// 	data: "Kariskarsu_id=" + Kariskarsu_id,
+			// 	url: "<?php echo site_url('admin/Data_kariskarsu/delete_kariskarsu') ?>",
+			// 	success: function(s) {
+			// 		alert(s);
+			// 		window.location.reload();
+			// 	}
+			// });
+			var q = "Hapus data kariskarsu?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: "Kariskarsu_id=" + Kariskarsu_id,
+								url: "<?php echo site_url('admin/Data_kariskarsu/delete_kariskarsu') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+
+									reload_table();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
+				}
+			})
+		}
+
+		// begin: progress timeline joe 2023.01.09
+		function showTimeline(id) {
 			$.ajax({
-				type: "post",
-				data: "Kariskarsu_id=" + Kariskarsu_id,
-				url: "<?php echo site_url('admin/Data_kariskarsu/delete_kariskarsu') ?>",
-				success: function(s) {
-					alert(s);
-					window.location.reload();
+				url: "<?php echo site_url('admin/data_kariskarsu/show_timeline'); ?>",
+				type: "POST",
+				data: {
+					kariskarsu_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Permohonan KARIS/KARSU'); // Set Title to Bootstrap modal title
 		}
+
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// end: progress timeline joe 2023.01.09
 	</script>
 	<!-- end script page -->
 </body>
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;font-family: system-ui;color: antiquewhite;">
+					Modal Header
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>

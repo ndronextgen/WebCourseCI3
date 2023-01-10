@@ -1,4 +1,3 @@
-
 <div id='ajax_content'>
     <!-- <section id="data-hukuman" class="content"> -->
 
@@ -6,9 +5,9 @@
         <div class="col-xs-12">
             <div class="nav-tabs-custom">
                 <div class="tab-content" style="padding-bottom: 0px;">
-                    <div class="page-header">
-                        <h4># View Data tunjangan &nbsp;&nbsp;&nbsp;</h4>
-                    </div>
+                    <!-- <div class="page-header">
+                        <h4>Informasi Surat Permohonan Tunjangan Keluarga</h4>
+                    </div> -->
                     <form name="form_tunjangan" id="form_tunjangan" method="post" enctype="multipart/form-data">
                         <table class='table' cellspacing='10' cellpadding='5'>
                             <tr>
@@ -137,6 +136,8 @@
 
                             <tr>
                                 <td colspan="3">
+                                    <h4 style="text-align: center;">Timeline Surat</h4>
+                                    <br>
                                     <!-- start timeline -->
                                     <?php
                                     $data1['data_history'] = $data_history;

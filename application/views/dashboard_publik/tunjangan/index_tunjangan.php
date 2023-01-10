@@ -402,7 +402,7 @@
 				<!-- </section> -->
 
 				<div class="callout callout-info">
-					<h4>Tunjangan</h4>
+					<h4>Surat Permohonan Tunjangan Keluarga</h4>
 					<p>Fasilitas untuk mengajukan Surat Permohonan Tunjangan Keluarga</p>
 				</div>
 

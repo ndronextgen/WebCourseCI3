@@ -1183,7 +1183,7 @@
 	<!-- '<h3 style="font-family: Arial Narrow; color: #2c80f5; font-weight: bold;">' +
 	'Selamat Datang Di Aplikasi SI-ADIK DCKTRP</h3>' + -->
 
-	<?php if (!$this->session->userdata("alreadyOpenPopup")) { ?>
+	<?php if (!empty($this->session->userdata("isUserShowPopup")) && !$this->session->userdata("alreadyOpenPopup")) { ?>
 		<script type="text/javascript">
 			Swal.fire({
 				title: '',

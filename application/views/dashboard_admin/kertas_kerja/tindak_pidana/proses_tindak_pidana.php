@@ -5,8 +5,6 @@
         </div>
         <div id="detail_pengaduan" class="panel-collapse expand collapse show">
 
-
-
             <br>
             <h4 style='text-align: center;'>
                 Surat Tindak Pidana
@@ -45,29 +43,29 @@
 </div>
 
 <br>
+<hr>
 <h4 style='text-align: center;'>
     Timeline Surat
 </h4>
-<hr>
 
-<?php
-echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
-echo '<div class="kt-grid__item">';
-echo '<div class="kt-wizard-v1__nav">';
-echo '<div class="kt-wizard-v1__nav-items">';
-$i = 1;
-foreach ($Query_history as $hist) {
-    $active = '';
-    $txt = '';
-    $download_file = '';
+<!-- <?php
+        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
+        echo '<div class="kt-grid__item">';
+        echo '<div class="kt-wizard-v1__nav">';
+        echo '<div class="kt-wizard-v1__nav-items">';
+        $i = 1;
+        foreach ($Query_history as $hist) {
+            $active = '';
+            $txt = '';
+            $download_file = '';
 
-    if ($hist->Status_progress == $Data_tindak_pidana->Status_progress) {
-        $active = 'current';
-    } else {
-        $active = '';
-    }
+            if ($hist->Status_progress == $Data_tindak_pidana->Status_progress) {
+                $active = 'current';
+            } else {
+                $active = '';
+            }
 
-    echo '<div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
+            echo '<div class="kt-wizard-v1__nav-item" data-ktwizard-type="step" data-ktwizard-state="' . $active . '">
 																		<div class="kt-wizard-v1__nav-body">
 																			<div class="kt-wizard-v1__nav-icon"><i class="' . $hist->style . '"></i></div>
 																			<div class="kt-wizard-v1__nav-label">' . $hist->nama_status . '</div>
@@ -75,13 +73,22 @@ foreach ($Query_history as $hist) {
 																		</div>
 																	</div>';
 
-    $i++;
-}
+            $i++;
+        }
 
-echo '</div>';
-echo '</div>';
-echo '</div>';
-echo '</div>'; ?>
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>'; ?> -->
+
+<!-- start timeline -->
+<div>
+    <?php
+    $data1['data_history'] = $Query_history;
+    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+    ?>
+</div>
+<!-- end:timeline -->
 
 <hr>
 
@@ -92,8 +99,12 @@ $id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) { //admin-utama
     ?>
     <?php if ($Data_tindak_pidana->Status_progress == '0' || $Data_tindak_pidana->Status_progress == '25' || $Data_tindak_pidana->Status_progress == '28') { ?>
-        <hr>
-        <h2 style='text-align:center;color:black;'>Form Verifikasi</h2>
+
+        <h4 style='text-align: center;'>
+            Form Verifikasi
+        </h4>
+        <br>
+
         <form id="form_verifikasi_tindak_pidana" name="form_verifikasi_tindak_pidana" method="post">
             <div class="row">
                 <div class="col-md-4">
@@ -122,8 +133,8 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
                 <div class="col-sm-12">
                     <div class="form-group">
                         <input type='hidden' name='Tindak_pidana_id' value='<?php echo $Tindak_pidana_id; ?>'>
-                        <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan & Kirim Ketahapan Selanjutnya</button>&nbsp;&nbsp;
-                        <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                        <button type="button" id='btn_verifikasi' style='float: right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_tindak_pidana()"><i class="fa fa-save"></i> Simpan & Kirim Ketahapan Selanjutnya</button>&nbsp;&nbsp;
+                        <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                     </div>
                 </div>
             </div>
@@ -132,7 +143,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+                    <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -140,7 +151,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
+                    <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -149,7 +160,7 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+                <button type="button" style='float: right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
             </div>
         </div>
     </div>
