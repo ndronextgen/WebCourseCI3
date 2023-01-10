@@ -15,6 +15,7 @@ class Dashboard_Publik extends CI_Controller
 		$this->load->model('srt_ket_model');
 		$this->load->model('riwayat_jabatan_model');
 		$this->load->model('history_srt_ket_model');
+		$this->load->model('informasi_model');
 		$this->load->library('func_table');
 		$this->load->library('func_table_lapor');
 		$this->load->library('func_wa_sk');
@@ -171,13 +172,7 @@ class Dashboard_Publik extends CI_Controller
 
 			$x['count_see'] = $count_see;
 
-			# kondisi pop up
-			# tampilkan pop up hanya sehari dari tanggal tayang (database)
-			// $tgl_tayang = strtotime('2023-01-01');
-			// $durasi = '1';
-			// $date_now = strtotime('2023-01-03');
-			# jika taggal tayang ditambah durasi masih lebih kecil dari tanggal sekarang masih boleh muncul
-			# selain itu tidak boleh muncul
+			$d['data_informasi'] = $this->session->userdata("data_informasi");
 
 			$this->load->view('dashboard_publik/homes/index_home', $d);
 		} else {
@@ -2600,7 +2595,6 @@ class Dashboard_Publik extends CI_Controller
 
 	public function Alreadyopenpopup()
 	{
-		$this->app_login_model->reupdate_is_show_popup($this->session->userdata('id_pegawai'), 1);
 		$this->session->set_userdata("alreadyOpenPopup", 1);
 	}
 }

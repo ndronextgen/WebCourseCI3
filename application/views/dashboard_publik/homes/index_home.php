@@ -1185,6 +1185,19 @@
 
 	<?php if (!empty($this->session->userdata("isUserShowPopup")) && !$this->session->userdata("alreadyOpenPopup")) { ?>
 		<script type="text/javascript">
+			function informasiList() {
+				var html = "";
+				<?php
+				if (!empty($data_informasi)) :
+					foreach ($data_informasi as $pop) :
+				?>
+						html += "<li><?= $pop->title; ?></li>";
+				<?php
+					endforeach;
+				endif;
+				?>
+				return html;
+			}
 			Swal.fire({
 				title: '',
 				icon: 'info',
@@ -1199,12 +1212,9 @@
 					'<p style="font-weight: bold; color: red; font-size: 15px; font-family: Arial Narrow; text-align: left;">' +
 					'Informasi Update Terbaru</p>' +
 					'<ol style="text-align: left;font-size:15px;font-family: Arial Narrow;">' +
-					'<li>Kertas Kerja Surat Permohonan Tunjangan Keluarga</li>' +
-					'<li>Kertas Kerja Surat Permohonan KARIS/KARSU</li>' +
-					'<li>Verifikasi Surat Permohonan Tunjangan Keluarga</li>' +
-					'<li>Verifikasi Surat Permohonan KARIS/KARSU</li>' +
-					'<li>Verifikasi Surat Hukuman Disiplin</li>' +
-					'<li>Verifikasi Surat Tindak Pidana</li>' +
+
+					informasiList() +
+
 					'</ol>' +
 					'<hr><p style="font-weight: bold; color: #2c80f5;font-size:15px;font-family: Arial Narrow;">Terima kasih</p>',
 				customClass: {
