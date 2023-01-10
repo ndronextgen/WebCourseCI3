@@ -181,7 +181,7 @@ headAdminHtml(); ?>
                 allowClear: true,
                 multiple: true,
                 ajax: {
-                    url: `<?= base_url("admin/config_popup/select2_value/pegawai"); ?>`,
+                    url: `<?= base_url("admin/master_informasi/select2_value/pegawai"); ?>`,
                     dataType: 'json',
                     processResults: function(data) {
                         return {
@@ -198,7 +198,7 @@ headAdminHtml(); ?>
                 allowClear: true,
                 multiple: true,
                 ajax: {
-                    url: `<?= base_url("admin/config_popup/select2_value/lokasi_kerja"); ?>`,
+                    url: `<?= base_url("admin/master_informasi/select2_value/lokasi_kerja"); ?>`,
                     dataType: 'json',
                     processResults: function(data) {
                         return {
@@ -215,7 +215,7 @@ headAdminHtml(); ?>
                 allowClear: true,
                 multiple: true,
                 ajax: {
-                    url: `<?= base_url("admin/config_popup/select2_value/sub_lokasi_kerja"); ?>`,
+                    url: `<?= base_url("admin/master_informasi/select2_value/sub_lokasi_kerja"); ?>`,
                     dataType: 'json',
                     processResults: function(data) {
                         return {

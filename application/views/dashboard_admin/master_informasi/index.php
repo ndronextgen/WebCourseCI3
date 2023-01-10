@@ -5,6 +5,16 @@
     headerAdmin();
     ?>
 
+    <style>
+        .swal2-icon.swal2-warning::before {
+            content: "";
+        }
+
+        .swal2-popup .swal2-icon {
+            margin: 2rem auto 0;
+        }
+    </style>
+
     <div class="kt-grid kt-grid--hor kt-grid--root">
         <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -119,6 +129,7 @@
     <script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- end script global -->
 
     <!-- begin script page -->

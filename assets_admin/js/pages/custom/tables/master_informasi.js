@@ -1,5 +1,6 @@
 jQuery(document).ready(function () {
     let url = getCookie('url');
+    
     var tbl = $('#tbl').KTDatatable({
       // datasource definition
       data: {
@@ -76,7 +77,7 @@ jQuery(document).ready(function () {
                         </a>
                       </li>
                       <li class="kt-nav__item">
-                        <a href="${url}admin/master_informasi/hapus/${row.id}" onClick="return confirm('Anda yakin..???');" class="kt-nav__link">
+                        <a href="javascript:void(0);" data-id="${row.id}" class="kt-nav__link mn-delete">
                           <i class="kt-nav__link-icon la la-trash"></i>
                           <span class="kt-nav__link-text">Hapus Data</span>
                         </a>
@@ -89,7 +90,39 @@ jQuery(document).ready(function () {
         
               </span>
             `;
-  
+            $("body").on("click",".mn-delete", function(e){
+              Swal.fire({
+                  title: 'Apakah anda Yakin?',
+                  text: "Data ini akan dihapus!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Ya, hapus ini!'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                    $.ajax({
+                      url: `${url}admin/master_informasi/delete`,
+                      type: "POST",
+                      dataType:'json',
+                      data: { id: $(this).data("id") },
+                      beforeSend: function() {
+                        Swal.showLoading();
+                      },
+                      success:function(json){
+                        Swal.fire(
+                          'Deleted!',
+                          json.message,
+                          json.success ? 'success' : 'error'
+                        ).then((result) => {
+                          tbl.reload();
+                        });
+                      }
+                    });
+                  }
+              });
+              e.preventDefault();
+            });
             return content;
           }
         }

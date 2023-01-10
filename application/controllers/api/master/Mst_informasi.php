@@ -11,6 +11,7 @@ class Mst_informasi extends CI_Controller
     {
         $q = "select *
 			from tbl_master_informasi a 
+            where deleted = 0
 			order by a.title, a.tgl_mulai, a.tgl_akhir DESC";
         echo json_encode($this->db->query($q)->result_array());
     }
