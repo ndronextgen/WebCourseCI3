@@ -212,11 +212,11 @@ class Arsip_pribadi extends CI_Controller
 			$data['status'] = FALSE;
 		}
 
-		if ($_FILES['file_pribadi']['name'] == '') {
-			$data['inputerror'][] = 'file_pribadi';
-			$data['error_string'][] = 'File wajib ada.';
-			$data['status'] = FALSE;
-		}
+		// if ($_FILES['file_pribadi']['name'] == '') {
+		// 	$data['inputerror'][] = 'file_pribadi';
+		// 	$data['error_string'][] = 'File wajib ada.';
+		// 	$data['status'] = FALSE;
+		// }
 
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);

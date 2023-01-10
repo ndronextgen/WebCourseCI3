@@ -50,7 +50,7 @@ class Arsip_skp extends CI_Controller
 			// === end: kolom "file" ===
 
 			$row[] = '	<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit_skp(' . "'" . $r->id_arsip_skp . "'" . ')"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-					  	<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_skp(' . "'" . $r->id_arsip_skp . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_skp(' . "'" . $r->id_arsip_skp . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
 						<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_download_skp" data-id="' . utf8_encode($r->id_arsip_skp) . '" data-title="Download" title="Download Data"><i class="fa fa-download"></i></button>';
 
 			$data[] = $row;
@@ -191,11 +191,11 @@ class Arsip_skp extends CI_Controller
 			$data['status'] = FALSE;
 		}
 
-		if ($_FILES['file_skp']['name'] == '') {
-			$data['inputerror'][] = 'file_skp';
-			$data['error_string'][] = 'File wajib ada.';
-			$data['status'] = FALSE;
-		}
+		// if ($_FILES['file_skp']['name'] == '') {
+		// 	$data['inputerror'][] = 'file_skp';
+		// 	$data['error_string'][] = 'File wajib ada.';
+		// 	$data['status'] = FALSE;
+		// }
 
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);

@@ -221,11 +221,11 @@ class Arsip_pendidikan extends CI_Controller
 			$data['status'] = FALSE;
 		}
 
-		if ($_FILES['file_pendidikan']['name'] == '') {
-			$data['inputerror'][] = 'file_pendidikan';
-			$data['error_string'][] = 'File wajib ada.';
-			$data['status'] = FALSE;
-		}
+		// if ($_FILES['file_pendidikan']['name'] == '') {
+		// 	$data['inputerror'][] = 'file_pendidikan';
+		// 	$data['error_string'][] = 'File wajib ada.';
+		// 	$data['status'] = FALSE;
+		// }
 
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);

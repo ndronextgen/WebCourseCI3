@@ -216,11 +216,11 @@ class Arsip_sk extends CI_Controller
 			$data['status'] = FALSE;
 		}
 
-		if ($_FILES['file_sk']['name'] == '') {
-			$data['inputerror'][] = 'file_sk';
-			$data['error_string'][] = 'File wajib ada.';
-			$data['status'] = FALSE;
-		}
+		// if ($_FILES['file_sk']['name'] == '') {
+		// 	$data['inputerror'][] = 'file_sk';
+		// 	$data['error_string'][] = 'File wajib ada.';
+		// 	$data['status'] = FALSE;
+		// }
 
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);

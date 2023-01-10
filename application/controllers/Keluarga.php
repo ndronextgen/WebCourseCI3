@@ -470,11 +470,11 @@ class Keluarga extends CI_Controller
 		}
 
 		if ($this->input->post('hub_keluarga') == 1) {
-			if ($_FILES['arsipPribadi_file']['name'] == '') {
-				$data['inputerror'][] = 'arsipPribadi_file';
-				$data['error_string'][] = 'Wajib upload Akta Nikah';
-				$data['status'] = FALSE;
-			}
+			// if ($_FILES['arsipPribadi_file']['name'] == '') {
+			// 	$data['inputerror'][] = 'arsipPribadi_file';
+			// 	$data['error_string'][] = 'Wajib upload Akta Nikah';
+			// 	$data['status'] = FALSE;
+			// }
 		}
 
 		return $data;
