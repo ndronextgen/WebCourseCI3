@@ -98,7 +98,7 @@
                     <td colspan='5'>Dengan ini memberitahukan dengan hormat, bahwa saya: </td>
                 </tr>
                 <tr>
-                    <td colspan='5'>
+                    <td colspan='5' style="border-top: 0px;">
                         <div id="ajax_pasangan">
                             <table class='table no-border' cellspacing='10' cellpadding='5'>
                                 <tr>
@@ -177,14 +177,18 @@
                     <td width='1px'>2.</td>
                     <td colspan='4'>Sebagai bukti bersama ini kami lampirkan :</td>
                 </tr>
+            </table>
+
+
+            <table class='table no-border' cellspacing='10' cellpadding='5'>
                 <tr>
                     <td width='1px'>&nbsp;</td>
-                    <td width='2px'>a.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='2px'></td>
+                    <td width='200px'>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>File Surat Nikah</label>
+                                    <label>a. File Surat Nikah</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_surat_nikah); ?>
                                     <input type='hidden' name="File_surat_nikah_lama" id="File_surat_nikah_lama" value='<?php echo $Data_kariskarsu->File_surat_nikah; ?>'>
@@ -192,92 +196,74 @@
                             </div>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td width='1px'>&nbsp;</td>
-                    <td width='2px'>b.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='200px'>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label>File KK</label>
+                                    <label>b. File KK</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_kk); ?>
                                     <input type='hidden' name="File_kk_lama" id="File_kk_lama" value='<?php echo $Data_kariskarsu->File_kk; ?>'>
                                 </div>
                             </div>
                         </div>
-
                     </td>
-                </tr>
-                <tr>
-                    <td width='1px'>&nbsp;</td>
-                    <td width='2px'>c.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='200px'>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label>File KTP Suami</label>
+                                    <label>c. File KTP Suami</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_ktp_suami); ?>
                                     <input type='hidden' name="File_ktp_suami_lama" id="File_ktp_suami_lama" value='<?php echo $Data_kariskarsu->File_ktp_suami; ?>'>
                                 </div>
                             </div>
                         </div>
-
                     </td>
                 </tr>
+
                 <tr>
                     <td width='1px'>&nbsp;</td>
-                    <td width='2px'>d.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='2px'></td>
+                    <td width='200px'>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label>File KTP Istri</label>
+                                    <label>d. File KTP Istri</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_ktp_istri); ?>
                                     <input type='hidden' name="File_ktp_istri_lama" id="File_ktp_istri_lama" value='<?php echo $Data_kariskarsu->File_ktp_istri; ?>'>
                                 </div>
                             </div>
                         </div>
-
                     </td>
-                </tr>
-                <tr>
-                    <td width='1px'>&nbsp;</td>
-                    <td width='2px'>e.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='200px'>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label>File SK CPNS/PNS Terakhir</label>
+                                    <label>e. File SK CPNS/PNS Terakhir</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_sk_pns); ?>
                                     <input type='hidden' name="File_sk_pns_lama" id="File_sk_pns_lama" value='<?php echo $Data_kariskarsu->File_sk_pns; ?>'>
                                 </div>
                             </div>
                         </div>
-
                     </td>
-                </tr>
-                <tr>
-                    <td width='1px'>&nbsp;</td>
-                    <td width='2px'>f.</td>
-                    <td width='200px' colspan='3'>
+                    <td width='200px'>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label>File Foto 2 x 3</label>
+                                    <label>f. File Foto 2 x 3</label>
                                     <br>
                                     <?php echo $this->func_table->get_file_kariskarsu($Data_kariskarsu->File_foto); ?>
                                     <input type='hidden' name="File_foto_lama" id="File_foto_lama" value='<?php echo $Data_kariskarsu->File_foto; ?>'>
                                 </div>
                             </div>
                         </div>
-
                     </td>
                 </tr>
+
+
 
                 <!-- <tr>
                     <td width='1px'>3.</td>
@@ -351,7 +337,7 @@ echo '</div>'; ?>
         Form Verifikasi
     </h4>
     <br>
-    
+
     <form id="form_verifikasi_kariskarsu" name="form_verifikasi_kariskarsu" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-4">
