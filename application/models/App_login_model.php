@@ -24,7 +24,7 @@ class App_Login_Model extends CI_Model
 				$sess_data['lokasi_kerja'] = $qad->id_lokasi_kerja;
 
 				$foto = base_url() . 'asset/foto_pegawai/no-image/nofoto.png';
-				$sess_data['isUserShowPopup'] = [];
+				$sess_data['isUserShowPopup'] = 0;
 				if ($qad->id_pegawai != 0) {
 					$q = $this->db->get_where("tbl_data_pegawai", ["id_pegawai" => $qad->id_pegawai]);
 					if ($q->num_rows() > 0) {
@@ -33,21 +33,22 @@ class App_Login_Model extends CI_Model
 							$foto = base_url() . 'asset/foto_pegawai/thumb/' . $row->foto;
 						}
 
-						$sess_data['alreadyOpenPopup'] = $qad->is_show_popup;
-						if (date("d") >= "01" && date("Y-m-d", strtotime($row->tgl_show_popup)) > date("Y-m-d")) {
-							$this->reupdate_is_show_popup($qad->id_pegawai);
-							$sess_data['alreadyOpenPopup'] = 0;
-						}
+						$row->sub_lokasi_kerja = $row->sublokasi_kerja;
+						$data_informasi = $this->get_informasi($row);
 
-						$config_popup = $this->db->get_where('config_popup');
-						if ($config_popup->num_rows() > 0) {
-							foreach ($config_popup->result() as $pop) :
-								$type = $pop->type == "pegawai" ? "id_" . $pop->type : $pop->type;
-								if (in_array($row->{$type}, explode(",", $pop->value))) :
-									$sess_data['isUserShowPopup'][] = 1;
-								endif;
-							endforeach;
-						}
+						if (!empty($data_informasi)) :
+							$sess_data['data_informasi'] = $data_informasi;
+							$sess_data['isUserShowPopup'] = 1;
+						endif;
+						// $config_popup = $this->db->get_where('config_popup');
+						// if ($config_popup->num_rows() > 0) {
+						// 	foreach ($config_popup->result() as $pop) :
+						// 		$type = $pop->type == "pegawai" ? "id_" . $pop->type : $pop->type;
+						// 		if (in_array($row->{$type}, explode(",", $pop->value))) :
+						// 			$sess_data['isUserShowPopup'][] = 1;
+						// 		endif;
+						// 	endforeach;
+						// }
 					}
 				}
 				$sess_data['foto'] = $foto;
@@ -63,13 +64,29 @@ class App_Login_Model extends CI_Model
 		}
 	}
 
-	function reupdate_is_show_popup($id, $value = 0)
+	private function get_informasi($users)
 	{
-		$this->db->update("tbl_data_pegawai", [
-			"is_show_popup"  => $value,
-			"tgl_show_popup" => date("Y-m-d"),
-		], ["id_pegawai" => $id]);
-		return $this->db->affected_rows();
+		$date = date("Y-m-d");
+		$where["tgl_mulai <= '$date'"] = NULL;
+		$where["tgl_akhir >= '$date'"] = NULL;
+		$result = [];
+		$info = $this->db->get_where("tbl_master_informasi", $where);
+		if ($info->num_rows() > 0) :
+			foreach ($info->result() as $val) :
+				$permission = unserialize($val->permission);
+				foreach ($permission as $key => $pers) :
+					if (empty($pers)) {
+						continue;
+					}
+					$type = $key == "pegawai" ? "id_" . $key : $key;
+					if (in_array($users->{$type}, $pers)) :
+						$result[] = $val;
+					endif;
+				endforeach;
+			endforeach;
+		endif;
+
+		return $result;
 	}
 }
 

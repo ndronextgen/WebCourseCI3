@@ -266,8 +266,8 @@ function menuAdmin($menuOpen = '')
     echo '</li>';
 
     echo '<li class="kt-menu__item " aria-haspopup="true">';
-    echo '<a href="' . base_url() . 'admin/config_popup" class="kt-menu__link ">';
-    echo '<span class="kt-menu__link-text"><i class="flaticon-settings"></i>&nbsp;Popup Informasi</span>';
+    echo '<a href="' . base_url() . 'admin/master_informasi" class="kt-menu__link ">';
+    echo '<span class="kt-menu__link-text"><i class="flaticon-interface-11"></i>&nbsp;Master Informasi</span>';
     echo '</a>';
     echo '</li>';
 
@@ -2630,4 +2630,14 @@ function headerTitle()
         </div>
     </div>
     ';
+}
+
+if (!function_exists('get_array_value')) {
+
+    function get_array_value(array $array, $key)
+    {
+        if (array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+    }
 }
