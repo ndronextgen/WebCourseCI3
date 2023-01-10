@@ -102,7 +102,7 @@ class Func_table_lapor
                                             tr_lapor_see as b
                                         WHERE b.Id_view = '$id'
                                     ) AS fa ON fa.Lapor_id = a.Id AND fa.Tanggapan_id = a.Tanggapan_id
-                                    WHERE a.Created_by = '$id' AND isnull(fa.User_create) AND a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 25 minute) > now()
+                                    WHERE a.Created_by = '$id' AND isnull(fa.User_create) AND a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 1 day) > now()
                                 ) AS DATA")->row();
         return $Query->jumlah;
     }

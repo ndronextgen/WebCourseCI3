@@ -248,7 +248,11 @@
 								</ul>
 							</li>
 
-							<li><a href="<?php echo base_url(); ?>lapor"><i class="icon-home icon-white"></i> Lapor</a></li>
+							<li class=""><a href="<?php echo base_url(); ?>Lapor"><i class="icon-home icon-white"></i> Lapor 
+								<?php if ($count_see_lapor > 0) { ?>
+									<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_lapor; ?></span>
+								<?php } ?>
+							</a></li>
 
 							<?php if ($status_user == 'true') { ?>
 								<li class="dropdown user user-menu">
