@@ -15,6 +15,7 @@ class Dashboard_Publik extends CI_Controller
 		$this->load->model('riwayat_jabatan_model');
 		$this->load->model('history_srt_ket_model');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->library('func_wa_sk');
 		$this->load->helper(array('url', 'download'));
 		date_default_timezone_set("Asia/Jakarta");
@@ -47,6 +48,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -164,6 +166,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
 
 			$x['count_see'] = $count_see;
 
@@ -882,6 +885,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -958,6 +962,7 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 				$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 				$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+				$d['count_see_lapor'] = $count_see_lapor;
 
 				$this->load->view('dashboard_publik/arsip_digital/index_arsip_digital', $d);
 			} else {
@@ -1073,6 +1078,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 
 			if ($data_pegawai->num_rows() > 0) {
 				$q = $this->db->get_where("tbl_data_pegawai", $id);
@@ -1158,6 +1164,7 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 				$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 				$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+				$d['count_see_lapor'] = $count_see_lapor;
 
 				//$this->load->view('master/header3',$d);				
 				$this->load->view('dashboard_publik/home/pengajuan_surat', $d);
@@ -1214,6 +1221,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -1286,6 +1294,7 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 				$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 				$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+				$d['count_see_lapor'] = $count_see_lapor;
 
 				//$this->load->view('master/header3',$d);				
 				$this->load->view('dashboard_publik/home/status_surat', $d);

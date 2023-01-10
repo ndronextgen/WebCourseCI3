@@ -190,7 +190,10 @@
 
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<span class="hidden-xs">Kertas Kerja &nbsp;<span id='ttl_kertas_kerja'></span>
+									<span class="hidden-xs">Kertas Kerja &nbsp;
+										<?php if ($count_see > 0 or $count_see_tj > 0 or $count_see_kaku > 0) { ?>
+											<span class="badge btn-warning btn-flat"><?php echo $count_see + $count_see_tj + $count_see_kaku; ?></span>
+										<?php } ?>
 										<i class="caret"></i></span>
 								</a>
 								<ul class="dropdown-menu">
@@ -219,7 +222,11 @@
 								</ul>
 							</li>
 
-							<li class=""><a href="<?php echo base_url(); ?>Lapor"><i class="icon-home icon-white"></i> Lapor</a></li>
+							<li class=""><a href="<?php echo base_url(); ?>Lapor"><i class="icon-home icon-white"></i> Lapor 
+								<?php if ($count_see_lapor > 0) { ?>
+									<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_lapor; ?></span>
+								<?php } ?>
+							</a></li>
 
 							<?php if ($status_user == 'true') { ?>
 								<li class="dropdown user user-menu">
