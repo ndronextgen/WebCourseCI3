@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
           title: 'No',
           autoHide: false,
           sortable: false,
-          width: 20,
+          width: 30,
           overflow: 'visible',
           template: function(row, index) {
             var currPage = tbl.getCurrentPage();
@@ -39,18 +39,27 @@ jQuery(document).ready(function () {
           overflow: 'visible',
         }, 
         {
-          field: 'tgl_awal',
+          field: 'tgl_mulai',
           title: 'Tanggal&nbsp;Mulai',
           autoHide: false,
-          width: 200,
+          width: 100,
           overflow: 'visible',
         }, 
         {
           field: 'tgl_akhir',
           title: 'Tanggal&nbsp;Akhir',
-          width: 200,
+          width: 100,
           overflow: 'visible',
         }, 
+        {
+          field: 'status',
+          title: 'Status',
+          width: 100,
+          overflow: 'visible',
+          template: function(row){
+            return `<span class="badge badge-${row.status == 'Aktif' ? 'primary':'secondary'}">${row.status}</span>`;
+          }
+        },
         {
           field: 'actions',
           title: 'Actions',

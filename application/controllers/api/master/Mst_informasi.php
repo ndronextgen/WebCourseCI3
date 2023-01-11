@@ -9,10 +9,10 @@ class Mst_informasi extends CI_Controller
 
     public function list()
     {
-        $q = "select *
+        $q = "select *, IF(tgl_akhir >= CURRENT_DATE, 'Aktif', 'Tidak Aktif') as status
 			from tbl_master_informasi a 
             where deleted = 0
-			order by a.title, a.tgl_mulai, a.tgl_akhir DESC";
+			order by a.tgl_akhir DESC";
         echo json_encode($this->db->query($q)->result_array());
     }
 }
