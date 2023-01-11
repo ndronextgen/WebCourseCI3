@@ -1957,11 +1957,6 @@ class Dashboard_Publik extends CI_Controller
 						$configfoto['max_width']  	= '3000';
 						$configfoto['max_height']  	= '3000';
 
-						// === change owner of directory ===
-						$dir = '/var/www/html/si-adik-dev/asset/foto_pegawai/';
-						var_dump($dir);
-						chown($dir, 'apache');
-
 						$this->load->library('upload', $configfoto);
 						$this->upload->initialize($configfoto);
 
