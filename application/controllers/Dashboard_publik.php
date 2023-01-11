@@ -1958,7 +1958,7 @@ class Dashboard_Publik extends CI_Controller
 						$configfoto['max_height']  	= '3000';
 
 						// === change owner of directory ===
-						$dir = base_url() . '/asset/foto_pegawai';
+						$dir = base_url() . 'asset/foto_pegawai/';
 						var_dump($dir);die;
 						chown($dir, 'apache');
 
