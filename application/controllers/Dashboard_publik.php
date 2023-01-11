@@ -1959,7 +1959,7 @@ class Dashboard_Publik extends CI_Controller
 
 						// === change owner of directory ===
 						$dir = base_url() . '/asset/foto_pegawai';
-						// var_dump($dir);die;
+						var_dump($dir);die;
 						chown($dir, 'apache');
 
 						$this->load->library('upload', $configfoto);
