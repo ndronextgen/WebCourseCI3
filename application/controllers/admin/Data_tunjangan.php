@@ -363,7 +363,9 @@ class Data_tunjangan extends CI_Controller
 				$dt['eselon3'] = null;
 				$d['ket_ttd'] = '';
 				$d['lokasi_kerja_ttd'] = '';
-				$d['signature'] = '';
+				$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
+				$d['stamp'] = '';
+
 
 				$Data_tunjangan = $this->db->query("SELECT * FROM tr_tunjangan WHERE Tunjangan_id='$Tunjangan_id'")->row();
 				$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
@@ -474,9 +476,8 @@ class Data_tunjangan extends CI_Controller
 									} else {
 										$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 									}
-									//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p3->signature;
-									$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 								}
+								$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 							}
 
 							//get kadis
@@ -530,9 +531,8 @@ class Data_tunjangan extends CI_Controller
 									} else {
 										$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 									}
-									//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p3->signature;
-									$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 								}
+								$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 							}
 
 							//get eselon3
