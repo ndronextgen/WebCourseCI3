@@ -41,8 +41,10 @@ class App extends CI_Controller
 
 					//set si-adik cookie
 					$this->session->set_userdata($sess_data);
-					//setcookie('url', base_url());
-					setcookie('url', base_url(), time() + (60 * 30));
+					// BEGIN YUDI - 6 JAN 2023
+					setcookie('url', base_url());
+					// setcookie('url', base_url(), time() + (60 * 30));
+					// END YUDI - 6 JAN 2023
 
 					//set cookie sso
 					//setcookie('sso_dcktrp', $_COOKIE['sso_dcktrp'], null, '/', 'jakarta.go.id');
@@ -102,8 +104,10 @@ class App extends CI_Controller
 			// 	$this->app_login_model->GetLoginData($dt);
 			// }
 
-			//setcookie('url', base_url());
-			setcookie('url', base_url(), time() + (60 * 30));
+			// BEGIN YUDI - 6 JAN 2023
+			setcookie('url', base_url());
+			// setcookie('url', base_url(), time() + (60 * 30));
+			// END YUDI - 6 JAN 2023
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
 			header('location:' . base_url() . 'admin/dashboard_admin');
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik" && $this->session->userdata('password') == md5('123456AppSimpeg32')) {
