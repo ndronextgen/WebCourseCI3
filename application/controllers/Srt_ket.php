@@ -137,10 +137,10 @@ class Srt_ket extends CI_Controller
 					break;
 				case 21:
 				case 22:
-				case 23:
 					//proses
 					$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>';
 					break;
+				case 23:
 				case 27:
 					//proses
 					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>

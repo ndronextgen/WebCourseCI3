@@ -2184,15 +2184,15 @@ class Dashboard_Publik extends CI_Controller
 
 						$filename = md5(date("dmYhisA"));
 						// --
-						$file_name = './asset/foto_pegawai/signature/' . $filename . '.svg';
-						$file_name_medium = './asset/foto_pegawai/signature/medium/' . $filename . '.svg';
-						$file_name_thumb = './asset/foto_pegawai/signature/thumb/' . $filename . '.svg';
+						$file_name = './asset/foto_pegawai/signature/' . $filename . '.png';
+						$file_name_medium = './asset/foto_pegawai/signature/medium/' . $filename . '.png';
+						$file_name_thumb = './asset/foto_pegawai/signature/thumb/' . $filename . '.png';
 
 						file_put_contents($file_name, $decoded_image);
 						file_put_contents($file_name_medium, $decoded_image);
 						file_put_contents($file_name_thumb, $decoded_image);
 						// --
-						$upd['signature'] = $filename . '.svg';
+						$upd['signature'] = $filename . '.png';
 					}
 
 					if ($this->db->update("tbl_data_pegawai", $upd, $id)) {
