@@ -1693,8 +1693,8 @@
 		});
 	}
 	$(document).ready(function() {
-		// var canvas = document.getElementById('sign-pad');
-		// canvas.getContext("2d");
+		//var canvas = document.getElementById('signature-pad');
+		//canvas.getContext("2d");
 		// $('#signArea').signaturePad({
 		// 	drawOnly: true,
 		// 	drawBezierCurves: true,
@@ -1719,7 +1719,9 @@
 		backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
 		minWidth: 1,
 		maxWidth: 1,
-		penColor: "rgb(0 135 255)"
+		penColor: "rgb(0 135 255)",
+		drawOnly: true,
+		drawBezierCurves: true
 	});
 
 	var cel = document.getElementById('clearButton');
@@ -1755,8 +1757,23 @@
 		// 		document.getElementById("dig_signature").value = img_data;
 		// 	}
 		// });
-
-		var data = signaturePad.toDataURL('image/svg+xml');
+		// -----------
+		// Rizki 
+		// -----------
+		// var data = signaturePad.toDataURL('image/svg+xml');
+		// console.log(encodeURIComponent(data));
+		// document.getElementById("dig_signature").value = encodeURIComponent(data);
+		// var element = document.getElementById('signature_pic');
+		// element.style = '';
+		// document.getElementById("signature_pic").style.backgroundImage = `url(${data})`;
+		// document.getElementById("signature_pic").style.backgroundSize = "100% 100%";
+		// document.getElementById("signature_pic").style.width = "100px";
+		// document.getElementById("signature_pic").style.height = "100px";
+		// -----------
+		// END Rizki 
+		// -----------
+		// set image to png
+		var data = signaturePad.toDataURL('image/png');
 		console.log(encodeURIComponent(data));
 		document.getElementById("dig_signature").value = encodeURIComponent(data);
 		var element = document.getElementById('signature_pic');

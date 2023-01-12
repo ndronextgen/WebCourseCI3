@@ -273,7 +273,7 @@ class Dashboard_Publik extends CI_Controller
 				$d['foto'] = $data->foto;
 				$signature = base_url() . 'asset/foto_pegawai/no-image/nosignature.png';
 				if ($data->signature) {
-					$signature = base_url() . 'asset/foto_pegawai/signature/thumb/' . $data->signature;
+					$signature = base_url() . 'asset/foto_pegawai/signature/' . $data->signature;
 				}
 				$d['signature'] = $signature;
 				$d['tanggal_selesai_pangkat'] = $data->tanggal_selesai_pangkat;
