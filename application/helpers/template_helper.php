@@ -215,9 +215,9 @@ function menuAdmin($menuOpen = '')
     echo '</li>';
 
 
-    
+
     $ci = &get_instance();
-    if ($ci->session->userdata('stts') == 'administrator' and $ci->session->userdata('username') == 'superadmin') {
+    if ($ci->session->userdata('stts') == 'administrator' and $ci->session->userdata('lokasi_kerja') == 0) {
         echo '<li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel ' . $activeMaster . '" data-ktmenu-submenu-toggle="click" aria-haspopup="true">';
         echo '<a href="javascript:void(0);" class="kt-menu__link kt-menu__toggle">';
         echo '<span class="kt-menu__link-text"><i class="flaticon-web"></i>&nbsp;Master&nbsp;<i class="la la-angle-down"></i></span>';

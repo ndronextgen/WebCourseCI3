@@ -1991,7 +1991,7 @@ class Dashboard_Publik extends CI_Controller
 							$destination_medium	= "./asset/foto_pegawai/medium/";
 
 							// Permission Configuration
-							chmod($source, 0777);
+							chmod($source, 0755);
 
 							/* Resizing Processing */
 							// Configuration Of Image Manipulation :: Static
