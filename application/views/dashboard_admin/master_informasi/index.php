@@ -102,9 +102,10 @@
                                         <thead>
                                             <tr>
                                                 <th width="10px">No</th>
-                                                <th>Judul Informasi</th>
+                                                <th width="500px">Judul Informasi</th>
                                                 <th>Tanggal Mulai</th>
                                                 <th>Tanggal Akhir</th>
+                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
