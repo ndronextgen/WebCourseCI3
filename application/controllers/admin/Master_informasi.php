@@ -49,17 +49,20 @@ class Master_informasi extends CI_Controller
                 'menu_open'         => "master",
                 'model_info'        => $this->informasi_model->get_one($id)
             ];
-            $view_data['permission'] =  unserialize($view_data['model_info']->permission);
+            $view_data['permission']       =  unserialize($view_data['model_info']->permission);
+            $view_data["pegawai"]          = $this->informasi_model->get_where_in("tbl_data_pegawai", "id_pegawai", @$view_data['permission']['pegawai']);
+            $view_data["lokasi_kerja"]     = $this->informasi_model->get_where_in("tbl_master_lokasi_kerja", "id_lokasi_kerja", @$view_data['permission']['lokasi_kerja']);
+            $view_data["sub_lokasi_kerja"] = $this->informasi_model->get_where_in("tbl_master_sub_lokasi_kerja", "id_sub_lokasi_kerja", @$view_data['permission']['sub_lokasi_kerja']);
             $this->load->view('dashboard_admin/master_informasi/form.php', $view_data);
             return;
         }
 
         $i = @$this->input;
         $data = [
-            "title"         => $i->post('title'),
-            "tgl_mulai"     => $i->post('tgl_mulai'),
-            "tgl_akhir"     => $i->post('tgl_akhir'),
-            "permission"    => serialize($i->post('permission'))
+            "title"             => $i->post('title'),
+            "tgl_mulai"         => $i->post('tgl_mulai'),
+            "tgl_akhir"         => $i->post('tgl_akhir'),
+            "permission"        => serialize($i->post('permission'))
         ];
         $save = $this->informasi_model->save($data, $id);
         if ($save) {
@@ -69,6 +72,24 @@ class Master_informasi extends CI_Controller
         }
 
         redirect(base_url("admin/master_informasi"));
+    }
+
+    function update_position()
+    {
+        $order = $this->input->post('order');
+        $save = 0;
+        foreach ($order as $key => $val) {
+            $data = [
+                'position' => $val['position']
+            ];
+            if ($this->informasi_model->save($data, $val['id'])) $save += 1;
+        }
+
+        if ($save > 0) {
+            echo json_encode(array("success" => true, 'message' => "Berhasil diperbaharui."));
+        } else {
+            echo json_encode(array("success" => false, 'message' => "Gagal diperbaharui."));
+        }
     }
 
     function delete()

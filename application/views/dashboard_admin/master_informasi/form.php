@@ -77,7 +77,7 @@ headAdminHtml(); ?>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-form-label kt-font-bolder">Permission: </label>
+                                                    <label class="col-form-label kt-font-bolder">Hak Akses: </label>
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
@@ -91,9 +91,9 @@ headAdminHtml(); ?>
                                                                 <td>
                                                                     <select id="list_pegawai" class="form-control" name="permission[pegawai][]" multiple="multiple" style="width: 100%">
                                                                         <?php
-                                                                        if (!empty($permission['pegawai'])) :
-                                                                            foreach ($permission['pegawai'] as $key => $value) :
-                                                                                echo "<option value='" . $value . "' selected>" . $value . "</option>";
+                                                                        if (!empty($pegawai)) :
+                                                                            foreach ($pegawai as $key => $value) :
+                                                                                echo "<option value='" . $value->id_pegawai . "' selected>" . $value->id_pegawai . " - " . $value->nama_pegawai . "</option>";
                                                                             endforeach;
                                                                         endif;
                                                                         ?>
@@ -105,9 +105,9 @@ headAdminHtml(); ?>
                                                                 <td>
                                                                     <select id="list_lokasi_kerja" class="form-control" name="permission[lokasi_kerja][]" multiple="multiple" style="width: 100%">
                                                                         <?php
-                                                                        if (!empty($permission['lokasi_kerja'])) :
-                                                                            foreach ($permission['lokasi_kerja'] as $key => $value) :
-                                                                                echo "<option value='" . $value . "' selected>" . $value . "</option>";
+                                                                        if (!empty($lokasi_kerja)) :
+                                                                            foreach ($lokasi_kerja as $key => $value) :
+                                                                                echo "<option value='" . $value->id_lokasi_kerja . "' selected>" . $value->id_lokasi_kerja . " - " . $value->lokasi_kerja . "</option>";
                                                                             endforeach;
                                                                         endif;
                                                                         ?>
@@ -119,9 +119,9 @@ headAdminHtml(); ?>
                                                                 <td>
                                                                     <select id="list_sub_lokasi_kerja" class="form-control" name="permission[sub_lokasi_kerja][]" multiple="multiple" style="width: 100%">
                                                                         <?php
-                                                                        if (!empty($permission["sub_lokasi_kerja"])) :
-                                                                            foreach ($permission["sub_lokasi_kerja"] as $key => $value) :
-                                                                                echo "<option value='" . $value . "' selected>" . $value . "</option>";
+                                                                        if (!empty($sub_lokasi_kerja)) :
+                                                                            foreach ($sub_lokasi_kerja as $key => $value) :
+                                                                                echo "<option value='" . $value->id_sub_lokasi_kerja . "' selected>" . $value->id_sub_lokasi_kerja . " - " . $value->sub_lokasi_kerja . "</option>";
                                                                             endforeach;
                                                                         endif;
                                                                         ?>
