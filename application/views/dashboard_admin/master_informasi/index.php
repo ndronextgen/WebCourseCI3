@@ -98,20 +98,7 @@
 
                                 <div class="kt-portlet__body kt-portlet__body--fit">
                                     <!--begin: Datatable -->
-                                    <table class="kt-datatable" id="tbl" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th width="10px">No</th>
-                                                <th width="500px">Judul Informasi</th>
-                                                <th>Tanggal Mulai</th>
-                                                <th>Tanggal Akhir</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                    <table class="kt-datatable" id="tbl" width="100%"></table>
                                     <!--end: Datatable -->
                                 </div>
                             </div>
@@ -130,6 +117,8 @@
     <script src="<?php echo base_url() ?>assets_admin/js/init.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- end script global -->
 

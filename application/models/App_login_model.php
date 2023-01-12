@@ -72,7 +72,7 @@ class App_Login_Model extends CI_Model
 		$where["tgl_mulai <= '$date'"] = NULL;
 		$where["tgl_akhir >= '$date'"] = NULL;
 		$result = [];
-		$info = $this->db->get_where("tbl_master_informasi", $where);
+		$info = $this->db->order_by('position', 'ASC')->get_where("tbl_master_informasi", $where);
 		if ($info->num_rows() > 0) :
 			foreach ($info->result() as $val) :
 				$permission = unserialize($val->permission);

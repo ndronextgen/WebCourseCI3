@@ -29,6 +29,7 @@ jQuery(document).ready(function () {
           width: 30,
           overflow: 'visible',
           template: function(row, index) {
+            $(`[data-row=${index}]`).attr("data-id", row.id);
             var currPage = tbl.getCurrentPage();
             return ((currPage*20)-20)+(index+1);
           }
@@ -36,12 +37,12 @@ jQuery(document).ready(function () {
         {
           field: 'title',
           title: 'Judul&nbsp;Informasi',
+          width: 350,
           overflow: 'visible',
         }, 
         {
           field: 'tgl_mulai',
           title: 'Tanggal&nbsp;Mulai',
-          autoHide: false,
           width: 100,
           overflow: 'visible',
         }, 
@@ -137,4 +138,51 @@ jQuery(document).ready(function () {
         }
       ],
     });
+
+    $( "#tbl" ).sortable({
+      items: "tr",
+      cursor: 'move',
+      opacity: 0.6,
+      update: function() {
+          sendOrderToServer();
+      }
+    });
+
+    function sendOrderToServer() {
+      var currentRequest = null,
+          order = [];
+
+      $('#tbl tbody tr').each(function(index,element) {
+        order.push({
+          id: $(this).attr('data-id'),
+          position: index+1
+        });
+      });
+
+      currentRequest = $.ajax({
+        type: "POST", 
+        dataType: "json", 
+        url: url+'admin/master_informasi/update_position',
+        data: {
+          order:order,
+        },
+        cache: false,
+        beforeSend: function () {
+          if (currentRequest != null) {
+            currentRequest.abort();
+          }
+        },
+        success: function (res) {
+          if(res.success){
+            appAlert.success(res.message, {duration: 2000});
+          }else{
+            appAlert.error(res.message, {duration: 2000});
+          }
+          tbl.reload();
+        },
+        error: function (e) {
+          appAlert.error(res.message, {duration: 2000});        
+        },
+      });
+    }
   });
