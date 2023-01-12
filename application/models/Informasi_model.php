@@ -64,6 +64,17 @@ class Informasi_model extends CI_Model
         return $this->db->get_where($this->table, $where, $limit, $offset);
     }
 
+    function get_where_in($table = "", $key = "", $where_in = array(), $where = array())
+    {
+        if (!$where_in) $where_in = [0];
+        $this->db->where_in($key, $where_in);
+        $list_data = $this->db->get_where($table, $where);
+        if ($list_data->num_rows()) :
+            return $list_data->result();
+        endif;
+        return FALSE;
+    }
+
     function save(&$data = array(), $id = 0)
     {
         if ($id) {

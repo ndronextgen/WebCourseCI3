@@ -7708,6 +7708,14 @@ a.text-dark:hover, a.text-dark:focus {
   .alert.alert-bold .alert-text {
     font-weight: 500; }
 
+  .alert.alert-fixed {
+    position: fixed;
+    min-width: 250px;
+    top: 5rem;
+    right: 5rem!important;
+    z-index: 9999;
+  }
+
 .badge {
   font-weight: 400; }
 
