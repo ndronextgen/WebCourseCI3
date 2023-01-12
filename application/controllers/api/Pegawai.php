@@ -343,10 +343,15 @@ class Pegawai extends CI_Controller {
 		return $this->db->get()->result();
 	}
 
-	function getJabatanRecursive_l4($parent=4,  $level=4, $lokasi) {
+	function getJabatanRecursive_l4($parent=4,  $level=4, $lokasi, $sublokasi) {
 		$array 	 = [];
+		if($sublokasi == null or $sublokasi == ''){
+			$kond_sub = " AND isnull(a.sublokasi_kerja)";
+		} else {
+			$kond_sub = " AND a.sublokasi_kerja = '$sublokasi'";
+		}
 		$Query_L1 = $this->db->query("SELECT No_urut,
-											a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,
+											a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,a.sublokasi_kerja,
 											nama_jabatan as jabatan,
 											lok.lokasi_kerja as satuan_unit_kerja
 										FROM tbl_data_pegawai as a
@@ -359,8 +364,9 @@ class Pegawai extends CI_Controller {
 												SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
 										) AS lok ON a.lokasi_kerja = lok.id_lokasi_kerja
 										WHERE 
-										a.id_status_jabatan = '2' AND a.status_pegawai != '1' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'
-										AND a.lokasi_kerja = '$lokasi' AND nama_jabatan !='Kepala Sektor Dinas Cipta Karya Tata Ruang dan Pertanahan Kecamatan'
+										a.id_status_jabatan = '2' AND a.status_pegawai = '5' AND a.id_jabatan != '0' AND level_jabatan = '$level' 
+										-- AND id_jabatan_atasan = '$parent'
+										AND a.lokasi_kerja = '$lokasi' $kond_sub AND nama_jabatan !='Kepala Sektor Dinas Cipta Karya Tata Ruang dan Pertanahan Kecamatan'
 										ORDER BY No_urut ASC")->result();
 
 		if ($Query_L1) {
@@ -390,7 +396,7 @@ class Pegawai extends CI_Controller {
 	function getJabatanRecursive_l3($parent=0,  $level=3) {
 		$array 	 = [];
 		$Query_L1 = $this->db->query("SELECT 
-											a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,
+											a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,a.sublokasi_kerja,
 											nama_jabatan as jabatan_ext,
 											lok.lokasi_kerja as satuan_unit_kerja,
 											if(nama_jabatan='Kepala Suku Dinas', 
@@ -407,8 +413,8 @@ class Pegawai extends CI_Controller {
 												SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
 										) AS lok ON a.lokasi_kerja = lok.id_lokasi_kerja
 										WHERE 
-										a.id_status_jabatan = '2' AND a.status_pegawai != '1' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'
-										group by a.lokasi_kerja ORDER BY level_jabatan, a.id_jabatan ASC")->result();
+										a.id_status_jabatan = '2' AND a.status_pegawai = '5' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'
+										group by a.lokasi_kerja, a.sublokasi_kerja ORDER BY level_jabatan, a.id_jabatan ASC")->result();
 
 		if ($Query_L1) {
 			$i = 0;
@@ -437,7 +443,7 @@ class Pegawai extends CI_Controller {
 				$countChild = $this->db->get()->num_rows();
 				if ($countChild > 0) {
 					//get child recursive
-					$array[$i]['childs'] = $this->getJabatanRecursive_l4($row->id_nama_jabatan,4, $row->lokasi_kerja);
+					$array[$i]['childs'] = $this->getJabatanRecursive_l4($row->id_nama_jabatan,4, $row->lokasi_kerja, $row->sublokasi_kerja);
 				}
 
 				
@@ -465,7 +471,7 @@ class Pegawai extends CI_Controller {
 												SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
 										) AS lok ON a.lokasi_kerja = lok.id_lokasi_kerja
 										WHERE 
-										a.id_status_jabatan = '2' AND a.status_pegawai != '1' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'  AND a.lokasi_kerja = '52'
+										a.id_status_jabatan = '2' AND a.status_pegawai = '5' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'  AND a.lokasi_kerja = '52'
 										ORDER BY level_jabatan, a.id_jabatan ASC")->result();
 
 		if ($Query_L1) {
