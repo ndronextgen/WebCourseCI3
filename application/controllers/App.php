@@ -17,7 +17,8 @@ class App extends CI_Controller
 		$this->load->library('func_table');
 	}
 
-	public function index()
+	// === sso ===
+	public function index_sso()
 	{
 		if (isset($_COOKIE['sso_dcktrp']) && strlen($_COOKIE['sso_dcktrp']) > 0) {
 			// validate token then create session
@@ -113,6 +114,48 @@ class App extends CI_Controller
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik" && $this->session->userdata('password') == md5('123456AppSimpeg32')) {
 			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
 			//header('location:'.base_url().'app/change_password_publik');
+			header('location:' . base_url() . 'dashboard_publik');
+		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") {
+			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
+			header('location:' . base_url() . 'dashboard_publik');
+		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "executive") {
+			header('location:' . base_url() . 'dashboard_publik');
+		}
+	}
+
+	// === local ===
+	public function index()
+	{
+		if ($this->session->userdata('logged_in') == "") {
+			$d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+			$d['judul'] = $this->config->item('nama_aplikasi_aja');
+			$d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+			$d['instansi'] = $this->config->item('nama_instansi');
+			$d['credit'] = $this->config->item('credit_aplikasi');
+
+			$this->form_validation->set_rules('username', 'Username', 'trim|required');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required');
+
+			if ($this->form_validation->run() == FALSE) {
+				$this->load->view('app/login', $d);
+			} else {
+				$dt['username'] = $this->input->post('username');
+				$dt['password'] = $this->input->post('password');
+
+				setcookie('url', base_url());
+
+				$this->app_login_model->getLoginData($dt);
+
+				// BEGIN JOE - 7 JUL 2022
+				// db log user setelah berhasil login
+				$this->load->model('Visitor_model');
+				$this->Visitor_model->visitor_login();
+				// END JOE - 7 JUL 2022
+			}
+		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
+			header('location:' . base_url() . 'admin/dashboard_admin');
+		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik" && $this->session->userdata('password') == md5('123456AppSimpeg32')) {
+			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
 			header('location:' . base_url() . 'dashboard_publik');
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") {
 			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
