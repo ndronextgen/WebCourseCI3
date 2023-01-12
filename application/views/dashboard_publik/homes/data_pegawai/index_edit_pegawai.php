@@ -1717,9 +1717,9 @@
 
 	var signaturePad = new SignaturePad(canvas, {
 		backgroundColor: 'rgb(255, 255, 255)', // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
-		minWidth: 2,
-		maxWidth: 2,
-		penColor: "rgb(0 135 255)",
+		minWidth: 1.8,
+		maxWidth: 1.8,
+		penColor: "rgb(4, 117, 217)",
 		drawOnly: true,
 		drawBezierCurves: true
 	});
