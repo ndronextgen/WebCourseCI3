@@ -115,9 +115,7 @@
                         <td colspan='6'>
                             <h5><i class="flaticon-file-1"></i> File Lampiran</h5>
                             <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
-
                                 <tbody>
-
                                     <tr>
                                         <td>
                                             <?php

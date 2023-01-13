@@ -173,30 +173,22 @@
                 <div class="row">
                     <div class="col-xs-2">
                         <div class="form-group"><label>File Lama</label>
-                            <?php
-                            if ($Data_dp3->file_name != '') {
-                                $path_file = './asset/upload/SKP';
-                                $path_folder    = $path_file . '/SKP_' . $Data_dp3->id_dp3 . '_' . $Data_dp3->id_arsip_skp . '/' . $Data_dp3->file_name;
-                                if (file_exists($path_folder)) {
-                                    $ext = explode(".", $Data_dp3->file_name);
+                            <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <?php
+                                            $path_file = 'asset/upload/SKP/SKP_' . $Data_dp3->id_dp3 . '_' . $Data_dp3->id_arsip_skp . '/' . $Data_dp3->file_name;
 
-                                    if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
-                                        $file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-                                                                <button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>&nbsp;&nbsp;Pdf</button>
-                                                            </a>';
-                                    } else {
-                                        $file = '<br><a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-                                                                <img height="40px" width="40px" src="' . base_url($path_folder) . '">
-                                                            </a>';
-                                    }
-                                } else {
-                                    $file = '-';
-                                }
-                            } else {
-                                $file = '-';
-                            }
-                            echo $file;
-                            ?>
+                                            $ci = &get_instance();
+                                            $ci->load->library('func_table');
+                                            $file = $ci->func_table->get_file($path_file, $Data_dp3->file_name_ori);
+                                            echo $file;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="col-xs-10">
