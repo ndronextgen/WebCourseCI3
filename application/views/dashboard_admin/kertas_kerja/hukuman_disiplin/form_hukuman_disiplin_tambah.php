@@ -69,10 +69,10 @@ if ($user_type == 'administrator' and ($id_lokasi_kerja == '0' || $id_lokasi_ker
 			</div>
 
 		</div>
-		<div class="row" style='padding:0px; display:none;'>
+		<div id='alasan_pindah' class="row" style='padding:0px; display:none;'>
 			<div class="col-12">
 				<div class="form-group">
-					<label>Keterangan</label>
+					<label>Pindah Tugas Ke ?</label>
 					<textarea name='Keterangan' id='Keterangan' class='form-control input-sm'></textarea>
 				</div>
 			</div>
@@ -136,4 +136,16 @@ if ($user_type == 'administrator' and ($id_lokasi_kerja == '0' || $id_lokasi_ker
 			}
 		})
 	});
+</script>
+<script>
+    $('#Type_surat').change(function() {
+        var Type_surat = $('#Type_surat').val();
+        const targetDiv = document.getElementById("alasan_pindah");
+        if (Type_surat == 4) {
+            targetDiv.style.display = "block";
+        } else {
+            targetDiv.style.display = "none";
+        }
+
+    });
 </script>

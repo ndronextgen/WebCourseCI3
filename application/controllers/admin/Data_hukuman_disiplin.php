@@ -251,6 +251,7 @@ class Data_hukuman_disiplin extends CI_Controller
 		$Hukdis_id 		= $this->input->post('Hukdis_id');
 		$id_pegawai 	= $this->input->post('filter_pegawai');
 		$Type_surat 	= $this->input->post('Type_surat');
+		$Keterangan 	= $this->input->post('Keterangan');
 
 		if ($id_pegawai != '') {
 
@@ -281,8 +282,12 @@ class Data_hukuman_disiplin extends CI_Controller
 				} else if ($Type_surat == '') {
 					$message = "Jenis Surat Harus Diisi!";
 				} else {
-					$status = true;
-					$message = "OK";
+					if($Type_surat == '4' AND $Keterangan==''){
+						$message = "Keterangan Pindah Tugas Harus Diisi!";
+					} else {
+						$status = true;
+						$message = "OK";
+					}
 				}
 			}
 		} else {
