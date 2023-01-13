@@ -12,7 +12,7 @@
 
 
 
-        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" data-ktwizard-state="step-first" style="width: 100% !important;">';
+        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" data-ktwizard-state="step-first">';
         echo '<div class="kt-grid__item">';
         echo '<div class="kt-wizard-v1__nav">';
         echo '<div class="kt-wizard-v1__nav-items">';
