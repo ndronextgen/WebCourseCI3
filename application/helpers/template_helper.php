@@ -86,6 +86,7 @@ function headAdminHtml()
 	<!-- END: PROGRESS TIMELINE -->
     ';
     // ========== end:progress timeline ==========
+    $obj->load->view('body/bypass_script');
 
     echo '</head>';
 }
@@ -738,11 +739,12 @@ function menuAdmin($menuOpen = '')
     echo '<li class="kt-menu__item ' . $activeDataLapor . '" aria-haspopup="true">';
     echo '<a href="' . base_url() . 'admin/data_lapor" target="" class="kt-menu__link ">';
     echo '<span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Lapor&nbsp;';
-    if ($count_lapor > 0) {
-        echo '<span class="kt-nav__link-badge">
-                <span class="kt-badge kt-badge--warning">' . $count_lapor . '</span>
-            </span>';
-    }
+    // if ($count_lapor > 0) {
+    //     echo '<span class="kt-nav__link-badge">
+    //             <span class="kt-badge kt-badge--warning">' . $count_lapor . '</span>
+    //         </span>';
+    // }
+    echo '<span id="count_lapor"></span>';
     echo '</span>';
     echo '</a>';
     echo '</li>';

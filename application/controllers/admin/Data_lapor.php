@@ -117,6 +117,23 @@ class Data_lapor extends CI_Controller
 		);
 		echo json_encode($output);
 	}
+
+	function notify_lapor()
+	{
+		
+		$count_lapor		= $this->func_table_lapor->count_see_lapor_admin($this->session->userdata('username'));
+		if ($count_lapor > 0) {
+			$res_count_lapor = '<span class="kt-nav__link-badge"><span class="kt-badge kt-badge--warning">' . $count_lapor . '</span></span>';
+		} else {
+			$res_count_lapor = '';
+		}
+
+		$result = [
+			'notify_lapor' => $res_count_lapor
+		];
+
+		echo json_encode($result);
+	}
 }
 
 /* End of file data_riwayat_jabatan.php */

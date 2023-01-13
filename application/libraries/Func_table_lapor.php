@@ -107,6 +107,57 @@ class Func_table_lapor
         return $Query->jumlah;
     }
 
+    function count_see_lapor_admin($id)
+    {
+        $CI = &get_instance();
+        $username_id = $CI->session->userdata('username');
+        $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
+        $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+        $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                                WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
+
+        # administrator
+        if ($cek_admin_utama->jml_admin_utama > 0) {
+            $kondisi = " ";
+            #admun wilayah
+        } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+            $kondisi = " AND a.id_lokasi_kerja = '$lokasi_kerja_id'";
+        } else {
+            $kondisi = " AND a.id_lokasi_kerja = 'XX'";
+        }
+
+        $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM (
+                                    SELECT if(isnull(DATA.user_create) AND DATA.counter_notif = '0',0,1) as status_view 
+                                    FROM
+                                    (
+                                        SELECT
+                                            fa.User_create,
+                                            a.Id, a.Created_by, a.Updated_at, a.Tanggapan_id,
+                                            (
+                                                CASE 
+                                                        WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) > now() THEN '0'
+                                                        WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) < now() THEN '1'
+                                                        WHEN a.Tanggapan_id = '0' THEN '0'
+                                                        ELSE '0'
+                                                END
+                                            ) AS counter_notif
+                                                        
+                                        FROM
+                                            tr_lapor as a
+                                        LEFT JOIN (
+                                            SELECT
+                                                            b.Id, b.User_create, b.Lapor_id, b.Tanggapan_id, b.Id_view,
+                                                            b.Tgl_view, b.tgl_update
+                                            FROM
+                                                            tr_lapor_see as b
+                                            WHERE b.Id_view = '$username_id' 
+                                        ) AS fa ON fa.Lapor_id = a.Id AND fa.Tanggapan_id = a.Tanggapan_id
+                                        WHERE isnull(fa.User_create) $kondisi
+                                    ) AS DATA
+                                ) AS LIST WHERE LIST.status_view ='0'")->row();
+        return $Query->jumlah;
+    }
+
     function see_table_public_lapor($id, $lapor_id)
     {
 
