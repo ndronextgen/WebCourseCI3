@@ -57,6 +57,7 @@
                 $("#table_tanggapan").html('Memuat tanggapan...');
             },
             success: function(data) {
+                reload_table();
                 $('#table_tanggapan').html(data);
             }
         });

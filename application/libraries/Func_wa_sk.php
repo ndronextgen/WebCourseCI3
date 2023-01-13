@@ -98,7 +98,7 @@ class Func_wa_sk
                                             a.select_ttd, a.tgl_proses, 
                                             a.id_user_proses,a.is_dinas, a.lokasi_kerja_pegawai,
                                             a.nomor_surat, a.Created_at, a.Updated_at,a.Updated_by,
-                                            b.nama_surat, nama_status as `status`, sort, sort_bidang,
+                                            b.nama_surat, REPLACE(nama_status_next, '<br>', ' ') as `status`, sort, sort_bidang,
                                             IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
                                             f.nama_pegawai, 
                                             -- 'wongndro@gmail.com' as email, '08121835654' as telepon
@@ -110,7 +110,7 @@ class Func_wa_sk
                                         ) AS b ON b.id_mst_srt = a.jenis_surat
 
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+                                            SELECT id_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
                                         ) AS c ON c.id_status = a.id_status_srt
 
                                         LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
@@ -135,7 +135,7 @@ class Func_wa_sk
                                             a.select_ttd, a.tgl_proses, 
                                             a.id_user_proses,a.is_dinas, a.lokasi_kerja_pegawai,
                                             a.nomor_surat, a.Created_at, a.Updated_at,a.Updated_by,
-                                            b.nama_surat, nama_status as `status`, sort, sort_bidang,
+                                            b.nama_surat, REPLACE(nama_status_next, '<br>', ' ') as `status`, sort, sort_bidang,
                                             IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan,
                                             f.nama_pegawai, 
                                             -- 'wongndro@gmail.com' as email, '08121835654' as telepon
@@ -147,7 +147,7 @@ class Func_wa_sk
                                         ) AS b ON b.id_mst_srt = a.jenis_surat
 
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+                                            SELECT id_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
                                         ) AS c ON c.id_status = a.id_status_srt
 
                                         LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode

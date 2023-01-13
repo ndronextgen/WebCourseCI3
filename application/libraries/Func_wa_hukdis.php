@@ -90,14 +90,14 @@ function Notifikasi_data($Hukdis_id){
                                             a.id_pegawai, a.lokasi_kerja_pegawai, a.is_dinas, 
                                             a.Hukdis_id, a.Type_surat, a.Status_progress,
                                             a.Notes, a.Created_by, a.Created_at,a.Updated_by, a.Updated_at,
-                                            nama_status as `status`, sort, sort_bidang,
+                                            REPLACE(nama_status_next, '<br>', ' ') as `status`, sort, sort_bidang,
                                             c.nama_pegawai as nama, d.nama_type, e.nama_lengkap,
                                             -- 'wongndro@gmail.com' as email, '08121835654' as telepon
                                             if(isnull(e.email) OR e.email='','wongndro@gmail.com', e.email ) as email, if(isnull(e.telepon) OR e.telepon='','08121835654', e.telepon ) as telepon
                                         FROM
                                             tr_hukdis AS a
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+                                            SELECT id_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
                                         ) as b ON b.id_status = a.Status_progress
                                         LEFT JOIN (
                                                 SELECT id_pegawai, nama_pegawai FROM tbl_data_pegawai

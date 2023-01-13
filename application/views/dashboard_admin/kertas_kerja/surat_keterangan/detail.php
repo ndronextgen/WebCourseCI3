@@ -228,7 +228,7 @@
 															if ($surat->id_status_srt == 0 || $surat->id_status_srt == 25 || $surat->id_status_srt == 28) {
 																//menunggu
 																//echo '<button type="button" id="btnProses" class="btn btn-brand"><i class="flaticon-notes"></i> Proses</button>&nbsp;&nbsp;';
-																echo '<a id="btn_prss" href="javascript:(0);" onclick="proses_data(' . $surat->id_srt . ')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
+																echo '<a id="btn_prss" href="javascript:;" onclick="proses_data(' . $surat->id_srt . ')" class="btn btn-brand"><i class="flaticon-notes"></i> Proses Data</a>&nbsp;&nbsp;';
 															} else if ($surat->id_status_srt == 2 || $surat->id_status_srt == 3 || $surat->id_status_srt == 23 || $surat->id_status_srt == 27) {
 																if ($surat->select_ttd == 'basah') {
 																	echo '<button type="button" id="btnProsesUpload" class="btn btn-brand"><i class="flaticon-upload-1"></i> Simpan Upload</button>&nbsp;&nbsp;';

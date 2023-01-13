@@ -1198,8 +1198,8 @@ function countLapor()
                                         a.Id, a.Created_by, a.Updated_at, a.Tanggapan_id,
                                         (
                                             CASE 
-                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 5 minute) < now() THEN '0'
-                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 5 minute) > now() THEN '1'
+                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) > now() THEN '0'
+                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) < now() THEN '1'
                                                     WHEN a.Tanggapan_id = '0' THEN '0'
                                                     ELSE '0'
                                             END
