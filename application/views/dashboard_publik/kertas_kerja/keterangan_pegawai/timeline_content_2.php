@@ -1,4 +1,4 @@
-	<?php
+<?php
     if ($data_history->num_rows() > 0) {
         $rows = $data_history->num_rows();
         $row = 0;
@@ -12,7 +12,7 @@
 
 
 
-        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" id="history" data-ktwizard-state="step-first">';
+        echo '<div class="kt-grid kt-wizard-v1 kt-wizard-v1--white" data-ktwizard-state="step-first" style="width: 100%;">';
         echo '<div class="kt-grid__item">';
         echo '<div class="kt-wizard-v1__nav">';
         echo '<div class="kt-wizard-v1__nav-items">';
@@ -159,5 +159,10 @@
                 break;
         }
 
-        exit_1:
+        exit_1: 
+        
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
     }
