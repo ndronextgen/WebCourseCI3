@@ -261,7 +261,7 @@ class Func_wa_sk
 <b>Terimakasih</b> <br/>
 <br/>
 Best Regards,<br/>
-Pusdatin, Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
+Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
 Gedung Dinas Teknis Jatibaru Lt.2 <br/>
 <br/>
 Jl. Taman Jatibaru No.1, RT.17/RW.1, Cideng, Gambir, Kota Jakarta Pusat, <br/>

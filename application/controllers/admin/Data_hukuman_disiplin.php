@@ -727,7 +727,8 @@ class Data_hukuman_disiplin extends CI_Controller
 				$dt['eselon3'] = null;
 				$d['ket_ttd'] = '';
 				$d['lokasi_kerja_ttd'] = '';
-				$d['signature'] = '';
+				$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
+				$d['stamp'] = '';
 
 				$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
@@ -800,9 +801,8 @@ class Data_hukuman_disiplin extends CI_Controller
 						} else {
 							$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 						}
-						//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p->signature;
-						$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
 					}
+					$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
 				}
 				$nama_jabatan_new = isset($d['kadis']->nama_jabatan) ? $d['kadis']->nama_jabatan : '';
 				$ttd_unit_new = isset($d['kadis']->ttd_unit) ? $d['kadis']->ttd_unit : '';

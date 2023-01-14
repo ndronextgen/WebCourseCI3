@@ -1093,6 +1093,134 @@ class Func_table
 
     // end Pengebangan Karir see
 
+    // Pindah Tugas see
+    function count_see_pindah_tugas($id)
+    {
+        $ci = &get_instance();
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        fa.user_create,
+                                        a.Id, a.Created_by,
+                                        a.Status_progress
+                                    FROM
+                                        tr_pindah_tugas as a
+                                    LEFT JOIN (
+                                        SELECT
+                                            b.Id, b.user_create, b.id_srt, b.id_view,
+                                            b.tgl_view, b.id_status_srt, b.tgl_update
+                                        FROM
+                                            tr_pindah_tugas_see as b
+                                        WHERE b.id_view = '$id'
+                                    ) AS fa ON fa.id_srt = a.Pindah_tugas_id AND fa.id_status_srt = a.Status_progress
+                                    WHERE a.Created_by = '$id' AND isnull(fa.user_create)
+                                ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+    #digunakan untuk warna kuning higlight pada tr table, yang artinya berkaitan dengan view/detail
+    function see_admin_pindah_tugas($id, $id_surat)
+    {
+
+        $ci = &get_instance();
+        $username_id = $ci->session->userdata('username');
+        $lokasi_kerja_id = $ci->session->userdata('lokasi_kerja');
+        $cek_admin_utama = $ci->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+        $cek_admin_wilayah = $ci->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                                WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
+
+        #admin utama menerima notifikasi ketika
+        # status (0,25)
+        if ($cek_admin_utama->jml_admin_utama > 0) {
+            $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+            #admun wilayah
+            # status (21,22,23,24,25,26,3)
+        } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+            $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Pindah_tugas_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pindah_tugas AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pindah_tugas_see 
+                                        -- WHERE id_view = '$username_id'
+                                        WHERE id_view = '$id' AND id_srt='$id_surat'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                    ) AS see ON see.id_srt = a.Pindah_tugas_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) AND a.Pindah_tugas_id='$id_surat' $kondisi ) AS DATA")->row();
+        #kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
+        # jika 0 maka tidak ada notif baru dab status view dijadikan 1 supaya tidak ada notif
+        if ($Query->jumlah > 0) {
+            $status_view = '0';
+        } else {
+            $status_view = '1';
+        }
+        return $status_view;
+    }
+
+    function in_tosee_pindah_tugas($id, $id_surat, $status_surat, $id_view)
+    {
+
+        $ci = &get_instance();
+        $tgl_now = date('Y-m-d H:i:s');
+        $cek = $ci->db->query("SELECT count(*) as jml FROM tr_pindah_tugas_see 
+                                        WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'")->row();
+        if ($cek->jml == 0 || $cek->jml == '' || $cek->jml == NULL) {
+            $Query = $ci->db->query("INSERT INTO tr_pindah_tugas_see 
+                                SET 
+                                user_create = '$id',
+                                id_srt =  '$id_surat',
+                                id_view =  '$id_view',
+                                tgl_view = '$tgl_now',
+                                id_status_srt = '$status_surat',
+                                tgl_update = '$tgl_now'");
+        } else {
+            $Query = $ci->db->query("UPDATE tr_pindah_tugas_see 
+                                SET tgl_update = '$tgl_now'
+                                WHERE id_srt='$id_surat' AND user_create = '$id' AND id_status_srt = '$status_surat' AND id_view = '$id_view'");
+        }
+        return $Query;
+    }
+
+    // verifikasi pindah_tugas
+    function count_see_verifikasi_pindah_tugas($id)
+    {
+
+        $ci = &get_instance();
+        $cek_kepegawaian = $ci->db->query("SELECT count(*) as jml_kepegawaian
+                                            FROM view_kasubag_kepegawaian WHERE nrk = '$id'")->row();
+
+        $cek_sekdis      = $ci->db->query("SELECT count(*) as jml_sekdis
+                                            FROM view_sekdis WHERE nrk = '$id'")->row();
+
+        if ($cek_kepegawaian->jml_kepegawaian > 0) {
+            $kondisi = " AND (a.Status_progress = '21' OR a.Status_progress='26')";
+        } else if ($cek_sekdis->jml_sekdis > 0) {
+            $kondisi = " AND a.Status_progress = '22'";
+        } else {
+            $kondisi = " AND a.Status_progress = 'XX'";
+        }
+        $Query = $ci->db->query("SELECT COUNT(*) as jumlah FROM
+        (
+            SELECT
+                                        a.Pindah_tugas_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pindah_tugas AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pindah_tugas_see 
+                                        WHERE id_view = '$id'
+                                        GROUP BY id_view, id_srt 
+                                        ) AS see ON see.id_srt = a.Pindah_tugas_id AND see.id_status_srt = a.Status_progress 
+                                    WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+        return $Query->jumlah;
+    }
+
+    // end pindah tugas see
+
     function removeTitleFromName($name)
     {
         $result = explode(',', $name);
@@ -1266,6 +1394,30 @@ class Func_table
         $nomorbaru = $kode . "/KG.04.01/D";
 
         $Query_update = $ci->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_pengembangan_karir = Nomor_terakhir_pengembangan_karir + 1");
+
+        return $nomorbaru;
+    }
+
+    function gen_nomor_surat_pindah_tugas($kode_lokasi)
+    {
+        $ci = &get_instance();
+
+        $Tahun  = date('Y');
+        // -----
+        $Query = $ci->db->query("SELECT Nomor_terakhir_pindah_tugas FROM tbl_master_nomor_surat LIMIT 1")->row();
+        $result_max = isset($Query->Nomor_terakhir_pindah_tugas) ? $Query->Nomor_terakhir_pindah_tugas : '0';
+        // -----
+        $Query_lokasi = $ci->db->query("SELECT acronim FROM tbl_master_lokasi_kerja WHERE id_lokasi_kerja = '$kode_lokasi'")->row();
+        $result_lokasi = isset($Query_lokasi->acronim) ? $Query_lokasi->acronim : 'NL';
+
+        $Nur = $result_max + 1;
+
+        $kode =  sprintf("%03s", $Nur);
+        //[nomor_urut]/KG.11.04/D
+        //$nomorbaru = $Nur . "/SE/" . $Tahun;
+        $nomorbaru = $kode . "/PT.04.01/D";
+
+        $Query_update = $ci->db->query("UPDATE tbl_master_nomor_surat SET Nomor_terakhir_pindah_tugas = Nomor_terakhir_pindah_tugas + 1");
 
         return $nomorbaru;
     }
