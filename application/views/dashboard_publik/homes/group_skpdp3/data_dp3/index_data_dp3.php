@@ -267,7 +267,16 @@
 			contentType: false,
 			success: function(response) {
 				$('#modal_all').modal('hide');
-				alert(response);
+				// alert(response);
+				const resp = JSON.parse(response);
+				
+				$.dialog({
+					icon: 'fa fa-info',
+					title: 'Info',
+					content: resp.status,
+					type: resp.tipe == 1 ? 'green' : 'red',
+					backgroundDismiss: true
+				});
 				reload_table_dp3();
 
 

@@ -34,7 +34,7 @@ class Pelatihan extends CI_Controller
 			$row[] = $nama_pelatihan;
 			$row[] = $r->lokasi;
 			$row[] = $r->no_sertifikat;
-			$row[] = $r->tanggal_sertifikat;
+			$row[] = date_format(date_create($r->tanggal_sertifikat), 'j M Y');
 			$row[] = $r->uraian;
 
 			$file = '-';

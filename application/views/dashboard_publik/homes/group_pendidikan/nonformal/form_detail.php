@@ -43,7 +43,7 @@
                         <tr>
                             <td width='200px'>Tanggal Sertrifikat</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tanggal_sertifikat; ?></td>
+                            <td><?php echo date_format(date_create($data->tanggal_sertifikat), 'j M Y'); ?></td>
                         </tr>
                         <tr>
                             <td width='200px'>Keterangan</td>

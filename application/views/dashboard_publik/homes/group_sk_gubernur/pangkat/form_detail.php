@@ -42,13 +42,13 @@
                         <tr>
                             <td width='200px'>Tanggal SK</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tanggal_sk; ?></td>
+                            <td><?= date_format(date_create($data->tanggal_sk), 'j M Y'); ?></td>
                         </tr>
 
                         <tr>
                             <td width='200px'>TMT</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tanggal_mulai; ?></td>
+                            <td><?= date_format(date_create($data->tanggal_mulai), 'j M Y'); ?></td>
                         </tr>
 
                         <tr>

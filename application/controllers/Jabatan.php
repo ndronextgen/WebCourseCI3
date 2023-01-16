@@ -59,8 +59,8 @@ class Jabatan extends CI_Controller
 			$row[] = $r->nama_status_jabatan;
 			$row[] = $r->nama_jabatan;
 			$row[] = $r->lokasi;
-			$row[] = $r->tmt_mulai_jabatan;
-			$row[] = $r->tgl_sk_jabatan;
+			$row[] = date_format(date_create($r->tmt_mulai_jabatan), 'j M Y');
+			$row[] = date_format(date_create($r->tgl_sk_jabatan), 'j M Y');
 			$row[] = $r->nomor_sk;
 
 			$file = '-';
