@@ -41,6 +41,7 @@ class Verifikasi extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -51,6 +52,7 @@ class Verifikasi extends CI_Controller
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -126,7 +128,7 @@ class Verifikasi extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -137,8 +139,12 @@ class Verifikasi extends CI_Controller
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d);
+			// $this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d)
+			
+			$d['page'] = 'dashboard_publik/template/verifikasi/keterangan_pegawai/index';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -146,7 +152,8 @@ class Verifikasi extends CI_Controller
 
 	function data_verifikasi()
 	{
-		$this->load->view('dashboard_publik/verifikasi/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/ajax_table');
 	}
 
 	function table_data_verifikasi()
@@ -355,7 +362,8 @@ class Verifikasi extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
-		$this->load->view('dashboard_publik/verifikasi/form_verifikasi_kep', $a);
+		// $this->load->view('dashboard_publik/verifikasi/form_verifikasi_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/form_verifikasi_kep', $a);
 	}
 
 	function simpan_verifikasi_kep()
@@ -505,7 +513,8 @@ class Verifikasi extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
-		$this->load->view('dashboard_publik/verifikasi/form_detail', $a);
+		// $this->load->view('dashboard_publik/verifikasi/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/form_detail', $a);
 	}
 
 	public function notify_me()
@@ -568,7 +577,9 @@ class Verifikasi extends CI_Controller
 		$a['data_history'] = $rsSQL;
 
 		// $this->load->view('dashboard_publik/verifikasi/timeline', $a);
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }
 // End of file Verifikasi.php

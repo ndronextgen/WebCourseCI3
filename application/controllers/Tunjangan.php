@@ -45,7 +45,8 @@ class Tunjangan extends CI_Controller
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
-
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
+			
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -131,18 +132,23 @@ class Tunjangan extends CI_Controller
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
 			$x['count_see'] = $count_see;
 
-			$this->load->view('dashboard_publik/tunjangan/index_tunjangan', $d);
-		} else {
+			// $this->load->view('dashboard_publik/tunjangan/index_tunjangan', $d);
+
+			$d['page'] = 'dashboard_publik/template/kertas_kerja/tunjangan_keluarga/index_tunjangan_keluarga';
+			$this->load->view('dashboard_publik/template/main', $d);
+	} else {
 			header('location:' . base_url() . '');
 		}
 	}
 
 	function data_tunjangan()
 	{
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/index_data_tunjangan');
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/index_data_tunjangan');
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/index_data_tunjangan');
 	}
 
 	function table_data_tunjangan()
@@ -295,7 +301,8 @@ class Tunjangan extends CI_Controller
 
 		$a['func_table'] = $this->load->library('func_table');
 
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_add', $a);
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_add', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/form_tunjangan_add', $a);
 	}
 
 	// table pilihan
@@ -346,7 +353,9 @@ class Tunjangan extends CI_Controller
 		$a['Tunjangan_id'] = $this->input->post('Tunjangan_id');
 		//$this->load->view('dashboard_publik/homes/group_pribadi/keluarga/index_keluarga');
 		//$this->load->view('dashboard_publik/home/keluarga');
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/get_item/ajax_item', $a);
+
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/get_item/ajax_item', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/get_item/ajax_item', $a);
 	}
 
 	function table_data_item()
@@ -364,6 +373,7 @@ class Tunjangan extends CI_Controller
 			$no++;
 			$row = array();
 			$button = '<button class="btn btn-info btn-sm btn-flat" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ')"> <i class="fa fa-undo"></i></button>';
+
 			$row[] = $key->id_data_keluarga;
 			$row[] = $key->nama_anggota_keluarga;
 			$row[] = $key->keterangan;
@@ -728,7 +738,8 @@ class Tunjangan extends CI_Controller
 		$a['Tunjangan_id'] = $Tunjangan_id;
 		$a['func_table'] = $this->load->library('func_table');
 
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_update', $a);
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_update', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/form_tunjangan_update', $a);
 	}
 
 	function simpan_update_tunjangan()
@@ -881,7 +892,8 @@ class Tunjangan extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat tunjangan history =====
 
-		$this->load->view('dashboard_publik/tunjangan/data_tunjangan/view_tunjangan', $a);
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/view_tunjangan', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/view_tunjangan', $a);
 	}
 
 	// public function notify_tj()
@@ -951,6 +963,8 @@ class Tunjangan extends CI_Controller
 		$a['data_history'] = $rsSQL;
 
 		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/timeline', $a);
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

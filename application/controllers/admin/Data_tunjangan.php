@@ -637,7 +637,8 @@ class Data_tunjangan extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }
 

@@ -137,7 +137,7 @@
 					html += '<button type="button" class="btn btn-sm btn-danger" title="' + data.file_name_ori + '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>';
 				} else {
 					html += '<a data-fancybox="images" href="' + path_file + '" target="_blank">';
-					html += '<img height="30px" width="30px" src="' + path_file + '" title="' + data.file_name_ori + '">';
+					html += '<img height="30px" src="' + path_file + '" title="' + data.file_name_ori + '">';
 				}
 				html += '</a>';
 				html += '</td>';

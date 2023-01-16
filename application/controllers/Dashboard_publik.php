@@ -155,7 +155,6 @@ class Dashboard_Publik extends CI_Controller
 			$x['status_jabatan'] = $this->riwayat_jabatan_model->status_jabatan();
 			$x['nama_jabatan'] = $this->riwayat_jabatan_model->nama_jabatann();
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
-			//$x['jabatan'] = $this->db->get('tbl_data_riwayat_jabatan');
 
 			$this->load->helper('url');
 
@@ -172,11 +171,12 @@ class Dashboard_Publik extends CI_Controller
 			$d['count_see_lapor'] = $count_see_lapor;
 			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$x['count_see'] = $count_see;
-
 			$d['data_informasi'] = $this->session->userdata("data_informasi");
 
-			$this->load->view('dashboard_publik/homes/index_home', $d);
+			// $this->load->view('dashboard_publik/homes/index_home', $d);
+
+			$d['page'] = 'dashboard_publik/template/beranda/index_beranda';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -874,6 +874,7 @@ class Dashboard_Publik extends CI_Controller
 			$this->session->set_userdata($id);
 			$data_pegawai = $this->db->get_where("tbl_data_pegawai", $id);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -884,6 +885,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -950,7 +952,7 @@ class Dashboard_Publik extends CI_Controller
 
 				$this->load->helper('url');
 
-				//see
+				// === notif count ===
 				$d['count_see'] = $count_see;
 				$d['count_see_tj'] = $count_see_tj;
 				$d['count_see_kaku'] = $count_see_kaku;
@@ -961,8 +963,12 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 				$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 				$d['count_see_lapor'] = $count_see_lapor;
+				$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-				$this->load->view('dashboard_publik/arsip_digital/index_arsip_digital', $d);
+				// $this->load->view('dashboard_publik/arsip_digital/index_arsip_digital', $d);
+
+				$d['page'] = 'dashboard_publik/template/arsip_digital/index_arsip_digital';
+				$this->load->view('dashboard_publik/template/main', $d);
 			} else {
 				header('location:' . base_url() . '');
 			}
@@ -1165,8 +1171,10 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_lapor'] = $count_see_lapor;
 
 				//$this->load->view('master/header3',$d);				
-				$this->load->view('dashboard_publik/home/pengajuan_surat', $d);
-				$this->load->view('dashboard_publik/home/arsip_sk');
+				// $this->load->view('dashboard_publik/home/pengajuan_surat', $d);
+				// $this->load->view('dashboard_publik/home/arsip_sk');
+
+				$this->load->view('dashboard_publik/template/kertas_kerja/keterangan_pegawai/pengajuan_surat', $d);
 			} else {
 				header('location:' . base_url() . '');
 			}
@@ -1203,7 +1211,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
 			$d['instansi'] = $this->config->item('nama_instansi');
 			$d['credit'] = $this->config->item('credit_aplikasi');
-			$d['alamat'] = $this->config->item('alamat_instansi');
+			$d['alamat_instansi'] = $this->config->item('alamat_instansi');
 
 			$id['id_pegawai'] = $this->session->userdata('id_pegawai');
 			$this->session->set_userdata($id);
@@ -1220,6 +1228,7 @@ class Dashboard_Publik extends CI_Controller
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -1293,9 +1302,13 @@ class Dashboard_Publik extends CI_Controller
 				$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 				$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 				$d['count_see_lapor'] = $count_see_lapor;
+				$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
 				//$this->load->view('master/header3',$d);				
-				$this->load->view('dashboard_publik/home/status_surat', $d);
+				// $this->load->view('dashboard_publik/home/status_surat', $d);
+
+				$d['page'] = 'dashboard_publik/template/kertas_kerja/keterangan_pegawai/index_keterangan_pegawai';
+				$this->load->view('dashboard_publik/template/main', $d);
 			} else {
 				header('location:' . base_url() . '');
 			}

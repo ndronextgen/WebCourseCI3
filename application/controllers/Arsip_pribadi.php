@@ -32,11 +32,11 @@ class Arsip_pribadi extends CI_Controller
 
 				if (strtolower($ext) == 'pdf') {
 					$file = '	<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:void(0);">
-									<button type="button" class="btn btn-danger btn-sm" title="' . $r->file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
+									<button type="button" class="btn btn-sm btn-danger" title="' . $r->file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
 								</a>';
 				} else {
 					$file = '	<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-									<img height="40px" width="40px" src="' . base_url($path_folder) . '" title="' . $r->file_name_ori . '">
+									<img height="30px" src="' . base_url($path_folder) . '" title="' . $r->file_name_ori . '">
 								</a>';
 				}
 			} else {

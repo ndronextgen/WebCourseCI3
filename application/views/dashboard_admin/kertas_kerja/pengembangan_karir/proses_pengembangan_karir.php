@@ -111,7 +111,7 @@
 <div>
     <?php
     $data1['data_history'] = $Query_history;
-    $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline_content_2', $data1);
+    $this->load->view('dashboard_publik/template/timeline/timeline_content_2', $data1);
     ?>
 </div>
 <!-- end:timeline -->

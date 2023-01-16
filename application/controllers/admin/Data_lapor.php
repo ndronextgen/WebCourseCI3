@@ -74,11 +74,11 @@ class Data_lapor extends CI_Controller
 
 					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
 						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>Pdf</button>
+						<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i>Pdf</button>
 					</a>';
 					} else {
 						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-						<img height="40px" width="40px" src="' . base_url($path_folder) . '">
+						<img height="30px" src="' . base_url($path_folder) . '">
 					</a>';
 					}
 				} else {

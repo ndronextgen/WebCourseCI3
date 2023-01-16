@@ -914,7 +914,9 @@ class Surat_keterangan extends CI_Controller
 		$a['data_history'] = $rsSQL;
 
 		// $this->load->view('dashboard_admin/kertas_kerja/surat_keterangan/timeline', $a);
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }
 

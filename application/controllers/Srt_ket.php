@@ -69,8 +69,7 @@ class Srt_ket extends CI_Controller
 			$row = array();
 
 			$row[] = $no;
-			$row[] = $r->nama_surat;
-			$row[] = $r->tgl_surat;
+			// $row[] = $r->nama_surat;
 
 			// begin: change by joe 2022.10.14
 			// $row[] = $r->keterangan;
@@ -82,6 +81,7 @@ class Srt_ket extends CI_Controller
 			// $row[] = $r->jenis_pengajuan_surat;
 			// end: change by joe 2022.10.14
 
+			$row[] = $r->tgl_surat;
 			$row[] = $status_surat;
 			$button = '';
 			switch ($r->id_status_srt) {
@@ -218,7 +218,9 @@ class Srt_ket extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
-		$this->load->view('dashboard_publik/home/view_status_surat', $a);
+		// $this->load->view('dashboard_publik/home/view_status_surat', $a);
+
+		$this->load->view('dashboard_publik/template/kertas_kerja/keterangan_pegawai/view_status_surat', $a);
 	}
 
 	public function srt_update()
@@ -357,6 +359,7 @@ class Srt_ket extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

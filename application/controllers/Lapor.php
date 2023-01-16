@@ -35,6 +35,7 @@ class Lapor extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -44,6 +45,8 @@ class Lapor extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 			
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -119,7 +122,7 @@ class Lapor extends CI_Controller
 			}
 			$this->load->helper('url');
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -129,10 +132,13 @@ class Lapor extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
+			
+			// $this->load->view('dashboard_publik/lapor/index_lapor', $d);
 
-			$x['count_see'] = $count_see;
-
-			$this->load->view('dashboard_publik/lapor/index_lapor', $d);
+			$d['page'] = 'dashboard_publik/template/lapor/index_lapor';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -140,7 +146,8 @@ class Lapor extends CI_Controller
 
 	function data_lapor()
 	{
-		$this->load->view('dashboard_publik/lapor/ajax_table');
+		// $this->load->view('dashboard_publik/lapor/ajax_table');
+		$this->load->view('dashboard_publik/template/lapor/ajax_table');
 	}
 
 	function table_data_lapor()
@@ -163,42 +170,45 @@ class Lapor extends CI_Controller
 			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 			$button = '
-				<a type="button" class="btn btn-info btn-xs" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
-				<a type="button" class="btn btn-warning btn-xs" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
-				<a type="button" class="btn btn-danger btn-xs" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
+				<a type="button" class="btn btn-info btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
+				<a type="button" class="btn btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
+				<a type="button" class="btn btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
 				';
-			$tanggapan = '<button type="button" class="btn btn-info btn-xs" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
-			// file
-			//$path_file = 'asset/upload/pribadi/pribadi_'.$QData->arsip_kel.'_'.$QData->arsip_pribadi;
-			if ($key->File_upload != '') {
-				$path_file = './asset/upload/Lapor';
-				$path_folder    = $path_file . '/' . $key->File_upload;
-				if (file_exists($path_folder)) {
-					$ext = explode(".", $key->File_upload);
+			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+			
+			// === begin: file ===
+			// if ($key->File_upload != '') {
+			// 	$path_file = './asset/upload/Lapor';
+			// 	$path_folder    = $path_file . '/' . $key->File_upload;
+			// 	if (file_exists($path_folder)) {
+			// 		$ext = explode(".", $key->File_upload);
 
-					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
-						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i> Pdf</button>
-					</a>';
-					} else {
-						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-						<img height="40px" width="40px" src="' . base_url($path_folder) . '">
-					</a>';
-					}
-				} else {
-					$file = '-';
-				}
-			} else {
-				$file = '-';
-			}
-			//
+			// 		if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
+			// 			$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
+			// 			<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> Pdf</button>
+			// 		</a>';
+			// 		} else {
+			// 			$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
+			// 			<img height="30px" src="' . base_url($path_folder) . '">
+			// 		</a>';
+			// 		}
+			// 	} else {
+			// 		$file = '-';
+			// 	}
+			// } else {
+			// 	$file = '-';
+			// }
+
+			$path_file    = 'asset/upload/lapor/' . $key->File_upload;
+			$file = $this->func_table->get_file($path_file, 'View File');
+			// === end: file ===
 
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = $file;
 			$row[] = $key->Kategori;
 			$row[] = $key->Isi_laporan;
-			$row[] = $key->nama_pegawai;
+			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $tanggapan;
 			$row[] = $key->Created_at;
 			$row[] = $see;
@@ -226,7 +236,9 @@ class Lapor extends CI_Controller
 									WHERE id_pegawai = '$id_pegawai'")->row();
 		$a['Data'] = $Data;
 		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
-		$this->load->view('dashboard_publik/lapor/form_lapor_add', $a);
+
+		// $this->load->view('dashboard_publik/lapor/form_lapor_add', $a);
+		$this->load->view('dashboard_publik/template/lapor/form_lapor_add', $a);
 	}
 
 	function simpan_add()
@@ -290,7 +302,7 @@ class Lapor extends CI_Controller
 		$data['Updated_at'] = $Date_now;
 
 		$result_in = $this->db->insert('tr_lapor', $data);
-		if($result_in){
+		if ($result_in) {
 			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor")->row();
 			$last_id = $Query_Getid->Id;
 			$see = $this->func_table_lapor->in_tosee_lapor($Created_by, $last_id, '0', $Created_by);
@@ -326,7 +338,9 @@ class Lapor extends CI_Controller
 		$a['Data'] 			= $Data;
 		$a['Id'] 			= $Id;
 		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
-		$this->load->view('dashboard_publik/lapor/form_lapor_update', $a);
+
+		// $this->load->view('dashboard_publik/lapor/form_lapor_update', $a);
+		$this->load->view('dashboard_publik/template/lapor/form_lapor_update', $a);
 	}
 
 	function simpan_update()
@@ -458,7 +472,9 @@ class Lapor extends CI_Controller
 		$a['Id'] 			= $Id;
 		$a['Data_lapor'] 	= $Data_lapor;
 		$a['Data'] 			= $Data;
-		$this->load->view('dashboard_publik/lapor/tanggapan/modal_tanggapan', $a);
+
+		// $this->load->view('dashboard_publik/lapor/tanggapan/modal_tanggapan', $a);
+		$this->load->view('dashboard_publik/template/lapor/tanggapan/modal_tanggapan', $a);
 	}
 
 	public function table_tanggapan()
@@ -486,7 +502,8 @@ class Lapor extends CI_Controller
 		$last_id = $Query_Getid->Id;
 		$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
 		// -----
-		$this->load->view('dashboard_publik/lapor/tanggapan/table_tanggapan', $a);
+		// $this->load->view('dashboard_publik/lapor/tanggapan/table_tanggapan', $a);
+		$this->load->view('dashboard_publik/template/lapor/tanggapan/table_tanggapan', $a);
 	}
 
 	public function simpan_tanggapan()
@@ -507,14 +524,14 @@ class Lapor extends CI_Controller
 
 		$result_in = $this->db->insert('tr_lapor_tanggapan', $data);
 
-		if($result_in){
+		if ($result_in) {
 			$Query_GetLapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
 			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor_tanggapan")->row();
 			$last_id = $Query_Getid->Id;
 			$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
 			$Query_update_lapor = $this->db->query("UPDATE tr_lapor SET Tanggapan_id = '$last_id', Updated_at= '$tgl_update' WHERE Id='$Id'");
 			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tanggapi($last_id, $Id, $username, $user_type);
-			if($send_notif_lapor){
+			if ($send_notif_lapor) {
 				$result = 'Berhasil';
 			} else {
 				$result = 'Gagal Kirim Notif';

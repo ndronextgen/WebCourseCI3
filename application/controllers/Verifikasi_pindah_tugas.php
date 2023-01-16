@@ -37,6 +37,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -124,7 +125,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -137,7 +138,10 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			$d['count_see_lapor'] = $count_see_lapor;
 			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi_pindah_tugas/index_verifikasi_pindah_tugas', $d);
+			// $this->load->view('dashboard_publik/verifikasi_pindah_tugas/index_verifikasi_pindah_tugas', $d);
+
+			$d['page'] = 'dashboard_publik/template/verifikasi/pindah_tugas/index.php';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -145,7 +149,8 @@ class Verifikasi_pindah_tugas extends CI_Controller
 
 	function data_verifikasi_pindah_tugas()
 	{
-		$this->load->view('dashboard_publik/verifikasi_pindah_tugas/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi_pindah_tugas/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/pindah_tugas/ajax_table');
 	}
 
 	function table_data_verifikasi_pindah_tugas()
@@ -350,7 +355,8 @@ class Verifikasi_pindah_tugas extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat hukuman disiplin history =====
 
-		$this->load->view('dashboard_publik/verifikasi_pindah_tugas/form_verifikasi_pindah_tugas_kep', $a);
+		// $this->load->view('dashboard_publik/verifikasi_pindah_tugas/form_verifikasi_pindah_tugas_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/pindah_tugas/form_verifikasi_pindah_tugas_kep', $a);
 	}
 
 	function simpan_verifikasi_pindah_tugas_kep()
@@ -513,7 +519,8 @@ class Verifikasi_pindah_tugas extends CI_Controller
 		$a['data_history'] = $rsSQL;
 		// ===== /surat hukuman disiplin history =====
 
-		$this->load->view('dashboard_publik/verifikasi_pindah_tugas/form_detail', $a);
+		// $this->load->view('dashboard_publik/verifikasi_pindah_tugas/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/pindah_tugas/form_detail', $a);
 	}
 
 	public function notify_verifikasi_pindah_tugas()
@@ -580,6 +587,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

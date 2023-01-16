@@ -48,10 +48,10 @@
 					html += '<td>';
 					if (file_ext.toLowerCase() == 'pdf') {
 						html += '<a data-fancybox data-type="iframe" data-src="' + path_file + '" href="javascript:void();">';
-						html += '<button type="button" class="btn btn-danger" title="' + data.file_name_ori + '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>';
+						html += '<button type="button" class="btn btn-sm btn-danger" title="' + data.file_name_ori + '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>';
 					} else {
 						html += '<a data-fancybox="images" href="' + path_file + '" target="_blank">';
-						html += '<img height="40px" width="40px" src="' + path_file + '" title="' + data.file_name_ori + '">';
+						html += '<img height="30px" src="' + path_file + '" title="' + data.file_name_ori + '">';
 					}
 					html += '</a>';
 					html += '</td>';
@@ -279,8 +279,8 @@
 						<div class="form-group">
 							<label class="control-label col-md-3" id="label-photo">Upload File </label>
 							<div class="col-md-9">
-								<div id="file_preview"></div>
-								<input id="file_pendidikan" name="file_pendidikan" type="file" class="form-control" />
+								<div id="file_preview" style="float: left; padding-right: 10px;"></div>
+								<input id="file_pendidikan" name="file_pendidikan" type="file" class="form-control" style="font-size: 12px; width: 322px;" />
 								<label style="font-size: 12px; font-style: italic;">*Format file berupa PDF, JPG, atau PNG.</label>
 								<span class="help-block"></span>
 							</div>

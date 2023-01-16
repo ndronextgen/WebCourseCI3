@@ -57,7 +57,7 @@
 								html += '<button type="button" class="btn btn-sm btn-danger" title="' + data.file_name_ori + '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>';
 							} else {
 								html += '<a data-fancybox="images" href="' + path_file + '" target="_blank">';
-								html += '<img height="30px" width="30px" src="' + path_file + '" title="' + data.file_name_ori + '">';
+								html += '<img height="30px" src="' + path_file + '" title="' + data.file_name_ori + '">';
 							}
 							html += '</a>';
 							html += '</td>';
@@ -292,7 +292,7 @@
 							<label class="control-label col-md-3" id="label-photo">Upload File </label> 
 							<div class="col-md-9">
 								<div id="file_preview" style="float: left; padding-right: 10px;"></div>
-								<input id="file_sk" name="file_sk" type="file" class="form-control" style="font-size: 12px; width: 310px;" />
+								<input id="file_sk" name="file_sk" type="file" class="form-control" style="font-size: 12px; width: 332px;" />
 								<label style="font-size: 12px; font-style: italic;">*Format file berupa PDF, JPG, atau PNG.</label>
 								<span class="help-block"></span>
 							</div>
