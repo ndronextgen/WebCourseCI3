@@ -138,6 +138,7 @@ class Lapor extends CI_Controller
 			// $this->load->view('dashboard_publik/lapor/index_lapor', $d);
 
 			$d['page'] = 'dashboard_publik/template/lapor/index_lapor';
+			$d['menu'] = 'lapor';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

@@ -144,6 +144,7 @@ class Verifikasi extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d)
 			
 			$d['page'] = 'dashboard_publik/template/verifikasi/keterangan_pegawai/index';
+			$d['menu'] = 'ver keterangan pegawai';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

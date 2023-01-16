@@ -141,6 +141,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
 			
 			$d['page'] = 'dashboard_publik/template/verifikasi/tindak_pidana/index.php';
+			$d['menu'] = 'ver tindak pidana';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

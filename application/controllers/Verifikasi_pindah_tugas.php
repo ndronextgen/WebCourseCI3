@@ -141,6 +141,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi_pindah_tugas/index_verifikasi_pindah_tugas', $d);
 
 			$d['page'] = 'dashboard_publik/template/verifikasi/pindah_tugas/index.php';
+			$d['menu'] = 'ver pindah tugas';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

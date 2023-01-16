@@ -141,6 +141,7 @@ class Verifikasi_tunjangan extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi_tunjangan/index_verifikasi_tunjangan', $d);
 
 			$d['page'] = 'dashboard_publik/template/verifikasi/tunjangan_keluarga/index.php';
+			$d['menu'] = 'ver tunjangan keluarga';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

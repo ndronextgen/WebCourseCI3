@@ -141,6 +141,7 @@ class Verifikasi_hukdis extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi_hukdis/index_verifikasi_hukdis', $d);
 			
 			$d['page'] = 'dashboard_publik/template/verifikasi/hukdis/index.php';
+			$d['menu'] = 'ver hukuman disiplin';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

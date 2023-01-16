@@ -141,6 +141,7 @@ class Verifikasi_kariskarsu extends CI_Controller
 			// $this->load->view('dashboard_publik/verifikasi_kariskarsu/index_verifikasi_kariskarsu', $d);
 			
 			$d['page'] = 'dashboard_publik/template/verifikasi/karis_karsu/index.php';
+			$d['menu'] = 'ver karis/karsu';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');

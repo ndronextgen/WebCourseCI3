@@ -140,6 +140,7 @@ class Tunjangan extends CI_Controller
 			// $this->load->view('dashboard_publik/tunjangan/index_tunjangan', $d);
 
 			$d['page'] = 'dashboard_publik/template/kertas_kerja/tunjangan_keluarga/index_tunjangan_keluarga';
+			$d['menu'] = 'tunjangan keluarga';
 			$this->load->view('dashboard_publik/template/main', $d);
 	} else {
 			header('location:' . base_url() . '');

@@ -176,6 +176,7 @@ class Dashboard_Publik extends CI_Controller
 			// $this->load->view('dashboard_publik/homes/index_home', $d);
 
 			$d['page'] = 'dashboard_publik/template/beranda/index_beranda';
+			$d['menu'] = 'beranda';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
@@ -968,6 +969,7 @@ class Dashboard_Publik extends CI_Controller
 				// $this->load->view('dashboard_publik/arsip_digital/index_arsip_digital', $d);
 
 				$d['page'] = 'dashboard_publik/template/arsip_digital/index_arsip_digital';
+				$d['menu'] = 'arsip digital';
 				$this->load->view('dashboard_publik/template/main', $d);
 			} else {
 				header('location:' . base_url() . '');
@@ -1310,6 +1312,7 @@ class Dashboard_Publik extends CI_Controller
 				// $this->load->view('dashboard_publik/home/status_surat', $d);
 
 				$d['page'] = 'dashboard_publik/template/kertas_kerja/keterangan_pegawai/index_keterangan_pegawai';
+				$d['menu'] = 'keterangan pegawai';
 				$this->load->view('dashboard_publik/template/main', $d);
 			} else {
 				header('location:' . base_url() . '');
