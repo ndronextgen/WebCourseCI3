@@ -254,7 +254,7 @@ class Tunjangan extends CI_Controller
 			// === end: badge-status ===
 			$row[] = $status_surat;
 
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' .' ('. 'H:i:s' . ') ');
 			$row[] = $see;
 
 			$data[] = $row;

@@ -31,8 +31,8 @@ class Pangkat extends CI_Controller
 			$row[] = $r->golongan;
 			$row[] = $r->lokasi_kerja;
 			$row[] = $r->nomor_sk;
-			$row[] = $r->tanggal_sk;
-			$row[] = $r->tanggal_mulai;
+			$row[] = date_format(date_create($r->tanggal_sk), 'j M Y');
+			$row[] = date_format(date_create($r->tanggal_mulai), 'j M Y');
 
 			$file = '-';
 

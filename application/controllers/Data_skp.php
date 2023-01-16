@@ -74,11 +74,11 @@ class Data_skp extends CI_Controller
 			// === end: untuk tombol download ===
 
 			$row[] = $no;
-			$row[] = $key->Periode_awal . 's/d' . $key->Periode_akhir;
+			$row[] = date_format(date_create($key->Periode_awal), 'j M Y') . ' s/d ' . date_format(date_create($key->Periode_akhir), 'j M Y');
 			$row[] = $key->Nama_pejabat_penilai;
 			$row[] = $key->Nama_atasan_pejabat_penilai;
 			$row[] = $key->Nilai_prestasi_kerja;
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y');
 			$row[] = $file;
 			$row[] = $button;
 
@@ -139,7 +139,7 @@ class Data_skp extends CI_Controller
 			$last_id = $R_id + 400;
 		}
 
-		if ($Pp == 'X') { //jia dipilih lainnya
+		if ($Pp == 'X') { //jika dipilih lainnya
 			$Nama_pejabat_penilai = $Npl;
 		} else {
 			$Q_penilai = $this->db->query("SELECT nama_pegawai
@@ -148,7 +148,7 @@ class Data_skp extends CI_Controller
 			$Nama_pejabat_penilai = isset($Q_penilai->nama_pegawai) ? $Q_penilai->nama_pegawai : '';
 		}
 
-		if ($Appn == 'X') { //jia dipilih lainnya
+		if ($Appn == 'X') { //jika dipilih lainnya
 			$Nama_atasan_pejabat_penilai = $Anpl;
 		} else {
 			$Q_atasan_penilai = $this->db->query("SELECT nama_pegawai
@@ -209,7 +209,12 @@ class Data_skp extends CI_Controller
 							'file_name_ori' => $validate_arsip['file_name_ori']
 						]
 					);
-					echo 'Berhasil';
+					// echo 'Berhasil';	
+					$result = [
+						'status' => 'Berhasil simpan data SKP.',
+						'tipe' => 1
+					];
+					echo json_encode($result);
 				} else {
 					//delete tabel arsip
 					$this->tbl_data_dp3->delete_arsip($id_arsip);
@@ -224,6 +229,12 @@ class Data_skp extends CI_Controller
 						rmdir($path);
 					}
 				}
+			} else {
+				$result = [
+					'status' => 'Berhasil tambah data SPK.',
+					'tipe' => 1
+				];
+				echo json_encode($result);
 			}
 			// 
 		}
@@ -364,7 +375,12 @@ class Data_skp extends CI_Controller
 							'file_name_ori' => $validate_arsip['file_name_ori']
 						]
 					);
-					echo 'Berhasil';
+					$result = [
+						'status' => 'Berhasil edit data SKP.',
+						'tipe' => 1
+					];
+					echo json_encode($result);
+					
 				} else {
 					//delete tabel arsip
 					$this->tbl_data_dp3->delete_arsip($id_arsip);
@@ -413,9 +429,17 @@ class Data_skp extends CI_Controller
 					$this->db->where('id_arsip_skp', $QData->id_arsip_skp);
 					$QUpdate = $this->db->update('tbl_arsip_skp', $data_file);
 				}
-				echo 'berhasil';
+				$result = [
+					'status' => 'Berhasil edit data SKP.',
+					'tipe' => 1
+				];
+				echo json_encode($result);
 			} else {
-				echo 'Berhasil';
+				$result = [
+					'status' => 'Berhasil edit data SKP.',
+					'tipe' => 1
+				];
+				echo json_encode($result);
 			}
 		}
 		// end file upload

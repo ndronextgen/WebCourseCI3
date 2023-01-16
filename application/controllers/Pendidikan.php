@@ -30,7 +30,7 @@ class Pendidikan extends CI_Controller
 			$row[] = $r->jurusan;
 			$row[] = $r->tempat_sekolah;
 			$row[] = $r->kota;
-			$row[] = $r->tanggal_lulus;
+			$row[] = date_format(date_create($r->tanggal_lulus), 'j M Y');
 
 			$file = '-';
 

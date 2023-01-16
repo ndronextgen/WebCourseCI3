@@ -158,7 +158,7 @@
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon">Tanggal Lahir :</span>
-											<input type="text" disabled="disabled" class="form-control datepicker" name="tanggal_lahir" id="tanggal_lahir" value="<?php echo (isset($tanggal_lahir) ? date_format(date_create($tanggal_lahir), 'd M Y') : ''); ?>" placeholder="Tanggal Lahir">
+											<input type="text" disabled="disabled" class="form-control datepicker" name="tanggal_lahir" id="tanggal_lahir" value="<?php echo (isset($tanggal_lahir) ? date_format(date_create($tanggal_lahir), 'j M Y') : ''); ?>" placeholder="Tanggal Lahir">
 										</div><!-- /.input group -->
 									</div>
 

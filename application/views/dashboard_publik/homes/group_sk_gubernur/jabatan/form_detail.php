@@ -42,7 +42,7 @@
                         <tr>
                             <td width='200px'>TMT</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tmt_mulai_jabatan; ?></td>
+                            <td><?php echo date_format(date_create($data->tmt_mulai_jabatan), 'j M Y'); ?></td>
                         </tr>
 
                         <tr>
@@ -54,7 +54,7 @@
                         <tr>
                             <td width='200px'>Tanggal SK</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tgl_sk_jabatan; ?></td>
+                            <td><?php echo date_format(date_create($data->tgl_sk_jabatan), 'j M Y'); ?></td>
                         </tr>
 
                         <tr>
