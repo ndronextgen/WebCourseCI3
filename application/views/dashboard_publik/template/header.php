@@ -56,17 +56,8 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>sso/css/style.css" />
 
 <style type="text/css">
-    .modal-dialog,
-    .modal-content {
-        /* 80% of window height */
-        /* height: 95%;
-			width: 95%; */
-    }
-
     .modal-body {
-        /* 100% = dialog height, 120px = header + footer */
-        /* max-height: calc(100% - 120px); */
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     #viewDiv {
