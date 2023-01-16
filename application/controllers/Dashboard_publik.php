@@ -175,7 +175,7 @@ class Dashboard_Publik extends CI_Controller
 
 			// $this->load->view('dashboard_publik/homes/index_home', $d);
 
-			$d['page'] = 'dashboard_publik/template/beranda/index_beranda';
+			$d['page'] = 'dashboard_publik/template/beranda/index';
 			$d['menu'] = 'beranda';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
@@ -968,7 +968,7 @@ class Dashboard_Publik extends CI_Controller
 
 				// $this->load->view('dashboard_publik/arsip_digital/index_arsip_digital', $d);
 
-				$d['page'] = 'dashboard_publik/template/arsip_digital/index_arsip_digital';
+				$d['page'] = 'dashboard_publik/template/arsip_digital/index';
 				$d['menu'] = 'arsip digital';
 				$this->load->view('dashboard_publik/template/main', $d);
 			} else {
@@ -1311,7 +1311,7 @@ class Dashboard_Publik extends CI_Controller
 				//$this->load->view('master/header3',$d);				
 				// $this->load->view('dashboard_publik/home/status_surat', $d);
 
-				$d['page'] = 'dashboard_publik/template/kertas_kerja/keterangan_pegawai/index_keterangan_pegawai';
+				$d['page'] = 'dashboard_publik/template/kertas_kerja/keterangan_pegawai/index';
 				$d['menu'] = 'keterangan pegawai';
 				$this->load->view('dashboard_publik/template/main', $d);
 			} else {

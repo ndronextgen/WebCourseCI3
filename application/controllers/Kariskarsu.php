@@ -136,7 +136,7 @@ class Kariskarsu extends CI_Controller
 
 			// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/index_kariskarsu', $d);
 
-			$d['page'] = 'dashboard_publik/template/kertas_kerja/karis_karsu/index_karis_karsu';
+			$d['page'] = 'dashboard_publik/template/kertas_kerja/karis_karsu/index';
 			$d['menu'] = 'karis/karsu';
 			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
