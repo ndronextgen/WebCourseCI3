@@ -311,6 +311,13 @@
 													<?php } ?>
 												</a>
 											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_pindah_tugas"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pindah Tugas &nbsp;
+												<?php if ($count_see_verifikasi_pindah_tugas > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_pindah_tugas; ?></span>
+													<?php } ?>
+												</a>
+											</li>
 										<?php } ?>
 									</ul>
 								</li>

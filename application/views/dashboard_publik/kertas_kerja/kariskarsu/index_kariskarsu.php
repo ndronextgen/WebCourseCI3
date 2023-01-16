@@ -265,13 +265,15 @@
 													or $count_see_verifikasi_hukdis > 0
 													or $count_see_verifikasi_tp > 0
 													or $count_see_verifikasi_karir > 0
+													or $count_see_verifikasi_pindah_tugas > 0
 												) { ?>
 												<span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi
 																										+ $count_see_verifikasi_tj
 																										+ $count_see_verifikasi_kaku
 																										+ $count_see_verifikasi_hukdis
 																										+ $count_see_verifikasi_tp
-																										+ $count_see_verifikasi_karir; ?></span>
+																										+ $count_see_verifikasi_karir
+																										+ $count_see_verifikasi_pindah_tugas; ?></span>
 											<?php } ?>
 											<i class="caret"></i></span>
 									</a>
@@ -322,6 +324,13 @@
 												<a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir &nbsp;
 													<?php if ($count_see_verifikasi_karir > 0) { ?>
 														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+													<?php } ?>
+												</a>
+											</li>
+											<li class=''>
+												<a href="<?php echo base_url(); ?>verifikasi_pindah_tugas"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pindah Tugas &nbsp;
+												<?php if ($count_see_verifikasi_pindah_tugas > 0) { ?>
+														<span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_pindah_tugas; ?></span>
 													<?php } ?>
 												</a>
 											</li>
