@@ -28,7 +28,7 @@ class Tubel extends CI_Controller
 			$row[] = $no;
 			$row[] = $r->uraian;
 			$row[] = $r->no_sk;
-			$row[] = $r->tgl_sk;
+			$row[] = date_format(date_create($r->tgl_sk), 'j M Y');
 			$row[] = $r->sekolah;
 			$row[] = $r->akreditasi;
 			$row[] = $r->jurusan;

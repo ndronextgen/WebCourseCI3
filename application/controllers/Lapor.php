@@ -210,7 +210,7 @@ class Lapor extends CI_Controller
 			$row[] = $key->Isi_laporan;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $tanggapan;
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y');
 			$row[] = $see;
 
 			$data[] = $row;

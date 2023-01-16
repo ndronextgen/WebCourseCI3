@@ -412,19 +412,59 @@
 
 
 		function delete_surat_tindak_pidana(Tindak_pidana_id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Tindak_pidana_id=" + Tindak_pidana_id,
-				url: "<?php echo site_url('admin/Data_tindak_pidana/delete_tindak_pidana') ?>",
-				success: function(s) {
-					alert(s);
-					window.location.reload();
+		// 	var i = "Hapus ?";
+		// 	var b = "Data Dihapus";
+		// 	if (!confirm(i)) return false;
+		// 	$.ajax({
+		// 		type: "post",
+		// 		data: "Tindak_pidana_id=" + Tindak_pidana_id,
+		// 		url: "<?php echo site_url('admin/Data_tindak_pidana/delete_tindak_pidana') ?>",
+		// 		success: function(s) {
+		// 			alert(s);
+		// 			window.location.reload();
+		// 		}
+		// 	});
+		// }
+			var q = "Hapus Data Tindak Pidana?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: {
+									Tindak_pidana_id: Tindak_pidana_id,
+								},
+								url: "<?php echo site_url('admin/Data_tindak_pidana/delete_tindak_pidana') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+									
+									
+
+									reload_table();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
-		}
+			})
+	}
 
 		function simpan_verifikasi_tindak_pidana() {
 

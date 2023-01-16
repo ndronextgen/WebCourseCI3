@@ -54,7 +54,7 @@
                         <tr>
                             <td width='200px'>Tanggal Lulus</td>
                             <td width='2px'>:</td>
-                            <td><?php echo $data->tanggal_lulus; ?></td>
+                            <td><?php echo date_format(date_create($data->tanggal_lulus), 'j M Y'); ?></td>
                         </tr>
 
                         <tr>

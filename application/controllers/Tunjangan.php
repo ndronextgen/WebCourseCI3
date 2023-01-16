@@ -133,6 +133,7 @@ class Tunjangan extends CI_Controller
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
 			$d['count_see_lapor'] = $count_see_lapor;
 			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
 			$x['count_see'] = $count_see;
 
@@ -258,7 +259,7 @@ class Tunjangan extends CI_Controller
 			// === end: badge-status ===
 			$row[] = $status_surat;
 
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' .' ('. 'H:i:s' . ') ');
 			$row[] = $see;
 
 			$data[] = $row;

@@ -576,8 +576,9 @@ class Verifikasi_kariskarsu extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_kaku > 0) {
 			$res_count_see_verifikasi_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_kaku . '</span>';

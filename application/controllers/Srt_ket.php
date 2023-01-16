@@ -70,6 +70,7 @@ class Srt_ket extends CI_Controller
 
 			$row[] = $no;
 			// $row[] = $r->nama_surat;
+			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' .' ('. 'H:i:s' . ') ');
 
 			// begin: change by joe 2022.10.14
 			// $row[] = $r->keterangan;

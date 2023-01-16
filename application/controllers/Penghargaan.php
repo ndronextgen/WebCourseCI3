@@ -29,7 +29,7 @@ class Penghargaan extends CI_Controller
 			$row[] = $r->nama_penghargaan;
 			$row[] = $r->pemberi_penghargaan;
 			$row[] = $r->nomor_sk;
-			$row[] = $r->tgl_sk_penghargaan;
+			$row[] = date_format(date_create($r->tgl_sk_penghargaan), 'j M Y');
 
 			$file = '-';
 

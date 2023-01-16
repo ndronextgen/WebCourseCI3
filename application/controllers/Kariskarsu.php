@@ -276,7 +276,7 @@ class Kariskarsu extends CI_Controller
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_ktp_istri);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_sk_pns);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_foto);
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' .' ('. 'H:i:s' . ') ');
 			$row[] = $see;
 
 			$data[] = $row;

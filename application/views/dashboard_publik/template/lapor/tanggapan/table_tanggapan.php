@@ -26,7 +26,7 @@
 					<tr>
 						<td style="font-size: 14px;"><?php echo ucwords(strtolower($d->nama_lengkap)); ?></td>
 						<td style="font-size: 14px;"><?php echo $d->Tanggapan; ?></td>
-						<td style="font-size: 14px;"><?php echo $d->Created_at; ?></td>
+						<td style="font-size: 14px;"><?php echo date_format(date_create($d->Created_at), 'j M Y'); ?></td>
 						<td align='center'>
 
 							<?php
