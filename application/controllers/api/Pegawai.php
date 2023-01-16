@@ -641,6 +641,55 @@ class Pegawai extends CI_Controller {
 		echo json_encode($result);
 	}
 
-	
+	public function getPltPlh() {
+		$status = false;
+		$message = '';
+		$data = [];
+
+		$apiKey = hash_pbkdf2('sha512', $this->config->item('api_key'), $this->config->item('api_salt'), $this->config->item('api_iterations'), $this->config->item('api_length'));
+		$key = $this->input->post('key');
+		
+		if ($apiKey == $key) {
+			$status = true;
+
+			$Qdata = "SELECT 
+							a.id_surat_tugas_pltplh, 
+							a.type_surat,
+							a.id_pegawai, 
+							c.lokasi_kerja_pegawai, c.nama_pegawai,c.nrk, c.nip,
+							a.id_pegawai_berhalangan, 
+							e.lokasi_kerja_pegawai_berhalangan, e.nama_pegawai_berhalangan,e.nrk_berhalangan, e.nip_berhalangan,
+							a.alasan_pltplh, 
+							a.tgl_mulai, 
+							a.tgl_selesai
+						FROM
+							tbl_data_surat_tugas_pltplh AS a
+						LEFT JOIN (
+							SELECT b.id_pegawai, b.nrk, b.nip, b.lokasi_kerja as lokasi_kerja_pegawai, b.sublokasi_kerja, b.nama_pegawai
+							FROM tbl_data_pegawai as b
+							LEFT JOIN tbl_master_lokasi_kerja ba on b.lokasi_kerja = ba.id_lokasi_kerja 
+						) AS c ON c.id_pegawai = a.id_pegawai
+						
+						LEFT JOIN (
+							SELECT d.id_pegawai as id_pegawai_berhalangan, d.nrk as nrk_berhalangan, d.nip as nip_berhalangan, d.lokasi_kerja as lokasi_kerja_pegawai_berhalangan, 
+											d.sublokasi_kerja, d.nama_pegawai as nama_pegawai_berhalangan
+							FROM tbl_data_pegawai as d
+							LEFT JOIN tbl_master_lokasi_kerja da on d.lokasi_kerja = da.id_lokasi_kerja 
+						) AS e ON e.id_pegawai_berhalangan = a.id_pegawai_berhalangan
+						WHERE a.id_surat_tugas_pltplh != '' AND a.tgl_selesai >= CURRENT_DATE()";
+			$data = $this->db->query($Qdata)->result_array();
+		}
+		else {
+			$message = 'Authentication failed.';
+		}
+		
+		$result = [
+			'status' => $status,
+			'data' => $data,
+			'message' => $message
+		];
+		
+		echo json_encode($result);
+	}
 
 }

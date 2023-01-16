@@ -464,6 +464,7 @@ class Lapor extends CI_Controller
 	public function table_tanggapan()
 	{
 		$Id = $this->input->post('Id');
+		$username 	= $this->session->userdata('username');
 		$query = $this->db->query("SELECT
 										a.Id, 
 										a.Lapor_Id, 
@@ -479,6 +480,12 @@ class Lapor extends CI_Controller
 									WHERE a.lapor_id = '$Id'")->result();
 		$a['Id'] = $Id;
 		$a['data'] = $query;
+		// --- update notif menu see
+		$Query_GetLapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+		$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor_tanggapan WHERE Lapor_id = '$Id'")->row();
+		$last_id = $Query_Getid->Id;
+		$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
+		// -----
 		$this->load->view('dashboard_publik/lapor/tanggapan/table_tanggapan', $a);
 	}
 

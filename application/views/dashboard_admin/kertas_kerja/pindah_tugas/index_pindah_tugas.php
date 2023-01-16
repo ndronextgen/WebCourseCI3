@@ -11,7 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/fixedHeader.dataTables.min.css'); ?>" />
-	<style>
+
+	<style type="text/css">
+		.avoid-clicks {
+			pointer-events: none;
+			background-color: #dbdbdb;
+			cursor: no-drop;
+		}
+
 		.modal-header {
 			border-bottom-color: #f4f4f4;
 		}
@@ -207,6 +214,16 @@
 			border-radius: 0.25em;
 		}
 	</style>
+
+	<!-- css badge-status -->
+	<style type="text/css">
+		.badge-status {
+			cursor: pointer;
+			padding: 5px 20px;
+			font-weight: normal;
+		}
+	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -247,7 +264,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -278,84 +295,220 @@
 	<script src="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets_admin/datatables/dataTables.fixedHeader.min.js'); ?>"></script>
 	<!-- begin script page -->
-	<script>
-		function load_data_lapor() {
+
+	<script type="text/javascript">
+		function load_data_pindah_tugas() {
 			$.ajax({
 				type: "POST",
-				url: "<?php echo site_url('admin/Data_lapor/filter') ?>",
-				data: {
-					unite1: '0'
-				},
+				url: "<?php echo site_url('admin/Data_pindah_tugas/filter') ?>",
 				beforeSend: function(f) {
 					var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width:3.5em;position:fixed;">';
 					$('#ajax_table').html(percentVal);
 				},
 				success: function(data) {
+					//console.log(data);
 					$('#ajax_table').html(data);
 				}
 			});
 		}
-		load_data_lapor();
+		load_data_pindah_tugas();
 
 		function reload_table() {
 			table.ajax.reload(null, false); //reload datatable ajax 
-			notify_lapor();
 		}
 
-		function delete_lapor(Id) {
-			// var i = "Hapus ?";
-			// var b = "Data Dihapus";
-			// if (!confirm(i)) return false;
-			// $.ajax({
-			// 	type: "post",
-			// 	data: "Id=" + Id,
-			// 	url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-			// 	success: function(s) {
-			// 		alert(s);
-			// 		reload_table();
-			// 	}
-			// });
+		function batal_form() {
+			$(".modal-backdrop").remove();
+			$('#modal_all').modal('hide');
+		}
 
+		function batal_form_selesai() {
+			$(".modal-backdrop").remove();
+			$('#modal_all').modal('hide');
+			window.location.reload();
+		}
 
+		function simpan_pengajuan() {
 
-			var q = "Hapus data lapor?";
-			var i = "Data berhasil dihapus";
+			var formData = new FormData($('#form_pindah_tugas')[0]);
+			var url = "<?php echo site_url('admin/Data_pindah_tugas/simpan_validasi'); ?>";
 
-			$jQ.confirm({
-				icon: 'fa fa-warning',
-				title: 'Konfirmasi',
-				content: q,
-				type: 'red',
-				buttons: {
-					yes: {
-						text: 'Ya',
-						btnClass: 'btn-red',
-						action: function() {
-							$.ajax({
-								type: "post",
-								data: {
-									Id: Id,
-								},
-								url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-								success: function(s) {
-									$jQ.dialog({
-										title: 'Info',
-										content: i,
-										type: 'green',
-										backgroundDismiss: true
-									});
-
-									reload_table();
-								}
-							});
-						}
-					},
-					no: {
-						text: 'Tidak'
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						ajax_simpan_pengajuan()
+					} else {
+						swal.fire({
+							type: 'error',
+							title: result.message,
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
 					}
 				}
-			})
+			});
 		}
+
+		function ajax_simpan_pengajuan() {
+			var formData = new FormData($('#form_pindah_tugas')[0]);
+			var url;
+
+			if (save_method == 'tambah') {
+				url = "<?php echo site_url('admin/Data_pindah_tugas/simpan_tambah'); ?>";
+			} else if (save_method == 'edit') {
+				url = "<?php echo site_url('admin/Data_pindah_tugas/simpan_edit'); ?>";
+			}
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').attr('disabled', true);
+				},
+				success: function(response) {
+					console.log(response);
+					//let url_cook = getCookie('url');
+
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						swal.fire({
+							type: 'success',
+							title: 'Data berhasil disimpan!',
+							showConfirmButton: false,
+							timer: 1800
+						});
+						$('#btn_tmb').text('Simpan');
+						$('#btn_tmb').attr('disabled', false);
+						//setTimeout(function() {
+						window.location.reload();
+						//}, 1000);
+
+					} else {
+						console.log(response);
+					}
+					$('#modal_all').modal('hide');
+				}
+			});
+		}
+
+
+		function delete_surat_pindah_tugas(Pindah_tugas_id) {
+			var i = "Hapus ?";
+			var b = "Data Dihapus";
+			if (!confirm(i)) return false;
+			$.ajax({
+				type: "post",
+				data: "Pindah_tugas_id=" + Pindah_tugas_id,
+				url: "<?php echo site_url('admin/Data_pindah_tugas/delete_pindah_tugas') ?>",
+				success: function(s) {
+					alert(s);
+					window.location.reload();
+				}
+			});
+		}
+
+		function simpan_verifikasi_pindah_tugas() {
+			var status_verify = $("#status_verify").val();
+			if (status_verify == '') {
+				alert('Tentukan Verifikasi...!');
+			} else {
+				ajax_simpan_verifikasi_pindah_tugas();
+			}
+		}
+
+		function ajax_simpan_verifikasi_pindah_tugas() {
+			var formData = new FormData($('#form_verifikasi_pindah_tugas')[0]);
+			var url;
+			url = "<?php echo site_url('admin/Data_pindah_tugas/processSave'); ?>";
+
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_verifikasi').text('Menyimpan...');
+					$('#btn_verifikasi').attr('disabled', true);
+				},
+				success: function(response) {
+					let url_cook = getCookie('url');
+					$('#modal_all').modal('hide');
+					const result = JSON.parse(response);
+					if (result.status == true) {
+						swal.fire({
+							type: 'success',
+							title: 'Data berhasil disimpan!',
+							showConfirmButton: false,
+							timer: 1500
+						});
+						$('#btn_verifikasi').text('Simpan');
+						$('#btn_verifikasi').attr('disabled', false);
+						//setTimeout(function() {
+						window.location.reload();
+						//}, 1000);
+
+					} else {
+						console.log(response);
+					}
+				}
+			});
+		}
+
+		// begin: progress timeline joe 2023.01.09
+		function showTimeline(id) {
+			$.ajax({
+				url: "<?php echo site_url('admin/data_pindah_tugas/show_timeline'); ?>",
+				type: "POST",
+				data: {
+					Pindah_tugas_id: id
+				},
+				success: function(data) {
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('#modal_timeline').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Kebutuhan Pindah Tugas'); // Set Title to Bootstrap modal title
+		}
+
+		function tutup_form() {
+			$('#modal_timeline').modal('hide');
+		}
+		// end: progress timeline joe 2023.01.09
 	</script>
 	<!-- end script page -->
 </body>
+
+
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;font-family: system-ui;color: antiquewhite;">
+					Modal Header
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>

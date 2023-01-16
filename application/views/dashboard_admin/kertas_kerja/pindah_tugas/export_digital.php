@@ -1,28 +1,6 @@
 <?php
-
-if($Data_hukdis->Type_surat =='1'){ //kenaikan pangkat
-  $kalimat ="<p>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman  disiplin, baik tingkat ringan, sedang, dan berat, berdasarkan Peraturan Pemerintah Nomor 53 Tahun 2010  dan Peraturan Pemerintah Nomor 10 Tahun 1983 jo. Peraturan Pemerintah Nomor 45 Tahun 1990.<br><br>Surat keterangan ini dibuat untuk memenuhi persyaratan permohonan SK.Pensiun</p>.
-  ";
-} else if($Data_hukdis->Type_surat =='2'){ //pensiun
-  $kalimat ="<p>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman disiplin baik tingkat ringan/sedang/berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil.<br><br>Demikian surat keterangan ini dibuat untuk kelengkapan berkas pengajuan pensiun Pegawai Negeri Sipil Pemerintah Provinsi DKI Jakarta.
-  </p>";
-} elseif($Data_hukdis->Type_surat =='3'){ //pengkargaan 
-  $kalimat ="<ol>
-    <li style='padding:5px;line-height: 2;'>Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman disiplin baik tingkat ringan/sedang/berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil;</li>
-    <li style='padding:5px;'>Belum pernah menerima penghargaan masa kerja 10 tahun.</li>
-  </ol>
-
-  <p>Demikian surat keterangan ini dibuat untuk kelengkapan usulan berkas Penghargaan Satyalancana Karya Satya  (SLKS) dan Masa Kerja Gubernur Provinsi DKI Jakarta</p>";
-} elseif($Data_hukdis->Type_surat =='4'){ //pengkargaan 
-  $kalimat ="<ol>
-    <li style='padding:3px;line-height: 1.8;'>tidak sedang menjalani hukuman disiplin tingkat ringan, sedang atau berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil;</li>
-    <li style='padding:3px;'>tidak sedang dalam keadaan cuti di luar tanggungan negara;</li>
-    <li style='padding:3px;'>tidak sedang dalam keadaan diberhentikan sementara;</li>
-    <li style='padding:3px;'>tidak sedang dalam menjalani pidana penjara.</li>
-  </ol>
-
-  <p>Demikian surat keterangan ini dibuat untuk kelengkapan berkas permohonan pindah tugas ke ".$Data_hukdis->Keterangan."</p>";
-}
+$kalimat ="<p>Bahwa pegawai tersebut diatas saat ini tidak sedang menjalani tugas belajar dan ikatan dinas dari Badan Pengembangan Sumber Daya Manusia Provinsi DKI Jakarta.</p>
+<p>Demikian surat keterangan ini dibuat untuk kelengkapan berkas permohonan pindah tugas ke ".$Data_pindah_tugas->Keterangan."</p>";
 
 
 
@@ -157,10 +135,10 @@ echo $html = '
   <p class="header">'.str_replace('PERTANAHAN ','PERTANAHAN<br>',strtoupper($kadis->lokasi_kerja)).'</p>
   <p class="header2">
     SURAT KETERANGAN<br />
-    TIDAK PERNAH DIKENAKAN HUKUMAN DISIPLIN
+    TIDAK SEDANG MENJALANI TUGAS BELAJAR DAN IKATAN DINAS
     <br />
     <span class="header3">
-    NOMOR : '.$Data_hukdis->Nomor_surat.'
+    NOMOR : '.$Data_pindah_tugas->Nomor_surat.'
     </span>
   </p>
   <div class="content">

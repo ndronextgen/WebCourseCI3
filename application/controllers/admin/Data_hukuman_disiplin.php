@@ -251,6 +251,7 @@ class Data_hukuman_disiplin extends CI_Controller
 		$Hukdis_id 		= $this->input->post('Hukdis_id');
 		$id_pegawai 	= $this->input->post('filter_pegawai');
 		$Type_surat 	= $this->input->post('Type_surat');
+		$Keterangan 	= $this->input->post('Keterangan');
 
 		if ($id_pegawai != '') {
 
@@ -281,8 +282,12 @@ class Data_hukuman_disiplin extends CI_Controller
 				} else if ($Type_surat == '') {
 					$message = "Jenis Surat Harus Diisi!";
 				} else {
-					$status = true;
-					$message = "OK";
+					if($Type_surat == '4' AND $Keterangan==''){
+						$message = "Keterangan Pindah Tugas Harus Diisi!";
+					} else {
+						$status = true;
+						$message = "OK";
+					}
 				}
 			}
 		} else {
@@ -722,7 +727,8 @@ class Data_hukuman_disiplin extends CI_Controller
 				$dt['eselon3'] = null;
 				$d['ket_ttd'] = '';
 				$d['lokasi_kerja_ttd'] = '';
-				$d['signature'] = '';
+				$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
+				$d['stamp'] = '';
 
 				$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
@@ -795,9 +801,8 @@ class Data_hukuman_disiplin extends CI_Controller
 						} else {
 							$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 						}
-						//$d['signature'] = base_url(). 'asset/foto_pegawai/signature/' . $p->signature;
-						$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
 					}
+					$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p->stamp;
 				}
 				$nama_jabatan_new = isset($d['kadis']->nama_jabatan) ? $d['kadis']->nama_jabatan : '';
 				$ttd_unit_new = isset($d['kadis']->ttd_unit) ? $d['kadis']->ttd_unit : '';

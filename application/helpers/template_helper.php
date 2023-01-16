@@ -86,6 +86,7 @@ function headAdminHtml()
 	<!-- END: PROGRESS TIMELINE -->
     ';
     // ========== end:progress timeline ==========
+    $obj->load->view('body/bypass_script');
 
     echo '</head>';
 }
@@ -115,6 +116,7 @@ function menuAdmin($menuOpen = '')
     $count_surat_hukdis = 0;
     $count_surat_tp = 0;
     $count_surat_karir = 0;
+    $count_pindah_tugas = 0;
     // lapor
     $count_lapor = 0;
 
@@ -124,6 +126,7 @@ function menuAdmin($menuOpen = '')
     $count_surat_hukdis = countSuratHukdis();
     $count_surat_tp = countSuratTp();
     $count_surat_karir = countSuratKarir();
+    $count_pindah_tugas = countPindahTugas();
 
     // lapor
     $count_lapor = countLapor();
@@ -461,6 +464,25 @@ function menuAdmin($menuOpen = '')
     echo '</span>
                                                     </a>
                                                 </li>
+                                                <li class="kt-menu__item " aria-haspopup="true">
+                                                    <a href="' . base_url() . 'admin/Data_pindah_tugas" class="kt-menu__link ">
+                                                        <span class="kt-menu__link-text">
+                                                            <div class="kt-demo-icon">
+                                                                <div class="kt-demo-icon__preview">
+                                                                    <i class="flaticon-book"></i>
+                                                                </div>
+                                                                <div class="kt-demo-icon__class">Kebutuhan Pindah Tugas Antar SKPD/Instansi</div>
+                                                            </div>';
+
+                                                                if ($count_pindah_tugas > 0) {
+                                                                    echo '<span class="kt-nav__link-badge">
+                                                                            <span class="kt-badge kt-badge--warning">' . $count_pindah_tugas . '</span>
+                                                                        </span>';
+                                                                }
+
+                                                        echo '</span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
@@ -738,11 +760,12 @@ function menuAdmin($menuOpen = '')
     echo '<li class="kt-menu__item ' . $activeDataLapor . '" aria-haspopup="true">';
     echo '<a href="' . base_url() . 'admin/data_lapor" target="" class="kt-menu__link ">';
     echo '<span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Lapor&nbsp;';
-    if ($count_lapor > 0) {
-        echo '<span class="kt-nav__link-badge">
-                <span class="kt-badge kt-badge--warning">' . $count_lapor . '</span>
-            </span>';
-    }
+    // if ($count_lapor > 0) {
+    //     echo '<span class="kt-nav__link-badge">
+    //             <span class="kt-badge kt-badge--warning">' . $count_lapor . '</span>
+    //         </span>';
+    // }
+    echo '<span id="count_lapor"></span>';
     echo '</span>';
     echo '</a>';
     echo '</li>';
@@ -1168,6 +1191,42 @@ function countSuratKarir()
     return $Query->jumlah;
 }
 
+function countPindahTugas()
+{
+    $CI = &get_instance();
+    $CI->load->database();
+    $username_id = $CI->session->userdata('username');
+    $lokasi_kerja_id = $CI->session->userdata('lokasi_kerja');
+    $cek_admin_utama = $CI->db->query("SELECT count(*) as jml_admin_utama FROM view_dinas WHERE username = '$username_id'")->row();
+    $cek_admin_wilayah = $CI->db->query("SELECT count(*) as jml_admin_wilayah, id_lokasi_kerja FROM view_admin_wilayah 
+                                            WHERE username = '$username_id' AND id_lokasi_kerja = '$lokasi_kerja_id'")->row();
+
+    #admin utama menerima notifikasi ketika
+    # status (0,25)
+    if ($cek_admin_utama->jml_admin_utama > 0) {
+        $kondisi = " AND (a.Status_progress = '0' OR a.Status_progress = '3' OR a.Status_progress='25')";
+        #admin wilayah
+        # status (21,22,23,24,25,26,3)
+    } else if ($cek_admin_wilayah->jml_admin_wilayah > 0) {
+        $kondisi = " AND a.Status_progress in ('3') AND a.lokasi_kerja_pegawai = '$cek_admin_wilayah->id_lokasi_kerja'";
+    } else {
+        $kondisi = " AND a.Status_progress = 'XX'";
+    }
+    $Query = $CI->db->query("SELECT COUNT(*) as jumlah FROM
+                                (
+                                    SELECT
+                                        a.Pindah_tugas_id, a.Created_by, a.Status_progress, jml, id_view
+                                    FROM
+                                        tr_pindah_tugas AS a
+                                    LEFT JOIN ( 
+                                        SELECT count(*) AS jml, id_view, id_srt, id_status_srt FROM tr_pindah_tugas_see 
+                                        WHERE id_view = '$username_id'
+                                        GROUP BY id_view, id_srt, id_status_srt 
+                                ) AS see ON see.id_srt = a.Pindah_tugas_id AND see.id_status_srt = a.Status_progress 
+                                WHERE a.Id !='' AND isnull(id_view) $kondisi ) AS DATA")->row();
+    return $Query->jumlah;
+}
+
 // lapor
 function countLapor()
 {
@@ -1198,8 +1257,8 @@ function countLapor()
                                         a.Id, a.Created_by, a.Updated_at, a.Tanggapan_id,
                                         (
                                             CASE 
-                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 5 minute) < now() THEN '0'
-                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 5 minute) > now() THEN '1'
+                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) > now() THEN '0'
+                                                    WHEN a.Tanggapan_id != '0' AND date_add(a.Updated_at,interval 30 DAY) < now() THEN '1'
                                                     WHEN a.Tanggapan_id = '0' THEN '0'
                                                     ELSE '0'
                                             END

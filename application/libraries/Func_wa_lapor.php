@@ -165,7 +165,7 @@ function Get_footer(){
 <b>Terimakasih</b> <br/>
 <br/>
 Best Regards,<br/>
-Pusdatin, Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
+Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
 Gedung Dinas Teknis Jatibaru Lt.2 <br/>
 <br/>
 Jl. Taman Jatibaru No.1, RT.17/RW.1, Cideng, Gambir, Kota Jakarta Pusat, <br/>
@@ -195,7 +195,7 @@ function notif_lapor_tambah($Id){
     
 Selamat Anda telah berhasil Tambah <b>Lapor</b> dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
 '.$CI->func_wa_lapor->Get_footer().'
@@ -219,7 +219,7 @@ $message_administrator = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
 ' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Aduan/Lapor</b> baru, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
@@ -243,7 +243,7 @@ $message_admin_wilayah = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
 ' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Aduan/Lapor</b> baru, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
@@ -290,7 +290,7 @@ $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
 
 Selamat Anda telah berhasil Memberi tanggapan terhadap laporan anda dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
 '.$CI->func_wa_lapor->Get_footer().'
@@ -314,7 +314,7 @@ $message_administrator = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
 ' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
@@ -338,7 +338,7 @@ $message_admin_wilayah = 'Hai <b>' . $key->nama_lengkap . '</b>, <br/>
 
 ' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>, Mohon agar ditanggapi dan atau segera ditindaklanjuti.<br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
@@ -365,7 +365,7 @@ $message_admin_update = 'Hai <b>' . $data_tanggapan->nama_lengkap . '</b>, <br/>
 
 Selamat Anda telah berhasil Memeberi tanggapan terhadap laporan anda dalam aplikasi Si-ADiK. <br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>
@@ -387,7 +387,7 @@ $message_pegawai_terkait = 'Hai <b>' . $data_penerima->nama . '</b>, <br/>
 
 ' . $Sapaan . ' Pemberitahuan Aplikasi Si-ADiK Terdapat <b>Tanggapan terhadap Aduan/Lapor Pegawai</b>.<br/><br/>
 
-<b>Prihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
+<b>Perihal 		 : ' . $data_penerima->Kategori . '</b> <br/>
 <b>Tanggal 		 : ' . $Tanggal_indo . ' ' . $Jam . ' WIB</b> <br/>
 <b>Pegawai  	 : ' . $data_penerima->nama . '</b><br/>
 <b>Url 		 	 : https://dcktrp.jakarta.go.id/si-adik</b> <br/>

@@ -12,25 +12,9 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	$kond = " disabled";
 }
 ?> 
-<form id="form_hukdis" name="form_hukdis" method="post">
+<form id="form_pindah_tugas" name="form_pindah_tugas" method="post">
 <div class="kt-portlet__body kt-portlet__body--fit">
 <div class="row" style='padding:0px;'>
-	<div class="col-12">
-		<div class="form-group">
-			<label>Jenis Surat</label>
-		<select id="Type_surat" name="Type_surat" class="selectpicker form-control input-sm" data-style="btn btn-primary btn-sm" data-show-subtext='false' data-live-search='false' style="padding: 0px 0px !important;"> 
-			<?php
-				foreach ($tipe_surat as $d) {
-					echo "<option value='$d->id_tipe_surat_hukdis'";
-					if ($d->id_tipe_surat_hukdis == $Data->Type_surat) {
-						echo ' selected';
-					}
-					echo ">$d->name</option>";
-				}
-			?>
-		</select>
-		</div>
-	</div>
 	<div class="col-7">
 		<div class="form-group">
 			<label>Lokasi Kerja</label>
@@ -61,7 +45,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 <div class="col-12">
 		<div id='table_info'></div>
 	</div>
-<div id='alasan_pindah' class="row" style='padding:0px;display:none;'>
+<div class="row" style='padding:0px;'>
 	<div class="col-12">
 		<div class="form-group">
 			<label>Pindah Tugas Ke ?</label>
@@ -75,7 +59,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	<div class="col-sm-12">
 		<div class="form-group">
 			<input type='hidden' name='lokasi_admin' value='<?php echo $id_lokasi_kerja; ?>'>
-			<input type='hidden' name='Hukdis_id' value='<?php echo $Hukdis_id; ?>'>
+			<input type='hidden' name='Pindah_tugas_id' value='<?php echo $Pindah_tugas_id; ?>'>
 			<button type="button" id='btn_tmb' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_pengajuan()"><i class="fa fa-save"></i> Simpan</button>
 			<button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>
 		</div>
@@ -88,7 +72,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 	var filter_lokasi_kerja = $('#filter_lokasi_kerja').val();
 	$.ajax({
 			type : "POST",
-			url : "<?php echo site_url('admin/Data_hukuman_disiplin/get_pegawai') ?>",
+			url : "<?php echo site_url('admin/Data_pindah_tugas/get_pegawai') ?>",
 			data : {lokasi_kerja:filter_lokasi_kerja, id_pegawai: <?php echo $Data->id_pegawai; ?>},
 			success: function(data) {
 				$('#filter_pegawai').val(data);
@@ -99,7 +83,7 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		var filter_lokasi_kerja = $('#filter_lokasi_kerja').val();
 		$.ajax({
 				type : "POST",
-				url : "<?php echo site_url('admin/Data_hukuman_disiplin/get_pegawai') ?>",
+				url : "<?php echo site_url('admin/Data_pindah_tugas/get_pegawai') ?>",
 				data : {lokasi_kerja:filter_lokasi_kerja, id_pegawai: <?php echo $Data->id_pegawai; ?>},
 				success: function(data) {
 					$('#filter_pegawai').val(data);
@@ -112,30 +96,11 @@ if ($user_type=='administrator' AND ($id_lokasi_kerja == '0' || $id_lokasi_kerja
 		var filter_pegawai = $('#filter_pegawai').val();
 		$.ajax({
 				type : "POST",
-				url : "<?php echo site_url('admin/Data_hukuman_disiplin/get_elm_pegawai') ?>",
+				url : "<?php echo site_url('admin/Data_pindah_tugas/get_elm_pegawai') ?>",
 				data : {filter_pegawai:filter_pegawai},
 				success: function(data) {
 					$('#table_info').html(data);
 				}
 		})
 	});
-</script>
-<script>
-    $('#Type_surat').change(function() {
-        var Type_surat = $('#Type_surat').val();
-        const targetDiv = document.getElementById("alasan_pindah");
-        if (Type_surat == 4) {
-            targetDiv.style.display = "block";
-        } else {
-            targetDiv.style.display = "none";
-        }
-    });
-	// onload
-	var Type_surat = $('#Type_surat').val();
-	const targetDiv = document.getElementById("alasan_pindah");
-	if (Type_surat == 4) {
-		targetDiv.style.display = "block";
-	} else {
-		targetDiv.style.display = "none";
-	}
 </script>
