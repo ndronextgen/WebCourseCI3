@@ -1,7 +1,7 @@
 <?php
 
 //extend from this model to execute basic db operations
-class Informasi_model extends CI_Model
+class Menu_model extends CI_Model
 {
 
     private $table;
@@ -15,12 +15,29 @@ class Informasi_model extends CI_Model
 
     protected function use_table($table)
     {
-        $this->table = "tbl_master_informasi";
+        $this->table = "site_menus";
+    }
+
+    public function getParentIdBy($where = [])
+    {
+        $date = date("Y-m-d");
+        $this->db->select("site_menus.*, IF(tmi.id IS NULL, 0, 1) as isInfo");
+        $this->db->from('site_menus');
+        $this->db->join("tbl_master_informasi as tmi", "
+            tmi.site_menu = site_menus.menu_id
+            AND tmi.tgl_mulai <= '$date' AND tmi.tgl_akhir >= '$date'
+        ", "LEFT");
+        $this->db->where($where);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return FALSE;
     }
 
     function get_one($id = 0)
     {
-        return $this->get_one_where(array('id' => $id));
+        return $this->get_one_where(array('menu_id' => $id));
     }
 
     function get_one_where($where = array())
@@ -79,7 +96,7 @@ class Informasi_model extends CI_Model
     {
         if ($id) {
             //update
-            $where = array("id" => $id);
+            $where = array("menu_id" => $id);
             return $this->update_where($data, $where);
         } else {
             //insert
@@ -126,77 +143,6 @@ class Informasi_model extends CI_Model
             }
             $result[$data->$key] = $text;
         }
-        return $result;
-    }
-
-    function get_list_pegawai($selected = [], $where = array())
-    {
-        $list_data = $this->db->get_where("tbl_data_pegawai", $where)->result();
-        $result = [];
-        if (!empty($list_data)) :
-            foreach ($list_data as $data) :
-                $var["id"]   = $data->id_pegawai;
-                $var["text"] = $data->id_pegawai . " - " . $data->nama_pegawai;
-                $result[] = $var;
-            endforeach;
-        endif;
-        return $result;
-    }
-
-    function get_list_lokasi_kerja($select = [], $where = array())
-    {
-        $list_data = $this->db->get_where("tbl_master_lokasi_kerja", $where)->result();
-        $result = [];
-        if (!empty($list_data)) :
-            foreach ($list_data as $data) :
-                $selected = FALSE;
-                if (array_search($data->id_lokasi_kerja, $select)) {
-                    $selected = TRUE;
-                }
-                $var["id"]          = $data->id_lokasi_kerja;
-                $var["text"]        = $data->id_lokasi_kerja . " - " . $data->lokasi_kerja;
-                $var["selected"]    = $selected;
-                $result[] = $var;
-            endforeach;
-        endif;
-        return $result;
-    }
-
-    function get_list_sub_lokasi_kerja($select = [], $where = array())
-    {
-        $list_data = $this->db->get_where("tbl_master_sub_lokasi_kerja", $where)->result();
-        $result = [];
-        if (!empty($list_data)) :
-            foreach ($list_data as $data) :
-                $selected = FALSE;
-                if (array_search($data->id_sub_lokasi_kerja, $select)) {
-                    $selected = TRUE;
-                }
-                $var["id"]          = $data->id_sub_lokasi_kerja;
-                $var["text"]        = $data->id_sub_lokasi_kerja . " - " . $data->sub_lokasi_kerja;
-                $var["selected"]    = $selected;
-                $result[] = $var;
-            endforeach;
-        endif;
-        return $result;
-    }
-
-    function get_list_site_menus($select = 0, $where = array())
-    {
-        $list_data = $this->db->get_where("site_menus", $where)->result();
-        $result = [];
-        if (!empty($list_data)) :
-            foreach ($list_data as $data) :
-                $selected = FALSE;
-                if ($data->menu_id == $select) {
-                    $selected = TRUE;
-                }
-                $var["id"]          = $data->menu_id;
-                $var["text"]        = $data->menu_id . " - " . $data->menu_name;
-                $var["selected"]    = $selected;
-                $result[] = $var;
-            endforeach;
-        endif;
         return $result;
     }
 }
