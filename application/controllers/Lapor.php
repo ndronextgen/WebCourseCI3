@@ -588,4 +588,40 @@ class Lapor extends CI_Controller
 
 		echo json_encode($result);
 	}
+
+	public function form_lapor_detail()
+	{	
+		$Id = $this->input->post('id');
+
+		$Data_lapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+		$Data = $this->db->query("SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									WHERE id_pegawai = '$Data_lapor->id_pegawai'")->row();
+
+									$query = $this->db->query("SELECT
+										a.Id, 
+										a.Lapor_Id, 
+										a.Username, 
+										a.Tanggapan, 
+										a.Created_at, 
+										a.Updated_at, nama_lengkap
+									FROM
+										tr_lapor_tanggapan as a
+									LEFT JOIN (
+										SELECT nama_lengkap, username FROM tbl_user_login
+									) as b ON b.username =  a.username 
+									WHERE a.lapor_id = '$Id'")->result();
+		
+		$a['Data_tanggapan']= $query;
+		$a['Data_lapor'] 	= $Data_lapor;
+		$a['Data'] 			= $Data;
+		$a['Id'] 			= $Id;
+		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
+
+		$this->load->view('dashboard_publik/lapor/form_lapor_detail',$a);
+	}
 }
