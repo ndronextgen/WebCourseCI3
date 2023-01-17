@@ -202,9 +202,8 @@
 
                 <hr>
 
-                <div class="col-xs-8">
+                <!-- <div class="col-xs-8">
                     <div class="form-group">
-                        <!-- <label></label> -->
                         <input type='hidden' value='<?php echo $Data_dp3->file_name; ?>' name='File_upload_lama' Id='File_upload_lama'>
                         <input type='hidden' value='<?php echo $Id; ?>' name='Id' Id='Id'>
                         <button id='btn_tmb' type='button' onclick="simpan_data_dp3()" class='btn btn-block btn-success'>Simpan</button>
@@ -213,10 +212,21 @@
                 </div>
                 <div class="col-xs-4">
                     <div class="form-group">
-                        <!-- <label></label> -->
                         <div id='loading'></div>
                     </div>
+                </div> -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row pull-right" style="padding-right: 20px;">
+                            <input type='hidden' value='<?php echo $Data_dp3->file_name; ?>' name='File_upload_lama' Id='File_upload_lama'>
+                            <input type='hidden' value='<?php echo $Id; ?>' name='Id' Id='Id'>
+                            <button class="btn btn-sm btn-success" onclick="simpan_data_dp3()" id="btn_tmb">Simpan Riwayat DP3</button>
+                            <button class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
 

@@ -126,10 +126,11 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <button type="button" data-toggle="tooltip" title="Close/Tutup Form Detail" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_2()">Close</button>
+                        <button class="btn btn-sm btn-danger" data-dismiss="modal" style='float:right;'>Tutup</button>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div><!-- /.box-body -->

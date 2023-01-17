@@ -53,10 +53,10 @@
 	skpdp3('data_skp');
 
 	function reload_table_skp() {
-		tableskp.ajax.reload(null, false); //reload datatable ajax 
+		tableskp.ajax.reload(null, false); //reload datatable ajax
 	}
 
 	function reload_table_dp3() {
-		tabledp3.ajax.reload(null, false); //reload datatable ajax 
+		tabledp3.ajax.reload(null, false); //reload datatable ajax
 	}
 </script>
