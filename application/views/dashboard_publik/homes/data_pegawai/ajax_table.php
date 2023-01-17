@@ -1,4 +1,4 @@
-<style>
+<style type="text/css">
     table.wbo {
         border-collapse: collapse;
         border: 1px solid #595959;

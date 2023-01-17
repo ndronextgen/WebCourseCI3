@@ -270,7 +270,7 @@ class Verifikasi extends CI_Controller
 
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
-			$row[] = $key->nama_surat;
+			// $row[] = $key->nama_surat;
 			$row[] = $this->func_table->name_format($key->nama);
 			// $row[] = $key->status;
 			$row[] = $status_surat;

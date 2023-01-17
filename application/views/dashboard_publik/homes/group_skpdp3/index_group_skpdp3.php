@@ -42,7 +42,7 @@
 			type: "POST",
 			url: urls,
 			beforeSend: function(b) {
-				var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width:3.5em;position:fixed;">';
+				var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width: 3.5em; position: fixed;">';
 				$('#skpdp3_ajax').html(percentVal);
 			},
 			success: function(s) {

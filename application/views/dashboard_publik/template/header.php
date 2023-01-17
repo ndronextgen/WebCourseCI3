@@ -157,7 +157,7 @@
     }
 </style>
 
-<!-- ajax table -->
+<!-- ajax table alignment -->
 <style type="text/css">
     td.right {
         text-align: right

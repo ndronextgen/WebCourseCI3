@@ -17,9 +17,8 @@
 					<table id="table_verifikasi" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th style="text-align: center;">No.</th>
+								<th width='0px' style="text-align: center;">No.</th>
 								<th width='0px'>Aksi</th>
-								<th>Jenis Surat</th>
 								<th>Nama Pegawai</th>
 								<th width='0px' style="text-align: center;">Status Trakhir</th>
 								<th>Keperluan/Keterangan</th>
@@ -51,8 +50,6 @@
 		// set column align
 		"aoColumns": [{
 			"sClass": "center"
-		}, {
-			"sClass": "left"
 		}, {
 			"sClass": "left"
 		}, {

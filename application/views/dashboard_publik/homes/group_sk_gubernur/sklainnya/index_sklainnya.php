@@ -24,7 +24,7 @@
 		// rowReorder: {
 		// 	selector: 'td:nth-child(2)'
 		// },
-		responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('arsip_sklainnya/sk_datatables') ?>",
 			"type": "POST"

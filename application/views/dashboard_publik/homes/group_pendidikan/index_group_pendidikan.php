@@ -1,13 +1,3 @@
-<style type="text/css">
-	.left {
-		text-align: left;
-	}
-
-	.center {
-		text-align: center;
-	}
-</style>
-
 <!-- <section id="group-pendidikan" class="content"> -->
 <div class="callout callout-info">
 	<h4>Pendidikan</h4>
