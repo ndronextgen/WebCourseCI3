@@ -11,7 +11,7 @@ class Dashboard_Publik extends CI_Controller
 	{
 		parent::__construct();
 
-		if ($this->session->userdata('logged_in') == "" && $this->session->userdata('stts') != "publik") {
+		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") { } else {
 			header('location:' . base_url() . '');
 		}
 

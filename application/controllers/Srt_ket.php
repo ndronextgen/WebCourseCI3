@@ -7,10 +7,16 @@ class Srt_ket extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") { } else {
+			header('location:' . base_url() . '');
+		}
+
 		$this->load->model('srt_ket_model', 'tbl_data_srt_ket');
 		$this->load->library('func_table');
 		date_default_timezone_set('Asia/Bangkok');
 	}
+
 	public function srt_datatables()
 	{
 		// Datatables Variables
@@ -81,7 +87,7 @@ class Srt_ket extends CI_Controller
 			// $row[] = $r->jenis_pengajuan_surat;
 			// end: change by joe 2022.10.14
 
-			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' .' ('. 'H:i:s' . ') ');
+			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $status_surat;
 			$button = '';
 			switch ($r->id_status_srt) {
@@ -214,7 +220,7 @@ class Srt_ket extends CI_Controller
 				where his.id_srt = '$id_srt'
 				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
-		
+
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
