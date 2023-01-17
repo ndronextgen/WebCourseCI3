@@ -17,6 +17,7 @@
 		$('.form-control').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
 		$('#modal_penghargaan').modal('show'); // show bootstrap modal
+		$("#modal_penghargaan").find(".modal-footer").show();
 		$('.modal-title').text('Tambah Data Penghargaan - <?php echo $this->func_table->name_format($this->session->userdata("nama_pegawai")); ?>'); // Set Title to Bootstrap modal title
 
 		$('#file_preview').html('');
@@ -31,6 +32,9 @@
 		$('.form-control').removeClass('has-error'); // clear error class
 		$('.help-block').empty(); // clear error string
 		$('#file_preview').html('');
+		$("#modal_penghargaan").find(".modal-footer").show();
+		
+
 
 		//Ajax Load data from ajax
 		$.ajax({
@@ -243,6 +247,29 @@
 
 			$('#divMasterPenghargaan').after(html);
 		}
+	}
+
+		function detail_penghargaan(id) {
+			// // alert('uder maintenance !!!');
+			// $.dialog({
+			// 	icon: 'fa fa-info',
+			// 	title: 'Info',
+			// 	content: 'Sedang dalam pengerjaan...',
+			// 	type: 'red',
+			// 	backgroundDismiss: true
+			// });
+
+		$.ajax({
+			data: {id: id},
+			url: "<?php echo site_url('Penghargaan/form_penghargaan_detail') ?>",
+			type: "POST",
+			success: function(data) {
+				$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all_md').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Form Detail Penghargaan - <?php echo $this->func_table->name_format($this->session->userdata("nama_pegawai")); ?>'); // Set Title to Bootstrap modal title
 	}
 </script>
 

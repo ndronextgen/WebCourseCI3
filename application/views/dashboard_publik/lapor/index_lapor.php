@@ -60,12 +60,7 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>sso/css/style.css" />
 
 	<style type="text/css">
-		.modal-dialog,
-		.modal-content {
-			/* 80% of window height */
-			/* height: 95%;
-			width: 95%; */
-		}
+		
 
 		.modal-body {
 			/* 100% = dialog height, 120px = header + footer */
@@ -385,7 +380,7 @@
 							<div style="float: right; padding: 10px 30px;">
 								<?php
 								$app = &get_instance();
-								$app->load->view("dashboard_admin/visitor/footer");
+								//$app= $load->view("dashboard_admin/visitor/footer");
 								?>
 							</div>
 
@@ -613,15 +608,29 @@
 			});
 		}
 
-		function view_lapor() {
+
+
+
+		function view_lapor(id) {
 			// alert('uder maintenance !!!');
-			$.dialog({
-				icon: 'fa fa-info',
-				title: 'Info',
-				content: 'Sedang dalam pengerjaan...',
-				type: 'red',
-				backgroundDismiss: true
+			// $.dialog({
+			// 	icon: 'fa fa-info',
+			// 	title: 'Info',
+			// 	content: 'Sedang dalam pengerjaan...',
+			// 	type: 'red',
+			// 	backgroundDismiss: true
+			// });
+			$.ajax({
+				url: "<?php echo site_url('Lapor/form_lapor_detail'); ?>",
+				type: "POST",
+				data: {id:id},
+				success: function(data) {
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+				}
 			});
+			$('.modal-footer').hide(); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Detail Data Lapor Pegawai'); // Set Title to Bootstrap modal title
 		}
 
 		function delete_lapor(Id) {
@@ -750,6 +759,11 @@
 		// === end: main container top menyesuikan tinggi navbar ===
 	</script>
 
+		<script type="text/javascript">
+		function tutup_form() {
+			$('#modal_all').modal('hide');
+		}
+		</script>
 </body>
 
 </html>

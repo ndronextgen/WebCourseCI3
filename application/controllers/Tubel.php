@@ -46,7 +46,7 @@ class Tubel extends CI_Controller
 			}
 
 			//add html for action
-			$button = '	<!--<a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_tubel(' . "'" . $r->id_tubel . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>-->
+			$button = '	<a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_tubel(' . "'" . $r->id_tubel . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>
 						&nbsp;<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_tubel(' . "'" . $r->id_tubel . "'" . ')"><i class="glyphicon glyphicon-edit"></i></a>
 						&nbsp;<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_tubel(' . "'" . $r->id_tubel . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>';
 
@@ -517,6 +517,29 @@ class Tubel extends CI_Controller
 		$query = $this->db->get();
 		$list = $query->row();
 		echo json_encode($list);
+		
+	}
+
+	public function form_tubel_detail()
+	{
+		$Id = $this->input->post('id');
+		$this->db->select('
+			tbl_data_tubel.*, tbl_arsip_sk.id_ref,
+			tbl_arsip_sk.id_jenis_sk,tbl_arsip_sk.id_arsip_sk, tbl_arsip_sk.file_name_ori, tbl_arsip_sk.file_name, 
+			tbl_arsip_sk.title 
+		');
+		$this->db->from('tbl_data_tubel');
+		$this->db->join('tbl_arsip_sk', 'tbl_arsip_sk.id_ref = tbl_data_tubel.id_tubel', 'left');
+		$this->db->where('tbl_data_tubel.id_tubel', $Id);
+		$query = $this->db->get();
+		
+		$list = $query->row();
+
+		$a['data']	= $list;
+		$a['path_file'] = './asset/upload/SK/SK_' . $list->id_jenis_sk . '_' . $list->id_ref . '_' . $list->id_arsip_sk;
+							
+		
+		$this->load->view('dashboard_publik/homes/data_tubel/form_detail',$a);
 	}
 
 	public function download_all()

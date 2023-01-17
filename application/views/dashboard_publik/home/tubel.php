@@ -20,6 +20,7 @@
 		$('.modal-title').text('Tambah Data Tugas & Izin Belajar - <?php echo $this->func_table->name_format($this->session->userdata("nama_pegawai")); ?>'); // Set Title to Bootstrap modal title
 		$('.url').remove();
 		$('#file_preview').html('');
+		$("#modal_tubel").find(".modal-footer").show();
 	}
 
 	function edit_tubel(id_tubel) {
@@ -32,6 +33,7 @@
 		$('.help-block').empty(); // clear error string
 		$('.url').remove();
 		$('#file_preview').html('');
+		$("#modal_tubel").find(".modal-footer").show();
 
 		//Ajax Load data from ajax
 		$.ajax({
@@ -161,6 +163,40 @@
 				$('#btnTubelSave').attr('disabled', false); //set button enable 
 			}
 		});
+		// $.ajax({
+		// 	url: url,
+		// 	type: "POST",
+		// 	data: data,
+		// 	processData: false,
+		// 	contentType: false,
+		// 	beforeSend: function() {
+		// 			$('#btn_tmb').text('Menyimpan...');
+		// 			$('#btn_tmb').prop('disabled', true);
+		// 		},
+		// 	success: function(data) {
+		// 		$('#modal_tubel').modal('hide');
+					
+		// 		$.dialog({
+		// 				icon: 'fa fa-info',
+		// 				title: 'Info',
+		// 				content: resp.status,
+		// 				type: resp.tipe == 1 ? 'green' : 'red',
+		// 				backgroundDismiss: true
+		// 			});
+		// 			$('#btn_tmb').text('Simpan');
+		// 			$('#btn_tmb').attr('disabled', false);
+		// 			reload_table_tubel();
+
+		// 		$('#btnTubelSave').text('save'); //change button text
+		// 		$('#btnTubelSave').attr('disabled', false); //set button enable 	
+		// 	},
+		// 	error: function(jqXHR, textStatus, errorThrown) {
+		// 		alert('Error adding / update data');
+		// 		$('#btnTubelSave').text('save'); //change button text
+		// 		$('#btnTubelSave').attr('disabled', false); //set button enable 
+		// 	}
+			
+		// });
 	}
 
 	function delete_tubel(id_tubel) {
@@ -229,6 +265,29 @@
 				}
 			}
 		})
+	}
+
+	function detail_tubel(id) {
+			// // alert('uder maintenance !!!');
+			// $.dialog({
+			// 	icon: 'fa fa-info',
+			// 	title: 'Info',
+			// 	content: 'Sedang dalam pengerjaan...',
+			// 	type: 'red',
+			// 	backgroundDismiss: true
+			// });
+
+		$.ajax({
+			data: {id: id},
+			url: "<?php echo site_url('Tubel/form_tubel_detail') ?>",
+			type: "POST",
+			success: function(data) {
+				$('#modal_all_md .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all_md').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Form Detail Tugas Belajar - <?php echo $this->func_table->name_format($this->session->userdata("nama_pegawai")); ?>'); // Set Title to Bootstrap modal title
 	}
 </script>
 
