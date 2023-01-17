@@ -53,6 +53,7 @@ class Master_informasi extends CI_Controller
             $view_data["pegawai"]          = $this->informasi_model->get_where_in("tbl_data_pegawai", "id_pegawai", @$view_data['permission']['pegawai']);
             $view_data["lokasi_kerja"]     = $this->informasi_model->get_where_in("tbl_master_lokasi_kerja", "id_lokasi_kerja", @$view_data['permission']['lokasi_kerja']);
             $view_data["sub_lokasi_kerja"] = $this->informasi_model->get_where_in("tbl_master_sub_lokasi_kerja", "id_sub_lokasi_kerja", @$view_data['permission']['sub_lokasi_kerja']);
+            $view_data["site_menu"]        = $this->informasi_model->get_where_in("site_menus", "menu_id", @$view_data['model_info']->site_menu);
             $this->load->view('dashboard_admin/master_informasi/form.php', $view_data);
             return;
         }
@@ -62,6 +63,7 @@ class Master_informasi extends CI_Controller
             "title"             => $i->post('title'),
             "tgl_mulai"         => $i->post('tgl_mulai'),
             "tgl_akhir"         => $i->post('tgl_akhir'),
+            "site_menu"         => $i->post('site_menu'),
             "permission"        => serialize($i->post('permission'))
         ];
         $save = $this->informasi_model->save($data, $id);
@@ -109,7 +111,7 @@ class Master_informasi extends CI_Controller
         }
     }
 
-    public function select2_value($type)
+    public function select2_value($type, $id = 0)
     {
         $data = [];
         $q = @$this->input->get("q");
@@ -119,9 +121,13 @@ class Master_informasi extends CI_Controller
         } elseif ($type == "lokasi_kerja") {
             $where["CONCAT(id_lokasi_kerja,'_',lokasi_kerja) LIKE '%$q%'"] = NULL;
             $data = $this->informasi_model->get_list_lokasi_kerja([], $where);
+        } elseif ($type == "sub_lokasi_kerja") {
+            $where["CONCAT(id_lokasi_kerja,'_',lokasi_kerja) LIKE '%$q%'"] = NULL;
+            $data = $this->informasi_model->get_list_lokasi_kerja([], $where);
         } else {
-            $where["CONCAT(id_sub_lokasi_kerja,'_',sub_lokasi_kerja) LIKE '%$q%'"] = NULL;
-            $data = $this->informasi_model->get_list_sub_lokasi_kerja([], $where);
+            $where['menu_parent'] = 1;
+            $where["CONCAT(menu_id,'_',menu_name) LIKE '%$q%'"] = NULL;
+            $data = $this->informasi_model->get_list_site_menus($id, $where);
         }
         echo json_encode($data);
     }

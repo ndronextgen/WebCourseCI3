@@ -201,3 +201,183 @@ const toBase64 = file => new Promise((resolve, reject) => {
 }(function (d, f) {
     window['appAlert'] = f(window['jQuery']);
 }));
+
+function validateForm(form, customSubmit) {
+    //add custom method
+    $.validator.addMethod(
+      "greaterThanOrEqual",
+      function (value, element, params) {
+        var paramsVal = params;
+        if (
+          params &&
+          (params.indexOf("#") === 0 || params.indexOf(".") === 0)
+        ) {
+          paramsVal = $(params).val();
+        }
+        if (!/Invalid|NaN/.test(new Date(value))) {
+          return (
+            new Date(convertDateToYMD(value)) >=
+            new Date(convertDateToYMD(paramsVal))
+          );
+        }
+        return (
+          (isNaN(value) && isNaN(paramsVal)) ||
+          Number(value) >= Number(paramsVal)
+        );
+      },
+      "Must be greater than {0}."
+    );
+
+    //add custom method
+    $.validator.addMethod(
+      "greaterThan",
+      function (value, element, params) {
+        var paramsVal = params;
+        if (
+          params &&
+          (params.indexOf("#") === 0 || params.indexOf(".") === 0)
+        ) {
+          paramsVal = $(params).val();
+        }
+        if (!/Invalid|NaN/.test(new Number(value))) {
+          return new Number(value) > new Number(paramsVal);
+        }
+        return (
+          (isNaN(value) && isNaN(paramsVal)) ||
+          Number(value) > Number(paramsVal)
+        );
+      },
+      "Must be greater than."
+    );
+
+    //add custom method
+    $.validator.addMethod(
+      "mustBeSameYear",
+      function (value, element, params) {
+        var paramsVal = params;
+        if (
+          params &&
+          (params.indexOf("#") === 0 || params.indexOf(".") === 0)
+        ) {
+          paramsVal = $(params).val();
+        }
+        if (!/Invalid|NaN/.test(new Date(convertDateToYMD(value)))) {
+          var dateA = new Date(convertDateToYMD(value)),
+            dateB = new Date(convertDateToYMD(paramsVal));
+          return (
+            dateA && dateB && dateA.getFullYear() === dateB.getFullYear()
+          );
+        }
+      },
+      "The year must be same for both dates."
+    );
+
+    $(form).validate({
+      submitHandler: function (form) {
+        if (customSubmit) {
+          customSubmit(form);
+        } else {
+          return true;
+        }
+      },
+      highlight: function (element) {
+        $(element).closest(".form-control").addClass("is-invalid");
+      },
+      unhighlight: function (element) {
+        $(element).closest(".form-control").removeClass("is-invalid");
+      },
+      errorElement: "span",
+      errorClass: "invalid-feedback",
+      ignore: ":hidden:not(.validate-hidden)",
+      focusInvalid: true,
+      errorPlacement: function (error, element) {
+        if (element.parent(".input-group").length) {
+          error.insertAfter(element.parent());
+        } else {
+          error.insertAfter(element);
+        }
+      },
+    });
+    //handeling the hidden field validation like select2
+    $(".validate-hidden").on("click", function () {
+      $(this)
+        .closest(".form-group")
+        .removeClass("has-error")
+        .find(".invalid-feedback")
+        .hide();
+    });
+}
+
+$(document).ready(function () {
+    $.ajaxSetup({cache: false});
+  
+    $('body').on('click', '[data-act=ajax-modal]', function () {
+        var data = {ajaxModal: 1},
+            url = $(this).attr('data-url'),
+            isLargeModal = $(this).attr('data-modal-lg'),
+            isXLargeModal = $(this).attr('data-modal-xl'),
+            title = $(this).attr('data-title');
+        if (!url) {
+            console.log('Ajax Modal: Set data-action-url!');
+            return false;
+        }
+        if (title) {
+            $("#ajaxModalTitle").html(title);
+        } else {
+            $("#ajaxModalTitle").html($("#ajaxModalTitle").attr('data-title'));
+        }
+
+        if (isXLargeModal === "1") {
+          $("#ajaxModal").find(".modal-dialog").addClass("modal-xl");
+        }else if (isLargeModal === "1") {
+          $("#ajaxModal").find(".modal-dialog").addClass("modal-lg");
+        }
+
+        $("#ajaxModalContent").html($("#ajaxModalOriginalContent").html());
+        $("#ajaxModalContent").find(".original-modal-body").removeClass("original-modal-body").addClass("modal-body");
+        $("#ajaxModal").modal({
+          show: true,
+          backdrop: "static",
+          keyboard: false,
+        });
+
+        $(this).each(function () {
+            $.each(this.attributes, function () {
+                if (this.specified && this.name.match("^data-post-")) {
+                    var dataName = this.name.replace("data-post-", "");
+                    data[dataName] = this.value;
+                }
+            });
+        });
+        ajaxModalXhr = $.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            type: 'POST',
+            success: function (response) {
+                $("#ajaxModal").find(".modal-dialog").removeClass("mini-modal");
+                
+                $("#ajaxModalContent").html(response);
+            },
+            statusCode: {
+                404: function () {
+                    $("#ajaxModalContent").find('.modal-body').html("<p class='text-center'>404: Page not found.</p>");
+                }
+            },
+            error: function () {
+                $("#ajaxModalContent").find('.modal-body').html("<p class='text-center'>500: Internal Server Error.</p>");
+            }
+        });
+        return false;
+    });
+
+    //abort ajax request on modal close.
+    $('#ajaxModal').on('hidden.bs.modal', function (e) {
+        ajaxModalXhr.abort();
+        $("#ajaxModal").find(".modal-dialog").removeClass("modal-xl");
+        $("#ajaxModal").find(".modal-dialog").removeClass("modal-lg");
+        $("#ajaxModal").find(".modal-dialog").addClass("mini-modal");
+
+        $("#ajaxModalContent").html("");
+    });
+});
