@@ -70,7 +70,6 @@ class Srt_ket extends CI_Controller
 
 			$row[] = $no;
 			// $row[] = $r->nama_surat;
-			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' .' ('. 'H:i:s' . ') ');
 
 			// begin: change by joe 2022.10.14
 			// $row[] = $r->keterangan;
@@ -82,7 +81,7 @@ class Srt_ket extends CI_Controller
 			// $row[] = $r->jenis_pengajuan_surat;
 			// end: change by joe 2022.10.14
 
-			$row[] = $r->tgl_surat;
+			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' .' ('. 'H:i:s' . ') ');
 			$row[] = $status_surat;
 			$button = '';
 			switch ($r->id_status_srt) {
