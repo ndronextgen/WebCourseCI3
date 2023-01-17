@@ -128,6 +128,21 @@ headAdminHtml(); ?>
                                                                     </select>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td>SITE MENU</td>
+                                                                <td>
+                                                                    <select id="site_menu" class="form-control" name="site_menu" style="width: 100%">
+                                                                        <option></option>
+                                                                        <?php
+                                                                        if (!empty($site_menu)) :
+                                                                            foreach ($site_menu as $key => $value) :
+                                                                                echo "<option value='" . $value->menu_id . "' selected>" . $value->menu_id . " - " . $value->menu_name . "</option>";
+                                                                            endforeach;
+                                                                        endif;
+                                                                        ?>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -216,6 +231,21 @@ headAdminHtml(); ?>
                 multiple: true,
                 ajax: {
                     url: `<?= base_url("admin/master_informasi/select2_value/sub_lokasi_kerja"); ?>`,
+                    dataType: 'json',
+                    processResults: function(data) {
+                        return {
+                            results: data
+                        };
+                    }
+                }
+            });
+
+            $("#site_menu").select2({
+                id: "-1", // the value of the option
+                placeholder: "Pilih",
+                allowClear: true,
+                ajax: {
+                    url: `<?= base_url("admin/master_informasi/select2_value/site_menus/" . $model_info->site_menu); ?>`,
                     dataType: 'json',
                     processResults: function(data) {
                         return {

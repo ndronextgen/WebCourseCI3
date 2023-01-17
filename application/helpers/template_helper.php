@@ -266,6 +266,12 @@ function menuAdmin($menuOpen = '')
     echo '</li>';
 
     echo '<li class="kt-menu__item " aria-haspopup="true">';
+    echo '<a href="' . base_url() . 'admin/master_menu" class="kt-menu__link ">';
+    echo '<span class="kt-menu__link-text"><i class="flaticon-interface-11"></i>&nbsp;Master Situs Menu</span>';
+    echo '</a>';
+    echo '</li>';
+
+    echo '<li class="kt-menu__item " aria-haspopup="true">';
     echo '<a href="' . base_url() . 'admin/master_informasi" class="kt-menu__link ">';
     echo '<span class="kt-menu__link-text"><i class="flaticon-interface-11"></i>&nbsp;Master Informasi</span>';
     echo '</a>';
@@ -2639,5 +2645,38 @@ if (!function_exists('get_array_value')) {
         if (array_key_exists($key, $array)) {
             return $array[$key];
         }
+    }
+}
+
+if (!function_exists('modal_anchor')) {
+
+    function modal_anchor($url, $title = '', $attributes = [])
+    {
+        $attributes["data-act"] = "ajax-modal";
+        if (get_array_value($attributes, "data-modal-title")) {
+            $attributes["data-title"] = get_array_value($attributes, "data-modal-title");
+        } else {
+            $attributes["data-title"] = get_array_value($attributes, "title");
+        }
+        $attributes["data-url"] = $url;
+
+        return js_anchor($title, $attributes);
+    }
+}
+
+if (!function_exists('js_anchor')) {
+
+    function js_anchor($title = '', $attributes = array())
+    {
+        $title = (string) $title;
+        $html_attributes = "";
+
+        if (is_array($attributes)) {
+            foreach ($attributes as $key => $value) {
+                $html_attributes .= ' ' . $key . '="' . $value . '"';
+            }
+        }
+
+        return '<a href="javascript:;"' . $html_attributes . '>' . $title . '</a>';
     }
 }
