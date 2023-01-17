@@ -20,42 +20,64 @@ class App extends CI_Controller
 	// === sso ===
 	public function index_sso()
 	{
-		if ($this->session->userdata('logged_in') == "") {
-			$d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
-			$d['judul'] = $this->config->item('nama_aplikasi_aja');
-			$d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
-			$d['instansi'] = $this->config->item('nama_instansi');
-			$d['credit'] = $this->config->item('credit_aplikasi');
+		if (isset($_COOKIE['sso_dcktrp']) && strlen($_COOKIE['sso_dcktrp']) > 0) {
+			// validate token then create session
+			$ssoValidateToken = SSOValidateToken($_COOKIE['sso_dcktrp']);
+			log_message('debug', 'ssoValidateToken : ' . json_encode($ssoValidateToken));
+			if ($ssoValidateToken['status']) {
+				//get detail user
+				$detailUser = $this->app_login_model->GetDetailUser($ssoValidateToken['data']->username);
+				if ($detailUser['status']) {
+					$sess_data['logged_in'] = 'yesGetMeLoginBaby';
+					$sess_data['id_user'] = $detailUser['data']['id_user'];
+					$sess_data['id_pegawai'] = $detailUser['data']['id_pegawai'];
+					$sess_data['username'] = $detailUser['data']['username'];
+					$sess_data['password'] = $detailUser['data']['password'];
+					$sess_data['email'] = $detailUser['data']['email'];
+					$sess_data['telepon'] = $detailUser['data']['telepon'];
+					$sess_data['nama'] = $detailUser['data']['nama'];
+					$sess_data['stts'] = $detailUser['data']['stts'];
+					$sess_data['lokasi_kerja'] = $detailUser['data']['lokasi_kerja'];
+					$sess_data['foto'] = $detailUser['data']['foto'];
 
-<<<<<<< HEAD
 					//set si-adik cookie
 					$this->session->set_userdata($sess_data);
 					// BEGIN YUDI - 6 JAN 2023
 					setcookie('url', base_url());
 					// setcookie('url', base_url(), time() + (60 * 30));
 					// END YUDI - 6 JAN 2023
-=======
-			$this->form_validation->set_rules('username', 'Username', 'trim|required');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required');
->>>>>>> 73b8ba0ff16200afd63fbed7f1e45b84261d2563
 
-			if ($this->form_validation->run() == FALSE) {
-				$this->load->view('app/login', $d);
+					//set cookie sso
+					//setcookie('sso_dcktrp', $_COOKIE['sso_dcktrp'], null, '/', 'jakarta.go.id');
+					setcookie('sso_dcktrp', $_COOKIE['sso_dcktrp'], time() + (60 * 30), '/', 'jakarta.go.id');
+
+					// BEGIN JOE - 7 JUL 2022
+					// db log user setelah berhasil login
+					$this->load->model('Visitor_model');
+					$this->Visitor_model->visitor_login();
+					// END JOE - 7 JUL 2022
+
+					if ($sess_data['stts'] == "administrator") {
+						log_message('debug', 'administrator');
+						header('location:' . base_url() . 'admin/dashboard_admin');
+					} else if ($sess_data['stts'] == "publik" && $sess_data['password'] == md5('123456AppSimpeg32')) {
+						//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
+						//header('location:'.base_url().'app/change_password_publik');
+						header('location:' . base_url() . 'dashboard_publik');
+					} else if ($sess_data['stts'] == "publik") {
+						//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
+						header('location:' . base_url() . 'dashboard_publik');
+					} else if ($sess_data['stts'] == "executive") {
+						header('location:' . base_url() . 'dashboard_publik');
+					}
+				} else {
+					$this->session->set_flashdata('result_login', "Maaf, kombinasi username dan password yang anda masukkan tidak valid dengan database kami.");
+					header('location:' . base_url() . '');
+				}
 			} else {
-				$dt['username'] = $this->input->post('username');
-				$dt['password'] = $this->input->post('password');
-
-				setcookie('url', base_url());
-
-				$this->app_login_model->getLoginData($dt);
-
-				// BEGIN JOE - 7 JUL 2022
-				// db log user setelah berhasil login
-				$this->load->model('Visitor_model');
-				$this->Visitor_model->visitor_login();
-				// END JOE - 7 JUL 2022
+				//not login sso
+				header('location:' . $this->config->item('sso_url') . 'login?redirect=' . $this->config->item('base_url'));
 			}
-<<<<<<< HEAD
 		} else if ($this->session->userdata('logged_in') == "") {
 			$d['url'] = $this->config->item('sso_url') . 'login?redirect=' . $this->config->item('base_url');
 			$this->load->view('app/landing_page', $d);
@@ -87,12 +109,11 @@ class App extends CI_Controller
 			setcookie('url', base_url());
 			// setcookie('url', base_url(), time() + (60 * 30));
 			// END YUDI - 6 JAN 2023
-=======
->>>>>>> 73b8ba0ff16200afd63fbed7f1e45b84261d2563
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
 			header('location:' . base_url() . 'admin/dashboard_admin');
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik" && $this->session->userdata('password') == md5('123456AppSimpeg32')) {
 			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');
+			//header('location:'.base_url().'app/change_password_publik');
 			header('location:' . base_url() . 'dashboard_publik');
 		} else if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") {
 			//$this->session->set_flashdata('welcome', 'Silahkan Lakukan Update Data Anda Secara Lengkap dan Sesuai');

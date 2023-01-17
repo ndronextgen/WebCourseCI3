@@ -180,15 +180,31 @@
         });
     }
 
-    function view_lapor() {
-        // alert('uder maintenance !!!');
-        $.dialog({
-            icon: 'fa fa-info',
-            title: 'Info',
-            content: 'Sedang dalam pengerjaan...',
-            type: 'red',
-            backgroundDismiss: true
+    // function view_lapor() {
+    //     // alert('uder maintenance !!!');
+    //     $.dialog({
+    //         icon: 'fa fa-info',
+    //         title: 'Info',
+    //         content: 'Sedang dalam pengerjaan...',
+    //         type: 'red',
+    //         backgroundDismiss: true
+    //     });
+    // }
+
+    function view_lapor(id) {
+        $.ajax({
+            url: "<?php echo site_url('Lapor/form_lapor_detail'); ?>",
+            type: "POST",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+            }
         });
+        $('.modal-footer').hide(); // show bootstrap modal
+        $('#modal_all').modal('show'); // show bootstrap modal
+        $('.modal-title').text('Detail Data Lapor Pegawai'); // Set Title to Bootstrap modal title
     }
 
     function delete_lapor(Id) {
