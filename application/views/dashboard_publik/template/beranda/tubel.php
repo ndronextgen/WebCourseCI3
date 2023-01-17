@@ -140,7 +140,14 @@
 			contentType: false,
 			cache: false,
 			dataType: "JSON",
+			beforeSend: function() {
+				$('#btnTubelSave').text('Saving...'); //change button text
+				$('#btnTubelSave').attr('disabled', true); //set button enable 
+			},
 			success: function(data) {
+				$('#btnTubelSave').text('Save'); //change button text
+				$('#btnTubelSave').attr('disabled', false); //set button enable 
+				
 				if (data.status) //if success close modal and reload ajax table
 				{
 					$('#modal_tubel').modal('hide');
@@ -151,14 +158,12 @@
 						$('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
 					}
 				}
-
-				$('#btnTubelSave').text('save'); //change button text
-				$('#btnTubelSave').attr('disabled', false); //set button enable 
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert('Error adding / update data');
-				$('#btnTubelSave').text('save'); //change button text
+				$('#btnTubelSave').text('Save'); //change button text
 				$('#btnTubelSave').attr('disabled', false); //set button enable 
+
+				alert('Error adding / update data');
 			}
 		});
 	}

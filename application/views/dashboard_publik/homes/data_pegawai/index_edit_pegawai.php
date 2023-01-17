@@ -3,14 +3,14 @@
 <!-- data pegawai -->
 <!-- <section id="data-pegawai" class="content"> -->
 <style>
-            .signature-pad {
-                position: relative;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 200px;
-                background-color: white;
-            }
+	.signature-pad {
+		position: relative;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 200px;
+		background-color: white;
+	}
 </style>
 <div class="callout callout-info">
 	<h4>Edit Data Pegawai</h4>
@@ -1705,10 +1705,10 @@
 	});
 
 	var canvas = document.getElementById('signature-pad');
-	document.getElementById('btnCollapse').addEventListener('click', function () {
+	document.getElementById('btnCollapse').addEventListener('click', function() {
 		$("#collapseExample").collapse();
 		signaturePad.clear();
-		var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+		var ratio = Math.max(window.devicePixelRatio || 1, 1);
 		console.log(ratio);
 		canvas.width = canvas.offsetWidth * ratio;
 		canvas.height = canvas.offsetHeight * ratio;
@@ -1723,8 +1723,8 @@
 	});
 
 	var cel = document.getElementById('clearButton');
-	if(cel){
-		cel.addEventListener('click', function () {
+	if (cel) {
+		cel.addEventListener('click', function() {
 			signaturePad.clear();
 		});
 	}
@@ -1740,8 +1740,8 @@
 		// 	onrendered: function(canvas) {
 		// 		var ctx = canvas.getContext("2d");
 		// 		ctx.fillStyle = "#0000";
-    	// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-    	// 		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		// 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 		// 		var canvas_img_data = canvas.toDataURL('image/png');
 		// 		var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
@@ -1802,19 +1802,17 @@
 			return false;
 		});
 	});
-
 </script>
 
 <script type="text/javascript">
-    
-    var el = document.getElementById('save-ttd');
-	if(el) {
-		el.addEventListener('click', function () {
+	var el = document.getElementById('save-ttd');
+	if (el) {
+		el.addEventListener('click', function() {
 			if (signaturePad.isEmpty()) {
 				return alert("Please provide a signature first.");
 			}
 			const form = document.getElementById("ttdForm");
-			
+
 			form.submit();
 		});
 	}

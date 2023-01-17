@@ -23,7 +23,7 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Data_dp3/table_data_dp3') ?>",
 			"type": "POST"
@@ -265,11 +265,17 @@
 			data: formData,
 			processData: false,
 			contentType: false,
+			beforeSend: function() {
+				$('#btn_tmb').text('Menyimpan...'); //change button text
+				$('#btn_tmb').attr('disabled', true); //set button enable 
+			},
 			success: function(response) {
-				$('#modal_all').modal('hide');
+				$('#btn_tmb').text('Simpan Riwayat DP3'); //change button text
+				$('#btn_tmb').attr('disabled', false); //set button enable 
+
 				// alert(response);
 				const resp = JSON.parse(response);
-				
+
 				$.dialog({
 					icon: 'fa fa-info',
 					title: 'Info',
@@ -277,6 +283,8 @@
 					type: resp.tipe == 1 ? 'green' : 'red',
 					backgroundDismiss: true
 				});
+
+				$('#modal_all').modal('hide');
 				reload_table_dp3();
 
 

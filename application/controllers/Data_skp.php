@@ -7,6 +7,7 @@ class Data_skp extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->helper('file');
 		$this->load->helper(array('url', 'download'));
 		$this->load->library('func_table');
@@ -231,7 +232,7 @@ class Data_skp extends CI_Controller
 				}
 			} else {
 				$result = [
-					'status' => 'Berhasil tambah data SPK.',
+					'status' => 'Berhasil tambah data SKP.',
 					'tipe' => 1
 				];
 				echo json_encode($result);
@@ -487,7 +488,6 @@ class Data_skp extends CI_Controller
 			rmdir($path_folder);
 		}
 
-
 		$del_skp 		= $this->db->query("DELETE FROM tr_skp WHERE Id = '$Id'");
 		$del_arsip_sk 	= $this->db->query("DELETE FROM tbl_arsip_skp WHERE id_dp3 = '$QData->Skp_id'");
 		if ($del_skp) {
@@ -521,7 +521,6 @@ class Data_skp extends CI_Controller
 			force_download($QData->file_name, $path_folder);
 		}
 	}
-
 
 	private function _do_upload($id, $id_ref = 0)
 	{
