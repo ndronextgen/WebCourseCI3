@@ -1,3 +1,9 @@
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<!-- dari view/dashboard_publik/home/arsip_sk.php -->
+
 <script type="text/javascript">
 	var save_method; //for save method string
 	var base_url = '<?php echo base_url(); ?>';
@@ -156,25 +162,6 @@
 	}
 
 	function delete_sk(id_sk) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('arsip_sk/sk_delete') ?>/" + id_sk,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			//if success reload ajax table
-		// 			$('#modal_sk').modal('hide');
-		// 			reload_table_sk();
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';
@@ -223,6 +210,30 @@
 		})
 	}
 </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modal-download-sk').on('show.bs.modal', function(e) {
+			var button = $(e.relatedTarget);
+			var id = button.data('id');
+			var modal = $(this);
+			//e.preventDefault();  //stop the browser from following
+			setTimeout(function() {
+				window.open("<?= base_url('arsip_sk/download_file/" + id + "') ?>", "_blank");
+			}, 2500);
+			setTimeout(function() {
+				modal.modal('hide');
+			}, 2500);
+			setTimeout(function() {
+				tablesk.ajax.reload(null, false);
+			}, 2500);
+		});
+	});
+</script>
+
+<!-- ======================================================= -->
+<!-- ==================== BEGIN: MODALS ==================== -->
+<!-- ======================================================= -->
 
 <!-- Bootstrap modal -->
 <div class="modal fade" id="lihat_file" role="dialog">
@@ -289,7 +300,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3" id="label-photo">Upload File </label> 
+							<label class="control-label col-md-3" id="label-photo">Upload File </label>
 							<div class="col-md-9">
 								<div id="file_preview" style="float: left; padding-right: 10px;"></div>
 								<input id="file_sk" name="file_sk" type="file" class="form-control" style="font-size: 12px; width: 332px;" />
@@ -309,22 +320,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#modal-download-sk').on('show.bs.modal', function(e) {
-			var button = $(e.relatedTarget);
-			var id = button.data('id');
-			var modal = $(this);
-			//e.preventDefault();  //stop the browser from following
-			setTimeout(function() {
-				window.open("<?= base_url('arsip_sk/download_file/" + id + "') ?>", "_blank");
-			}, 2500);
-			setTimeout(function() {
-				modal.modal('hide');
-			}, 2500);
-			setTimeout(function() {
-				tablesk.ajax.reload(null, false);
-			}, 2500);
-		});
-	});
-</script>
+<!-- ===================================================== -->
+<!-- ==================== END: MODALS ==================== -->
+<!-- ===================================================== -->

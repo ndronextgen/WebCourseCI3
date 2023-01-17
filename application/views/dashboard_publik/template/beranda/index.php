@@ -37,16 +37,16 @@
             $('#pendidikan').removeClass('active');
             $('#skgubernur').removeClass('active');
             $('#pribadi').removeClass('active');
-        } else if (type == "data_hukuman") {
-            var urls = "<?php echo site_url('Dashboard_publik/data_hukuman'); ?>";
-            $('#pegawai').removeClass('active');
-            $('#hukuman').addClass('active');
-            $('#group_skpdp3').removeClass('active');
-            $('#tubel').removeClass('active');
-            $('#penghargaan').removeClass('active');
-            $('#pendidikan').removeClass('active');
-            $('#skgubernur').removeClass('active');
-            $('#pribadi').removeClass('active');
+        // } else if (type == "data_hukuman") {
+        //     var urls = "<?php echo site_url('Dashboard_publik/data_hukuman'); ?>";
+        //     $('#pegawai').removeClass('active');
+        //     $('#hukuman').addClass('active');
+        //     $('#group_skpdp3').removeClass('active');
+        //     $('#tubel').removeClass('active');
+        //     $('#penghargaan').removeClass('active');
+        //     $('#pendidikan').removeClass('active');
+        //     $('#skgubernur').removeClass('active');
+        //     $('#pribadi').removeClass('active');
         } else if (type == "group_skpdp3") {
             var urls = "<?php echo site_url('Dashboard_publik/group_skpdp3'); ?>";
             $('#pegawai').removeClass('active');

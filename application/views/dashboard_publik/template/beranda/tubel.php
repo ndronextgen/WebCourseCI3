@@ -164,25 +164,6 @@
 	}
 
 	function delete_tubel(id_tubel) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('tubel/tubel_delete') ?>/" + id_tubel,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			//if success reload ajax table
-		// 			$('#modal_tubel').modal('hide');
-		// 			reload_table_tubel();
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';

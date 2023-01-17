@@ -1,3 +1,9 @@
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<!-- dari view/dashboard_publik/home/arsip_pribadi.php -->
+
 <script type="text/javascript">
 	var save_method; //for save method string
 	var base_url = '<?php echo base_url(); ?>';
@@ -161,26 +167,6 @@
 	}
 
 	function delete_pribadi(id) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('arsip_pribadi/pribadi_delete') ?>/" + id,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			//if success reload ajax table
-		// 			$('#modal_pribadi').modal('hide');
-		// 			reload_table_pribadi();
-		// 			set_notif_to_admin('1668732896');
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';
@@ -230,6 +216,30 @@
 		})
 	}
 </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modal-download-pribadi').on('show.bs.modal', function(e) {
+			var button = $(e.relatedTarget);
+			var id = button.data('id');
+			var modal = $(this);
+			//e.preventDefault();  //stop the browser from following
+			setTimeout(function() {
+				window.location.href = "<?= base_url('arsip_pribadi/download/') ?>" + id;
+			}, 2500);
+			setTimeout(function() {
+				modal.modal('hide');
+			}, 2500);
+			setTimeout(function() {
+				tablesk.ajax.reload(null, false);
+			}, 2500);
+		});
+	});
+</script>
+
+<!-- ======================================================= -->
+<!-- ==================== BEGIN: MODALS ==================== -->
+<!-- ======================================================= -->
 
 <!-- Bootstrap modal -->
 <div class="modal fade" id="lihat_file" role="dialog">
@@ -317,22 +327,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#modal-download-pribadi').on('show.bs.modal', function(e) {
-			var button = $(e.relatedTarget);
-			var id = button.data('id');
-			var modal = $(this);
-			//e.preventDefault();  //stop the browser from following
-			setTimeout(function() {
-				window.location.href = "<?= base_url('arsip_pribadi/download/') ?>" + id;
-			}, 2500);
-			setTimeout(function() {
-				modal.modal('hide');
-			}, 2500);
-			setTimeout(function() {
-				tablesk.ajax.reload(null, false);
-			}, 2500);
-		});
-	});
-</script>
+<!-- ===================================================== -->
+<!-- ==================== END: MODALS ==================== -->
+<!-- ===================================================== -->

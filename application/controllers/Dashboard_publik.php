@@ -10,6 +10,11 @@ class Dashboard_Publik extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+		if ($this->session->userdata('logged_in') == "" && $this->session->userdata('stts') != "publik") {
+			header('location:' . base_url() . '');
+		}
+
 		$this->load->model('jabatan_model');
 		$this->load->model('app_Login_Model');
 		$this->load->model('srt_ket_model');
@@ -556,6 +561,7 @@ class Dashboard_Publik extends CI_Controller
 		}
 	}
 	// data pegawai end
+
 	public function data_hukuman()
 	{
 		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "publik") {
@@ -608,7 +614,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
 			$this->load->view('dashboard_publik/homes/data_tubel/index_data_tubel', $d);
-			$this->load->view('dashboard_publik/home/tubel');
+			$this->load->view('dashboard_publik/template/beranda/tubel');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -624,7 +630,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_penghargaan'] = $this->db->get("tbl_master_penghargaan");
 
 			$this->load->view('dashboard_publik/homes/data_penghargaan/index_data_penghargaan', $d);
-			$this->load->view('dashboard_publik/home/penghargaan');
+			$this->load->view('dashboard_publik/template/beranda/penghargaan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -650,7 +656,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_pendidikan'] = $this->db->get("tbl_master_pendidikan");
 
 			$this->load->view('dashboard_publik/homes/group_pendidikan/formal/index_formal', $d);
-			$this->load->view('dashboard_publik/home/pendidikan');
+			$this->load->view('dashboard_publik/template/beranda/pendidikan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -666,7 +672,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_pelatihan'] = $this->db->get("tbl_master_pelatihan");
 
 			$this->load->view('dashboard_publik/homes/group_pendidikan/nonformal/index_nonformal', $d);
-			$this->load->view('dashboard_publik/home/pelatihan');
+			$this->load->view('dashboard_publik/template/beranda/pelatihan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -696,7 +702,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_golongan'] = $this->db->get('tbl_master_golongan');
 
 			$this->load->view('dashboard_publik/homes/group_sk_gubernur/pangkat/index_pangkat', $d);
-			$this->load->view('dashboard_publik/home/pangkat');
+			$this->load->view('dashboard_publik/template/beranda/pangkat');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -714,7 +720,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['nama_jabatan'] = $this->riwayat_jabatan_model->nama_jabatann();
 
 			$this->load->view('dashboard_publik/homes/group_sk_gubernur/jabatan/index_jabatan', $d);
-			$this->load->view('dashboard_publik/home/jabatan');
+			$this->load->view('dashboard_publik/template/beranda/jabatan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -730,7 +736,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_jabatan'] = $this->db->get('tbl_master_nama_jabatan');
 
 			$this->load->view('dashboard_publik/homes/group_sk_gubernur/sklainnya/index_sklainnya', $d);
-			$this->load->view('dashboard_publik/home/arsip_sk');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_sk/arsip_sk');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -759,7 +765,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_golongan'] = $this->db->get('tbl_master_golongan');
 
 			$this->load->view('dashboard_publik/homes/group_pribadi/keluarga/index_keluarga', $d);
-			$this->load->view('dashboard_publik/home/keluarga');
+			$this->load->view('dashboard_publik/template/beranda/keluarga');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -775,7 +781,7 @@ class Dashboard_Publik extends CI_Controller
 			$d['mst_jabatan'] = $this->db->get('tbl_master_nama_jabatan');
 
 			$this->load->view('dashboard_publik/homes/group_pribadi/lainnya/index_lainnya', $d);
-			$this->load->view('dashboard_publik/home/arsip_pribadi');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pribadi/arsip_pribadi');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -794,7 +800,6 @@ class Dashboard_Publik extends CI_Controller
 			$d['data_skp'] = $this->db->get('tr_skp');
 
 			$this->load->view('dashboard_publik/homes/group_skpdp3/index_group_skpdp3', $d);
-			//$this->load->view('dashboard_publik/home/skp');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -989,8 +994,8 @@ class Dashboard_Publik extends CI_Controller
 
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
-			$this->load->view('dashboard_publik/arsip_digital/arsip_pribadi/index_arsip_pribadi', $d);
-			$this->load->view('dashboard_publik/home/arsip_pribadi');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pribadi/index_arsip_pribadi', $d);
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pribadi/arsip_pribadi');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -1005,8 +1010,8 @@ class Dashboard_Publik extends CI_Controller
 
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
-			$this->load->view('dashboard_publik/arsip_digital/arsip_sk/index_arsip_sk', $d);
-			$this->load->view('dashboard_publik/home/arsip_sk');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_sk/index_arsip_sk', $d);
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_sk/arsip_sk');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -1021,8 +1026,8 @@ class Dashboard_Publik extends CI_Controller
 
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
-			$this->load->view('dashboard_publik/arsip_digital/arsip_pendidikan/index_arsip_pendidikan', $d);
-			$this->load->view('dashboard_publik/home/arsip_pendidikan');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pendidikan/index_arsip_pendidikan', $d);
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pendidikan/arsip_pendidikan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -1037,8 +1042,8 @@ class Dashboard_Publik extends CI_Controller
 
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
-			$this->load->view('dashboard_publik/arsip_digital/arsip_pelatihan/index_arsip_pelatihan', $d);
-			$this->load->view('dashboard_publik/home/arsip_pelatihan');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pelatihan/index_arsip_pelatihan', $d);
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_pelatihan/arsip_pelatihan');
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -1053,8 +1058,8 @@ class Dashboard_Publik extends CI_Controller
 
 			$d['mst_hukuman'] = $this->db->get('tbl_master_hukuman');
 
-			$this->load->view('dashboard_publik/arsip_digital/arsip_skp/index_arsip_skp', $d);
-			$this->load->view('dashboard_publik/home/arsip_skp');
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_skp/index_arsip_skp', $d);
+			$this->load->view('dashboard_publik/template/arsip_digital/arsip_skp/arsip_skp');
 		} else {
 			header('location:' . base_url() . '');
 		}

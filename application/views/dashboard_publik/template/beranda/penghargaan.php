@@ -161,25 +161,6 @@
 	}
 
 	function delete_penghargaan(id_penghargaan) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('penghargaan/penghargaan_delete') ?>/" + id_penghargaan,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			//if success reload ajax table
-		// 			$('#modal_penghargaan').modal('hide');
-		// 			reload_table_penghargaan();
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';

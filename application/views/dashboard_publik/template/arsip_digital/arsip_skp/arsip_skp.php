@@ -1,3 +1,9 @@
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<!-- dari view/dashboard_publik/home/arsip_skp.php -->
+
 <script type="text/javascript">
 	var save_method; //for save method string
 	var base_url = '<?php echo base_url(); ?>';
@@ -146,25 +152,6 @@
 	}
 
 	function delete_skp(id_skp) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('arsip_skp/skp_delete') ?>/" + id_skp,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			//if success reload ajax table
-		// 			$('#modal_skp').modal('hide');
-		// 			reload_table_skp();
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';
@@ -213,6 +200,31 @@
 		})
 	}
 </script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modal_download_skp').on('show.bs.modal', function(e) {
+			var button = $(e.relatedTarget);
+			var id = button.data('id');
+			var modal = $(this);
+			//e.preventDefault();  //stop the browser from following
+			setTimeout(function() {
+				window.location.href = "<?= base_url('arsip_skp/download/" + id + "') ?>";
+			}, 2500);
+			setTimeout(function() {
+				modal.modal('hide');
+			}, 2500);
+			setTimeout(function() {
+				tableskp.ajax.reload(null, false);
+			}, 2500);
+		});
+	});
+</script>
+
+<!-- ======================================================= -->
+<!-- ==================== BEGIN: MODALS ==================== -->
+<!-- ======================================================= -->
+
 <!-- Bootstrap modal -->
 <div class="modal fade" id="lihat_file_skp" role="dialog">
 	<div class="modal-dialog">
@@ -234,6 +246,7 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
+
 <!-- Modal Download Koran -->
 <div class="modal modal-primary fade" id="modal_download_skp" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
 	<div class="modal-dialog">
@@ -254,6 +267,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Modal Download Koran -->
 <div class="modal fade" id="modal_skp" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -294,22 +308,7 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#modal_download_skp').on('show.bs.modal', function(e) {
-			var button = $(e.relatedTarget);
-			var id = button.data('id');
-			var modal = $(this);
-			//e.preventDefault();  //stop the browser from following
-			setTimeout(function() {
-				window.location.href = "<?= base_url('arsip_skp/download/" + id + "') ?>";
-			}, 2500);
-			setTimeout(function() {
-				modal.modal('hide');
-			}, 2500);
-			setTimeout(function() {
-				tableskp.ajax.reload(null, false);
-			}, 2500);
-		});
-	});
-</script>
+
+<!-- ===================================================== -->
+<!-- ==================== END: MODALS ==================== -->
+<!-- ===================================================== -->

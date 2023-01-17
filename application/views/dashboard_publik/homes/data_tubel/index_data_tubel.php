@@ -17,9 +17,9 @@
 	<div class="col-xs-12">
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
-				<div class="page-header">
-					<h4># Riwayat Tugas & Izin Belajar</h4>
-				</div>
+				<!-- <div class="page-header"> -->
+					<!-- <h4># Riwayat Tugas & Izin Belajar</h4> -->
+				<!-- </div> -->
 				<button class="btn btn-success" onclick="add_tubel()"><i class="glyphicon glyphicon-plus"></i> Tambah Riwayat Tugas & Izin Belajar</button>
 				<button class="btn btn-default" onclick="reload_table_tubel()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modal-download" data-content="tubel" data-title="Download" title="Download"><i class="fa fa-download"></i> Download All</button>

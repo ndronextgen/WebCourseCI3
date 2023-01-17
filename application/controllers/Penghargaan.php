@@ -6,6 +6,7 @@ class Penghargaan extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->helper('file');
 		$this->load->model('penghargaan_model', 'tbl_data_penghargaan');
 		$this->load->model('arsip_sk_model');
@@ -29,7 +30,11 @@ class Penghargaan extends CI_Controller
 			$row[] = $r->nama_penghargaan;
 			$row[] = $r->pemberi_penghargaan;
 			$row[] = $r->nomor_sk;
-			$row[] = date_format(date_create($r->tgl_sk_penghargaan), 'j M Y');
+			if (strtotime($r->tgl_sk_penghargaan) !== false) {
+				$row[] = date_format(date_create($r->tgl_sk_penghargaan), 'j M Y');
+			} else {
+				$row[] = '';
+			}
 
 			$file = '-';
 
@@ -42,7 +47,7 @@ class Penghargaan extends CI_Controller
 			$arsip = $this->tbl_data_penghargaan->get_arsip_by_id_ref($r->id_penghargaan, 5);
 			if ($arsip) {
 				$button .= '&nbsp;<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-download-arsip" data-key="pangkat" data-id="' . utf8_encode($arsip->id_arsip_sk) . '" data-title="Download" title="Download Data"><i class="fa fa-download"></i></button>';
-				
+
 				// === file ===
 				$path_file = 'asset/upload/SK/SK_' . $arsip->id_jenis_sk . '_' . $arsip->id_ref . '_' . $arsip->id_arsip_sk . '/' . $arsip->file_name;
 				$file = $this->func_table->get_file($path_file, $arsip->file_name_ori);
