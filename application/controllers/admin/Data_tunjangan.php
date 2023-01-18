@@ -138,7 +138,7 @@ class Data_tunjangan extends CI_Controller
 			// $row[] = $key->nama_status;
 			$row[] = $status_surat;
 			$row[] = $this->func_table->name_format($key->nama_lengkap);
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y (H:i:s)');
 			$row[] = $see;
 
 			$data[] = $row;

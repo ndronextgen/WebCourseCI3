@@ -209,6 +209,15 @@
 				if (data.status) //if success close modal and reload ajax table
 				{
 					$('#modal_jabatan').modal('hide');
+					swal.fire({
+						icon: 'success',
+						title: 'Data berhasil disimpan!',
+						showConfirmButton: false,
+						timer: 1500
+					});
+					$('#btn_verifikasi').text('Simpan');
+					$('#btn_verifikasi').attr('disabled', false);
+					
 					reload_table_jabatan();
 					//sk_gub('jabatan');
 				} else {
