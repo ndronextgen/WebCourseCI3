@@ -2,7 +2,7 @@
 
 <!-- data pegawai -->
 <!-- <section id="data-pegawai" class="content"> -->
-<style>
+<style type="text/css">
 	.signature-pad {
 		position: relative;
 		left: 0;
@@ -668,7 +668,7 @@
 										<div class="form-group">
 											<div class="input-group">
 												<span class="input-group-addon">Status Pegawai :</span>
-												<select class="select2 form-control input-lg" name="status_pegawai">
+												<select class="select2 form-control input-lg" name="status_pegawai" id="status_pegawai">
 													<option value=""></option>
 													<?php
 													foreach ($mst_status_pegawai->result_array() as $mspg) {
@@ -690,7 +690,7 @@
 										<div class="form-group">
 											<div class="input-group">
 												<span class="input-group-addon">Golongan:</span>
-												<select class="select2 form-control input-lg" name="id_golongan">
+												<select class="select2 form-control input-lg" name="id_golongan" id="id_golongan">
 													<option value=""></option>
 													<?php
 													foreach ($mst_golongan->result_array() as $mg) {
@@ -1096,7 +1096,7 @@
 		});
 	}
 
-	//onload
+	// === onLoad ===
 	var status_jabatan = $('#id_status_jabatan_view').val();
 	if (status_jabatan == 2) {
 		$('#grpEselon').show(); //$('#id_eselon').val('').trigger('change');
@@ -1115,7 +1115,8 @@
 	} else {
 		targetDiv.style.display = "block";
 	}
-	//onchange
+
+	// === onChange ===
 	$('#id_status_jabatan_view').change(function() {
 		var y = $('#id_status_jabatan_view').val();
 		var val_eselon = $('#id_eselon').val();
@@ -1123,7 +1124,6 @@
 		var val_nama_jabatan = $('#id_jabatan_view').val();
 
 		$('#id_status_jabatan').val(val_status_jabatan);
-
 
 		//alert(y);
 		if (y == 2) {
@@ -1223,6 +1223,18 @@
 
 			}
 		});
+
+		// === disable ===
+		$("#status_pegawai").attr('disabled', true);
+		$("#id_golongan").attr('disabled', true);
+		$("#tanggal_mulai_pangkat").attr('disabled', true);
+		$("#id_status_jabatan_view").attr('disabled', true);
+		$("#id_eselon").attr('disabled', true);
+		$("#id_rumpun_jabatan_view").attr('disabled', true);
+		$("#id_jabatan_view").attr('disabled', true);
+		$("#lokasi_kerja").attr('disabled', true);
+		$("#sublokasi_kerja").attr('disabled', true);
+		$("#seksi").attr('disabled', true);
 
 	});
 </script>
