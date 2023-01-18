@@ -178,7 +178,7 @@ class Lapor extends CI_Controller
 			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
 
 			// === begin: file ===
-			$path_file = './asset/upload/lapor/' . $key->File_upload;
+			$path_file = './asset/upload/Lapor/' . $key->File_upload;
 			$file = $this->func_table->get_file($path_file, $key->File_upload);
 			// === end: file ===
 
