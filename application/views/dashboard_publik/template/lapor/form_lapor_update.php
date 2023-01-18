@@ -102,8 +102,8 @@
                                                     $ext = pathinfo($Data_lapor->File_upload, PATHINFO_EXTENSION);
 
                                                     if (strtolower($ext) == 'pdf') {
-                                                        $file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:;">
-                                                                    <button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> Pdf</button>
+                                                        $file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:(0);">
+                                                                    <button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> PDF</button>
                                                                 </a>';
                                                     } else {
                                                         $file = '<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">
