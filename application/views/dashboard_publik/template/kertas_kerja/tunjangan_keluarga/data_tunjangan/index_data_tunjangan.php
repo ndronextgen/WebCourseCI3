@@ -111,7 +111,6 @@
 						$('#ajax_content').html(data);
 					}
 				});
-
 			}
 
 			function edit_tunjangan(Tunjangan_id) {
@@ -129,7 +128,6 @@
 						$('#ajax_content').html(data);
 					}
 				});
-
 			}
 
 			function ajax_simpan_tunjangan() {
