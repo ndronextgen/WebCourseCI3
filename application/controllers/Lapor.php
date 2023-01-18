@@ -178,27 +178,8 @@ class Lapor extends CI_Controller
 			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
 
 			// === begin: file ===
-			if ($key->File_upload != '') {
-				$path_file = './asset/upload/Lapor';
-				$path_folder    = $path_file . '/' . $key->File_upload;
-				if (file_exists($path_folder)) {
-					$ext = pathinfo($key->File_upload, PATHINFO_EXTENSION);
-
-					if (strtolower($ext) == 'pdf') {
-						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-									<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> Pdf</button>
-								</a>';
-					} else {
-						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-									<img height="30px" src="' . base_url($path_folder) . '">
-								</a>';
-					}
-				} else {
-					$file = '-';
-				}
-			} else {
-				$file = '-';
-			}
+			$path_file = './asset/upload/lapor/' . $key->File_upload;
+			$file = $this->func_table->get_file($path_file, $key->File_upload);
 			// === end: file ===
 
 			$row[] = $no;

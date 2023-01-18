@@ -1707,7 +1707,7 @@ class Func_table
 
     function get_file($path_file, $file_name_ori)
     {
-        if (file_exists($path_file)) {
+        if (is_file($path_file)) {
             $ext = pathinfo($path_file, PATHINFO_EXTENSION);
 
             if (strtolower($ext) == 'pdf') {
