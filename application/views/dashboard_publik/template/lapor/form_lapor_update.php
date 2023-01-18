@@ -84,7 +84,7 @@
 
                 <div class="row">
                     <div class="col-xs-2">
-                        <div class="form-group"><label>File Lama</label>
+                        <div class="form-group"><label>File Lama :</label>
                             <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
                                 <tbody>
                                     <tr>
