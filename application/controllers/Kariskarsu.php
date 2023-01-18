@@ -1135,16 +1135,6 @@ class Kariskarsu extends CI_Controller
 		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/view_kariskarsu', $a);
 	}
 
-	// public function notify_tj()
-	// {
-	// 	$count_see = $this->func_table->count_see_tj($this->session->userdata('username'));
-	// 	if ($count_see > 0) {
-	// 		echo '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
-	// 	} else {
-	// 		echo '';
-	// 	}
-	// }
-
 	public function notify_kariskarsu()
 	{
 		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
@@ -1154,13 +1144,15 @@ class Kariskarsu extends CI_Controller
 		$total = $count_see + $count_see_tj + $count_see_kaku;
 
 		if ($count_see_kaku > 0) {
-			$res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
+			// $res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
+			$res_count_see_kaku = $count_see_kaku;
 		} else {
 			$res_count_see_kaku = '';
 		}
 
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			// $res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			$res_total = $total;
 		} else {
 			$res_total = '';
 		}

@@ -73,7 +73,7 @@ if ($menu == 'beranda') {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="hidden-xs">Kertas Kerja &nbsp;
                                 <?php if ($count_see > 0 or $count_see_tj > 0 or $count_see_kaku > 0) { ?>
-                                    <span class="badge btn-warning btn-flat"><?php echo $count_see + $count_see_tj + $count_see_kaku; ?></span>
+                                    <span class="badge btn-warning btn-flat" id="ttl_kertas_kerja"><?php echo $count_see + $count_see_tj + $count_see_kaku; ?></span>
                                 <?php } ?>
                                 <i class="caret"></i>
                             </span>
@@ -82,14 +82,14 @@ if ($menu == 'beranda') {
                             <li class="<?= $aktif_kertas_kerja_1 ?>">
                                 <a href=" <?php echo base_url(); ?>dashboard_publik/status_surat"><i class="icon-leaf icon-white"></i>Surat Keterangan Pegawai &nbsp;
                                     <?php if ($count_see > 0) { ?>
-                                        <span class="badge btn-warning btn-flat"><?php echo $count_see; ?></span>
+                                        <span class="badge btn-warning btn-flat" id="notif_count"><?php echo $count_see; ?></span>
                                     <?php } ?>
                                 </a>
                             </li>
                             <li class="<?= $aktif_kertas_kerja_2 ?>">
                                 <a href="<?php echo base_url(); ?>tunjangan"><i class="icon-leaf icon-white"></i>Surat Permohonan Tunjangan Keluarga &nbsp;
                                     <?php if ($count_see_tj > 0) { ?>
-                                        <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_tj; ?></span>
+                                        <span class="badge btn-warning btn-flat" id="notif_count_tunjangan"><?php echo '' . $count_see_tj; ?></span>
                                     <?php } ?>
                                 </a>
                             </li>
@@ -97,18 +97,17 @@ if ($menu == 'beranda') {
                             <li class="<?= $aktif_kertas_kerja_3 ?>">
                                 <a href="<?php echo base_url(); ?>kariskarsu"><i class="icon-leaf icon-white"></i>Surat Permohonan KARIS/KARSU &nbsp;
                                     <?php if ($count_see_kaku > 0) { ?>
-                                        <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_kaku; ?></span>
+                                        <span class="badge btn-warning btn-flat" id="notif_count_kariskarsu"><?php echo '' . $count_see_kaku; ?></span>
                                     <?php } ?>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-
                     <li class="<?= $aktif_lapor ?>">
                         <a href="<?php echo base_url(); ?>Lapor"><i class="icon-home icon-white"></i> Lapor
                             <?php if ($count_see_lapor > 0) { ?>
-                                <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_lapor; ?></span>
+                                <span class="badge btn-warning btn-flat" id="notify_lapor"><?php echo '' . $count_see_lapor; ?></span>
                             <?php } ?>
                         </a>
                     </li>
@@ -126,7 +125,7 @@ if ($menu == 'beranda') {
                                             or $count_see_verifikasi_karir > 0
                                             or $count_see_verifikasi_pindah_tugas > 0
                                         ) { ?>
-                                        <span class="badge btn-warning btn-flat"><?php echo $count_see_verifikasi
+                                        <span class="badge btn-warning btn-flat" id="ttl_verifikasi"><?php echo $count_see_verifikasi
                                                                                                 + $count_see_verifikasi_tj
                                                                                                 + $count_see_verifikasi_kaku
                                                                                                 + $count_see_verifikasi_hukdis
@@ -140,21 +139,21 @@ if ($menu == 'beranda') {
                                 <li class="<?= $aktif_verifikasi_1 ?>">
                                     <a href="<?php echo base_url(); ?>verifikasi"><i class="icon-off"></i> Verifikasi Surat Keterangan Pegawai &nbsp;
                                         <?php if ($count_see_verifikasi > 0) { ?>
-                                            <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi; ?></span>
+                                            <span class="badge btn-warning btn-flat" id="notif_count_verifikasi"><?php echo '' . $count_see_verifikasi; ?></span>
                                         <?php } ?>
                                     </a>
                                 </li>
                                 <li class="<?= $aktif_verifikasi_2 ?>">
                                     <a href="<?php echo base_url(); ?>verifikasi_tunjangan"><i class="icon-off"></i> Verifikasi Surat Permohonan Tunjangan Keluarga &nbsp;
                                         <?php if ($count_see_verifikasi_tj > 0) { ?>
-                                            <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tj; ?></span>
+                                            <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_tj"><?php echo '' . $count_see_verifikasi_tj; ?></span>
                                         <?php } ?>
                                     </a>
                                 </li>
                                 <li class="<?= $aktif_verifikasi_3 ?>">
                                     <a href="<?php echo base_url(); ?>verifikasi_kariskarsu"><i class="icon-off"></i> Verifikasi Surat Permohonan KARIS/KARSU &nbsp;
                                         <?php if ($count_see_verifikasi_kaku > 0) { ?>
-                                            <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
+                                            <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_kaku"><?php echo '' . $count_see_verifikasi_kaku; ?></span>
                                         <?php } ?>
                                     </a>
                                 </li>
@@ -168,28 +167,28 @@ if ($menu == 'beranda') {
                                     <li class="<?= $aktif_verifikasi_4 ?>">
                                         <a href="<?php echo base_url(); ?>verifikasi_hukdis"><i class="icon-off"></i> Verifikasi Surat Keterangan Hukuman Disiplin &nbsp;
                                             <?php if ($count_see_verifikasi_hukdis > 0) { ?>
-                                                <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
+                                                <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_hukdis"><?php echo '' . $count_see_verifikasi_hukdis; ?></span>
                                             <?php } ?>
                                         </a>
                                     </li>
                                     <li class="<?= $aktif_verifikasi_5 ?>">
                                         <a href="<?php echo base_url(); ?>verifikasi_tindak_pidana"><i class="icon-off"></i> Verifikasi Surat Keterangan Bebas Tindak Pidana &nbsp;
                                             <?php if ($count_see_verifikasi_tp > 0) { ?>
-                                                <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_tp; ?></span>
+                                                <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_tp"><?php echo '' . $count_see_verifikasi_tp; ?></span>
                                             <?php } ?>
                                         </a>
                                     </li>
                                     <li class="<?= $aktif_verifikasi_6 ?>">
                                         <a href="<?php echo base_url(); ?>verifikasi_pengembangan_karir"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pengembangan Karir &nbsp;
                                             <?php if ($count_see_verifikasi_karir > 0) { ?>
-                                                <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_karir; ?></span>
+                                                <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_karir"><?php echo '' . $count_see_verifikasi_karir; ?></span>
                                             <?php } ?>
                                         </a>
                                     </li>
                                     <li class="<?= $aktif_verifikasi_7 ?>">
                                         <a href="<?php echo base_url(); ?>verifikasi_pindah_tugas"><i class="icon-off"></i> Verifikasi Surat Kebutuhan Pindah Tugas &nbsp;
                                             <?php if ($count_see_verifikasi_pindah_tugas > 0) { ?>
-                                                <span class="badge btn-warning btn-flat"><?php echo '' . $count_see_verifikasi_pindah_tugas; ?></span>
+                                                <span class="badge btn-warning btn-flat" id="notif_count_verifikasi_pindah_tugas"><?php echo '' . $count_see_verifikasi_pindah_tugas; ?></span>
                                             <?php } ?>
                                         </a>
                                     </li>

@@ -531,13 +531,15 @@ class Verifikasi extends CI_Controller
 		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi > 0) {
-			$res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
+			// $res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
+			$res_count_see_verifikasi = $count_see_verifikasi;
 		} else {
 			$res_count_see_verifikasi = '';
 		}
 
 		if ($total_verifikasi > 0) {
-			$res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			// $res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			$res_total_verifikasi = $total_verifikasi;
 		} else {
 			$res_total_verifikasi = '';
 		}

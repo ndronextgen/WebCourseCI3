@@ -46,7 +46,7 @@ class Tunjangan extends CI_Controller
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
 			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
-			
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -142,7 +142,7 @@ class Tunjangan extends CI_Controller
 			$d['page'] = 'dashboard_publik/template/kertas_kerja/tunjangan_keluarga/index';
 			$d['menu'] = 'tunjangan keluarga';
 			$this->load->view('dashboard_publik/template/main', $d);
-	} else {
+		} else {
 			header('location:' . base_url() . '');
 		}
 	}
@@ -260,7 +260,7 @@ class Tunjangan extends CI_Controller
 			// === end: badge-status ===
 			$row[] = $status_surat;
 
-			$row[] = date_format(date_create($key->Created_at), 'j M Y' .' ('. 'H:i:s' . ') ');
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $see;
 
 			$data[] = $row;
@@ -898,16 +898,6 @@ class Tunjangan extends CI_Controller
 		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/view_tunjangan', $a);
 	}
 
-	// public function notify_tj()
-	// {
-	// 	$count_see = $this->func_table->count_see_tj($this->session->userdata('username'));
-	// 	if ($count_see > 0) {
-	// 		echo '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
-	// 	} else {
-	// 		echo '';
-	// 	}
-	// }
-
 	public function notify_tj()
 	{
 		$count_see_kaku		= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -916,13 +906,15 @@ class Tunjangan extends CI_Controller
 		$total = $count_see + $count_see_tj + $count_see_kaku;
 
 		if ($count_see_tj > 0) {
-			$res_count_see_tj = '<span class="badge btn-warning btn-flat">' . $count_see_tj . '</span>';
+			// $res_count_see_tj = '<span class="badge btn-warning btn-flat">' . $count_see_tj . '</span>';
+			$res_count_see_tj = $count_see_tj;
 		} else {
 			$res_count_see_tj = '';
 		}
 
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			// $res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			$res_total = $total;
 		} else {
 			$res_total = '';
 		}

@@ -139,7 +139,7 @@ class Verifikasi_kariskarsu extends CI_Controller
 			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
 			// $this->load->view('dashboard_publik/verifikasi_kariskarsu/index_verifikasi_kariskarsu', $d);
-			
+
 			$d['page'] = 'dashboard_publik/template/verifikasi/karis_karsu/index.php';
 			$d['menu'] = 'ver karis/karsu';
 			$this->load->view('dashboard_publik/template/main', $d);
@@ -582,13 +582,15 @@ class Verifikasi_kariskarsu extends CI_Controller
 		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_kaku > 0) {
-			$res_count_see_verifikasi_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_kaku . '</span>';
+			// $res_count_see_verifikasi_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_kaku . '</span>';
+			$res_count_see_verifikasi_kaku = $count_see_verifikasi_kaku;
 		} else {
 			$res_count_see_verifikasi_kaku = '';
 		}
 
 		if ($total_verifikasi > 0) {
-			$res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			// $res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			$res_total_verifikasi = $total_verifikasi;
 		} else {
 			$res_total_verifikasi = '';
 		}

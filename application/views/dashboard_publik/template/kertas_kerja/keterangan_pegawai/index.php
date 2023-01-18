@@ -84,7 +84,7 @@
             }],
 
             fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                if (aData[6] == "0") {
+                if (aData[5] == "0") {
                     /*mapping*/
                     $("td:eq(0)", nRow).css('font-weight', 'bold');
                     $("td:eq(1)", nRow).css('font-weight', 'bold');

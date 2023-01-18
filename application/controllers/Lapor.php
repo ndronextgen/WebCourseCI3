@@ -553,9 +553,9 @@ class Lapor extends CI_Controller
 
 	public function notify_lapor()
 	{
-		$count_lapor		= $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+		$count_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
 		if ($count_lapor > 0) {
-			$res_count_lapor = '<span class="badge btn-warning btn-flat">' . $count_lapor . '</span>';
+			$res_count_lapor = $count_lapor;
 		} else {
 			$res_count_lapor = '';
 		}

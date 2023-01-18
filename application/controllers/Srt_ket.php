@@ -41,8 +41,6 @@ class Srt_ket extends CI_Controller
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
 										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-					// 						onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -194,6 +192,8 @@ class Srt_ket extends CI_Controller
 		)->row();
 		$a['Id'] 	= $Id;
 		$a['data'] 	= $data;
+
+		// === see notif ===
 		$see = $this->func_table->in_tosee_sk($data->id_user, $data->id_srt, $data->id_status_srt, $data->id_user);
 
 		// ===== surat keterangan history =====
@@ -298,16 +298,6 @@ class Srt_ket extends CI_Controller
 		}
 	}
 
-	// public function notify_me()
-	// {
-	// 	$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
-	// 	if ($count_see > 0) {
-	// 		echo '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
-	// 	} else {
-	// 		echo '';
-	// 	}
-	// }
-
 	public function notify_me()
 	{
 		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
@@ -317,13 +307,15 @@ class Srt_ket extends CI_Controller
 		$total = $count_see + $count_see_tj + $count_see_kaku;
 
 		if ($count_see > 0) {
-			$res_count_see = '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
+			// $res_count_see = '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
+			$res_count_see = $count_see;
 		} else {
 			$res_count_see = '';
 		}
 
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			// $res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			$res_total = $total;
 		} else {
 			$res_total = '';
 		}
