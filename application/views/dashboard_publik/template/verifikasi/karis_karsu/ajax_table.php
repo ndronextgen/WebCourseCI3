@@ -82,7 +82,7 @@
 			"orderable": false,
 		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			if (aData[11] == "21" || aData[11] == "22") {
+			if (aData[12] == "21" || aData[11] == "22") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
 				$("td:eq(1)", nRow).css('font-weight', 'bold');
