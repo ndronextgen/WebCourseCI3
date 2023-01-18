@@ -14,6 +14,7 @@ class Data_lapor extends CI_Controller
 		/***** LOADING HELPER TO AVOID PHP ERROR ****/
 		$this->load->helper('template');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->model('m_lapor', 'lapor');
 	}
 
@@ -43,6 +44,7 @@ class Data_lapor extends CI_Controller
 	{
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
+		$username = $this->session->userdata('username');
 		$id_pegawai = '';
 
 		$listing 		= $this->lapor->listing($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -54,6 +56,7 @@ class Data_lapor extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
+			$see = $this->func_table_lapor->see_table_admin_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 			$button_ = '
 					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
@@ -71,11 +74,11 @@ class Data_lapor extends CI_Controller
 
 					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
 						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>Pdf</button>
+						<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i>Pdf</button>
 					</a>';
 					} else {
 						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-						<img height="40px" width="40px" src="' . base_url($path_folder) . '">
+						<img height="30px" src="' . base_url($path_folder) . '">
 					</a>';
 					}
 				} else {
@@ -98,11 +101,11 @@ class Data_lapor extends CI_Controller
 			$row[] = $button;
 			$row[] = $file;
 			$row[] = $key->Kategori;
-			//$row[] = $key->Judul_laporan;
 			$row[] = $key->Isi_laporan;
 			$row[] = $key->nama_pegawai;
 			$row[] = $tanggapan;
-			$row[] = $key->Created_at;
+			$row[] = $see;
+			$row[] = $see;
 
 			$data[] = $row;
 		}
@@ -113,6 +116,23 @@ class Data_lapor extends CI_Controller
 			"data" => $data,
 		);
 		echo json_encode($output);
+	}
+
+	function notify_lapor()
+	{
+		
+		$count_lapor		= $this->func_table_lapor->count_see_lapor_admin($this->session->userdata('username'));
+		if ($count_lapor > 0) {
+			$res_count_lapor = '<span class="kt-nav__link-badge"><span class="kt-badge kt-badge--warning">' . $count_lapor . '</span></span>';
+		} else {
+			$res_count_lapor = '';
+		}
+
+		$result = [
+			'notify_lapor' => $res_count_lapor
+		];
+
+		echo json_encode($result);
 	}
 }
 

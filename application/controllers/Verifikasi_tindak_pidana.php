@@ -9,6 +9,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		//$this->load->library('func_wa_sk');
 		$this->load->library('func_wa_tindak_pidana');
 		$this->load->helper(array('url', 'download'));
@@ -36,6 +37,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -45,6 +47,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -121,7 +125,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -131,8 +135,14 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
+			// $this->load->view('dashboard_publik/verifikasi_tindak_pidana/index_verifikasi_tindak_pidana', $d);
+			
+			$d['page'] = 'dashboard_publik/template/verifikasi/tindak_pidana/index.php';
+			$d['menu'] = 'ver tindak pidana';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -140,7 +150,8 @@ class Verifikasi_tindak_pidana extends CI_Controller
 
 	function data_verifikasi_tindak_pidana()
 	{
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi_tindak_pidana/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/tindak_pidana/ajax_table');
 	}
 
 	function table_data_verifikasi_tindak_pidana()
@@ -170,7 +181,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 			# jika user adalah sekdis tombol 22
 
 
-			if (($status_verifikasi == 'kepegawaian' OR $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
+			if (($status_verifikasi == 'kepegawaian' or $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_tindak_pidana_kep(' . "'" . $key->Tindak_pidana_id . "'" . ')">
 											<i class="fa fa-tag"></i> &nbsp;Verifikasi
 										</a>';
@@ -256,7 +267,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 	function form_verifikasi_tindak_pidana_kep()
 	{
 		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
-		
+
 		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -314,7 +325,38 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
+		// ===== surat tindak pidana history =====
+		$sSQL = "SELECT
+					his.tindak_pidana_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tindak_pidana_track his
+					join tr_tindak_pidana surat on surat.tindak_pidana_id = his.tindak_pidana_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tindak_pidana_id = '$Tindak_pidana_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tindak pidana history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/tindak_pidana/form_verifikasi_tindak_pidana_kep', $a);
 	}
 
 	function simpan_verifikasi_tindak_pidana_kep()
@@ -344,11 +386,11 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		if ($Q_update) {
 			$Q_select = $this->db->query("SELECT * FROM tr_tindak_pidana WHERE Tindak_pidana_id='$Tindak_pidana_id'")->row();
 			$data_triger['Act'] 			= $Act;
-			$data_triger['Tindak_pidana_id']= $Tindak_pidana_id;
+			$data_triger['Tindak_pidana_id'] = $Tindak_pidana_id;
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
-			
+
 			if ($this->db->insert('tr_tindak_pidana_triger', $data_triger)) {
 				$status = true;
 				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Tindak_pidana_id, $status_verify, $this->session->userdata("username"));
@@ -386,7 +428,7 @@ class Verifikasi_tindak_pidana extends CI_Controller
 	function form_detail()
 	{
 		$Tindak_pidana_id = $this->input->post('Tindak_pidana_id');
-		
+
 		$Data_tindak_pidana = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -446,7 +488,38 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
+		// ===== surat tindak pidana history =====
+		$sSQL = "SELECT
+					his.tindak_pidana_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tindak_pidana_track his
+					join tr_tindak_pidana surat on surat.tindak_pidana_id = his.tindak_pidana_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tindak_pidana_id = '$Tindak_pidana_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tindak pidana history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_tindak_pidana/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/tindak_pidana/form_detail', $a);
 	}
 
 	public function notify_verifikasi_tp()
@@ -457,8 +530,9 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_tp > 0) {
 			$res_count_see_verifikasi_tp = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_tp . '</span>';
@@ -478,5 +552,41 @@ class Verifikasi_tindak_pidana extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	function show_timeline()
+	{
+		// ===== surat keterangan history =====
+		$tindak_pidana_id = $this->input->post('tindak_pidana_id');
+
+		$sSQL = "SELECT
+					his.tindak_pidana_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status, 
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tindak_pidana_track his
+					join tr_tindak_pidana surat on surat.tindak_pidana_id = his.tindak_pidana_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tindak_pidana_id = '$tindak_pidana_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

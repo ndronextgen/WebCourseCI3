@@ -42,7 +42,7 @@
 			type: "POST",
 			url: urls,
 			beforeSend: function(b) {
-				var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width:3.5em;position:fixed;">';
+				var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width: 3.5em; position: fixed;">';
 				$('#skpdp3_ajax').html(percentVal);
 			},
 			success: function(s) {
@@ -53,10 +53,10 @@
 	skpdp3('data_skp');
 
 	function reload_table_skp() {
-		tableskp.ajax.reload(null, false); //reload datatable ajax 
+		tableskp.ajax.reload(null, false); //reload datatable ajax
 	}
 
 	function reload_table_dp3() {
-		tabledp3.ajax.reload(null, false); //reload datatable ajax 
+		tabledp3.ajax.reload(null, false); //reload datatable ajax
 	}
 </script>

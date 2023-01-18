@@ -1,13 +1,5 @@
 <!-- <section id="group-pribadi" class="content"> -->
 <style type="text/css">
-	.left {
-		text-align: left;
-	}
-
-	.center {
-		text-align: center;
-	}
-
 	td {
 		padding: 0 20px;
 		width: auto;

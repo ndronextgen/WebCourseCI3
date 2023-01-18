@@ -9,10 +9,13 @@ class Lapor extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
+		$this->load->library('func_wa_lapor');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_lapor', 'lapor');
 		$this->load->library('upload');
 		// $this->load->model('arsip_hukuman_model');
+		date_default_timezone_set("Asia/Jakarta");
 	}
 
 	public function index()
@@ -32,6 +35,7 @@ class Lapor extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -41,7 +45,9 @@ class Lapor extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
-			
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
+
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
 				$d['status_user'] = 'true';
@@ -116,7 +122,7 @@ class Lapor extends CI_Controller
 			}
 			$this->load->helper('url');
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -126,10 +132,14 @@ class Lapor extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$x['count_see'] = $count_see;
+			// $this->load->view('dashboard_publik/lapor/index_lapor', $d);
 
-			$this->load->view('dashboard_publik/lapor/index_lapor', $d);
+			$d['page'] = 'dashboard_publik/template/lapor/index';
+			$d['menu'] = 'lapor';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -137,7 +147,8 @@ class Lapor extends CI_Controller
 
 	function data_lapor()
 	{
-		$this->load->view('dashboard_publik/lapor/ajax_table');
+		// $this->load->view('dashboard_publik/lapor/ajax_table');
+		$this->load->view('dashboard_publik/template/lapor/ajax_table');
 	}
 
 	function table_data_lapor()
@@ -146,6 +157,7 @@ class Lapor extends CI_Controller
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
+		$username = $this->session->userdata('username');
 
 		$listing 		= $this->lapor->listing($user_type, $id_lokasi_kerja, $id_pegawai);
 		$jumlah_filter 	= $this->lapor->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai);
@@ -156,30 +168,30 @@ class Lapor extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			//$jml_c = '1';
+			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 			$button = '
-				<a type="button" class="btn btn-info btn-xs" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
-				<a type="button" class="btn btn-warning btn-xs" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
-				<a type="button" class="btn btn-danger btn-xs" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
+				<a type="button" class="btn btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
+				<a type="button" class="btn btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
+				<a type="button" class="btn btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
 				';
-			$tanggapan = '<button type="button" class="btn btn-info btn-xs" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
-			// file
-			//$path_file = 'asset/upload/pribadi/pribadi_'.$QData->arsip_kel.'_'.$QData->arsip_pribadi;
+			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+
+			// === begin: file ===
 			if ($key->File_upload != '') {
 				$path_file = './asset/upload/Lapor';
 				$path_folder    = $path_file . '/' . $key->File_upload;
 				if (file_exists($path_folder)) {
-					$ext = explode(".", $key->File_upload);
+					$ext = pathinfo($key->File_upload, PATHINFO_EXTENSION);
 
-					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
+					if (strtolower($ext) == 'pdf') {
 						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>Pdf</button>
-					</a>';
+									<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> Pdf</button>
+								</a>';
 					} else {
 						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-						<img height="40px" width="40px" src="' . base_url($path_folder) . '">
-					</a>';
+									<img height="30px" src="' . base_url($path_folder) . '">
+								</a>';
 					}
 				} else {
 					$file = '-';
@@ -187,17 +199,17 @@ class Lapor extends CI_Controller
 			} else {
 				$file = '-';
 			}
-			//
+			// === end: file ===
 
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = $file;
 			$row[] = $key->Kategori;
-			//$row[] = $key->Judul_laporan;
 			$row[] = $key->Isi_laporan;
-			$row[] = $key->nama_pegawai;
+			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $tanggapan;
 			$row[] = date_format(date_create($key->Created_at), 'j M Y');
+			$row[] = $see;
 
 			$data[] = $row;
 		}
@@ -222,17 +234,20 @@ class Lapor extends CI_Controller
 									WHERE id_pegawai = '$id_pegawai'")->row();
 		$a['Data'] = $Data;
 		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
-		$this->load->view('dashboard_publik/lapor/form_lapor_add', $a);
+
+		// $this->load->view('dashboard_publik/lapor/form_lapor_add', $a);
+		$this->load->view('dashboard_publik/template/lapor/form_lapor_add', $a);
 	}
 
 	function simpan_add()
 	{
 
 		$Id 			= $this->session->userdata('id_pegawai');
+		$Created_by 	= $this->session->userdata('username');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
 		$Kategori 		= $this->input->post('Kategori');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -274,20 +289,32 @@ class Lapor extends CI_Controller
 
 
 		$data['id_pegawai'] = $Id;
+		$data['Tanggapan_id'] = '0';
 		$data['id_lokasi_kerja'] = $lokasi_kerja;
 		$data['Kategori'] = $Kategori;
 		//$data['Judul_laporan'] = $Judul_laporan;
 		$data['Isi_laporan'] = $Isi_laporan;
 		$data['File_upload'] = $new_name_file;
-		$data['created_at'] = $Date_now;
-		$data['updated_at'] = $Date_now;
+		$data['Created_by'] = $Created_by;
+		$data['Created_at'] = $Date_now;
+		$data['Updated_at'] = $Date_now;
 
-		$this->db->insert('tr_lapor', $data);
-		// echo 'Berhasil';
-		$result = [
-			'status' => 'Berhasil simpan data lapor.',
-			'tipe' => 1,
-		];
+		$result_in = $this->db->insert('tr_lapor', $data);
+		if ($result_in) {
+			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor")->row();
+			$last_id = $Query_Getid->Id;
+			$see = $this->func_table_lapor->in_tosee_lapor($Created_by, $last_id, '0', $Created_by);
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tambah($last_id);
+			$result = [
+				'status' => 'Berhasil simpan data lapor.',
+				'tipe' => 1,
+			];
+		} else {
+			$result = [
+				'status' => 'Gagal simpan data lapor.',
+				'tipe' => 1,
+			];
+		}
 		echo json_encode($result);
 	}
 
@@ -309,7 +336,9 @@ class Lapor extends CI_Controller
 		$a['Data'] 			= $Data;
 		$a['Id'] 			= $Id;
 		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
-		$this->load->view('dashboard_publik/lapor/form_lapor_update', $a);
+
+		// $this->load->view('dashboard_publik/lapor/form_lapor_update', $a);
+		$this->load->view('dashboard_publik/template/lapor/form_lapor_update', $a);
 	}
 
 	function simpan_update()
@@ -319,7 +348,7 @@ class Lapor extends CI_Controller
 		$Kategori 		= $this->input->post('Kategori');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');
 		$Isi_laporan 	= $this->input->post('Isi_laporan');
-		$Date_now 		= date('Y-m-d h:i:s');
+		$Date_now 		= date('Y-m-d H:i:s');
 
 		$Data = $this->db->query("SELECT lokasi_kerja FROM tbl_data_pegawai WHERE id_pegawai = '$Id'")->row();
 		$lokasi_kerja = isset($Data->lokasi_kerja) ? $Data->lokasi_kerja : '';
@@ -418,6 +447,7 @@ class Lapor extends CI_Controller
 
 		$del_lapor = $this->db->query("DELETE FROM tr_lapor WHERE Id = '$Id'");
 		$del_tanggapan = $this->db->query("DELETE FROM tr_lapor_tanggapan WHERE Lapor_id = '$Id'");
+		$del_tanggapan_see = $this->db->query("DELETE FROM tr_lapor_see WHERE Lapor_id = '$Id'");
 		if ($del_lapor) {
 			echo 'Data Dihapus';
 		} else {
@@ -440,12 +470,15 @@ class Lapor extends CI_Controller
 		$a['Id'] 			= $Id;
 		$a['Data_lapor'] 	= $Data_lapor;
 		$a['Data'] 			= $Data;
-		$this->load->view('dashboard_publik/lapor/tanggapan/modal_tanggapan', $a);
+
+		// $this->load->view('dashboard_publik/lapor/tanggapan/modal_tanggapan', $a);
+		$this->load->view('dashboard_publik/template/lapor/tanggapan/modal_tanggapan', $a);
 	}
 
 	public function table_tanggapan()
 	{
 		$Id = $this->input->post('Id');
+		$username 	= $this->session->userdata('username');
 		$query = $this->db->query("SELECT
 										a.Id, 
 										a.Lapor_Id, 
@@ -461,17 +494,25 @@ class Lapor extends CI_Controller
 									WHERE a.lapor_id = '$Id'")->result();
 		$a['Id'] = $Id;
 		$a['data'] = $query;
-		$this->load->view('dashboard_publik/lapor/tanggapan/table_tanggapan', $a);
+		// --- update notif menu see
+		$Query_GetLapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+		$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor_tanggapan WHERE Lapor_id = '$Id'")->row();
+		$last_id = $Query_Getid->Id;
+		$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
+		// -----
+		// $this->load->view('dashboard_publik/lapor/tanggapan/table_tanggapan', $a);
+		$this->load->view('dashboard_publik/template/lapor/tanggapan/table_tanggapan', $a);
 	}
 
 	public function simpan_tanggapan()
 	{
 		$Id 		= $this->input->post('Id');
 		$username 	= $this->session->userdata('username');
+		$user_type 	= $this->session->userdata('stts');
 
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_create = date("Y-m-d h:i:s");
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_create = date("Y-m-d H:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Lapor_id'] = $Id;
 		$data['username'] = $username;
@@ -479,8 +520,24 @@ class Lapor extends CI_Controller
 		$data['created_at'] = $tgl_create;
 		$data['updated_at'] = $tgl_update;
 
-		$this->db->insert('tr_lapor_tanggapan', $data);
-		echo 'Berhasil';
+		$result_in = $this->db->insert('tr_lapor_tanggapan', $data);
+
+		if ($result_in) {
+			$Query_GetLapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+			$Query_Getid = $this->db->query("SELECT MAX(Id) as Id FROM tr_lapor_tanggapan")->row();
+			$last_id = $Query_Getid->Id;
+			$see = $this->func_table_lapor->in_tosee_lapor($Query_GetLapor->Created_by, $Id, $last_id, $username);
+			$Query_update_lapor = $this->db->query("UPDATE tr_lapor SET Tanggapan_id = '$last_id', Updated_at= '$tgl_update' WHERE Id='$Id'");
+			$send_notif_lapor 	= $this->func_wa_lapor->notif_lapor_tanggapi($last_id, $Id, $username, $user_type);
+			if ($send_notif_lapor) {
+				$result = 'Berhasil';
+			} else {
+				$result = 'Gagal Kirim Notif';
+			}
+		} else {
+			$result = 'Gagal';
+		}
+		echo $result;
 	}
 
 	function edit_tanggapan()
@@ -495,7 +552,7 @@ class Lapor extends CI_Controller
 	{
 		$Id = $this->input->post('Id');
 		$Tanggapan = $this->input->post('Tanggapan');
-		$tgl_update = date("Y-m-d h:i:s");
+		$tgl_update = date("Y-m-d H:i:s");
 
 		$data['Tanggapan'] 	= $Tanggapan;
 		$data['updated_at'] = $tgl_update;
@@ -515,29 +572,53 @@ class Lapor extends CI_Controller
 
 	public function notify_lapor()
 	{
-		$count_see_kaku		= $this->func_table->count_see_kaku($this->session->userdata('username'));
-		$count_see_tj 		= $this->func_table->count_see_tj($this->session->userdata('username'));
-		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
-		
-		$total = $count_see + $count_see_tj + $count_see_kaku;
-
-		// if ($count_see_kaku > 0) {
-		// 	$res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
-		// } else {
-		// 	$res_count_see_kaku = '';
-		// }
-
-		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+		$count_lapor		= $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+		if ($count_lapor > 0) {
+			$res_count_lapor = '<span class="badge btn-warning btn-flat">' . $count_lapor . '</span>';
 		} else {
-			$res_total = '';
+			$res_count_lapor = '';
 		}
 
 		$result = [
-			// 'kariskarsu' => $res_count_see_kaku,
-			'ttl_kertas_kerja' => $res_total
+			'notify_lapor' => $res_count_lapor
 		];
 
 		echo json_encode($result);
+	}
+
+	public function form_lapor_detail()
+	{
+		$Id = $this->input->post('id');
+
+		$Data_lapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
+		$Data = $this->db->query("SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									WHERE id_pegawai = '$Data_lapor->id_pegawai'")->row();
+
+		$query = $this->db->query("SELECT
+										a.Id, 
+										a.Lapor_Id, 
+										a.Username, 
+										a.Tanggapan, 
+										a.Created_at, 
+										a.Updated_at, nama_lengkap
+									FROM
+										tr_lapor_tanggapan as a
+									LEFT JOIN (
+										SELECT nama_lengkap, username FROM tbl_user_login
+									) as b ON b.username =  a.username 
+									WHERE a.lapor_id = '$Id'")->result();
+
+		$a['Data_tanggapan'] = $query;
+		$a['Data_lapor'] 	= $Data_lapor;
+		$a['Data'] 			= $Data;
+		$a['Id'] 			= $Id;
+		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
+
+		$this->load->view('dashboard_publik/template/lapor/form_lapor_detail', $a);
 	}
 }

@@ -9,6 +9,7 @@ class Kariskarsu extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->library('func_wa_kariskarsu');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_kariskarsu', 'kariskarsu');
@@ -43,6 +44,8 @@ class Kariskarsu extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -128,10 +131,14 @@ class Kariskarsu extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$x['count_see'] = $count_see;
+			// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/index_kariskarsu', $d);
 
-			$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/index_kariskarsu', $d);
+			$d['page'] = 'dashboard_publik/template/kertas_kerja/karis_karsu/index';
+			$d['menu'] = 'karis/karsu';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -139,7 +146,8 @@ class Kariskarsu extends CI_Controller
 
 	function data_kariskarsu()
 	{
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/index_data_kariskarsu');
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/index_data_kariskarsu');
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/index_data_kariskarsu');
 	}
 
 	function table_data_kariskarsu()
@@ -261,7 +269,8 @@ class Kariskarsu extends CI_Controller
 			$row[] = $button;
 			$row[] = ucwords(strtolower($nama_pegawai));
 			$row[] = $data_perkawinan;
-			$row[] = $key->nama_status;
+			// $row[] = $key->nama_status;
+			$row[] = $status_surat;;
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_surat_nikah);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_kk);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_ktp_suami);
@@ -309,7 +318,8 @@ class Kariskarsu extends CI_Controller
 
 		$a['func_table'] = $this->load->library('func_table');
 
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/form_kariskarsu_add', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/form_kariskarsu_add', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/form_kariskarsu_add', $a);
 	}
 
 	// item pilihan
@@ -357,7 +367,8 @@ class Kariskarsu extends CI_Controller
 										WHERE a.Kariskarsu_id = '$Kariskarsu_id'")->row();
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
 		$a['pasangan_temp'] = $pasangan_temp;
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/ajax_pasangan', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/ajax_pasangan', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/ajax_pasangan', $a);
 	}
 	// end table pilihan
 
@@ -368,7 +379,9 @@ class Kariskarsu extends CI_Controller
 		$a['Kariskarsu_id'] = $this->input->post('Kariskarsu_id');
 		//$this->load->view('dashboard_publik/homes/group_pribadi/keluarga/index_keluarga');
 		//$this->load->view('dashboard_publik/home/keluarga');
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/get_item/ajax_item', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/get_item/ajax_item', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/get_item/ajax_item', $a);
 	}
 
 	function table_data_item()
@@ -447,16 +460,16 @@ class Kariskarsu extends CI_Controller
 		echo "Berhasil Menambahkan";
 	}
 
-	function delete_tunjangan_temp_item()
-	{
-		$Id = $this->input->post('Id');
-		$del_temp = $this->db->query("DELETE FROM tr_tunjangan_komponen_temp WHERE Id = '$Id'");
-		if ($del_temp) {
-			echo 'Berhasil Anggota Keluarga Dikembalikan';
-		} else {
-			echo 'Gagal Anggota Keluarga Dikembalikan';
-		}
-	}
+	// function delete_tunjangan_temp_item()
+	// {
+	// 	$Id = $this->input->post('Id');
+	// 	$del_temp = $this->db->query("DELETE FROM tr_tunjangan_komponen_temp WHERE Id = '$Id'");
+	// 	if ($del_temp) {
+	// 		echo 'Berhasil Anggota Keluarga Dikembalikan';
+	// 	} else {
+	// 		echo 'Gagal Anggota Keluarga Dikembalikan';
+	// 	}
+	// }
 
 	// end get litem
 
@@ -786,7 +799,7 @@ class Kariskarsu extends CI_Controller
 	}
 
 
-	// edit tunjangan
+	// edit karis/karsu
 	function edit_kariskarsu()
 	{
 		$Kariskarsu_id = $this->input->post('Kariskarsu_id');
@@ -848,13 +861,13 @@ class Kariskarsu extends CI_Controller
 									) as e ON e.id_nama_jabatan =  a.id_jabatan
 									WHERE id_pegawai = '$Data_kariskarsu->id_pegawai'")->row();
 
-		$a['peraturan'] = $this->db->query("SELECT * FROM tbl_master_peraturan WHERE status_aktif='1' AND jenis_peraturan = 'Permohonan Tunjangan Keluarga'")->result();
 		$a['Data'] = $Data;
 		$a['Data_kariskarsu'] = $Data_kariskarsu;
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
 		$a['func_table'] = $this->load->library('func_table');
 
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/form_kariskarsu_update', $a);
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/form_kariskarsu_update', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/form_kariskarsu_update', $a);
 	}
 
 	function simpan_update_kariskarsu()
@@ -964,10 +977,9 @@ class Kariskarsu extends CI_Controller
 		$data['Updated_at'] 		= $Date_now;
 
 		$this->db->where('Kariskarsu_id', $Kariskarsu_id);
-		$in_tunjangan = $this->db->update('tr_kariskarsu', $data);
+		$in_kariskarsu = $this->db->update('tr_kariskarsu', $data);
 
-		//$in_tunjangan = $this->db->insert('tr_tunjangan', $data);
-		if ($in_tunjangan) {
+		if ($in_kariskarsu) {
 			$data_triger['Act'] 			= $Act;
 			$data_triger['Kariskarsu_id'] 	= $Kariskarsu_id;
 			$data_triger['User_created'] 	= $Updated_by;
@@ -978,7 +990,7 @@ class Kariskarsu extends CI_Controller
 			echo 'Gagal';
 		}
 	}
-	// end edit tunjangan
+	// end edit kariskarsu
 
 	function delete_kariskarsu()
 	{
@@ -1024,7 +1036,7 @@ class Kariskarsu extends CI_Controller
 		}
 	}
 
-	// view tunjangan
+	// view kariskarsu
 	function view_kariskarsu()
 	{
 		$Kariskarsu_id = $this->input->post('Kariskarsu_id');
@@ -1093,7 +1105,34 @@ class Kariskarsu extends CI_Controller
 		$a['func_table'] = $this->load->library('func_table');
 		$see = $this->func_table->in_tosee_kaku($Data_kariskarsu->Created_by, $Kariskarsu_id, $Data_kariskarsu->Status_progress, $username);
 
-		$this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/view_kariskarsu', $a);
+		// ===== surat karis/karsu history =====
+		$sSQL = "SELECT his.kariskarsu_id, his.user_created, surat.is_dinas,
+					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
+					his.created_at,
+					stat.id_status, stat.nama_status, stat.style, surat.notes, 
+					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
+					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
+					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
+				from tr_kariskarsu_track his
+					join tr_kariskarsu surat
+						on surat.kariskarsu_id = his.kariskarsu_id
+					join tbl_status_surat stat
+						on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg
+						on peg.id_pegawai = his.user_created
+					left join tbl_user_login log
+						on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok
+						on lok.id_lokasi_kerja = peg.lokasi_kerja
+				where his.kariskarsu_id = '$Kariskarsu_id'
+				order by his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat karis/karsu history =====
+
+		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/view_kariskarsu', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/view_kariskarsu', $a);
 	}
 
 	// public function notify_tj()
@@ -1132,5 +1171,39 @@ class Kariskarsu extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	function show_timeline()
+	{
+		// ===== surat karis/karsu history =====
+		$kariskarsu_id = $this->input->post('kariskarsu_id');
+
+		$sSQL = "SELECT
+					his.kariskarsu_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_kariskarsu_track his
+					join tr_kariskarsu surat on surat.kariskarsu_id = his.kariskarsu_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.kariskarsu_id = '$kariskarsu_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

@@ -35,13 +35,13 @@ class Arsip_pelatihan extends CI_Controller
 			if (file_exists($path_folder)) {
 				$ext = pathinfo($path_folder, PATHINFO_EXTENSION);
 
-				if (strtolower($ext['1']) == 'pdf') {
+				if (strtolower($ext) == 'pdf') {
 					$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-					<button type="button" class="btn btn-danger btn-sm" title="' . $r->file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
+					<button type="button" class="btn btn-sm btn-danger" title="' . $r->file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
 				</a>';
 				} else {
 					$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-					<img height="40px" width="40px" src="' . base_url($path_folder) . '" title="' . $r->file_name_ori . '">
+					<img height="30px" src="' . base_url($path_folder) . '" title="' . $r->file_name_ori . '">
 				</a>';
 				}
 			} else {
@@ -52,7 +52,7 @@ class Arsip_pelatihan extends CI_Controller
 			// === end: kolom "file" ===
 
 			$row[] = '	<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Edit" onclick="edit_pelatihan(' . "'" . $r->id_arsip_pelatihan . "'" . ')"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-					  	<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pelatihan(' . "'" . $r->id_arsip_pelatihan . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_pelatihan(' . "'" . $r->id_arsip_pelatihan . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;
 						<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_download_pelatihan" data-id="' . utf8_encode($r->id_arsip_pelatihan) . '" data-title="Download" title="Download Data"><i class="fa fa-download"></i></button>';
 
 			$data[] = $row;
@@ -224,11 +224,11 @@ class Arsip_pelatihan extends CI_Controller
 			$data['status'] = FALSE;
 		}
 
-		if ($_FILES['file_pelatihan']['name'] == '') {
-			$data['inputerror'][] = 'file_pelatihan';
-			$data['error_string'][] = 'File wajib ada.';
-			$data['status'] = FALSE;
-		}
+		// if ($_FILES['file_pelatihan']['name'] == '') {
+		// 	$data['inputerror'][] = 'file_pelatihan';
+		// 	$data['error_string'][] = 'File wajib ada.';
+		// 	$data['status'] = FALSE;
+		// }
 
 		if ($data['status'] === FALSE) {
 			echo json_encode($data);

@@ -90,14 +90,14 @@ function Notifikasi_data($Kariskarsu_id){
                                             a.id_pegawai, a.lokasi_kerja_pegawai, a.is_dinas, 
                                             a.Kariskarsu_id, a.Status_progress,
                                             a.Notes, a.Created_by, a.Created_at,a.Updated_by, a.Updated_at,
-                                            nama_status as `status`, sort, sort_bidang,
+                                            REPLACE(nama_status_next, '<br>', ' ') as `status`, sort, sort_bidang,
                                             c.nama_pegawai as nama, 
                                             -- 'wongndro@gmail.com' as email, '08121835654' as telepon
                                             if(isnull(c.email) OR c.email='','wongndro@gmail.com', c.email ) as email, if(isnull(c.telepon) OR c.telepon='','08121835654', c.telepon ) as telepon
                                         FROM
                                             tr_kariskarsu AS a
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+                                            SELECT id_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
                                         ) as b ON b.id_status = a.Status_progress
                                         LEFT JOIN (
                                                 SELECT id_pegawai, nama_pegawai, email, telepon FROM tbl_data_pegawai
@@ -114,14 +114,14 @@ function Notifikasi_data_admin($Kariskarsu_id){
                                             a.id_pegawai, a.lokasi_kerja_pegawai, a.is_dinas, 
                                             a.Kariskarsu_id, a.Status_progress,
                                             a.Notes, a.Created_by, a.Created_at,a.Updated_by, a.Updated_at,
-                                            nama_status as `status`, sort, sort_bidang,
+                                            REPLACE(nama_status_next, '<br>', ' ') as `status`, sort, sort_bidang,
                                             c.nama_pegawai as nama, 
                                             -- 'wongndro@gmail.com' as email, '08121835654' as telepon
                                             if(isnull(c.email) OR c.email='','wongndro@gmail.com', c.email ) as email, if(isnull(c.telepon) OR c.telepon='','08121835654', c.telepon ) as telepon
                                         FROM
                                             tr_kariskarsu AS a
                                         LEFT JOIN (
-                                            SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+                                            SELECT id_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
                                         ) as b ON b.id_status = a.Status_progress
                                         LEFT JOIN (
                                                 SELECT id_pegawai, nama_pegawai, email, telepon FROM tbl_data_pegawai
@@ -227,7 +227,7 @@ function Get_footer(){
 <b>Terimakasih</b> <br/>
 <br/>
 Best Regards,<br/>
-Pusdatin, Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
+Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi DKI Jakarta <br/>
 Gedung Dinas Teknis Jatibaru Lt.2 <br/>
 <br/>
 Jl. Taman Jatibaru No.1, RT.17/RW.1, Cideng, Gambir, Kota Jakarta Pusat, <br/>

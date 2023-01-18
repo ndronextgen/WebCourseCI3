@@ -25,7 +25,7 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Data_skp/table_data_skp') ?>",
 			"type": "POST"
@@ -115,7 +115,6 @@
 		var Kepemimpinan = $("#Kepemimpinan").val();
 		var Nilai_prestasi_kerja = $("#Nilai_prestasi_kerja").val();
 
-
 		var File_upload = $("#File_upload").val();
 		var File_upload_lama = $("#File_upload_lama").val();
 
@@ -173,15 +172,15 @@
 				type: 'red',
 				backgroundDismiss: true
 			});
-		// } else if (Inisiatif_kerja == '') {
-		// 	// alert('Inisiatif Kerja Tidak Boleh Kosong');
-		// 	$.dialog({
-		// 		icon: 'fa fa-info',
-		// 		title: 'Info',
-		// 		content: '<b style="color: red;">Inisiatif Kerja</b> tidak boleh kosong.',
-		// 		type: 'red',
-		// 		backgroundDismiss: true
-		// 	});
+			// } else if (Inisiatif_kerja == '') {
+			// 	// alert('Inisiatif Kerja Tidak Boleh Kosong');
+			// 	$.dialog({
+			// 		icon: 'fa fa-info',
+			// 		title: 'Info',
+			// 		content: '<b style="color: red;">Inisiatif Kerja</b> tidak boleh kosong.',
+			// 		type: 'red',
+			// 		backgroundDismiss: true
+			// 	});
 		} else if (Komitmen == '') {
 			// alert('Komitmen Tidak Boleh Kosong');
 			$.dialog({
@@ -200,7 +199,7 @@
 				type: 'red',
 				backgroundDismiss: true
 			});
-		} else if (Kerjasama == '') { 
+		} else if (Kerjasama == '') {
 			// alert('Kerjasama Tidak Boleh Kosong');
 			$.dialog({
 				icon: 'fa fa-info',
@@ -231,7 +230,7 @@
 			ajax_simpan_data_skp();
 		}
 	}
-	
+
 	function ajax_simpan_data_skp() {
 		var formData = new FormData($('#form_data_skp')[0]);
 		var url;
@@ -246,11 +245,17 @@
 			data: formData,
 			processData: false,
 			contentType: false,
+			beforeSend: function() {
+				$('#btn_tmb').text('Menyimpan...'); //change button text
+				$('#btn_tmb').attr('disabled', true); //set button enable 
+			},
 			success: function(response) {
-				$('#modal_all').modal('hide');
+				$('#btn_tmb').text('Simpan Riwayat SKP'); //change button text
+				$('#btn_tmb').attr('disabled', false); //set button enable 
+
 				// alert(response);
 				const resp = JSON.parse(response);
-				
+
 				$.dialog({
 					icon: 'fa fa-info',
 					title: 'Info',
@@ -258,30 +263,15 @@
 					type: resp.tipe == 1 ? 'green' : 'red',
 					backgroundDismiss: true
 				});
+
+				$('#modal_all').modal('hide');
 				reload_table_skp();
 
-
-				
 			}
 		});
 	}
 
 	function delete_skp(Id) {
-		// var i = "Hapus ?";
-		// var b = "Data Dihapus";
-		// if (!confirm(i)) return false;
-		// $.ajax({
-		// 	type: "post",
-		// 	data: "Id=" + Id,
-		// 	url: "<?php echo site_url('Data_skp/delete_data_skp') ?>",
-		// 	success: function(s) {
-		// 		alert(s);
-		// 		reload_table_skp();
-		// 	}
-		// });
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';

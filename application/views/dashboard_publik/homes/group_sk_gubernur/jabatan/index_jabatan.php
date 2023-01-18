@@ -24,7 +24,7 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('jabatan/jabatan_datatables') ?>",
 			"type": "POST"

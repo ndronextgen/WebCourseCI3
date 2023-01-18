@@ -9,6 +9,7 @@ class Verifikasi_hukdis extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		//$this->load->library('func_wa_sk');
 		$this->load->library('func_wa_hukdis');
 		$this->load->helper(array('url', 'download'));
@@ -36,6 +37,7 @@ class Verifikasi_hukdis extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -45,6 +47,8 @@ class Verifikasi_hukdis extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -121,7 +125,7 @@ class Verifikasi_hukdis extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -131,8 +135,14 @@ class Verifikasi_hukdis extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi_hukdis/index_verifikasi_hukdis', $d);
+			// $this->load->view('dashboard_publik/verifikasi_hukdis/index_verifikasi_hukdis', $d);
+			
+			$d['page'] = 'dashboard_publik/template/verifikasi/hukdis/index.php';
+			$d['menu'] = 'ver hukuman disiplin';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -140,7 +150,8 @@ class Verifikasi_hukdis extends CI_Controller
 
 	function data_verifikasi_hukdis()
 	{
-		$this->load->view('dashboard_publik/verifikasi_hukdis/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi_hukdis/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/hukdis/ajax_table');
 	}
 
 	function table_data_verifikasi_hukdis()
@@ -259,7 +270,7 @@ class Verifikasi_hukdis extends CI_Controller
 	function form_verifikasi_hukdis_kep()
 	{
 		$Hukdis_id = $this->input->post('Hukdis_id');
-		
+
 		$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -322,7 +333,38 @@ class Verifikasi_hukdis extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_hukdis/form_verifikasi_hukdis_kep', $a);
+		// ===== surat hukuman disiplin history =====
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$Hukdis_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat hukuman disiplin history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_hukdis/form_verifikasi_hukdis_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/hukdis/form_verifikasi_hukdis_kep', $a);
 	}
 
 	function simpan_verifikasi_hukdis_kep()
@@ -356,7 +398,7 @@ class Verifikasi_hukdis extends CI_Controller
 			$data_triger['Status_progress'] = $status_verify;
 			$data_triger['User_created'] 	= $Updated_by;
 			$data_triger['Created_at'] 		= $Date_now;
-			
+
 			if ($this->db->insert('tr_hukdis_triger', $data_triger)) {
 				$status = true;
 				//$see = $this->func_table->in_tosee_tj($Q_select->Created_by, $Hukdis_id, $status_verify, $this->session->userdata("username"));
@@ -394,7 +436,7 @@ class Verifikasi_hukdis extends CI_Controller
 	function form_detail()
 	{
 		$Hukdis_id = $this->input->post('Hukdis_id');
-		
+
 		$Data_hukdis = $this->db->query("SELECT
 											a.Id, 
 											a.id_pegawai, 
@@ -460,7 +502,38 @@ class Verifikasi_hukdis extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_hukdis/form_detail', $a);
+		// ===== surat hukuman disiplin history =====
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$Hukdis_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat hukuman disiplin history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_hukdis/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/hukdis/form_detail', $a);
 	}
 
 	public function notify_verifikasi_hukdis()
@@ -471,8 +544,9 @@ class Verifikasi_hukdis extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_hukdis > 0) {
 			$res_count_see_verifikasi_hukdis = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_hukdis . '</span>';
@@ -492,5 +566,41 @@ class Verifikasi_hukdis extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	function show_timeline()
+	{
+		// ===== surat keterangan history =====
+		$hukdis_id = $this->input->post('hukdis_id');
+
+		$sSQL = "SELECT
+					his.hukdis_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status, 
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_hukdis_track his
+					join tr_hukdis surat on surat.hukdis_id = his.hukdis_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.hukdis_id = '$hukdis_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

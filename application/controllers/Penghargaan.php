@@ -6,6 +6,7 @@ class Penghargaan extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
 		$this->load->helper('file');
 		$this->load->model('penghargaan_model', 'tbl_data_penghargaan');
 		$this->load->model('arsip_sk_model');
@@ -29,12 +30,16 @@ class Penghargaan extends CI_Controller
 			$row[] = $r->nama_penghargaan;
 			$row[] = $r->pemberi_penghargaan;
 			$row[] = $r->nomor_sk;
-			$row[] = date_format(date_create($r->tgl_sk_penghargaan), 'j M Y');
+			if (strtotime($r->tgl_sk_penghargaan) !== false) {
+				$row[] = date_format(date_create($r->tgl_sk_penghargaan), 'j M Y');
+			} else {
+				$row[] = '';
+			}
 
 			$file = '-';
 
 			//add html for action
-			$button = '	<!--<a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_penghargaan(' . "'" . $r->id_penghargaan . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>-->
+			$button = '<a class="btn btn-sm btn-success" href="javascript:void(0);" title="lihat detail" onclick="detail_penghargaan(' . "'" . $r->id_penghargaan . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i></a>
 						&nbsp;<a class="btn btn-sm btn-warning" href="javascript:void(0);" title="Edit" onclick="edit_penghargaan(' . "'" . $r->id_penghargaan . "'" . ')"><i class="glyphicon glyphicon-edit"></i></a>
 						&nbsp;<a class="btn btn-sm btn-danger" href="javascript:void(0);" title="Hapus" onclick="delete_penghargaan(' . "'" . $r->id_penghargaan . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>';
 
@@ -42,7 +47,7 @@ class Penghargaan extends CI_Controller
 			$arsip = $this->tbl_data_penghargaan->get_arsip_by_id_ref($r->id_penghargaan, 5);
 			if ($arsip) {
 				$button .= '&nbsp;<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-download-arsip" data-key="pangkat" data-id="' . utf8_encode($arsip->id_arsip_sk) . '" data-title="Download" title="Download Data"><i class="fa fa-download"></i></button>';
-				
+
 				// === file ===
 				$path_file = 'asset/upload/SK/SK_' . $arsip->id_jenis_sk . '_' . $arsip->id_ref . '_' . $arsip->id_arsip_sk . '/' . $arsip->file_name;
 				$file = $this->func_table->get_file($path_file, $arsip->file_name_ori);
@@ -488,6 +493,26 @@ class Penghargaan extends CI_Controller
 		$query = $this->db->get();
 		$list = $query->row();
 		echo json_encode($list);
+	}
+
+		public function form_penghargaan_detail()
+	{
+		$Id = $this->input->post('id');
+		$this->db->select('
+			tbl_data_penghargaan.*, tbl_master_penghargaan.nama_penghargaan, tbl_arsip_sk.id_ref,
+			tbl_arsip_sk.id_jenis_sk,tbl_arsip_sk.id_arsip_sk, tbl_arsip_sk.file_name_ori, tbl_arsip_sk.file_name,
+			tbl_arsip_sk.title 
+		');
+		$this->db->from('tbl_data_penghargaan');
+		$this->db->join('tbl_arsip_sk', 'tbl_arsip_sk.id_ref = tbl_data_penghargaan.id_penghargaan', 'left');
+		$this->db->join('tbl_master_penghargaan', 'tbl_master_penghargaan.id_master_penghargaan = tbl_data_penghargaan.id_master_penghargaan', 'left');
+		$this->db->where('tbl_data_penghargaan.id_penghargaan', $Id);
+		$query = $this->db->get();
+		$list = $query->row();
+		$a['data']	= $list;
+		$a['path_file'] = 'asset/upload/SK/SK_' . $list->id_jenis_sk . '_' . $list->id_ref . '_' . $list->id_arsip_sk;
+
+		$this->load->view('dashboard_publik/homes/data_penghargaan/form_detail',$a);
 	}
 
 	public function download_all()

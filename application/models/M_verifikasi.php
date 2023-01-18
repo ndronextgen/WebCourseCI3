@@ -58,7 +58,8 @@
 						) AS c ON c.id_status = a.id_status_srt
 						LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
 							
-						WHERE a.id_srt !='' $kond_status $kond_lokasi  $k_search  order by id_srt desc
+						WHERE a.id_srt !='' $kond_status $kond_lokasi  $k_search  
+						ORDER BY created_at desc
 						limit $offset, $number";
 
 			if($_POST['length'] != -1)

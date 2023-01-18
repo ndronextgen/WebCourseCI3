@@ -8,10 +8,6 @@
         overflow-y: initial !important;
     }
 
-    .modal-body {
-        overflow-y: auto;
-    }
-
     .td-title {
         width: 150px;
     }

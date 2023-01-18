@@ -159,30 +159,22 @@
                 <div class="row">
                     <div class="col-xs-2">
                         <div class="form-group"><label>File Lama</label>
-                            <?php
-                            if ($Data_skp->file_name != '') {
-                                $path_file = './asset/upload/SKP';
-                                $path_folder    = $path_file . '/SKP_' . $Data_skp->id_dp3 . '_' . $Data_skp->id_arsip_skp . '/' . $Data_skp->file_name;
-                                if (file_exists($path_folder)) {
-                                    $ext = explode(".", $Data_skp->file_name);
+                            <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <?php
+                                            $path_file = 'asset/upload/SKP/SKP_' . $Data_skp->id_dp3 . '_' . $Data_skp->id_arsip_skp . '/' . $Data_skp->file_name;
 
-                                    if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
-                                        $file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-                                                            <button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i>&nbsp;&nbsp;Pdf</button>
-                                                        </a>';
-                                    } else {
-                                        $file = '<br><a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-                                                            <img height="40px" width="40px" src="' . base_url($path_folder) . '">
-                                                        </a>';
-                                    }
-                                } else {
-                                    $file = '-';
-                                }
-                            } else {
-                                $file = '-';
-                            }
-                            echo $file;
-                            ?>
+                                            $ci = &get_instance();
+                                            $ci->load->library('func_table');
+                                            $file = $ci->func_table->get_file($path_file, $Data_skp->file_name_ori);
+                                            echo $file;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="col-xs-10">
@@ -196,9 +188,8 @@
 
                 <hr>
 
-                <div class="col-xs-8">
+                <!-- <div class="col-xs-8">
                     <div class="form-group">
-                        <!-- <label></label> -->
                         <input type='hidden' value='<?php echo $Data_skp->file_name; ?>' name='File_upload_lama' Id='File_upload_lama'>
                         <input type='hidden' value='<?php echo $Id; ?>' name='Id' Id='Id'>
                         <button id='btn_tmb' type='button' onclick="simpan_data_skp()" class='btn btn-block btn-success'>Simpan</button>
@@ -207,12 +198,22 @@
                 </div>
                 <div class="col-xs-4">
                     <div class="form-group">
-                        <!-- <label></label> -->
                         <div id='loading'></div>
                     </div>
-                </div>
-            </div>
+                </div> -->
 
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row pull-right" style="padding-right: 20px;">
+                            <input type='hidden' value='<?php echo $Data_skp->file_name; ?>' name='File_upload_lama' Id='File_upload_lama'>
+                            <input type='hidden' value='<?php echo $Id; ?>' name='Id' Id='Id'>
+                            <button class="btn btn-sm btn-success" onclick="simpan_data_skp()" id="btn_tmb">Simpan Riwayat SKP</button>
+                            <button class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
 
         </div>
 

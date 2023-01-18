@@ -7,10 +7,6 @@
     .modal-dialog {
         overflow-y: initial !important;
     }
-
-    .modal-body {
-        overflow-y: auto;
-    }
 </style>
 
 <div class="box">

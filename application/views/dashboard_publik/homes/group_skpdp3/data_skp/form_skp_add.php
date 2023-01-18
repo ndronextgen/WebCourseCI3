@@ -161,23 +161,28 @@
 
                 <hr>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-xs-8">
                         <div class="form-group">
-                            <!-- <label></label> -->
                             <button id='btn_tmb' type='button' onclick="simpan_data_skp()" class='btn btn-block btn-success'>Simpan</button>
                             <div id='loading'></div>
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <!-- <label></label> -->
                             <div id='loading'></div>
                         </div>
                     </div>
+                </div> -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row pull-right" style="padding-right: 20px;">
+                            <button class="btn btn-sm btn-success" onclick="simpan_data_skp()" id="btn_tmb">Simpan Riwayat SKP</button>
+                            <button class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
                 </div>
-
-
 
 
 

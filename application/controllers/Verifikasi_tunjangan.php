@@ -9,6 +9,7 @@ class Verifikasi_tunjangan extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->library('func_wa_sk');
 		$this->load->library('func_wa_tunjangan');
 		$this->load->helper(array('url', 'download'));
@@ -36,6 +37,7 @@ class Verifikasi_tunjangan extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -45,6 +47,8 @@ class Verifikasi_tunjangan extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -121,7 +125,7 @@ class Verifikasi_tunjangan extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -131,8 +135,14 @@ class Verifikasi_tunjangan extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi_tunjangan/index_verifikasi_tunjangan', $d);
+			// $this->load->view('dashboard_publik/verifikasi_tunjangan/index_verifikasi_tunjangan', $d);
+
+			$d['page'] = 'dashboard_publik/template/verifikasi/tunjangan_keluarga/index.php';
+			$d['menu'] = 'ver tunjangan keluarga';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -140,7 +150,8 @@ class Verifikasi_tunjangan extends CI_Controller
 
 	function data_verifikasi_tunjangan()
 	{
-		$this->load->view('dashboard_publik/verifikasi_tunjangan/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi_tunjangan/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/tunjangan_keluarga/ajax_table');
 	}
 
 	function table_data_verifikasi_tunjangan()
@@ -337,7 +348,36 @@ class Verifikasi_tunjangan extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_tunjangan/form_verifikasi_tunjangan_kep', $a);
+		// ===== surat tunjangan history =====
+		$sSQL = "SELECT
+					his.tunjangan_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tunjangan_track his
+					join tr_tunjangan surat on surat.tunjangan_id = his.tunjangan_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tunjangan_id = '$Tunjangan_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tunjangan history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_tunjangan/form_verifikasi_tunjangan_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/tunjangan_keluarga/form_verifikasi_tunjangan_kep', $a);
 	}
 
 	function simpan_verifikasi_tunjangan_kep()
@@ -461,7 +501,36 @@ class Verifikasi_tunjangan extends CI_Controller
 		//$a['Id'] 		= $Id;
 		$a['Data'] 		= $Data;
 
-		$this->load->view('dashboard_publik/verifikasi_tunjangan/form_detail', $a);
+		// ===== surat tunjangan history =====
+		$sSQL = "SELECT
+					his.tunjangan_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					stat.nama_status, stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_tunjangan_track his
+					join tr_tunjangan surat on surat.tunjangan_id = his.tunjangan_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.tunjangan_id = '$Tunjangan_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat tunjangan history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_tunjangan/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/tunjangan_keluarga/form_detail', $a);
 	}
 
 	public function notify_verifikasi_tunjangan()
@@ -472,8 +541,9 @@ class Verifikasi_tunjangan extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_tj > 0) {
 			$res_count_see_verifikasi_tj = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_tj . '</span>';
@@ -506,7 +576,7 @@ class Verifikasi_tunjangan extends CI_Controller
 					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
 					his.created_at,
 					stat.id_status,
-					stat.nama_status,
+					stat.nama_status, stat.style,
 					surat.notes as keterangan_ditolak,
 					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
 					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
@@ -521,11 +591,13 @@ class Verifikasi_tunjangan extends CI_Controller
 				where
 					his.tunjangan_id = '$tunjangan_id' 
 				order by
-					his.created_at";
+					his.created_at, his.status_progress";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/timeline', $a);
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

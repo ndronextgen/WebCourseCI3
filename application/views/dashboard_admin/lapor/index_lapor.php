@@ -299,6 +299,7 @@
 
 		function reload_table() {
 			table.ajax.reload(null, false); //reload datatable ajax 
+			notify_lapor();
 		}
 
 		function delete_lapor(Id) {
@@ -337,7 +338,7 @@
 								},
 								url: "<?php echo site_url('Lapor/delete_lapor') ?>",
 								success: function(s) {
-									$.dialog({
+									$jQ.dialog({
 										title: 'Info',
 										content: i,
 										type: 'green',

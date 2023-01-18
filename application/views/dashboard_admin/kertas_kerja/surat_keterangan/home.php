@@ -2,12 +2,12 @@
 
 <!-- css badge status -->
 <style type="text/css">
-		.badge-status {
-			cursor: pointer;
-			padding: 5px 20px;
-			font-weight: normal;
-		}
-	</style>
+	.badge-status {
+		cursor: pointer;
+		padding: 5px 20px;
+		font-weight: normal;
+	}
+</style>
 
 <body style="background-image: url(<?php echo base_url() . 'assets_admin/media/bg/header.jpg'; ?>); background-position: center top; background-size: 100% 350px;" class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-menu kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
 	<?php
@@ -115,7 +115,7 @@
 
 	<script type="text/javascript">
 		function tutup_form() {
-			$('#modal_all').modal('hide');
+			$('#modal_timeline').modal('hide');
 		}
 
 		// begin: progress timeline joe 2022.11.17
@@ -127,10 +127,10 @@
 					id_srt: id_srt
 				},
 				success: function(data) {
-					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+					$('#modal_timeline .modal-dialog .modal-content .modal-body').html(data);
 				}
 			});
-			$('#modal_all').modal('show'); // show bootstrap modal
+			$('#modal_timeline').modal('show'); // show bootstrap modal
 			$('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
 		}
 		// end: progress timeline joe 2022.11.17
@@ -138,8 +138,8 @@
 
 </body>
 
-<div class="modal fade" id="modal_all" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog modal-md">
+<div class="modal fade" id="modal_timeline" data-backdrop="static" tabindex="-1">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" style="font-family: Source Sans Pro, sans-serif;font-family: system-ui;color: antiquewhite;">

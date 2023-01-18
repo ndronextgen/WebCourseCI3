@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Verifikasi extends CI_Controller
 {
-	
+
 	/*
 		***	Controller : Verifikasi.php
 	*/
@@ -14,6 +14,7 @@ class Verifikasi extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		$this->load->library('func_wa_sk');
 		$this->load->helper(array('url', 'download'));
 		$this->load->model('m_verifikasi', 'verifikasi');
@@ -40,6 +41,7 @@ class Verifikasi extends CI_Controller
 			$set_detail = $q->row();
 			$this->session->set_userdata("nama_pegawai", $set_detail->nama_pegawai);
 
+			// === notif count ===
 			$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
 			$count_see_tj = $this->func_table->count_see_tj($this->session->userdata('username'));
 			$count_see_kaku	= $this->func_table->count_see_kaku($this->session->userdata('username'));
@@ -49,6 +51,8 @@ class Verifikasi extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -124,7 +128,7 @@ class Verifikasi extends CI_Controller
 			$this->load->helper('url');
 			$x['count_see'] = $count_see;
 
-			//see
+			// === notif count ===
 			$d['count_see'] = $count_see;
 			$d['count_see_tj'] = $count_see_tj;
 			$d['count_see_kaku'] = $count_see_kaku;
@@ -134,8 +138,14 @@ class Verifikasi extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d);
+			// $this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d)
+			
+			$d['page'] = 'dashboard_publik/template/verifikasi/keterangan_pegawai/index';
+			$d['menu'] = 'ver keterangan pegawai';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -143,7 +153,8 @@ class Verifikasi extends CI_Controller
 
 	function data_verifikasi()
 	{
-		$this->load->view('dashboard_publik/verifikasi/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/ajax_table');
 	}
 
 	function table_data_verifikasi()
@@ -259,7 +270,7 @@ class Verifikasi extends CI_Controller
 
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
-			$row[] = $key->nama_surat;
+			// $row[] = $key->nama_surat;
 			$row[] = $this->func_table->name_format($key->nama);
 			// $row[] = $key->status;
 			$row[] = $status_surat;
@@ -327,7 +338,33 @@ class Verifikasi extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi/form_verifikasi_kep', $a);
+		// ===== surat keterangan history =====
+		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
+					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
+					his.created_at,
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
+					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
+					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
+					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
+				from tbl_history_srt_ket his
+					join tbl_data_srt_ket surat
+						on surat.id_srt = his.id_srt
+					join tbl_status_surat stat
+						on stat.id_status = his.id_status_srt
+					left join tbl_data_pegawai peg
+						on peg.id_pegawai = his.created_by
+					left join tbl_user_login log
+						on log.id_user_login = his.created_by
+					left join tbl_master_lokasi_kerja lok
+						on lok.id_lokasi_kerja = peg.lokasi_kerja
+				where his.id_srt = '$Id'
+				order by his.created_at, his.id_status_srt";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+		// ===== /surat keterangan history =====
+
+		// $this->load->view('dashboard_publik/verifikasi/form_verifikasi_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/form_verifikasi_kep', $a);
 	}
 
 	function simpan_verifikasi_kep()
@@ -421,7 +458,8 @@ class Verifikasi extends CI_Controller
 				SELECT id_mst_srt, nama_surat FROM tbl_master_surat
 			) AS b ON b.id_mst_srt = a.jenis_surat
 			LEFT JOIN (
-				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
+				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang 
+				FROM tbl_status_surat
 			) AS c ON c.id_status = a.id_status_srt
 			LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
 			LEFT JOIN (
@@ -452,12 +490,10 @@ class Verifikasi extends CI_Controller
 		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
 
 		// ===== surat keterangan history =====
-		$id_srt = $Id;
-
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
@@ -472,13 +508,14 @@ class Verifikasi extends CI_Controller
 						on log.id_user_login = his.created_by
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
-				where his.id_srt = '$id_srt'
-				order by his.created_at";
+				where his.id_srt = '$Id'
+				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
 
-		$this->load->view('dashboard_publik/verifikasi/form_detail', $a);
+		// $this->load->view('dashboard_publik/verifikasi/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/keterangan_pegawai/form_detail', $a);
 	}
 
 	public function notify_me()
@@ -489,8 +526,9 @@ class Verifikasi extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi > 0) {
 			$res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
@@ -520,7 +558,7 @@ class Verifikasi extends CI_Controller
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
 					if(isnull(log.nama_lengkap), '-', log.nama_lengkap) nama_pegawai, 
 					his.created_at,
-					stat.id_status, stat.nama_status, surat.keterangan_ditolak, 
+					stat.id_status, stat.nama_status, stat.style, surat.keterangan_ditolak, 
 					if(isnull(lok.dinas), '-', lok.dinas) dinas, 
 					if(isnull(peg.lokasi_kerja), '-', peg.lokasi_kerja) lokasi_kerja_id, 
 					if(isnull(lok.lokasi_kerja), '-', lok.lokasi_kerja) lokasi_kerja_desc
@@ -536,12 +574,14 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_history_srt_ket";
+				order by his.created_at, his.id_status_srt";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 
 		// $this->load->view('dashboard_publik/verifikasi/timeline', $a);
-		$this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }
 // End of file Verifikasi.php

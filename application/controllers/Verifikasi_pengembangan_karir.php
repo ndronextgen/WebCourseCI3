@@ -9,6 +9,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		parent::__construct();
 		$this->load->helper('file');
 		$this->load->library('func_table');
+		$this->load->library('func_table_lapor');
 		//$this->load->library('func_wa_sk');
 		$this->load->library('func_wa_pengembangan_karir');
 		$this->load->helper(array('url', 'download'));
@@ -46,6 +47,8 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$count_see_verifikasi_hukdis = $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 			$count_see_verifikasi_tp = $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 			$count_see_verifikasi_karir = $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+			$count_see_lapor = $this->func_table_lapor->count_see_lapor_public($this->session->userdata('username'));
+			$count_see_verifikasi_pindah_tugas = $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
 			$status_verifikasi = $this->func_table->status_verifikasi_user($this->session->userdata('id_pegawai'));
 			if ($status_verifikasi == 'kepegawaian' || $status_verifikasi == 'sekdis' || $status_verifikasi == 'sudinupt') {
@@ -132,8 +135,14 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			$d['count_see_verifikasi_hukdis'] = $count_see_verifikasi_hukdis;
 			$d['count_see_verifikasi_tp'] = $count_see_verifikasi_tp;
 			$d['count_see_verifikasi_karir'] = $count_see_verifikasi_karir;
+			$d['count_see_lapor'] = $count_see_lapor;
+			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
-			$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/index_verifikasi_pengembangan_karir', $d);
+			// $this->load->view('dashboard_publik/verifikasi_pengembangan_karir/index_verifikasi_pengembangan_karir', $d);
+
+			$d['page'] = 'dashboard_publik/template/verifikasi/pengembangan_karir/index.php';
+			$d['menu'] = 'ver pengembangan karir';
+			$this->load->view('dashboard_publik/template/main', $d);
 		} else {
 			header('location:' . base_url() . '');
 		}
@@ -141,7 +150,8 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 
 	function data_verifikasi_pengembangan_karir()
 	{
-		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/ajax_table');
+		// $this->load->view('dashboard_publik/verifikasi_pengembangan_karir/ajax_table');
+		$this->load->view('dashboard_publik/template/verifikasi/pengembangan_karir/ajax_table');
 	}
 
 	function table_data_verifikasi_pengembangan_karir()
@@ -323,7 +333,38 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_verifikasi_pengembangan_karir_kep', $a);
+		// ===== surat pengembangan karir history =====
+		$sSQL = "SELECT
+					his.pengembangan_karir_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_pengembangan_karir_track his
+					join tr_pengembangan_karir surat on surat.pengembangan_karir_id = his.pengembangan_karir_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.pengembangan_karir_id = '$Pengembangan_karir_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat pengembangan karir history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_verifikasi_pengembangan_karir_kep', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/pengembangan_karir/form_verifikasi_pengembangan_karir_kep', $a);
 	}
 
 	function simpan_verifikasi_pengembangan_karir_kep()
@@ -459,7 +500,38 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
 
-		$this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_detail', $a);
+		// ===== surat pengembangan karir history =====
+		$sSQL = "SELECT
+					his.pengembangan_karir_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status,
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_pengembangan_karir_track his
+					join tr_pengembangan_karir surat on surat.pengembangan_karir_id = his.pengembangan_karir_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.pengembangan_karir_id = '$Pengembangan_karir_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+
+		$a['data_history'] = $rsSQL;
+		// ===== /surat pengembangan karir history =====
+
+		// $this->load->view('dashboard_publik/verifikasi_pengembangan_karir/form_detail', $a);
+		$this->load->view('dashboard_publik/template/verifikasi/pengembangan_karir/form_detail', $a);
 	}
 
 	public function notify_verifikasi_karir()
@@ -470,8 +542,9 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		$count_see_verifikasi_hukdis 	= $this->func_table->count_see_verifikasi_hukdis($this->session->userdata('username'));
 		$count_see_verifikasi_tp 	= $this->func_table->count_see_verifikasi_tp($this->session->userdata('username'));
 		$count_see_verifikasi_karir 	= $this->func_table->count_see_verifikasi_karir($this->session->userdata('username'));
+		$count_see_verifikasi_pindah_tugas 	= $this->func_table->count_see_verifikasi_pindah_tugas($this->session->userdata('username'));
 
-		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir;
+		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_karir > 0) {
 			$res_count_see_verifikasi_karir = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_karir . '</span>';
@@ -491,5 +564,41 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 		];
 
 		echo json_encode($result);
+	}
+
+	function show_timeline()
+	{
+		// ===== surat keterangan history =====
+		$pengembangan_karir_id = $this->input->post('pengembangan_karir_id');
+
+		$sSQL = "SELECT
+					his.pengembangan_karir_id,
+					his.user_created, surat.is_dinas,
+					if ( isnull( log.nama_lengkap ), '-', log.nama_lengkap ) nama_pegawai,
+					his.created_at,
+					stat.id_status, 
+					-- stat.nama_status, 
+					if (stat.id_status = 21, 'Surat Dibuat', stat.nama_status) as nama_status,
+					stat.style,
+					surat.notes as keterangan_ditolak,
+					if ( isnull( lok.dinas ), '-', lok.dinas ) dinas,
+					if ( isnull( peg.lokasi_kerja ), '-', peg.lokasi_kerja ) lokasi_kerja_id,
+					if ( isnull( lok.lokasi_kerja ), '-', lok.lokasi_kerja ) lokasi_kerja_desc 
+				from
+					tr_pengembangan_karir_track his
+					join tr_pengembangan_karir surat on surat.pengembangan_karir_id = his.pengembangan_karir_id
+					join tbl_status_surat stat on stat.id_status = his.status_progress
+					left join tbl_data_pegawai peg on peg.nrk = his.user_created
+					left join tbl_user_login log on log.username = his.user_created
+					left join tbl_master_lokasi_kerja lok on lok.id_lokasi_kerja = peg.lokasi_kerja 
+				where
+					his.pengembangan_karir_id = '$pengembangan_karir_id' 
+				order by
+					his.created_at, his.status_progress";
+		$rsSQL = $this->db->query($sSQL);
+		$a['data_history'] = $rsSQL;
+
+		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
+		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
 	}
 }

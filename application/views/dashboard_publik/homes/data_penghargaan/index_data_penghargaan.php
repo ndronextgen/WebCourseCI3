@@ -1,13 +1,3 @@
-<style type="text/css">
-	.left {
-		text-align: left;
-	}
-
-	.center {
-		text-align: center;
-	}
-</style>
-
 <!-- <section id="data-penghargaan" class="content"> -->
 <div class="callout callout-info">
 	<h4>Penghargaan</h4>
@@ -18,9 +8,9 @@
 	<div class="col-xs-12">
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
-				<div class="page-header">
-					<h4># Riwayat Penghargaan</h4>
-				</div>
+				<!-- <div class="page-header"> -->
+				<!-- <h4># Riwayat Penghargaan</h4> -->
+				<!-- </div> -->
 				<button class="btn btn-success" onclick="add_penghargaan()"><i class="glyphicon glyphicon-plus"></i> Tambah Riwayat Penghargaan</button>
 				<button class="btn btn-default" onclick="reload_table_penghargaan()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modal-download" data-content="penghargaan" data-title="Download" title="Download"><i class="fa fa-download"></i> Download All</button>
@@ -49,7 +39,7 @@
 		"processing": true,
 		"serverSide": true,
 		"order": [],
-		responsive: true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('penghargaan/penghargaan_datatables') ?>",
 			"type": "POST"

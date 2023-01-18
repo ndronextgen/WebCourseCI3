@@ -270,7 +270,7 @@ jQuery(document).ready(function () {
 					edit += `<button type="button" class="btn btn-outline-hover-primary" onclick="deleteSuratKeterangan(${row.id_srt});"><i class="flaticon-delete"></i> Hapus</button>`;
 					let content = `
                         <span style="overflow: visible; position: relative; width: 110px;">
-                        <button type="button" class="btn btn-outline-hover-primary" onclick="lihatSuratKeterangan(${row.id_srt})"><i class="flaticon-folder-1"></i> Proses</button>${edit}
+                            <button type="button" class="btn btn-outline-hover-primary" onclick="lihatSuratKeterangan(${row.id_srt})"><i class="flaticon-folder-1"></i> Proses</button>${edit}
                         </span>`;
 
 					return content;
@@ -297,65 +297,146 @@ function search() {
 
 //delete
 function deleteSuratKeterangan(id) {
-	if (confirm("Apakah kamu yakin mau menghapus data ini?")) {
-		let url = getCookie("url");
-		let param = {
-			id_surat: id,
-		};
+	// if (confirm("Apakah kamu yakin mau menghapus data ini?")) {
+	//     let url = getCookie("url");
+	//     let param = {
+	//         id_surat: id,
 
-		$.ajax({
-			headers: {
-				"X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
-			},
-			url: url + "admin/surat_keterangan/delete",
-			data: param,
-			dataType: "json",
-			method: "POST",
-			success: function (resp) {
-				//alert(resp);
-				if (resp.status == true) {
-					swal.fire({
-						type: "success",
-						title: "Data berhasil dihapus!",
-						showConfirmButton: false,
-						timer: 1500,
+	//     };
+
+	//     $.ajax({
+	//         headers: {
+	//             "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+	//         },
+	//         url: url + "admin/surat_keterangan/delete",
+	//         data: param,
+	//         dataType: "json",
+	//         method: "POST",
+	//         success: function (resp) {
+	//             //alert(resp);
+	//             if (resp.status == true) {
+	//                 swal.fire({
+	//                     type: "success",
+	//                     title: "Data berhasil dihapus!",
+	//                     showConfirmButton: false,
+	//                     timer: 1500,
+	//                 });
+
+	//                 setTimeout(function () {
+	//                     let frm = $("#frmSuratKeterangan");
+	//                     frm.attr("action", url + "admin/surat_keterangan");
+	//                     frm.attr("method", "post");
+
+	//                     frm.submit();
+	//                 }, 1000);
+	//             } else {
+	//                 swal.fire({
+	//                     type: "error",
+	//                     title: "Gagal hapus data!",
+	//                     text: resp.message,
+	//                     showConfirmButton: false,
+	//                     timer: 1500,
+	//                 });
+
+	//                 let content =
+	//                     '<div class="alert alert-warning alert-dismissible" role="alert">';
+	//                 content +=
+	//                     '<div class="alert-icon"><i class="flaticon-warning"></i></div>';
+	//                 content +=
+	//                     '<div class="alert-text">' + resp.message + "</div>";
+	//                 content +=
+	//                     '<div class="alert-close"><i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i></div>';
+	//                 content += "</div>";
+
+	//                 let alert = $(content);
+	//                 let form = $("#frmSuratKeterangan");
+
+	//                 form.find(".alert").remove();
+	//                 alert.prependTo(form);
+	//                 KTUtil.animateClass(alert[0], "fadeIn animated");
+	//             }
+	//         },
+	//     });
+	// }
+
+	var q = "Hapus surat keterangan?";
+	var i = "Surat berhasil dihapus";
+	let url = getCookie("url");
+
+	$jQ.confirm({
+		icon: "fa fa-warning",
+		title: "Konfirmasi",
+		content: q,
+		type: "red",
+		buttons: {
+			yes: {
+				text: "Ya",
+				btnClass: "btn-red",
+				action: function () {
+					let url = getCookie("url");
+					let param = {
+						id_surat: id,
+					};
+
+					$.ajax({
+						headers: {
+							"X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+						},
+						url: url + "admin/surat_keterangan/delete",
+						data: param,
+						dataType: "json",
+						method: "POST",
+						success: function (resp) {
+							//alert(resp);
+							if (resp.status == true) {
+								swal.fire({
+									type: "success",
+									title: "Data berhasil dihapus!",
+									showConfirmButton: false,
+									timer: 1500,
+								});
+
+								setTimeout(function () {
+									let frm = $("#frmSuratKeterangan");
+									frm.attr("action", url + "admin/surat_keterangan");
+									frm.attr("method", "post");
+
+									frm.submit();
+								}, 1000);
+							} else {
+								swal.fire({
+									type: "error",
+									title: "Gagal hapus data!",
+									text: resp.message,
+									showConfirmButton: false,
+									timer: 1500,
+								});
+
+								let content =
+									'<div class="alert alert-warning alert-dismissible" role="alert">';
+								content +=
+									'<div class="alert-icon"><i class="flaticon-warning"></i></div>';
+								content += '<div class="alert-text">' + resp.message + "</div>";
+								content +=
+									'<div class="alert-close"><i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i></div>';
+								content += "</div>";
+
+								let alert = $(content);
+								let form = $("#frmSuratKeterangan");
+
+								form.find(".alert").remove();
+								alert.prependTo(form);
+								KTUtil.animateClass(alert[0], "fadeIn animated");
+							}
+						},
 					});
-
-					setTimeout(function () {
-						let frm = $("#frmSuratKeterangan");
-						frm.attr("action", url + "admin/surat_keterangan");
-						frm.attr("method", "post");
-
-						frm.submit();
-					}, 1000);
-				} else {
-					swal.fire({
-						type: "error",
-						title: "Gagal hapus data!",
-						text: resp.message,
-						showConfirmButton: false,
-						timer: 1500,
-					});
-
-					let content =
-						'<div class="alert alert-warning alert-dismissible" role="alert">';
-					content +=
-						'<div class="alert-icon"><i class="flaticon-warning"></i></div>';
-					content += '<div class="alert-text">' + resp.message + "</div>";
-					content +=
-						'<div class="alert-close"><i class="flaticon2-cross kt-icon-sm" data-dismiss="alert"></i></div>';
-					content += "</div>";
-
-					let alert = $(content);
-					let form = $("#frmSuratKeterangan");
-
-					form.find(".alert").remove();
-					alert.prependTo(form);
-					KTUtil.animateClass(alert[0], "fadeIn animated");
-				}
+				},
 			},
-		});
-	}
+			no: {
+				text: "Tidak",
+			},
+		},
+	});
 }
 
 /*var KTSelect2 = function() {
@@ -400,7 +481,7 @@ jQuery(document).ready(function () {
             <td>${el.status}</td>
             <td>
 				<span style="overflow: visible; position: relative; width: 110px;">
-                <button type="button" class="btn btn-outline-hover-primary" onclick="lihatSuratKeterangan(${el.id_srt})"><i class="flaticon-eye"></i> Lihat Detail</button>
+                    <button type="button" class="btn btn-outline-hover-primary" onclick="lihatSuratKeterangan(${el.id_srt})"><i class="flaticon-eye"></i> Lihat Detail</button>
 				</span>
             </td>
 		</tr>
