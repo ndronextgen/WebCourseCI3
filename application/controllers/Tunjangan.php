@@ -155,7 +155,6 @@ class Tunjangan extends CI_Controller
 
 	function table_data_tunjangan()
 	{
-
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
@@ -167,13 +166,11 @@ class Tunjangan extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-
+		
 		foreach ($listing as $key) {
-			$no++;
 			$see = $this->func_table->see_public_tj($username, $key->Tunjangan_id);
 
-			$row = array();
-
+			// === begin: buttons (aksi) ===
 			$button_view 		= '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-eye"></i>&nbsp;Detail</a>';
 			$button_edit 		= '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-edit"></i>&nbsp;Edit</a>';
 			$button_delete 		= '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-trash"></i>&nbsp;Hapus</a>';
@@ -211,11 +208,8 @@ class Tunjangan extends CI_Controller
 					$button = $button_view;
 					break;
 			}
-			$row[] = $button;
+			// === end: buttons (aksi) ===
 
-			$row[] = $key->Digaji_menurut;
-
-			// $row[] = $key->nama_status;
 			// === begin: badge-status ===
 			switch ((int) $key->Status_progress) {
 				case 0:
@@ -230,8 +224,6 @@ class Tunjangan extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -258,12 +250,20 @@ class Tunjangan extends CI_Controller
 					break;
 			}
 			// === end: badge-status ===
-			$row[] = $status_surat;
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
+			$row[] = $no;
+			$row[] = $button;
+			$row[] = $key->Digaji_menurut;
+			$row[] = $status_surat;
 			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],

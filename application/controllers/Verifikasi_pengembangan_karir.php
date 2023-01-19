@@ -168,10 +168,9 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-
+		
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+			// === begin: buttons (aksi) ===
 			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
@@ -179,7 +178,6 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			# maka kyang ditampilkan adalah surat yang statusnya ('21','22','23','24','25','26','3')
 			# dan tombolverifikasi muncul di status 21
 			# jika user adalah sekdis tombol 22
-
 
 			if (($status_verifikasi == 'kepegawaian' or $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_pengembangan_karir_kep(' . "'" . $key->Pengembangan_karir_id . "'" . ')">
@@ -202,6 +200,7 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			} else {
 				$button_download = '';
 			}
+			// === end: buttons (aksi) ===
 
 			// === begin: badge-status ===
 			switch ((int) $key->Status_progress) {
@@ -217,8 +216,6 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Pengembangan_karir_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Pengembangan_karir_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -246,18 +243,22 @@ class Verifikasi_pengembangan_karir extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->Keterangan;
 			$row[] = $key->Periode_awal . '-' . $key->Periode_akhir;
 			$row[] = $key->Keperluan;
-			// $row[] = $key->nama_status;
 			$row[] = $status_surat;
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $data_bold;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],

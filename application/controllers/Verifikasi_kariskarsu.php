@@ -156,7 +156,6 @@ class Verifikasi_kariskarsu extends CI_Controller
 
 	function table_data_verifikasi_kariskarsu()
 	{
-
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
@@ -167,12 +166,11 @@ class Verifikasi_kariskarsu extends CI_Controller
 		$jumlah_filter 	= $this->verifikasi_kariskarsu->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 		$jumlah_semua 	= $this->verifikasi_kariskarsu->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 
-
 		$data = array();
 		$no = $_POST['start'];
+		
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+			// === begin: buttons (aksi) ===
 			$button = '	<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Kariskarsu_id . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
@@ -180,7 +178,6 @@ class Verifikasi_kariskarsu extends CI_Controller
 			# maka kyang ditampilkan adalah surat yang statusnya ('21','22','23','24','25','26','3')
 			# dan tombolverifikasi muncul di status 21
 			# jika user adalah sekdis tombol 22
-
 
 			if ($status_verifikasi == 'kepegawaian' and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '	<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_kariskarsu_kep(' . "'" . $key->Kariskarsu_id . "'" . ')">
@@ -208,7 +205,9 @@ class Verifikasi_kariskarsu extends CI_Controller
 			} else {
 				$button_download = '';
 			}
+			// === end: buttons (aksi) ===
 
+			// === perkawinan ke- ===
 			if ($key->Perkawinan_ke == '1') {
 				$data_perkawinan = 'Perkawinan Pertama';
 			} else {
@@ -233,8 +232,6 @@ class Verifikasi_kariskarsu extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Kariskarsu_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Kariskarsu_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -262,11 +259,14 @@ class Verifikasi_kariskarsu extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($nama_pegawai));
 			$row[] = $data_perkawinan;
-			// $row[] = $key->nama_status;
 			$row[] = $status_surat;
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_surat_nikah);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_kk);
@@ -274,10 +274,11 @@ class Verifikasi_kariskarsu extends CI_Controller
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_ktp_istri);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_sk_pns);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_foto);
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $data_bold;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],

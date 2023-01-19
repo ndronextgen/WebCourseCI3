@@ -9,7 +9,7 @@
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
 				<!-- <div class="page-header"> -->
-					<!-- <h4># Data Permintaan Verifikasi</h4> -->
+				<!-- <h4># Data Permintaan Verifikasi</h4> -->
 				<!-- </div> -->
 				<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<hr>
@@ -17,12 +17,12 @@
 					<table id="table_verifikasi_tunjangan" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>No.</th>
+								<th width='0px'>No</th>
 								<th width='0px'>Aksi</th>
-								<th>Peraturan</th>
 								<th>Nama Pegawai</th>
-								<th style="text-align: center;">Status</th>
-								<th>Tanggal Dibuat</th>
+								<th>Peraturan</th>
+								<th width='0px' data-priority='1' style="text-align: center;">Status</th>
+								<th width='0px'>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>
@@ -37,16 +37,17 @@
 	tableVerifikasi = $('#table_verifikasi_tunjangan').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"order": [],
-		responsive: true,
+		// "order": [],
+		"ordering": false,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Verifikasi_tunjangan/table_data_verifikasi_tunjangan') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-0],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-0],
+		// 	"orderable": false,
+		// }],
 		// set column align
 		"aoColumns": [{
 			"sClass": "center"

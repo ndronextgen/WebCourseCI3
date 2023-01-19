@@ -22,11 +22,11 @@ class Srt_ket extends CI_Controller
 		// Datatables Variables
 		$id = $this->session->userdata('id_pegawai');
 		$list = $this->tbl_data_srt_ket->get_datatables($id);
+
 		$data = array();
 		$no = $_POST['start'];
-
+		
 		foreach ($list as $r) {
-
 			// === begin: badge-status ===
 			switch ((int) $r->id_status) {
 				case 0:
@@ -69,24 +69,8 @@ class Srt_ket extends CI_Controller
 			// === end: badge-status ===
 
 			$see = $this->func_table->see_public($id, $r->id_srt);
-			$no++;
-			$row = array();
 
-			$row[] = $no;
-			// $row[] = $r->nama_surat;
-
-			// begin: change by joe 2022.10.14
-			// $row[] = $r->keterangan;
-			if (strtolower($r->jenis_pengajuan_surat) == 'x') {
-				$row[] = $r->jenis_pengajuan_surat_lainnya;
-			} else {
-				$row[] = $r->keterangan;
-			}
-			// $row[] = $r->jenis_pengajuan_surat;
-			// end: change by joe 2022.10.14
-
-			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' . ' (' . 'H:i:s' . ') ');
-			$row[] = $status_surat;
+			// === begin: buttons (aksi) ===
 			$button = '';
 			switch ($r->id_status_srt) {
 				case 1:
@@ -155,10 +139,25 @@ class Srt_ket extends CI_Controller
 								</a>';
 					break;
 			}
+			// === end: buttons (aksi) ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
+			$row[] = $no;
 			$row[] = $button;
+			if (strtolower($r->jenis_pengajuan_surat) == 'x') {
+				$row[] = $r->jenis_pengajuan_surat_lainnya;
+			} else {
+				$row[] = $r->keterangan;
+			}
+			$row[] = $status_surat;
+			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $see;
-			$data[] = $row;
+
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
