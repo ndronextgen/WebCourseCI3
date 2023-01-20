@@ -410,18 +410,57 @@
 
 
 		function delete_surat_pindah_tugas(Pindah_tugas_id) {
-			var i = "Hapus ?";
-			var b = "Data Dihapus";
-			if (!confirm(i)) return false;
-			$.ajax({
-				type: "post",
-				data: "Pindah_tugas_id=" + Pindah_tugas_id,
-				url: "<?php echo site_url('admin/Data_pindah_tugas/delete_pindah_tugas') ?>",
-				success: function(s) {
-					alert(s);
-					window.location.reload();
+			// var i = "Hapus ?";
+			// var b = "Data Dihapus";
+			// if (!confirm(i)) return false;
+			// $.ajax({
+			// 	type: "post",
+			// 	data: "Pindah_tugas_id=" + Pindah_tugas_id,
+			// 	url: "<?php echo site_url('admin/Data_pindah_tugas/delete_pindah_tugas') ?>",
+			// 	success: function(s) {
+			// 		alert(s);
+			// 		window.location.reload();
+			// 	}
+			// });
+			var q = "Hapus data Pindah Tugas?";
+			var i = "Data berhasil dihapus";
+
+			$jQ.confirm({
+				icon: 'fa fa-warning',
+				title: 'Konfirmasi',
+				content: q,
+				type: 'red',
+				buttons: {
+					yes: {
+						text: 'Ya',
+						btnClass: 'btn-red',
+						action: function() {
+							$.ajax({
+								type: "post",
+								data: {
+									Pindah_tugas_id: Pindah_tugas_id,
+								},
+								url: "<?php echo site_url('admin/Data_pindah_tugas/delete_pindah_tugas') ?>",
+								success: function(s) {
+									$jQ.dialog({
+										title: 'Info',
+										content: i,
+										type: 'green',
+										backgroundDismiss: true
+									});
+									
+									
+
+									reload_table();
+								}
+							});
+						}
+					},
+					no: {
+						text: 'Tidak'
+					}
 				}
-			});
+			})
 		}
 
 		function simpan_verifikasi_pindah_tugas() {
