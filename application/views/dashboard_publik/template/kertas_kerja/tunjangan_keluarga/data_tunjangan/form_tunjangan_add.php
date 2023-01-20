@@ -7,102 +7,16 @@
                 <div class="tab-content">
                     <div class="page-header">
                         <h4># Tambah Data tunjangan &nbsp;&nbsp;&nbsp;<button class='btn btn-info btn-sm' onclick='load_data()' style='float:right;'>
-                                << Kembali</button> </h4> </div> <form name="form_tunjangan" id="form_tunjangan" method="post" enctype="multipart/form-data">
+                                << Kembali</button> </h4> </div> 
+                                <form name="form_tunjangan" id="form_tunjangan" method="post" enctype="multipart/form-data">
+                                    <button type='button' class='btn btn-success btn-sm' onclick='ubah_data_pegawai(<?php echo $id_pegawai; ?>)' style='float:left;'><i class="glyphicon glyphicon-edit"></i> Ubah Data Pegawai</button>
+                                    
                                     <table class='table' cellspacing='10' cellpadding='5'>
                                         <tr>
-                                            <td width='40%'>
-                                                <!-- right -->
-                                                <table class='table' cellspacing='10' cellpadding='5'>
-                                                    <tr>
-                                                        <td width='200px'>Nama Lengkap</td>
-                                                        <td width='1px'>:</td>
-                                                        <td><?php echo $Data->nama_pegawai; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>NIP / NRK</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->nip . ' / ' . $Data->nrk; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tempat / Tanggal Lahir</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($Data->tanggal_lahir); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Jenis Kelamin</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->jenis_kelamin; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Agama</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->agama; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status Kepegawaian</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->nama_status; ?></td>
-                                                    </tr>
-
-                                                </table>
-                                                <!-- end right -->
-                                            </td>
-                                            <td width='2%'></td>
-                                            <td width='58%'>
-                                                <!-- left -->
-                                                <table class='table ' cellspacing='10' cellpadding='5'>
-                                                    <tr>
-                                                        <td>Jabatan Struktural</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->nama_jabatan; ?></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>Pangkat / Golongan</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->uraian . ' ' . $Data->golongan; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pada Unit Kerja</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->nama_lokasi_kerja; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Masa kerja golongan</td>
-                                                        <td>:</td>
-                                                        <td>
-                                                            <?php
-                                                            $tmt_awal = date($Data->tanggal_mulai_pangkat);
-                                                            $date_now = date("Y-m-d h:i:sa");
-                                                            $datetime1 = new DateTime($tmt_awal); //start time
-                                                            $datetime2 = new DateTime($date_now); //end time
-                                                            $durasi = $datetime1->diff($datetime2);
-                                                            echo $durasi->format('%y Tahun %m Bulan');
-                                                            //echo $Data->tanggal_mulai_pangkat; 
-                                                            ?>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Digaji menurut</td>
-                                                        <td>:</td>
-                                                        <td>
-                                                            <select class="form-control select" name="Digaji_menurut" id="Digaji_menurut">
-                                                                <?php
-                                                                foreach ($peraturan as $d) {
-                                                                    echo "<option value='$d->nomor'";
-                                                                    echo ">$d->nomor</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Alamat / tempat tinggal</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->alamat; ?></td>
-                                                    </tr>
-                                                </table>
-                                                <!-- end left -->
+                                            <td width='40%' colspan='3'>
+                                                <!-- div view pegawai -->
+                                                <div id='data_pegawai'></div>
+                                                <!-- end div view pegawai -->
                                             </td>
                                         </tr>
                                         <tr>
@@ -144,7 +58,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan='3'>
-                                                <button id='btn_tmb' type='button' onclick="ajax_simpan_tunjangan()" class='btn btn-block btn-success btn-lg'>Simpan</button>
+                                                <button id='btn_tmb_tunjangan' type='button' onclick="ajax_simpan_tunjangan()" class='btn btn-block btn-success btn-lg'>Simpan</button>
                                             </td>
                                         </tr>
                                     </table>
@@ -195,6 +109,20 @@
                     }],
 
                 });
+                get_view_pegawai();
+                function get_view_pegawai() {
+                    //save_method = 'update';
+                    $.ajax({
+                        url: "<?php echo site_url('Tunjangan/get_view_pegawai'); ?>",
+                        data: {
+                            Id: <?php echo $id_pegawai; ?>
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            $('#data_pegawai').html(data);
+                        }
+                    });
+                }
 
                 function get_item(Id, Tunjangan_id) {
                     //save_method = 'update';
@@ -214,25 +142,24 @@
                     $('.modal-title').text('Data Keluarga Pegawai'); // Set Title to Bootstrap modal title
                 }
 
-
+                function ubah_data_pegawai(Id) {
+                    //save_method = 'update';
+                    $.ajax({
+                        url: "<?php echo site_url('Tunjangan/ubah_data_pegawai'); ?>",
+                        data: {
+                            Id: Id
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            $('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+                        }
+                    });
+                    $('.modal-footer').hide(); // show bootstrap modal
+                    $('#modal_all').modal('show'); // show bootstrap modal
+                    $('.modal-title').text('Data Pegawai'); // Set Title to Bootstrap modal title
+                }
 
                 function delete_tunjangan_temp_item(Id) {
-                    // var i = "Kembalikan data ?";
-                    // // let q = "Hapus anggota keluarga dari daftar penerima tunjangan?";
-                    // // let i = "Anggota keluarga berhasil hapus.";
-                    // if (!confirm(i)) return false;
-                    // $.ajax({
-                    //     type: "post",
-                    //     data: "Id=" + Id,
-                    //     url: "<?php echo site_url('Tunjangan/delete_tunjangan_temp_item'); ?>",
-                    //     success: function(s) {
-                    //         alert(s);
-                    //         reload_table_item_pilihan();
-                    //     }
-                    // });
-
-
-
                     let q = 'Hapus anggota keluarga dari daftar penerima tunjangan?';
                     let i = 'Anggota keluarga berhasil hapus.';
                     let e = 'Proses hapus data bermasalah.';
@@ -281,3 +208,4 @@
                     })
                 }
             </script>
+<div id='isi_keluarga'></div>

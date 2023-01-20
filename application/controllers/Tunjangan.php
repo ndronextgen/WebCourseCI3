@@ -300,12 +300,99 @@ class Tunjangan extends CI_Controller
 		$a['peraturan'] = $this->db->query("SELECT * FROM tbl_master_peraturan WHERE status_aktif='1' AND jenis_peraturan = 'Permohonan Tunjangan Keluarga'")->result();
 		$a['Data'] = $Data;
 		$a['Tunjangan_id'] = $Tunjangan_id;
+		$a['id_pegawai'] = $id_pegawai;
 
 		$a['func_table'] = $this->load->library('func_table');
 
 		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_add', $a);
 		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/form_tunjangan_add', $a);
 	}
+
+	#view pegawai
+	function get_view_pegawai()
+	{
+		$id_pegawai = $this->input->post('Id');
+		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+										golongan, uraian, nama_jabatan
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									LEFT JOIN (
+										SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+									) as c ON c.id_status_pegawai =  a.status_pegawai
+									LEFT JOIN (
+										SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+									) as d ON d.id_golongan =  a.id_golongan
+									LEFT JOIN (
+										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+									) as e ON e.id_nama_jabatan =  a.id_jabatan
+									WHERE id_pegawai = '$id_pegawai'")->row();
+
+		$a['Data'] = $Data;
+		$a['peraturan'] = $this->db->query("SELECT * FROM tbl_master_peraturan WHERE status_aktif='1' AND jenis_peraturan = 'Permohonan Tunjangan Keluarga'")->result();
+		$a['func_table'] = $this->load->library('func_table');
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/view_data_pegawai', $a);
+	}
+	# end view pegawai
+	#ubah data pegawai
+	function ubah_data_pegawai()
+	{
+		$id_pegawai = $this->input->post('Id');
+		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+										golongan, uraian, nama_jabatan
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									LEFT JOIN (
+										SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+									) as c ON c.id_status_pegawai =  a.status_pegawai
+									LEFT JOIN (
+										SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+									) as d ON d.id_golongan =  a.id_golongan
+									LEFT JOIN (
+										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+									) as e ON e.id_nama_jabatan =  a.id_jabatan
+									WHERE id_pegawai = '$id_pegawai'")->row();
+
+		$a['Data'] = $Data;
+		$a['jenis_kelamin'] = $this->db->query("SELECT * FROM tbl_master_jenis_kelamin")->result();
+		$a['mt_agama'] = $this->db->query("SELECT * FROM mt_agama WHERE kode != '0'")->result();
+		$a['func_table'] = $this->load->library('func_table');
+
+		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_add', $a);
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/form_ubah_data_pegawai', $a);
+	}
+	function simpan_update_data_pegawai(){
+		$id_pegawai 		= $this->input->post('id_pegawai');
+		$nama_pegawai 		= $this->input->post('nama_pegawai');
+		$tempat_lahir 		= $this->input->post('tempat_lahir');
+		$tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		$jenis_kelamin 		= $this->input->post('jenis_kelamin');
+		$agama 				= $this->input->post('agama');
+		$alamat 			= $this->input->post('alamat');
+
+		$data['nama_pegawai']	= $nama_pegawai;
+		$data['tempat_lahir']	= $tempat_lahir;
+		$data['tanggal_lahir']	= $tanggal_lahir;
+		$data['jenis_kelamin']	= $jenis_kelamin;
+		$data['agama']			= $agama;
+		$data['alamat']			= $alamat;
+
+		$this->db->where('id_pegawai', $id_pegawai);
+		$QUpdate =  $this->db->update('tbl_data_pegawai', $data);
+		if($QUpdate){
+			echo 'Berhasil';
+		} else {
+			echo 'Gagal';
+		}
+	}
+	#END ubah data pegawai
 
 	// table pilihan
 	function table_data_item_pilihan()
@@ -353,11 +440,20 @@ class Tunjangan extends CI_Controller
 	{
 		$a['id_pegawai'] = $this->input->post('Id');
 		$a['Tunjangan_id'] = $this->input->post('Tunjangan_id');
-		//$this->load->view('dashboard_publik/homes/group_pribadi/keluarga/index_keluarga');
-		//$this->load->view('dashboard_publik/home/keluarga');
-
-		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/get_item/ajax_item', $a);
 		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/get_item/ajax_item', $a);
+	}
+	function get_item_keluarga()
+	{
+		$a['id_pegawai'] = $this->input->post('Id');
+		$a['Tunjangan_id'] = $this->input->post('Tunjangan_id');
+		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/get_item/index_data_keluarga', $a);
+	}
+
+	function content_item_keluarga()
+	{
+		$a['id_pegawai'] = $this->input->post('Id');
+		$a['Tunjangan_id'] = $this->input->post('Tunjangan_id');
+		$this->load->view('dashboard_publik/template/beranda/keluarga');
 	}
 
 	function table_data_item()
@@ -374,9 +470,10 @@ class Tunjangan extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			$button = '<button class="btn btn-info btn-sm btn-flat" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ')"> <i class="fa fa-undo"></i></button>';
+			$button_edit = '<button class="btn btn-info btn-sm" onclick="ubah_keluarga(' . "'" . $key->id_data_keluarga . "'" . ')"> <i class="fa fa-edit"></i></button>';
 
 			$row[] = $key->id_data_keluarga;
+			$row[] = $button_edit;
 			$row[] = $key->nama_anggota_keluarga;
 			$row[] = $key->keterangan;
 			$row[] = $key->jenis_kelamin; //1 laki-laki 2 perempuan

@@ -148,8 +148,8 @@
 					processData: false,
 					contentType: false,
 					beforeSend: function() {
-						$('#btn_tmb').text('Menyimpan...');
-						$('#btn_tmb').prop('disabled', true);
+						$('#btn_tmb_tunjangan').text('Menyimpan...');
+						$('#btn_tmb_tunjangan').prop('disabled', true);
 					},
 					success: function(response) {
 						let arrPesan = response.split("|");
@@ -163,8 +163,8 @@
 								backgroundDismiss: true,
 							});
 
-							$('#btn_tmb').text('Simpan');
-							$('#btn_tmb').attr('disabled', false);
+							$('#btn_tmb_tunjangan').text('Simpan');
+							$('#btn_tmb_tunjangan').attr('disabled', false);
 							return false;
 						}
 
@@ -184,8 +184,8 @@
 							}
 						})
 
-						$('#btn_tmb').text('Simpan');
-						$('#btn_tmb').attr('disabled', false);
+						$('#btn_tmb_tunjangan').text('Simpan');
+						$('#btn_tmb_tunjangan').attr('disabled', false);
 					}
 				});
 			}
@@ -200,8 +200,8 @@
 					processData: false,
 					contentType: false,
 					beforeSend: function() {
-						$('#btn_tmb').text('Menyimpan...');
-						$('#btn_tmb').attr('disabled', true);
+						$('#btn_tmb_tunjangan').text('Menyimpan...');
+						$('#btn_tmb_tunjangan').attr('disabled', true);
 					},
 					success: function(response) {
 						// alert(response);
@@ -218,8 +218,8 @@
 								backgroundDismiss: true,
 							});
 
-							$('#btn_tmb').text('Simpan');
-							$('#btn_tmb').attr('disabled', false);
+							$('#btn_tmb_tunjangan').text('Simpan');
+							$('#btn_tmb_tunjangan').attr('disabled', false);
 							return false;
 						}
 
@@ -239,8 +239,8 @@
 							}
 						})
 
-						$('#btn_tmb').text('Simpan');
-						$('#btn_tmb').attr('disabled', false);
+						$('#btn_tmb_tunjangan').text('Simpan');
+						$('#btn_tmb_tunjangan').attr('disabled', false);
 					}
 				});
 			}

@@ -9,8 +9,10 @@
 		clearBtn: true,
 	});
 
-	function add_keluarga() {
-		save_method = 'addkeluarga';
+	function add_keluarga(room='addkeluarga', param_1='', param_2='') {
+		save_method = room;
+		param_1 = param_1;
+		param_2 = param_2;
 		$('#form_keluarga')[0].reset(); // reset form on modals
 		$('.form-group').removeClass('has-error'); // clear error class
 		$('.form-control').removeClass('has-error'); // clear error class
@@ -29,12 +31,16 @@
 			$(this).attr('disabled', false);
 		});
 		$("#txt_alamat").css("background-color", "");
+		$('[name="param_1"]').val(param_1);
+		$('[name="param_2"]').val(param_2);
 	}
 
-	function edit_keluarga(id_data_keluarga) {
+	function edit_keluarga(id_data_keluarga, room='update', param_1='', param_2='') {
 		$('#arsipContentPribadi').remove();
 		$('#arsipContentPribadiTitle').remove();
-		save_method = 'update';
+		save_method = room;
+		param_1 = param_1;
+		param_2 = param_2;
 
 		$('#form_keluarga')[0].reset(); // reset form on modals
 		$('.form-group').removeClass('has-error'); // clear error class
@@ -87,6 +93,10 @@
 				$('[name="nik_anggota_keluarga"]').val(data.nik);
 				$('[name="pekerjaan_anggota_keluarga"]').val(data.pekerjaan_sekolah);
 				$('[name="pangkat_golongan"]').val(data.pangkat_golongan);
+				// tunjangan
+				$('[name="param_1"]').val(param_1);
+				$('[name="param_2"]').val(param_2);
+				// end
 
 				// if (data.hub_keluarga == '1') {
 				// 	document.getElementById("grp_tanggal_nikah").style.display = "block";
@@ -165,15 +175,22 @@
 		$('.help-block').empty(); // clear error string
 
 		var url;
-		if (save_method == 'addkeluarga') {
+		if (save_method == 'addkeluarga' || save_method == 'tunjangan') {
 			url = "<?php echo site_url('keluarga/keluarga_add') ?>";
 		} else {
 			url = "<?php echo site_url('keluarga/keluarga_update') ?>";
 		}
+		console.log(url);
 
 		// ajax adding data to database
 		var form = $("#form_keluarga").closest("form");
 		var data = new FormData(form[0]);
+
+		// tunjangan
+		//console.log(data);
+		var param_1 =data.get('param_1');
+		var param_2 =data.get('param_2');
+		// end tunpkangan
 
 		$.ajax({
 			url: url,
@@ -196,7 +213,13 @@
 					});
 					$('#btn_verifikasi').text('Simpan');
 					$('#btn_verifikasi').attr('disabled', false);
-					reload_table_keluarga();
+					
+					if(save_method=='tunjangan' || save_method=='ubah_tunjangan'){
+						get_item(param_1, param_2);
+						//$('#isi_keluarga').html('');
+					} else {
+						reload_table_keluarga();
+					}
 				} else {
 					for (var i = 0; i < data.inputerror.length; i++) {
 						$('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
@@ -310,6 +333,10 @@
 			<div class="modal-body form">
 				<form action="#" id="form_keluarga" class="form-horizontal" enctype="multipart/form-data">
 					<input type="hidden" value="" name="id_data_keluarga" />
+					<!-- tunjangan -->
+					<input type="hidden" value="" name="param_1" />
+					<input type="hidden" value="" name="param_2" />
+					<!-- end -->
 					<div class="form-body">
 
 						<!--<div class="form-group">
