@@ -60,15 +60,12 @@ class Data_pindah_tugas extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
 			$see = $this->func_table->see_admin_pindah_tugas($username, $key->Pindah_tugas_id);
+
+			// === begin: buttons (aksi) ===
 			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/data_pindah_tugas/download_surat/' . $key->Pindah_tugas_id . '" href="javascript:void(0);">
 										<i class="fa fa-file"></i> Download
 								</a>';
-			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/data_pindah_tugas/download_surat/' . $key->Pindah_tugas_id . '" target="_blank">
-			// 							<i class="fa fa-file"></i> Download
-			// 					</a>';
 			if ($see == '0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')) {
 				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_pindah_tugas(' . "'" . $key->Pindah_tugas_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
@@ -95,6 +92,7 @@ class Data_pindah_tugas extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
+			// === end: buttons (aksi) ===
 
 			// === begin: badge-status ===
 			switch ((int) $key->Status_progress) {
@@ -110,8 +108,6 @@ class Data_pindah_tugas extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Pindah_tugas_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Pindah_tugas_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -139,6 +135,10 @@ class Data_pindah_tugas extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$no++;
+			$row = array();
+
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
@@ -146,7 +146,9 @@ class Data_pindah_tugas extends CI_Controller
 			$row[] = $status_surat;
 			$row[] = date_format(date_create($key->Created_at), 'j M Y  (H:i:s)');
 			$row[] = $see;
-			$data[] = $row;
+
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
