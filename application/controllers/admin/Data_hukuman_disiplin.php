@@ -63,13 +63,15 @@ class Data_hukuman_disiplin extends CI_Controller
 			$no++;
 			$row = array();
 			$see = $this->func_table->see_admin_hukdis($username, $key->Hukdis_id);
+			$btn_proses_ditolak = $this->func_table->Btn_proses_ditolak($key->Hukdis_id);
 			$button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" href="javascript:void(0);">
 										<i class="fa fa-file"></i> Download
 								</a>';
 			// $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" href="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" target="_blank">
 			// 							<i class="fa fa-file"></i> Download
 			// 					</a>';
-			if ($see == '0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')) {
+			//if ($see == '0' and ($key->Status_progress == '0' or $key->Status_progress == '25' or $key->Status_progress == '28')) {
+			if ($see == '0' and ($key->Status_progress == '0')) {
 				$button_view = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
 							</a>';
@@ -86,7 +88,7 @@ class Data_hukuman_disiplin extends CI_Controller
 			$button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
 							</a>';
-			if ($key->Status_progress == '0') {
+			if ($key->Status_progress == '0' || $key->Status_progress == '25' || $key->Status_progress == '28' || $key->Status_progress == '24') {
 				$button = $button_view . ' ' . $button_edit . ' ' . $button_delete;
 			} elseif ($key->Status_progress == '21' and $user_type == 'administrator' and ($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) {
 				$button = $button_view . ' ' . $button_edit . ' ' . $button_delete;
@@ -140,7 +142,7 @@ class Data_hukuman_disiplin extends CI_Controller
 			// === end: badge-status ===
 
 			$row[] = $no;
-			$row[] = $button;
+			$row[] = $btn_proses_ditolak;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->nama_type;
 			// $row[] = $key->nama_status;
@@ -503,6 +505,7 @@ class Data_hukuman_disiplin extends CI_Controller
 	function proses_hukuman_disiplin()
 	{
 		$Hukdis_id = $this->input->post('Hukdis_id');
+		$data_url = $this->input->post('data_url');
 		$username 	= $this->session->userdata('username');
 
 		$Data_hukdis = $this->db->query("SELECT
@@ -651,8 +654,12 @@ class Data_hukuman_disiplin extends CI_Controller
 					his.created_at, his.status_progress";
 		$Query_history = $this->db->query($sSQL);
 		$a['Query_history'] = $Query_history;
-
-		$this->load->view('dashboard_admin/kertas_kerja/hukuman_disiplin/proses_hukuman_disiplin', $a);
+		
+		if($data_url=='detail'){
+			$this->load->view('dashboard_admin/kertas_kerja/hukuman_disiplin/detail_hukuman_disiplin', $a);
+		} else {
+			$this->load->view('dashboard_admin/kertas_kerja/hukuman_disiplin/proses_hukuman_disiplin', $a);
+		}
 	}
 
 	public function processSave()

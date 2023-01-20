@@ -125,7 +125,26 @@
 		$.ajax({
 			url: "<?php echo site_url('admin/Data_hukuman_disiplin/proses_hukuman_disiplin'); ?>",
 			data: {
-				Hukdis_id: Hukdis_id
+				Hukdis_id: Hukdis_id,
+				data_url:'proses'
+			},
+			type: "POST",
+			success: function(data) {
+				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Detail/Proses Verifikasi Hukdis'); // Set Title to Bootstrap modal title
+	}
+
+	function detail_surat_hukdis(Hukdis_id) {
+		save_method = 'verifikasi';
+		$.ajax({
+			url: "<?php echo site_url('admin/Data_hukuman_disiplin/proses_hukuman_disiplin'); ?>",
+			data: {
+				Hukdis_id: Hukdis_id,
+				data_url:'detail'
 			},
 			type: "POST",
 			success: function(data) {

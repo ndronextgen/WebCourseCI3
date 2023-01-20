@@ -95,46 +95,14 @@
     ?>
 </div>
 <!-- end:timeline -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
 
-<hr>
-        <h4 style='text-align: center;'>
-            Form Verifikasi
-        </h4>
-        <br>
-
-        <form id="form_verifikasi_hukdis" name="form_verifikasi_hukdis" method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Tentukan Verifikasi</label>
-                        <select class="form-control input-md" name="status_verify" id="status_verify" style='border:2px solid green;'>
-                            <option value="">[ Pilih Verifikasi ]</option>
-                            <option value="<?php echo $terima; ?>">Terima</option>
-                            <option value="<?php echo $tolak; ?>">Tolak</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-8" id="divKet" style="display:none;">
-                    <label>Alasan Ditolak</label>
-                    <div class="form-group">
-
-                        <input type='text' name="ket" id="ket" class="form-control input-sm" style='border:2px solid green;'>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-            <hr>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <input type='hidden' name='Hukdis_id' value='<?php echo $Hukdis_id; ?>'>
-                        <button type="button" id='btn_verifikasi' style='float:right;' class="btn btn-success  btn-sm" onclick="simpan_verifikasi_hukdis()"><i class="fa fa-save"></i> Simpan & Kirim Ketahap Selanjutnya</button>&nbsp;&nbsp;
-                        <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
-                    </div>
-                </div>
-            </div>
-        </form>
 <script>
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();
