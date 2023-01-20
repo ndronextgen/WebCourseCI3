@@ -15,10 +15,10 @@ if($Data_hukdis->Type_surat =='1'){ //kenaikan pangkat
   <p>Demikian surat keterangan ini dibuat untuk kelengkapan usulan berkas Penghargaan Satyalancana Karya Satya  (SLKS) dan Masa Kerja Gubernur Provinsi DKI Jakarta</p>";
 } elseif($Data_hukdis->Type_surat =='4'){ //pengkargaan 
   $kalimat ="<ol>
-    <li style='padding:3px;line-height: 1.8;'>tidak sedang menjalani hukuman disiplin tingkat ringan, sedang atau berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil;</li>
-    <li style='padding:3px;'>tidak sedang dalam keadaan cuti di luar tanggungan negara;</li>
-    <li style='padding:3px;'>tidak sedang dalam keadaan diberhentikan sementara;</li>
-    <li style='padding:3px;'>tidak sedang dalam menjalani pidana penjara.</li>
+    <li style='padding:3px;line-height: 1.8;'>Tidak sedang menjalani hukuman disiplin tingkat ringan, sedang atau berat berdasarkan Peraturan Pemerintah Nomor 94 Tahun 2021 tentang Disiplin Pegawai Negeri Sipil;</li>
+    <li style='padding:3px;'>Tidak sedang dalam keadaan cuti di luar tanggungan negara;</li>
+    <li style='padding:3px;'>Tidak sedang dalam keadaan diberhentikan sementara;</li>
+    <li style='padding:3px;'>Tidak sedang dalam menjalani pidana penjara.</li>
   </ol>
 
   <p>Demikian surat keterangan ini dibuat untuk kelengkapan berkas permohonan pindah tugas ke ".$Data_hukdis->Keterangan."</p>";
