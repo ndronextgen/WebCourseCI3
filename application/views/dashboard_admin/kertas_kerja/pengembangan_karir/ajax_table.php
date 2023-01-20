@@ -22,9 +22,6 @@
 	}
 </style>
 
-
-
-
 <div class="table-responsive">
 	<button type="button" class="btn btn-success active btn-sm" onclick="tambah_surat_pengembangan_karir()"><i class="fa fa-plus"></i> Tambah Surat Pengembangan Karir</button>
 	<hr>
@@ -49,14 +46,15 @@
 	table = $('#table_pengembangan_karir').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('admin/Data_pengembangan_karir/table_data_pengembangan_karir') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-1],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-1],
+		// 	"orderable": false,
+		// }],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
@@ -81,16 +79,15 @@
 			if (aData[8] == "0") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
-				$("td:eq(1)", nRow).css('font-weight', 'bold');
 				$("td:eq(2)", nRow).css('font-weight', 'bold');
 				$("td:eq(3)", nRow).css('font-weight', 'bold');
 				$("td:eq(4)", nRow).css('font-weight', 'bold');
 				$("td:eq(5)", nRow).css('font-weight', 'bold');
+				$("td:eq(7)", nRow).css('font-weight', 'bold');
 				$(nRow).css('background-color', '#f7f7cd');
 			}
 		},
 		lengthMenu: [10, 20, 30, 40, 50, 100],
-
 		"bSort": false,
 		"bInfo": true,
 		"dom": '<"top"flp<"clear">>rt<"bottom"ifp<"clear">>'

@@ -58,6 +58,8 @@ class Data_lapor extends CI_Controller
 
 			$see = $this->func_table_lapor->see_table_admin_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
+
+			
 			$button_ = '
 					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
 					<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>

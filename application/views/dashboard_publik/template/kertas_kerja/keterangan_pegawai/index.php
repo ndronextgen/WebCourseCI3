@@ -44,12 +44,13 @@
 </div><!-- /.row -->
 
 <script type="text/javascript">
-    var save_method; //for save method string
+    // var save_method; //for save method string
     var tablesrt_ket;
 
     $(document).ready(function() {
         notify_me();
-        //datatables
+
+        // datatables
         tablesrt_ket = $('#table_srt_ket').DataTable({
 
             "processing": true, // Feature control the processing indicator.

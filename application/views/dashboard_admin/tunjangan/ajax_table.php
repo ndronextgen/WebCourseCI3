@@ -22,14 +22,14 @@
 	}
 </style>
 
-<table id="table_tunjangan" class="table table-striped table-bordered" cellspacing="0" width="100%" style='font-size:13px !important;'>
+<table id="table_tunjangan" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
 	<thead>
 		<tr height='50px;'>
-			<td class="td_head" width='10px'>No.</td>
-			<td class="td_head" width='180px'>Aksi</td>
-			<td class="td_head" width='200px'>Status Terakhir</td>
+			<td class="td_head" style="text-align: center;" width='0px'>No.</td>
+			<td class="td_head" width='0px'>Aksi</td>
 			<td class="td_head">Dibuat Oleh</td>
-			<td class="td_head">Tanggal Dibuat</td>
+			<td class="td_head" style="text-align: center;" width='0px'>Status Terakhir</td>
+			<td class="td_head" width='0px'>Tanggal Dibuat</td>
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -39,6 +39,7 @@
 	table = $('#table_tunjangan').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('admin/Data_tunjangan/table_data_tunjangan') ?>",
 			"type": "POST"
@@ -48,9 +49,9 @@
 		}, {
 			"sClass": "left"
 		}, {
-			"sClass": "center"
-		}, {
 			"sClass": "left"
+		}, {
+			"sClass": "center"
 		}, {
 			"sClass": "left"
 		}],
