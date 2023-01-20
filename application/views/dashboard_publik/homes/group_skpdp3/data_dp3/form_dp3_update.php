@@ -183,6 +183,7 @@
                                             $ci = &get_instance();
                                             $ci->load->library('func_table');
                                             $file = $ci->func_table->get_file($path_file, $Data_dp3->file_name_ori);
+                                            
                                             echo $file;
                                             ?>
                                         </td>

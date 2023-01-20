@@ -22,11 +22,11 @@ class Srt_ket extends CI_Controller
 		// Datatables Variables
 		$id = $this->session->userdata('id_pegawai');
 		$list = $this->tbl_data_srt_ket->get_datatables($id);
+
 		$data = array();
 		$no = $_POST['start'];
-
+		
 		foreach ($list as $r) {
-
 			// === begin: badge-status ===
 			switch ((int) $r->id_status) {
 				case 0:
@@ -41,8 +41,6 @@ class Srt_ket extends CI_Controller
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
 										onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-					// 						onclick="showTimeline(' . $r->id_srt . ')" style="background-color: #' . $r->backcolor . '; color: #' . $r->fontcolor . ';">' . $r->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -71,24 +69,8 @@ class Srt_ket extends CI_Controller
 			// === end: badge-status ===
 
 			$see = $this->func_table->see_public($id, $r->id_srt);
-			$no++;
-			$row = array();
 
-			$row[] = $no;
-			// $row[] = $r->nama_surat;
-
-			// begin: change by joe 2022.10.14
-			// $row[] = $r->keterangan;
-			if (strtolower($r->jenis_pengajuan_surat) == 'x') {
-				$row[] = $r->jenis_pengajuan_surat_lainnya;
-			} else {
-				$row[] = $r->keterangan;
-			}
-			// $row[] = $r->jenis_pengajuan_surat;
-			// end: change by joe 2022.10.14
-
-			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' . ' (' . 'H:i:s' . ') ');
-			$row[] = $status_surat;
+			// === begin: buttons (aksi) ===
 			$button = '';
 			switch ($r->id_status_srt) {
 				case 1:
@@ -157,10 +139,25 @@ class Srt_ket extends CI_Controller
 								</a>';
 					break;
 			}
+			// === end: buttons (aksi) ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
+			$row[] = $no;
 			$row[] = $button;
+			if (strtolower($r->jenis_pengajuan_surat) == 'x') {
+				$row[] = $r->jenis_pengajuan_surat_lainnya;
+			} else {
+				$row[] = $r->keterangan;
+			}
+			$row[] = $status_surat;
+			$row[] = date_format(date_create($r->tgl_surat), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $see;
-			$data[] = $row;
+
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -194,6 +191,8 @@ class Srt_ket extends CI_Controller
 		)->row();
 		$a['Id'] 	= $Id;
 		$a['data'] 	= $data;
+
+		// === see notif ===
 		$see = $this->func_table->in_tosee_sk($data->id_user, $data->id_srt, $data->id_status_srt, $data->id_user);
 
 		// ===== surat keterangan history =====
@@ -298,16 +297,6 @@ class Srt_ket extends CI_Controller
 		}
 	}
 
-	// public function notify_me()
-	// {
-	// 	$count_see = $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
-	// 	if ($count_see > 0) {
-	// 		echo '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
-	// 	} else {
-	// 		echo '';
-	// 	}
-	// }
-
 	public function notify_me()
 	{
 		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
@@ -317,13 +306,15 @@ class Srt_ket extends CI_Controller
 		$total = $count_see + $count_see_tj + $count_see_kaku;
 
 		if ($count_see > 0) {
-			$res_count_see = '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
+			// $res_count_see = '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
+			$res_count_see = $count_see;
 		} else {
 			$res_count_see = '';
 		}
 
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			// $res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			$res_total = $total;
 		} else {
 			$res_total = '';
 		}

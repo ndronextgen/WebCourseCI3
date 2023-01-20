@@ -90,32 +90,11 @@
                                     <tr>
                                         <td>
                                             <?php
-                                            // $path_file = './asset/upload/lapor/' . $Data_lapor->File_upload;
-
-                                            // $ci = &get_instance();
-                                            // $ci->load->library('func_table');
-                                            // $file = $ci->func_table->get_file($path_file, 'View File');
-
-                                            if ($Data_lapor->File_upload != '') {
-                                                $path_file = './asset/upload/lapor/' . $Data_lapor->File_upload;
-                                                if (file_exists($path_file)) {
-                                                    $ext = pathinfo($Data_lapor->File_upload, PATHINFO_EXTENSION);
-
-                                                    if (strtolower($ext) == 'pdf') {
-                                                        $file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:(0);">
-                                                                    <button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i> PDF</button>
-                                                                </a>';
-                                                    } else {
-                                                        $file = '<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">
-                                                                    <img height="30px" src="' . base_url($path_file) . '">
-                                                                </a>';
-                                                    }
-                                                } else {
-                                                    $file = '-';
-                                                }
-                                            } else {
-                                                $file = '-';
-                                            }
+                                            $path_file = './asset/upload/Lapor/' . $Data_lapor->File_upload;
+                                            
+                                            $ci = &get_instance();
+                                            $ci->load->library('func_table');
+                                            $file = $ci->func_table->get_file($path_file, $Data_lapor->File_upload);
 
                                             echo $file;
                                             ?>

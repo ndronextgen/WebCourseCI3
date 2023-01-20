@@ -13,10 +13,6 @@
 		overflow-y: initial !important;
 	}
 
-	.modal-body {
-		overflow-y: auto;
-	}
-
 	.content {
 		min-height: auto;
 	}

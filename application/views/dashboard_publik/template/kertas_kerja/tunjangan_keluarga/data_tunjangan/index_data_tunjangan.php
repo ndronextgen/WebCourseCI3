@@ -36,10 +36,11 @@
 							<table id="table_tunjangan" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 								<thead>
 									<tr>
-										<th width='1px'>Aksi</th>
+										<th width='0px' style="text-align: center;">No</th>
+										<th width='0px'>Aksi</th>
 										<th>Peraturan</th>
-										<th width='180px' style="text-align: center;">Status</th>
-										<th>Tanggal Dibuat</th>
+										<th width='0px' style="text-align: center;">Status</th>
+										<th width='0px'>Tanggal Dibuat</th>
 									</tr>
 								</thead>
 							</table>
@@ -54,13 +55,16 @@
 			table_tunjangan = $('#table_tunjangan').DataTable({
 				"processing": true,
 				"serverSide": true,
-				"order": [],
+				// "order": [],
+				"ordering": false,
 				"responsive": true,
 				"ajax": {
 					"url": "<?php echo site_url('Tunjangan/table_data_tunjangan') ?>",
 					"type": "POST"
 				},
 				"aoColumns": [{
+					"sClass": "center"
+				}, {
 					"sClass": "left"
 				}, {
 					"sClass": "left"
@@ -69,17 +73,21 @@
 				}, {
 					"sClass": "left"
 				}],
-				"columnDefs": [{
-					"targets": [-1],
-					"orderable": false,
-				}, ],
+				// "columnDefs": [{
+				// 	"targets": [-1],
+				// 	"orderable": true,
+				// }, {
+				// 	"bSortable": false,
+				// 	"aTargets": [0, 1, 2, 3]
+				// }],
 				fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-					if (aData[4] == "0") {
+					if (aData[5] == "0") {
 						/*mapping*/
 						$("td:eq(0)", nRow).css('font-weight', 'bold');
 						$("td:eq(1)", nRow).css('font-weight', 'bold');
 						$("td:eq(2)", nRow).css('font-weight', 'bold');
 						$("td:eq(3)", nRow).css('font-weight', 'bold');
+						$("td:eq(4)", nRow).css('font-weight', 'bold');
 						$(nRow).css('background-color', '#f7f7cd');
 					}
 				},
@@ -111,7 +119,6 @@
 						$('#ajax_content').html(data);
 					}
 				});
-
 			}
 
 			function edit_tunjangan(Tunjangan_id) {
@@ -129,7 +136,6 @@
 						$('#ajax_content').html(data);
 					}
 				});
-
 			}
 
 			function ajax_simpan_tunjangan() {

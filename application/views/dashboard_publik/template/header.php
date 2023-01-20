@@ -43,7 +43,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-
+<script src="<?php echo base_url('asset/bootstrap/check.js');?>"></script>
 
 <!-- load javascript api for arcgis -->
 <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css">

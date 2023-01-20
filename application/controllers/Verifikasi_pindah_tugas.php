@@ -170,8 +170,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+			// === begin: buttons (aksi) ===
 			$button = '<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->Pindah_tugas_id . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
@@ -179,7 +178,6 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			# maka kyang ditampilkan adalah surat yang statusnya ('21','22','23','24','25','26','3')
 			# dan tombolverifikasi muncul di status 21
 			# jika user adalah sekdis tombol 22
-
 
 			if (($status_verifikasi == 'kepegawaian' or $status_verifikasi == 'sudinupt') and ($key->Status_progress == '21' || $key->Status_progress == '26')) {
 				$button_verifikasi = '<a type="button" class="btn btn-warning btn-sm" onclick="verifikasi_pindah_tugas_kep(' . "'" . $key->Pindah_tugas_id . "'" . ')">
@@ -202,6 +200,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			} else {
 				$button_download = '';
 			}
+			// === end: buttons (aksi) ===
 
 			// === begin: badge-status ===
 			switch ((int) $key->Status_progress) {
@@ -217,8 +216,6 @@ class Verifikasi_pindah_tugas extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Pindah_tugas_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Pindah_tugas_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -246,15 +243,20 @@ class Verifikasi_pindah_tugas extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $key->Keterangan;
 			$row[] = $status_surat;
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $data_bold;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -537,13 +539,15 @@ class Verifikasi_pindah_tugas extends CI_Controller
 		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi_pindah_tugas > 0) {
-			$res_count_see_verifikasi_pindah_tugas = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_pindah_tugas . '</span>';
+			// $res_count_see_verifikasi_pindah_tugas = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi_pindah_tugas . '</span>';
+			$res_count_see_verifikasi_pindah_tugas = $count_see_verifikasi_pindah_tugas;
 		} else {
 			$res_count_see_verifikasi_pindah_tugas = '';
 		}
 
 		if ($total_verifikasi > 0) {
-			$res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			// $res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			$res_total_verifikasi = $total_verifikasi;
 		} else {
 			$res_total_verifikasi = '';
 		}

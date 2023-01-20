@@ -30,12 +30,11 @@
                 <table id="table_srt_ket" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th style="text-align: center;">No.</th>
-                            <!-- <th>Nama Surat</th> -->
-                            <th>Keperluan</th>
-                            <th>Tanggal Pengajuan</th>
-                            <th width='0px' data-priority='1' style="text-align: center;">Status</th>
+                            <th width='0px' style="text-align: center;">No</th>
                             <th width='0px' data-priority='1'>Aksi</th>
+                            <th>Keperluan</th>
+                            <th width='0px' data-priority='1' style="text-align: center;">Status</th>
+                            <th width='0px'>Tanggal Pengajuan</th>
                         </tr>
                     </thead>
                 </table>
@@ -53,9 +52,10 @@
         //datatables
         tablesrt_ket = $('#table_srt_ket').DataTable({
 
-            "processing": true, //Feature control the processing indicator.
-            "serverSide": true, //Feature control DataTables' server-side processing mode.
-            "order": [], //Initial no order.
+            "processing": true, // Feature control the processing indicator.
+            "serverSide": true, // Feature control DataTables' server-side processing mode.
+            // "order": [], // Initial no order.
+            "ordering": false,
             "responsive": true,
 
             // Load data for the table's content from an Ajax source
@@ -64,11 +64,14 @@
                 "type": "POST"
             },
 
-            //Set column definition initialisation properties.
-            "columnDefs": [{
-                "targets": [-1], //last column
-                "orderable": false, //set not orderable
-            }],
+            // Set column definition initialisation properties.
+            // "columnDefs": [{
+            //     "targets": [-1], // last column
+            //     "orderable": true, // set not orderable
+            // }, {
+            //     "bSortable": false,
+            //     "aTargets": [0, 1, 2, 3]
+            // }],
 
             // set column align
             "aoColumns": [{
@@ -84,7 +87,7 @@
             }],
 
             fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                if (aData[6] == "0") {
+                if (aData[5] == "0") {
                     /*mapping*/
                     $("td:eq(0)", nRow).css('font-weight', 'bold');
                     $("td:eq(1)", nRow).css('font-weight', 'bold');
