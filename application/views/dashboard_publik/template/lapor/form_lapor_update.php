@@ -5,6 +5,7 @@
     <div id='loading'></div>
 </div>
 <!-- </div> -->
+
 <div class="box-body">
     <form id="form_lapor" name="form_lapor" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -94,7 +95,7 @@
 
                                             $ci = &get_instance();
                                             $ci->load->library('func_table');
-                                            $file = $ci->func_table->get_file($path_file, View File"");
+                                            $file = $ci->func_table->get_file($path_file, "View File");
 
                                             echo $file;
                                             ?>

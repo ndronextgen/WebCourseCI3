@@ -59,13 +59,14 @@ class Data_lapor extends CI_Controller
 			$see = $this->func_table_lapor->see_table_admin_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
 
-			
+			// === begin: buttons (aksi) ===
 			$button_ = '
 					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
 					<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
 					<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
 					';
 			$tanggapan = '<button type="button" class="kt-nav__link btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+			// === end: buttons (aksi) ===
 
 			// === begin: file ===
 			$path_file = './asset/upload/Lapor/' . $key->File_upload;
