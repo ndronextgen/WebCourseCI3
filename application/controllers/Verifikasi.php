@@ -142,7 +142,7 @@ class Verifikasi extends CI_Controller
 			$d['count_see_verifikasi_pindah_tugas'] = $count_see_verifikasi_pindah_tugas;
 
 			// $this->load->view('dashboard_publik/verifikasi/index_verifikasi', $d)
-			
+
 			$d['page'] = 'dashboard_publik/template/verifikasi/keterangan_pegawai/index';
 			$d['menu'] = 'ver keterangan pegawai';
 			$this->load->view('dashboard_publik/template/main', $d);
@@ -159,7 +159,6 @@ class Verifikasi extends CI_Controller
 
 	function table_data_verifikasi()
 	{
-
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
@@ -170,13 +169,11 @@ class Verifikasi extends CI_Controller
 		$jumlah_filter 	= $this->verifikasi->jumlah_filter($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 		$jumlah_semua 	= $this->verifikasi->jumlah_semua($user_type, $id_lokasi_kerja, $id_pegawai, $status_verifikasi);
 
-
 		$data = array();
 		$no = $_POST['start'];
+		
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
-
+			// === begin: buttons (aksi) ===
 			$button = '	<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->id_srt . "'" . ')">
 							<i class="fa fa-eye"></i> &nbsp;Detail
 						</a>';
@@ -224,6 +221,7 @@ class Verifikasi extends CI_Controller
 			} else {
 				$button_download = '';
 			}
+			// === end: buttons (aksi) ===
 
 			// === begin: badge-status ===
 			switch ((int) $key->id_status_srt) {
@@ -239,8 +237,6 @@ class Verifikasi extends CI_Controller
 						$status_surat = '<span class="badge btn-warning btn-flat badge-status" 
 									onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning btn-flat badge-status" 
-					// 						onclick="showTimeline(' . $key->id_srt . ')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -268,17 +264,20 @@ class Verifikasi extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
 			$row[] = $no;
 			$row[] = $button . ' ' . $button_verifikasi . ' ' . $button_download;
-			// $row[] = $key->nama_surat;
 			$row[] = $this->func_table->name_format($key->nama);
-			// $row[] = $key->status;
-			$row[] = $status_surat;
 			$row[] = $key->keterangan_pengajuan;
-			$row[] = $key->tgl_proses;
+			$row[] = $status_surat;
+			$row[] = date_format(date_create($key->tgl_proses), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $data_bold;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -531,13 +530,15 @@ class Verifikasi extends CI_Controller
 		$total_verifikasi = $count_see_verifikasi + $count_see_verifikasi_tj + $count_see_verifikasi_kaku + $count_see_verifikasi_hukdis + $count_see_verifikasi_tp + $count_see_verifikasi_karir + $count_see_verifikasi_pindah_tugas;
 
 		if ($count_see_verifikasi > 0) {
-			$res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
+			// $res_count_see_verifikasi = '<span class="badge btn-warning btn-flat">' . $count_see_verifikasi . '</span>';
+			$res_count_see_verifikasi = $count_see_verifikasi;
 		} else {
 			$res_count_see_verifikasi = '';
 		}
 
 		if ($total_verifikasi > 0) {
-			$res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			// $res_total_verifikasi = '<span class="badge btn-warning btn-flat">' . $total_verifikasi . '</span>';
+			$res_total_verifikasi = $total_verifikasi;
 		} else {
 			$res_total_verifikasi = '';
 		}

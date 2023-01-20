@@ -90,7 +90,7 @@
                                     <tr>
                                         <td>
                                             <?php
-                                            $path_file = './asset/upload/lapor/' . $Data_lapor->File_upload;
+                                            $path_file = './asset/upload/Lapor/' . $Data_lapor->File_upload;
                                             
                                             $ci = &get_instance();
                                             $ci->load->library('func_table');

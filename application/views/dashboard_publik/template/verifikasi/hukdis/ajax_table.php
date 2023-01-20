@@ -9,7 +9,7 @@
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
 				<!-- <div class="page-header"> -->
-					<!-- <h4># Data Permintaan Verifikasi</h4> -->
+				<!-- <h4># Data Permintaan Verifikasi</h4> -->
 				<!-- </div> -->
 				<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<hr>
@@ -17,13 +17,12 @@
 					<table id="table_verifikasi_hukdis" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th width='1px'>No</th>
-								<th width='80px'>Aksi</th>
+								<th width='0px' style="text-align: center;">No</th>
+								<th width='0px'>Aksi</th>
 								<th>Nama Pegawai</th>
 								<th>Tipe Surat</th>
-								<!-- <th>Keterangan</th> -->
-								<th>Status</th>
-								<th>Tanggal Dibuat</th>
+								<th width='0px' style="text-align: center;">Status</th>
+								<th width='0px'>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>
@@ -38,16 +37,17 @@
 	tableVerifikasi = $('#table_verifikasi_hukdis').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"order": [],
-		responsive: true,
+		// "order": [],
+		"ordering": false,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Verifikasi_hukdis/table_data_verifikasi_hukdis') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-0],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-0],
+		// 	"orderable": false,
+		// }],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {

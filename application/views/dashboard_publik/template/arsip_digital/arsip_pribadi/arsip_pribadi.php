@@ -146,6 +146,14 @@
 					$('#btnpribadiSave').text('save'); //change button text
 					$('#btnpribadiSave').attr('disabled', false); //set button enable 
 					$('#modal_pribadi').modal('hide');
+					swal.fire({
+						icon: 'success',
+						title: 'Data berhasil disimpan!',
+						showConfirmButton: false,
+						timer: 1500
+					});
+					$('#btn_verifikasi').text('Simpan');
+					$('#btn_verifikasi').attr('disabled', false);
 					reload_table_pribadi();
 					set_notif_to_admin('1668732896');
 				} else {

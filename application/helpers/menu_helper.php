@@ -6,13 +6,12 @@ if (!function_exists('menu_list')) {
     function menu_list()
     {
         $ci = &get_instance();
-        $menus = $ci->menu_model->getParentIdBy(["menu_parent" => 1, 'menu_type' => 'publik']);
-        // $menus = $ci->menu_model->get_all_where(["where_in" => ["menu_parent" => [1], 'menu_type' => 'publik']]);
+        $menus = $ci->menu_model->getParentIdBy(["menu_parent" => 1, 'menu_type' => 'publik', 'menu_status' => '1']);
         $arr = [];
         foreach ($menus as $item) {
-            $submenu = $ci->menu_model->get_all_where(["menu_parent" => $item->menu_id, 'menu_type' => 'publik']);
-            if ($submenu->num_rows() > 0) {
-                $item->submenu = $submenu->result();
+            $submenu = $ci->menu_model->getParentIdBy(["menu_parent" => $item->menu_id, 'menu_type' => 'publik', 'menu_status' => '1']);
+            if (!empty($submenu)) {
+                $item->submenu = $submenu;
             }
             $arr[] = $item;
         }
@@ -59,10 +58,10 @@ if (!function_exists('menuHtml')) {
                 if (!empty($notif[$main_menu->menu_code])) :
                     $html .= $notif[$main_menu->menu_code];
                 endif;
+                $html .= '<i class="caret"></i></span>';
                 if (!empty($main_menu->isInfo)) :
                     $html .= '<span class="label label-success">Baru</span>';
                 endif;
-                $html .= '<i class="caret"></i></span>';
                 $html .= '</a>';
                 $html .= '<ul class="dropdown-menu">';
                 foreach ($submenu as $sub_main_menu) :
@@ -71,6 +70,9 @@ if (!function_exists('menuHtml')) {
                     $html .= '<i class="fa fa-angle-right"></i>' . $sub_main_menu->menu_name . '&nbsp;';
                     if (!empty($notif[$sub_main_menu->menu_code])) :
                         $html .= $notif[$sub_main_menu->menu_code];
+                    endif;
+                    if (!empty($main_menu->isInfo)) :
+                        $html .= '<span class="label label-success" style="right: 5px;top: 5px;position: absolute;">Baru</span>';
                     endif;
                     $html .= '</a></li>';
                 endforeach;

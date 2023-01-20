@@ -28,6 +28,7 @@ class Menu_model extends CI_Model
             AND tmi.tgl_mulai <= '$date' AND tmi.tgl_akhir >= '$date'
         ", "LEFT");
         $this->db->where($where);
+        $this->db->order_by("menu_position ASC");
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

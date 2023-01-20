@@ -36,20 +36,21 @@
 						<table id="table_kariskasru" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th width='80px' rowspan='2' style="vertical-align: middle;">Aksi</th>
+									<th rowspan='2' style="vertical-align: middle; text-align: center;" width='0px'>No</th>
+									<th rowspan='2' style="vertical-align: middle;" width='0px'>Aksi</th>
 									<th rowspan='2' style="vertical-align: middle;">Nama Pegawai</th>
 									<th rowspan='2' style="vertical-align: middle;">Perihal</th>
-									<th rowspan='2' style="vertical-align: middle; text-align: center;">Status</th>
+									<th rowspan='2' style="vertical-align: middle; text-align: center;" width='0px'>Status</th>
 									<th colspan='6' style="text-align: center;">File Pendukung</th>
-									<th rowspan='2' style="vertical-align: middle;">Tanggal Dibuat</th>
+									<th rowspan='2' style="vertical-align: middle;" width='0px'>Tanggal Dibuat</th>
 								</tr>
 								<tr>
-									<th>Surat Nikah</th>
-									<th>KK</th>
-									<th>KTP Suami</th>
-									<th>KTP Istri</th>
-									<th>SK CPNS/PNS</th>
-									<th>Foto</th>
+									<th style="text-align: center;" width='0px'>Surat Nikah</th>
+									<th style="text-align: center;" width='0px'>KK</th>
+									<th style="text-align: center;" width='0px'>KTP Suami</th>
+									<th style="text-align: center;" width='0px'>KTP Istri</th>
+									<th style="text-align: center;" width='0px'>SK CPNS/PNS</th>
+									<th style="text-align: center;" width='0px'>Foto</th>
 								</tr>
 							</thead>
 						</table>
@@ -64,13 +65,16 @@
 		table_kariskasru = $('#table_kariskasru').DataTable({
 			"processing": true,
 			"serverSide": true,
-			"order": [],
+			// "order": [],
+			"ordering": false,
 			"responsive": true,
 			"ajax": {
 				"url": "<?php echo site_url('Kariskarsu/table_data_kariskarsu') ?>",
 				"type": "POST"
 			},
 			"aoColumns": [{
+				"sClass": "center"
+			}, {
 				"sClass": "left"
 			}, {
 				"sClass": "left"
@@ -91,19 +95,20 @@
 			}, {
 				"sClass": "center"
 			}, {
-				"sClass": "center"
+				"sClass": "left"
 			}],
-			"columnDefs": [{
-				"targets": [-1],
-				"orderable": false,
-			}, ],
+			// "columnDefs": [{
+			// 	"targets": [-1],
+			// 	"orderable": false,
+			// }],
 			fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-				if (aData[10] == "0") {
+				if (aData[12] == "0") {
 					/*mapping*/
 					$("td:eq(0)", nRow).css('font-weight', 'bold');
-					$("td:eq(1)", nRow).css('font-weight', 'bold');
 					$("td:eq(2)", nRow).css('font-weight', 'bold');
-					$("td:eq(9)", nRow).css('font-weight', 'bold');
+					$("td:eq(3)", nRow).css('font-weight', 'bold');
+					$("td:eq(4)", nRow).css('font-weight', 'bold');
+					$("td:eq(11)", nRow).css('font-weight', 'bold');
 					$(nRow).css('background-color', '#f7f7cd');
 				}
 			},

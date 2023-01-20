@@ -147,7 +147,7 @@ class Data_tindak_pidana extends CI_Controller
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			// $row[] = $key->nama_status;
 			$row[] = $status_surat;
-			$row[] = $key->Created_at;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y (H:i:s)');
 			$row[] = $see;
 			$data[] = $row;
 		}

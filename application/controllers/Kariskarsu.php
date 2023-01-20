@@ -152,7 +152,6 @@ class Kariskarsu extends CI_Controller
 
 	function table_data_kariskarsu()
 	{
-
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
@@ -164,10 +163,11 @@ class Kariskarsu extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
+		
 		foreach ($listing as $key) {
-			$no++;
 			$see = $this->func_table->see_public_kaku($username, $key->Kariskarsu_id);
-			$row = array();
+
+			// === begin: buttons (aksi) ===
 			$button_view = '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
 								<i class="fa fa-eye"></i> &nbsp;Detail
 							</a>';
@@ -212,16 +212,7 @@ class Kariskarsu extends CI_Controller
 					$button = $button_view;
 					break;
 			}
-
-			if ($key->Perkawinan_ke == '1') {
-				$data_perkawinan = 'Perkawinan Pertama';
-			} else {
-				$data_perkawinan = 'Perkawinan Janda/Duda';
-			}
-
-			// === nama pegawai ===
-			$this->db->select('nama_pegawai');
-			$nama_pegawai = $this->db->get_where('tbl_data_pegawai', array('id_pegawai' => $key->id_pegawai))->row()->nama_pegawai;
+			// === end: buttons (aksi) ===
 
 			// === begin: badge-status ===
 			switch ((int) $key->Status_progress) {
@@ -237,8 +228,6 @@ class Kariskarsu extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Kariskarsu_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Kariskarsu_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -266,10 +255,25 @@ class Kariskarsu extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === nama pegawai ===
+			$this->db->select('nama_pegawai');
+			$nama_pegawai = $this->db->get_where('tbl_data_pegawai', array('id_pegawai' => $key->id_pegawai))->row()->nama_pegawai;
+
+			// === perkawinan ke- ===
+			if ($key->Perkawinan_ke == '1') {
+				$data_perkawinan = 'Perkawinan Pertama';
+			} else {
+				$data_perkawinan = 'Perkawinan Janda/Duda';
+			}
+
+			// === begin: create row ===
+			$row = array();
+			$no++;
+
+			$row[] = $no;
 			$row[] = $button;
 			$row[] = ucwords(strtolower($nama_pegawai));
 			$row[] = $data_perkawinan;
-			// $row[] = $key->nama_status;
 			$row[] = $status_surat;;
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_surat_nikah);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_kk);
@@ -277,10 +281,11 @@ class Kariskarsu extends CI_Controller
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_ktp_istri);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_sk_pns);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_foto);
-			$row[] = date_format(date_create($key->Created_at), 'j M Y' .' ('. 'H:i:s' . ') ');
+			$row[] = date_format(date_create($key->Created_at), 'j M Y' . ' (' . 'H:i:s' . ') ');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -1135,16 +1140,6 @@ class Kariskarsu extends CI_Controller
 		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/view_kariskarsu', $a);
 	}
 
-	// public function notify_tj()
-	// {
-	// 	$count_see = $this->func_table->count_see_tj($this->session->userdata('username'));
-	// 	if ($count_see > 0) {
-	// 		echo '<span class="badge btn-warning btn-flat">' . $count_see . '</span>';
-	// 	} else {
-	// 		echo '';
-	// 	}
-	// }
-
 	public function notify_kariskarsu()
 	{
 		$count_see 			= $this->func_table->count_see_sk($this->session->userdata('id_pegawai'));
@@ -1154,13 +1149,15 @@ class Kariskarsu extends CI_Controller
 		$total = $count_see + $count_see_tj + $count_see_kaku;
 
 		if ($count_see_kaku > 0) {
-			$res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
+			// $res_count_see_kaku = '<span class="badge btn-warning btn-flat">' . $count_see_kaku . '</span>';
+			$res_count_see_kaku = $count_see_kaku;
 		} else {
 			$res_count_see_kaku = '';
 		}
 
 		if ($total > 0) {
-			$res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			// $res_total = '<span class="badge btn-warning btn-flat">' . $total . '</span>';
+			$res_total = $total;
 		} else {
 			$res_total = '';
 		}

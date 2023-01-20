@@ -9,7 +9,7 @@
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
 				<!-- <div class="page-header"> -->
-					<!-- <h4># Data Permintaan Verifikasi</h4> -->
+				<!-- <h4># Data Permintaan Verifikasi</h4> -->
 				<!-- </div> -->
 				<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<hr>
@@ -17,14 +17,14 @@
 					<table id="table_verifikasi_pengembangan_karir" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th width='1px'>No</th>
-								<th width='80px'>Aksi</th>
+								<th style="text-align: center;" width='0px'>No</th>
+								<th width='0px'>Aksi</th>
 								<th>Nama Pegawai</th>
 								<th>Keterangan</th>
 								<th>Periode</th>
 								<th>Keperluan</th>
-								<th>Status</th>
-								<th>Tanggal Dibuat</th>
+								<th data-priority='1' style="text-align: center;" width='0px'>Status</th>
+								<th data-priority='1' width='0px'>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>
@@ -39,16 +39,17 @@
 	tableVerifikasi = $('#table_verifikasi_pengembangan_karir').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"order": [],
-		responsive: true,
+		// "order": [],
+		'ordering': false,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Verifikasi_pengembangan_karir/table_data_verifikasi_pengembangan_karir') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-0],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-0],
+		// 	"orderable": false,
+		// }],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
@@ -70,8 +71,11 @@
 			if (aData[8] == "21" || aData[8] == "22") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
-				$("td:eq(1)", nRow).css('font-weight', 'bold');
 				$("td:eq(2)", nRow).css('font-weight', 'bold');
+				$("td:eq(3)", nRow).css('font-weight', 'bold');
+				$("td:eq(5)", nRow).css('font-weight', 'bold');
+				$("td:eq(6)", nRow).css('font-weight', 'bold');
+				$("td:eq(7)", nRow).css('font-weight', 'bold');
 				$(nRow).css('background-color', '#f7f7cd');
 			}
 		},

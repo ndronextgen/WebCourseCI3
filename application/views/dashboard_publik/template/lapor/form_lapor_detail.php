@@ -62,17 +62,19 @@
                         <tr>
                             <td colspan='6'>
                                 <h5><i class="flaticon-file-1"></i> File</h5>
-                                <table class="table table-bordered table-hover" style='font-size: 10px; width: 0px;'>
+                                <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <?php if ($Data_lapor->File_upload == '') { ?>
-                                                    -
-                                                <?php } else { ?>
-                                                    <a data-fancybox="images" href="<?php echo base_url('asset/upload/Lapor/' . $Data_lapor->File_upload . ''); ?>" target="_blank">
-                                                        <img height="55px" width="55px" src="<?php echo base_url('asset/upload/Lapor/' . $Data_lapor->File_upload . ''); ?>">
-                                                    </a>
-                                                <?php } ?>
+                                                <?php
+                                                $path_file = './asset/upload/Lapor/' . $Data_lapor->File_upload;
+
+                                                $ci = &get_instance();
+                                                $ci->load->library('func_table');
+                                                $file = $ci->func_table->get_file($path_file, $Data_lapor->File_upload);
+
+                                                echo $file;
+                                                ?>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -81,6 +83,7 @@
                         </tr>
                     </tbody>
                 </table>
+                
                 <div class="box-body table-responsive">
                     <tr>
                         <td class="td-title"><label>Tanggapan Lapor </label></td>

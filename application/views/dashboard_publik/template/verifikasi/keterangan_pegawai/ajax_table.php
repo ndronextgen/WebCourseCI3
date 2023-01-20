@@ -9,7 +9,7 @@
 		<div class="nav-tabs-custom">
 			<div class="tab-content">
 				<!-- <div class="page-header"> -->
-					<!-- <h4># Data Permintaan Verifikasi</h4> -->
+				<!-- <h4># Data Permintaan Verifikasi</h4> -->
 				<!-- </div> -->
 				<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
 				<hr>
@@ -17,12 +17,12 @@
 					<table id="table_verifikasi" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th width='0px' style="text-align: center;">No.</th>
+								<th width='0px' style="text-align: center;">No</th>
 								<th width='0px'>Aksi</th>
 								<th>Nama Pegawai</th>
-								<th width='0px' style="text-align: center;">Status Trakhir</th>
 								<th>Keperluan/Keterangan</th>
-								<th>Tanggal Dibuat</th>
+								<th width='0px' data-priority='1' style="text-align: center;">Status</th>
+								<th width='0px'>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>
@@ -37,16 +37,17 @@
 	tableVerifikasi = $('#table_verifikasi').DataTable({
 		"processing": true,
 		"serverSide": true,
-		"order": [],
+		// "order": [],
+		"ordering": false,
 		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('verifikasi/table_data_verifikasi') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-0],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-0],
+		// 	"orderable": false,
+		// }],
 		// set column align
 		"aoColumns": [{
 			"sClass": "center"
@@ -55,14 +56,14 @@
 		}, {
 			"sClass": "left"
 		}, {
-			"sClass": "center"
-		}, {
 			"sClass": "left"
+		}, {
+			"sClass": "center"
 		}, {
 			"sClass": "left"
 		}],
 		fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			if (aData[7] == "21" || aData[7] == "22") {
+			if (aData[6] == "21" || aData[7] == "22") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
 				$("td:eq(1)", nRow).css('font-weight', 'bold');
