@@ -153,7 +153,6 @@ class Lapor extends CI_Controller
 
 	function table_data_lapor()
 	{
-
 		$user_type = $this->session->userdata('stts');
 		$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		$id_pegawai = $this->session->userdata('id_pegawai');
@@ -165,22 +164,28 @@ class Lapor extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
+
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
 			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
+
+			// === begin: buttons (aksi) ===
 			$button = '
 				<a type="button" class="btn btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
 				<a type="button" class="btn btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
 				<a type="button" class="btn btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
 				';
 			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+			// === end: buttons (aksi) ===
 
 			// === begin: file ===
 			$path_file = './asset/upload/Lapor/' . $key->File_upload;
-			$file = $this->func_table->get_file($path_file, $key->File_upload);
+			$file = $this->func_table->get_file($path_file, "View File");
 			// === end: file ===
+
+			// === begin: create row ===
+			$no++;
+			$row = array();
 
 			$row[] = $no;
 			$row[] = $button;
@@ -192,8 +197,10 @@ class Lapor extends CI_Controller
 			$row[] = date_format(date_create($key->Created_at), 'j M Y');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === begin: create row ===
 		}
+
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $jumlah_semua->jml,
@@ -222,7 +229,6 @@ class Lapor extends CI_Controller
 
 	function simpan_add()
 	{
-
 		$Id 			= $this->session->userdata('id_pegawai');
 		$Created_by 	= $this->session->userdata('username');
 		//$Judul_laporan 	= $this->input->post('Judul_laporan');

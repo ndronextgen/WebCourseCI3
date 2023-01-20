@@ -28,13 +28,12 @@
 	<table id="table_pindah_tugas" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
 		<thead>
 			<tr>
-				<th class="td_head" width='1px'>No</th>
-				<th class="td_head" width='80px'>Aksi</th>
+				<th class="td_head" style="text-align: center;" width='0px'>No</th>
+				<th class="td_head" width='0px'>Aksi</th>
 				<th class="td_head">Nama Pegawai</th>
 				<th class="td_head">Keterangan</th>
-				<!-- <th class="td_head">Keterangan</th> -->
-				<th class="td_head" width='180px' style="text-align: center;">Status</th>
-				<th class="td_head">Tanggal Dibuat</th>
+				<th class="td_head" style="text-align: center;" width='0px'>Status</th>
+				<th class="td_head" width='0px'>Tanggal Dibuat</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -45,14 +44,15 @@
 	table = $('#table_pindah_tugas').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('admin/Data_pindah_tugas/table_data_pindah_tugas') ?>",
 			"type": "POST"
 		},
-		"columnDefs": [{
-			"targets": [-1],
-			"orderable": false,
-		}],
+		// "columnDefs": [{
+		// 	"targets": [-1],
+		// 	"orderable": false,
+		// }],
 		"aoColumns": [{
 			"sClass": "center"
 		}, {
@@ -73,10 +73,8 @@
 			if (aData[6] == "0") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
-				$("td:eq(1)", nRow).css('font-weight', 'bold');
 				$("td:eq(2)", nRow).css('font-weight', 'bold');
 				$("td:eq(3)", nRow).css('font-weight', 'bold');
-				$("td:eq(4)", nRow).css('font-weight', 'bold');
 				$("td:eq(5)", nRow).css('font-weight', 'bold');
 				$(nRow).css('background-color', '#f7f7cd');
 			}

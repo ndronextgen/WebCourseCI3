@@ -59,8 +59,7 @@ class Data_kariskarsu extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+			// === begin: buttons (aksi) ===
 			$button_view = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="proses_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
 							</a>';
@@ -75,11 +74,13 @@ class Data_kariskarsu extends CI_Controller
 					</a>';
 			if ($key->Status_progress == '0') {
 				$button = $button_view . ' ' . $button_delete;
-			} elseif($key->Status_progress == '3') {
-				$button = $button_view . ' '.$button_download;
+			} elseif ($key->Status_progress == '3') {
+				$button = $button_view . ' ' . $button_download;
 			} else {
 				$button = $button_view;
 			}
+			// === end: buttons (aksi) ===
+
 			if ($key->Status_progress == '0') {
 				$see = '1';
 			} else {
@@ -140,11 +141,14 @@ class Data_kariskarsu extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$no++;
+			$row = array();
+
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = $nama_pegawai;
 			$row[] = $data_perkawinan;
-			// $row[] = $key->nama_status;
 			$row[] = $status_surat;
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_surat_nikah);
 			$row[] = $this->func_table->get_file_kariskarsu($key->File_kk);
@@ -155,7 +159,8 @@ class Data_kariskarsu extends CI_Controller
 			$row[] = date_format(date_create($key->Created_at), 'j M Y (H:i:s)');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -575,7 +580,6 @@ class Data_kariskarsu extends CI_Controller
 									} else {
 										$d['signature'] = base_url() . 'asset/foto_pegawai/signature/empty.png';
 									}
-									
 								}
 								$d['stamp'] =  base_url() . 'asset/foto_pegawai/signature/stamp/' . $p3->stamp;
 							}

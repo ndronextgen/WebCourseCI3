@@ -67,11 +67,11 @@
                                         <tr>
                                             <td>
                                                 <?php
-                                                $path_file = './asset/upload/Lapor/' . $Data_lapor->File_upload;
+                                                $path_file = './asset/upload/lapor/' . $Data_lapor->File_upload;
 
                                                 $ci = &get_instance();
                                                 $ci->load->library('func_table');
-                                                $file = $ci->func_table->get_file($path_file, $Data_lapor->File_upload);
+                                                $file = $ci->func_table->get_file($path_file, "View File");
 
                                                 echo $file;
                                                 ?>
@@ -83,7 +83,7 @@
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <div class="box-body table-responsive">
                     <tr>
                         <td class="td-title"><label>Tanggapan Lapor </label></td>
