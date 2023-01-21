@@ -16,88 +16,20 @@
                                     <label class="radio-inline" style='font-size:15px;font-weight:bold;color:red;'>
                                         <input type="radio" name="Perkawinan_ke" id="Perkawinan_ke" value='2'>Perkawinan Janda/Duda
                                     </label>
+                                    <button type='button' class='btn btn-success btn-sm' onclick='ubah_data_pegawai(<?php echo $id_pegawai; ?>)' style='float:right;'><i class="glyphicon glyphicon-edit"></i> Ubah Data Pegawai</button>
                                     
                                     
                                                 <table class='table bordered' cellspacing='10' cellpadding='5'>
                                                     <tr>
-                                                        <td width='1px'>1.</td>
-                                                        <td colspan='4'>Yang bertandatangan dibawah ini:</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>a.</td>
-                                                        <td width='200px'>Nama Lengkap</td>
-                                                        <td width='1px'>:</td>
-                                                        <td><?php echo ucwords(strtolower($Data->nama_pegawai)); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>b.</td>
-                                                        <td>NIP / Nomor Identitas</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->nip; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>c.</td>
-                                                        <td>Pangkat / Golongan Ruang</td>
-                                                        <td>:</td>
-                                                        <td><?php echo ucwords(strtolower($Data->uraian)) . ' ' . $Data->golongan; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>d.</td>
-                                                        <td>Jabatan / Pekerjaan</td>
-                                                        <td>:</td>
-                                                        <td><?php echo ucwords(strtolower($Data->nama_jabatan)); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>e.</td>
-                                                        <td>Satuan Organisasi</td>
-                                                        <td>:</td>
-                                                        <td><?php echo str_replace('Dan','dan',ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>f.</td>
-                                                        <td>Instansi</td>
-                                                        <td>:</td>
-                                                        <td>Pemerintah Provinsi DKI Jakarta</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>g.</td>
-                                                        <td>Tempat / Tanggal Lahir</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($Data->tanggal_lahir); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>h.</td>
-                                                        <td>Jenis Kelamin</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->jenis_kelamin; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>i.</td>
-                                                        <td>Agama</td>
-                                                        <td>:</td>
-                                                        <td><?php echo $Data->agama; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width='1px'>&nbsp;</td>
-                                                        <td width='2px'>j.</td>
-                                                        <td>Alamat / tempat tinggal</td>
-                                                        <td>:</td>
-                                                        <td><?php echo ucwords(strtolower($Data->alamat)); ?></td>
+                                                        <td colspan='5'>
+                                                            <div id='data_pegawai'></div>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan='5'>&nbsp;</td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan='5'>Dengan ini memberitahukan dengan hormat, bahwa saya: <button class='btn btn-danger btn-sm btn-flat' type='button' onclick="get_item_keluarga('<?php echo $Data->id_pegawai; ?>', '<?php echo $Kariskarsu_id; ?>')">+ Pilih istri/suami dari data keluarga</button></td>
+                                                        <td colspan='5'>Dengan ini memberitahukan dengan hormat, bahwa saya: <button class='btn btn-danger btn-sm btn-flat' type='button' onclick="get_item_keluarga('<?php echo $Data->id_pegawai; ?>', '<?php echo $Kariskarsu_id; ?>')">+ Pilih istri/suami dari data keluarga</button><button class='btn btn-warning btn-sm btn-flat' type='button' onclick="clear_item('<?php echo $Kariskarsu_id; ?>')">- Clear/Reset Data</button></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan='5'>
@@ -296,6 +228,38 @@
                     });
                 }
 
+                get_view_pegawai();
+                function get_view_pegawai() {
+                    //save_method = 'update';
+                    $.ajax({
+                        url: "<?php echo site_url('Kariskarsu/get_view_pegawai'); ?>",
+                        data: {
+                            Id: <?php echo $id_pegawai; ?>
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            $('#data_pegawai').html(data);
+                        }
+                    });
+                }
+
+                function ubah_data_pegawai(Id) {
+                    //save_method = 'update';
+                    $.ajax({
+                        url: "<?php echo site_url('Kariskarsu/ubah_data_pegawai'); ?>",
+                        data: {
+                            Id: Id
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            $('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+                        }
+                    });
+                    $('.modal-footer').hide(); // show bootstrap modal
+                    $('#modal_all').modal('show'); // show bootstrap modal
+                    $('.modal-title').text('Data Pegawai'); // Set Title to Bootstrap modal title
+                }
+
                 function get_item_keluarga(Id, Kariskarsu_id) {
                     //save_method = 'update';
                     $.ajax({
@@ -313,4 +277,19 @@
                     $('#modal_all').modal('show'); // show bootstrap modal
                     $('.modal-title').text('Data Keluarga Pegawai'); // Set Title to Bootstrap modal title
                 }
+                function clear_item(Kariskarsu_id) {
+                    //save_method = 'update';
+                    $.ajax({
+                        url: "<?php echo site_url('Kariskarsu/clear_item'); ?>",
+                        data: {
+                            Kariskarsu_id: Kariskarsu_id
+                        },
+                        type: "POST",
+                        success: function(data) {
+                            alert(data);
+                            get_temp_item_pilihan(Kariskarsu_id);
+                        }
+                    });
+                }
             </script>
+<div id='isi_keluarga'></div>

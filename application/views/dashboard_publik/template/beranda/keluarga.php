@@ -175,7 +175,7 @@
 		$('.help-block').empty(); // clear error string
 
 		var url;
-		if (save_method == 'addkeluarga' || save_method == 'tunjangan') {
+		if (save_method == 'addkeluarga' || save_method == 'tunjangan' || save_method == 'kariskarsu') {
 			url = "<?php echo site_url('keluarga/keluarga_add') ?>";
 		} else {
 			url = "<?php echo site_url('keluarga/keluarga_update') ?>";
@@ -186,11 +186,11 @@
 		var form = $("#form_keluarga").closest("form");
 		var data = new FormData(form[0]);
 
-		// tunjangan
+		// tunjangan, kariskarsu
 		//console.log(data);
 		var param_1 =data.get('param_1');
 		var param_2 =data.get('param_2');
-		// end tunpkangan
+		// end tunpkangan, kariskarsu
 
 		$.ajax({
 			url: url,
@@ -216,7 +216,8 @@
 					
 					if(save_method=='tunjangan' || save_method=='ubah_tunjangan'){
 						get_item(param_1, param_2);
-						//$('#isi_keluarga').html('');
+					} else if(save_method=='kariskarsu' || save_method=='ubah_kariskarsu'){
+						get_item_keluarga(param_1, param_2);
 					} else {
 						reload_table_keluarga();
 					}
@@ -333,7 +334,7 @@
 			<div class="modal-body form">
 				<form action="#" id="form_keluarga" class="form-horizontal" enctype="multipart/form-data">
 					<input type="hidden" value="" name="id_data_keluarga" />
-					<!-- tunjangan -->
+					<!-- tunjangan, kariskarsu -->
 					<input type="hidden" value="" name="param_1" />
 					<input type="hidden" value="" name="param_2" />
 					<!-- end -->
