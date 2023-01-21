@@ -11,6 +11,14 @@
 		height: 200px;
 		background-color: white;
 	}
+	.disabledselect2 {
+        pointer-events: none;
+        background-color: #dbdbdb;
+        cursor: no-drop;
+    }
+	.disabledselect2 .select2-container--default .select2-selection--single{
+		background-color: #dbdbdb;
+	}
 </style>
 <div class="callout callout-info">
 	<h4>Edit Data Pegawai</h4>
@@ -665,7 +673,7 @@
 											</div>
 										</fieldset>
 
-										<div class="form-group">
+										<div class="form-group disabledselect2">
 											<div class="input-group">
 												<span class="input-group-addon">Status Pegawai :</span>
 												<select class="select2 form-control input-lg" name="status_pegawai" id="status_pegawai">
@@ -687,7 +695,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group disabledselect2">
 											<div class="input-group">
 												<span class="input-group-addon">Golongan:</span>
 												<select class="select2 form-control input-lg" name="id_golongan" id="id_golongan">
@@ -712,11 +720,11 @@
 										<div class="form-group">
 											<div class="input-group">
 												<span class="input-group-addon">TMT Pangkat Terakhir :</span>
-												<input type="text" class="form-control datepicker" name="tanggal_mulai_pangkat" id="tanggal_mulai_pangkat" value="<?php echo (isset($tanggal_mulai_pangkat) ? date_format(date_create($tanggal_mulai_pangkat), 'd M Y') : ''); ?>" placeholder="TMT Pangkat">
+												<input type="text" class="form-control datepicker disabledselect2" name="tanggal_mulai_pangkat" id="tanggal_mulai_pangkat" value="<?php echo (isset($tanggal_mulai_pangkat) ? date_format(date_create($tanggal_mulai_pangkat), 'd M Y') : ''); ?>" placeholder="TMT Pangkat">
 											</div><!-- /.input group -->
 										</div>
 
-										<div class="form-group">
+										<div class="form-group disabledselect2">
 											<div class="input-group">
 												<span class="input-group-addon">Status Jabatan :</span>
 												<select name="id_status_jabatan_view" id="id_status_jabatan_view" class="select2 form-control input-lg">
@@ -738,7 +746,7 @@
 										</div>
 
 										<div id="grpEselon">
-											<div class="form-group">
+											<div class="form-group disabledselect2">
 												<div class="input-group">
 													<span class="input-group-addon">Eselon :</span>
 													<select class="select2 form-control" name="id_eselon" id='id_eselon'>
@@ -761,7 +769,7 @@
 											</div>
 										</div>
 										<div id="grpRumpun">
-											<div class="form-group" <?php echo $show_rumpun_jabatan; ?>>
+											<div class="form-group disabledselect2" <?php echo $show_rumpun_jabatan; ?>>
 												<div class="input-group">
 													<span class="input-group-addon">Rumpun Jabatan :</span>
 													<select name="id_rumpun_jabatan_view" id="id_rumpun_jabatan_view" class="select2 form-control">
@@ -781,7 +789,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group disabledselect2">
 											<div class="input-group">
 												<span class="input-group-addon">Nama Jabatan :</span>
 												<select name="id_jabatan_view" id="id_jabatan_view" class="select2 form-control">
@@ -803,7 +811,7 @@
 											</div>
 										</div>
 
-										<div class="form-group">
+										<div class="form-group disabledselect2">
 											<div class="input-group">
 												<span class="input-group-addon">Unit / Satuan Kerja :</span>
 												<select data-placeholder="Lokasi Kerja" class="select2 form-control input-sm" tabindex="2" name="lokasi_kerja" id="lokasi_kerja">
@@ -821,7 +829,7 @@
 											</div>
 										</div>
 										<div class="form-group" id='sublokasi'>
-											<div class="input-group">
+											<div class="input-group disabledselect2">
 												<span class="input-group-addon">(Sub) Unit / Satuan Kerja :</span>
 												<select data-placeholder="Sub unit/Satker" class="select2 form-control input-sm" tabindex="2" name="sublokasi_kerja" id="sublokasi_kerja">
 													<option value=""></option>
@@ -839,7 +847,7 @@
 										</div>
 
 										<div id='grpseksi'>
-											<div class="form-group">
+											<div class="form-group disabledselect2">
 												<div class="input-group">
 													<span class="input-group-addon">Seksi / Subbag / Satlak:</span>
 													<select data-placeholder="Seksi / Subbag / Satlak" class="select2 form-control input-sm" tabindex="2" name="seksi" id="seksi">
@@ -1225,16 +1233,17 @@
 		});
 
 		// === disable ===
-		$("#status_pegawai").attr('disabled', true);
-		$("#id_golongan").attr('disabled', true);
-		$("#tanggal_mulai_pangkat").attr('disabled', true);
-		$("#id_status_jabatan_view").attr('disabled', true);
-		$("#id_eselon").attr('disabled', true);
-		$("#id_rumpun_jabatan_view").attr('disabled', true);
-		$("#id_jabatan_view").attr('disabled', true);
-		$("#lokasi_kerja").attr('disabled', true);
-		$("#sublokasi_kerja").attr('disabled', true);
-		$("#seksi").attr('disabled', true);
+		// $("#status_pegawai").attr('disabled', true);
+		// $("#id_golongan").attr('disabled', true);
+		// $("#tanggal_mulai_pangkat").attr('disabled', true);
+		// $("#id_status_jabatan_view").attr('disabled', true);
+		// $("#id_eselon").attr('disabled', true);
+		// $("#id_rumpun_jabatan_view").attr('disabled', true);
+		// $("#id_jabatan_view").attr('disabled', true);
+		// $("#lokasi_kerja").attr('disabled', true);
+		// $("#sublokasi_kerja").attr('disabled', true);
+		// $("#seksi").attr('disabled', true);
+		//$('#status_pegawai').addClass('avoid-clicks');
 
 	});
 </script>
