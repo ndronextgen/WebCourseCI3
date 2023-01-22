@@ -391,7 +391,8 @@ class Kariskarsu extends CI_Controller
 		$id_pegawai 		= $this->input->post('id_pegawai');
 		$nama_pegawai 		= $this->input->post('nama_pegawai');
 		$tempat_lahir 		= $this->input->post('tempat_lahir');
-		$tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		// $tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		$tanggal_lahir 		= date('Y-m-d', strtotime($this->input->post('tanggal_lahir')));
 		$jenis_kelamin 		= $this->input->post('jenis_kelamin');
 		$agama 				= $this->input->post('agama');
 		$alamat 			= $this->input->post('alamat');
@@ -406,12 +407,22 @@ class Kariskarsu extends CI_Controller
 		$this->db->where('id_pegawai', $id_pegawai);
 		$QUpdate =  $this->db->update('tbl_data_pegawai', $data);
 		if ($QUpdate) {
-			echo 'Berhasil';
+			// echo 'Berhasil';
+			$message = 'Berhasil update data pegawai.';
+			$status = 1;
 		} else {
-			echo 'Gagal';
+			// echo 'Gagal';
+			$message = 'Gagal update data pegawai.';
+			$status = 0;
 		}
+		$result = [
+			'message' => $message,
+			'status' => $status
+		];
+		echo json_encode($result);
 	}
 	#END ubah data pegawai
+
 	// item pilihan
 	function get_temp_item_pilihan()
 	{
@@ -472,10 +483,10 @@ class Kariskarsu extends CI_Controller
 		$del_temp = $this->db->query("DELETE FROM tr_kariskarsu_komponen_temp WHERE Kariskarsu_id = '$Kariskarsu_id'");
 		if ($del_temp) {
 			$status = 1;
-			$message = 'Anggota keluarga berhasil dikembalikan.';
+			$message = 'Data istri/suami berhasil di-reset.';
 		} else {
 			$status =  0;
-			$message = 'Anggota keluarga gagal dikembalikan';
+			$message = 'Data istri/suami gagal di-reset';
 		}
 		$result = [
 			'status' => $status,

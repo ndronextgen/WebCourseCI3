@@ -295,28 +295,13 @@
             type: "POST",
             success: function(data) {
                 const resp = JSON.parse(data);
-
-                if (resp.status == 1) {
-                    $.alert({
-                        icon: 'fa fa-info',
-                        title: 'Info',
-                        type: 'green',
-                        content: resp.message,
-                        action: function() {
-                            get_temp_item_pilihan(Kariskarsu_id);
-                        }
-                    })
-                } else {
-                    $.alert({
-                        icon: 'fa fa-warning',
-                        title: 'Error',
-                        type: 'red',
-                        content: resp.message,
-                        action: function() {
-                            // do somethings here...
-                        }
-                    })
-                }
+                $.alert({
+                    type: (resp.status == 0) ? 'red' : 'green',
+                    icon: (resp.status == 0) ? 'fa fa-warning' : 'fa fa-info',
+                    title: (resp.status == 0) ? 'Warning' : 'Info',
+                    content: resp.message
+                })
+                get_temp_item_pilihan(Kariskarsu_id);
             }
         });
     }

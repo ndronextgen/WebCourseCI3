@@ -34,7 +34,7 @@
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label>Tanggal Lahir</label>
-                            <input type="text" class="form-control input-sm" value="<?php echo $Data->tanggal_lahir; ?>" id="tanggal_lahir" name="tanggal_lahir">
+                            <input type="text" class="form-control input-sm" value="<?php echo date_format(date_create($Data->tanggal_lahir), 'j M Y'); ?>" id="tanggal_lahir" name="tanggal_lahir">
                         </div>
                     </div>
                     <div class="col-xs-3">
@@ -147,7 +147,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#tanggal_lahir').datepicker({
-            format: 'yyyy-mm-dd'
+            // format: 'yyyy-mm-dd'
+            format: 'd M yyyy'
         });
     });
 
@@ -165,7 +166,16 @@
                 $('#btn_ubah_pegawai').attr('disabled', true);
             },
             success: function(res) {
-                alert(res);
+                // alert(res);
+
+                const resp = JSON.parse(res);
+                $.alert({
+                    type: (resp.status == 0) ? 'red' : 'green',
+                    icon: (resp.status == 0) ? 'fa fa-warning' : 'fa fa-info',
+                    title: (resp.status == 0) ? 'Warning' : 'Info',
+                    content: resp.message
+                })
+
                 $('#btn_ubah_pegawai').text('Perbaharui Data Pegawai');
                 $('#btn_ubah_pegawai').attr('disabled', false);
                 get_view_pegawai();

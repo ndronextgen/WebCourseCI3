@@ -166,7 +166,7 @@ class Tunjangan extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-		
+
 		foreach ($listing as $key) {
 			$see = $this->func_table->see_public_tj($username, $key->Tunjangan_id);
 
@@ -368,11 +368,13 @@ class Tunjangan extends CI_Controller
 		// $this->load->view('dashboard_publik/tunjangan/data_tunjangan/form_tunjangan_add', $a);
 		$this->load->view('dashboard_publik/template/kertas_kerja/tunjangan_keluarga/data_tunjangan/form_ubah_data_pegawai', $a);
 	}
-	function simpan_update_data_pegawai(){
+	function simpan_update_data_pegawai()
+	{
 		$id_pegawai 		= $this->input->post('id_pegawai');
 		$nama_pegawai 		= $this->input->post('nama_pegawai');
 		$tempat_lahir 		= $this->input->post('tempat_lahir');
-		$tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		// $tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		$tanggal_lahir 		= date('Y-m-d', strtotime($this->input->post('tanggal_lahir')));
 		$jenis_kelamin 		= $this->input->post('jenis_kelamin');
 		$agama 				= $this->input->post('agama');
 		$alamat 			= $this->input->post('alamat');
@@ -386,11 +388,20 @@ class Tunjangan extends CI_Controller
 
 		$this->db->where('id_pegawai', $id_pegawai);
 		$QUpdate =  $this->db->update('tbl_data_pegawai', $data);
-		if($QUpdate){
-			echo 'Berhasil';
+		if ($QUpdate) {
+			// echo 'Berhasil';
+			$message = 'Berhasil update data pegawai.';
+			$status = 1;
 		} else {
-			echo 'Gagal';
+			// echo 'Gagal';
+			$message = 'Gagal update data pegawai.';
+			$status = 0;
 		}
+		$result = [
+			'message' => $message,
+			'status' => $status
+		];
+		echo json_encode($result);
 	}
 	#END ubah data pegawai
 
