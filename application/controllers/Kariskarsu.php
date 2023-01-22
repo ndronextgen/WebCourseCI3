@@ -483,10 +483,10 @@ class Kariskarsu extends CI_Controller
 		$del_temp = $this->db->query("DELETE FROM tr_kariskarsu_komponen_temp WHERE Kariskarsu_id = '$Kariskarsu_id'");
 		if ($del_temp) {
 			$status = 1;
-			$message = 'Data istri/suami berhasil di-reset.';
+			$message = 'Data istri / suami berhasil di-reset.';
 		} else {
 			$status =  0;
-			$message = 'Data istri/suami gagal di-reset';
+			$message = 'Data istri / suami gagal di-reset';
 		}
 		$result = [
 			'status' => $status,
