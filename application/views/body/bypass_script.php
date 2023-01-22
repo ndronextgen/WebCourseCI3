@@ -10,7 +10,7 @@
 				$('span#count_lapor').html(loading);
 			},
 			success: function(s) {
-				console.log(s);
+				// console.log(s);
 				var obj = JSON.parse(s);
 				$('span#count_lapor').html(obj.notify_lapor);
 			}
