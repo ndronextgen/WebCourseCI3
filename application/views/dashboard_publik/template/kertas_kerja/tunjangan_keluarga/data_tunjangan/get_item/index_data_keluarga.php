@@ -1,4 +1,3 @@
-
 <button class='btn btn-info btn-sm' onclick='tambah_keluarga()' style='float:left;'><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Tambah Keluarga</button>
 <br>
 <hr>
@@ -39,7 +38,7 @@
 		"serverSide": true,
 		"ordering": false,
 		"bDestroy": true,
-		"order": [],
+		// "order": [],
 
 		"ajax": {
 			"url": "<?php echo site_url('Tunjangan/table_data_item') ?>",
@@ -52,7 +51,7 @@
 
 		"aoColumns": [{
 			"sClass": "center"
-		},{
+		}, {
 			"sClass": "center"
 		}, {
 			"sClass": "left"
@@ -171,7 +170,7 @@
 	}
 
 	// ubah keluarga
-	function ubah_keluarga(Id_ubah){
+	function ubah_keluarga(Id_ubah) {
 		$.ajax({
 			url: "<?php echo site_url('Tunjangan/content_item_keluarga'); ?>",
 			data: {
@@ -179,7 +178,7 @@
 				Tunjangan_id: '<?php echo $Tunjangan_id; ?>'
 			},
 			type: "POST",
-			beforeSend:function(){
+			beforeSend: function() {
 				$('#modal_all').modal('hide');
 				$('#modal_all .modal-dialog .modal-content .modal-body').html('');
 			},
@@ -195,7 +194,7 @@
 	}
 
 	// tambah keluarga
-	function tambah_keluarga(){
+	function tambah_keluarga() {
 		$.ajax({
 			url: "<?php echo site_url('Tunjangan/content_item_keluarga'); ?>",
 			data: {
@@ -203,7 +202,7 @@
 				Tunjangan_id: '<?php echo $Tunjangan_id; ?>'
 			},
 			type: "POST",
-			beforeSend:function(){
+			beforeSend: function() {
 				$('#modal_all').modal('hide');
 				$('#modal_all .modal-dialog .modal-content .modal-body').html('');
 			},

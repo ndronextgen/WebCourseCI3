@@ -1,4 +1,3 @@
-
 <table class='table no-border' cellspacing='10' cellpadding='5'>
     <tr>
         <td width='1px'>&nbsp;</td>
@@ -16,7 +15,7 @@
     </tr>
 
     <tr>
-        <td colspan='5'>telah melangsungkan perkawinan  lagi dengan wanita / pria sebagai tersebut dibawah ini :</td>
+        <td colspan='5'>telah melangsungkan perkawinan lagi dengan wanita / pria sebagai tersebut dibawah ini :</td>
     </tr>
     <tr>
         <td width='1px'>&nbsp;</td>
@@ -51,7 +50,7 @@
         <td width='2px'>e.</td>
         <td>Tempat / Tanggal Lahir</td>
         <td width='1px'>:</td>
-        <td><?php echo $pasangan_temp->tempat_lahir. ' / ' .$this->func_table->tgl_indonesia($pasangan_temp->tanggal_lahir_keluarga); ?></td>
+        <td><?php echo $pasangan_temp->tempat_lahir . ' / ' . $this->func_table->tgl_indonesia($pasangan_temp->tanggal_lahir_keluarga); ?></td>
     </tr>
     <tr>
         <td width='1px'>&nbsp;</td>

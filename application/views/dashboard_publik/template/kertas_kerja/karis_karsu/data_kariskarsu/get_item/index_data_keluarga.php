@@ -1,4 +1,3 @@
-
 <button class='btn btn-info btn-sm' onclick='tambah_keluarga()' style='float:left;'><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Tambah Keluarga</button>
 <br>
 <hr>
@@ -20,9 +19,7 @@
 			<th align="center"><b>Alamat</b></th>
 		</tr>
 	</thead>
-	<tbody>
-
-	</tbody>
+	<tbody></tbody>
 </table>
 
 <script type="text/javascript">
@@ -30,8 +27,8 @@
 		"processing": true,
 		"serverSide": true,
 		"ordering": false,
-		"order": [],
-		responsive: true,
+		// "order": [],
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('Kariskarsu/table_data_item') ?>",
 			"type": "POST",
@@ -45,19 +42,19 @@
 		}, {
 			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}, {
-			"sClass": "center"
+			"sClass": "left"
 		}],
 
 	});
@@ -208,7 +205,7 @@
 	}
 
 	// ubah keluarga
-	function ubah_keluarga(Id_ubah){
+	function ubah_keluarga(Id_ubah) {
 		$.ajax({
 			url: "<?php echo site_url('Kariskarsu/content_item_keluarga'); ?>",
 			data: {
@@ -216,7 +213,7 @@
 				Kariskarsu_id: '<?php echo $Kariskarsu_id; ?>'
 			},
 			type: "POST",
-			beforeSend:function(){
+			beforeSend: function() {
 				$('#modal_all').modal('hide');
 				$('#modal_all .modal-dialog .modal-content .modal-body').html('');
 			},
@@ -232,7 +229,7 @@
 	}
 
 	// tambah keluarga
-	function tambah_keluarga(){
+	function tambah_keluarga() {
 		$.ajax({
 			url: "<?php echo site_url('Kariskarsu/content_item_keluarga'); ?>",
 			data: {
@@ -240,7 +237,7 @@
 				Kariskarsu_id: '<?php echo $Kariskarsu_id; ?>'
 			},
 			type: "POST",
-			beforeSend:function(){
+			beforeSend: function() {
 				$('#modal_all').modal('hide');
 				$('#modal_all .modal-dialog .modal-content .modal-body').html('');
 			},

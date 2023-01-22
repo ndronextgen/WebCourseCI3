@@ -1,4 +1,3 @@
-
 <table class='table no-border' cellspacing='10' cellpadding='5'>
     <tr>
         <td width='1px'>&nbsp;</td>
@@ -16,7 +15,7 @@
     </tr>
 
     <tr>
-        <td colspan='5'>telah melangsungkan perkawinan  lagi dengan wanita / pria sebagai tersebut dibawah ini :</td>
+        <td colspan='5'>telah melangsungkan perkawinan lagi dengan wanita / pria sebagai tersebut dibawah ini :</td>
     </tr>
     <tr>
         <td width='1px'>&nbsp;</td>

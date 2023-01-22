@@ -37,7 +37,7 @@
         <td width='2px'>e.</td>
         <td>Satuan Organisasi</td>
         <td>:</td>
-        <td><?php echo str_replace('Dan','dan',ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
+        <td><?php echo str_replace('Dan', 'dan', ucwords(strtolower($Data->nama_lokasi_kerja))); ?></td>
     </tr>
     <tr>
         <td width='1px'>&nbsp;</td>

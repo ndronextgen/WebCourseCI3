@@ -180,7 +180,7 @@
 		} else {
 			url = "<?php echo site_url('keluarga/keluarga_update') ?>";
 		}
-		console.log(url);
+		// console.log(url);
 
 		// ajax adding data to database
 		var form = $("#form_keluarga").closest("form");
@@ -247,24 +247,6 @@
 	}
 
 	function delete_keluarga(id_data_keluarga) {
-		// if (confirm('Apakah kamu yakin mau menghapus data ini?')) {
-		// 	// ajax delete data to database
-		// 	$.ajax({
-		// 		url: "<?php echo site_url('keluarga/keluarga_delete') ?>/" + id_data_keluarga,
-		// 		type: "POST",
-		// 		dataType: "JSON",
-		// 		success: function(data) {
-		// 			reload_table_keluarga();
-		// 			set_notif_to_admin('1668732869');
-		// 		},
-		// 		error: function(jqXHR, textStatus, errorThrown) {
-		// 			alert('Proses delete data error');
-		// 		}
-		// 	});
-		// }
-
-
-
 		let q = 'Hapus data?';
 		let i = 'Data berhasil dihapus.';
 		let e = 'Proses hapus data bermasalah.';
@@ -348,7 +330,7 @@
 							</div>
 						</div>-->
 
-						<table style="align: center; width: 100%; font-size: smaller;">
+						<table style="width: 100%; font-size: smaller;">
 							<tr>
 								<td style="width: 400px; border-right: 1px solid #dedede">
 

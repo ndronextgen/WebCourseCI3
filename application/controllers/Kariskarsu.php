@@ -163,7 +163,7 @@ class Kariskarsu extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-		
+
 		foreach ($listing as $key) {
 			$see = $this->func_table->see_public_kaku($username, $key->Kariskarsu_id);
 
@@ -386,7 +386,8 @@ class Kariskarsu extends CI_Controller
 
 		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/form_ubah_data_pegawai', $a);
 	}
-	function simpan_update_data_pegawai(){
+	function simpan_update_data_pegawai()
+	{
 		$id_pegawai 		= $this->input->post('id_pegawai');
 		$nama_pegawai 		= $this->input->post('nama_pegawai');
 		$tempat_lahir 		= $this->input->post('tempat_lahir');
@@ -404,7 +405,7 @@ class Kariskarsu extends CI_Controller
 
 		$this->db->where('id_pegawai', $id_pegawai);
 		$QUpdate =  $this->db->update('tbl_data_pegawai', $data);
-		if($QUpdate){
+		if ($QUpdate) {
 			echo 'Berhasil';
 		} else {
 			echo 'Gagal';
@@ -462,8 +463,6 @@ class Kariskarsu extends CI_Controller
 		} else {
 			$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/ajax_pasangan', $a);
 		}
-		
-		
 	}
 	// end table pilihan
 
@@ -472,10 +471,17 @@ class Kariskarsu extends CI_Controller
 		$Kariskarsu_id = $this->input->post('Kariskarsu_id');
 		$del_temp = $this->db->query("DELETE FROM tr_kariskarsu_komponen_temp WHERE Kariskarsu_id = '$Kariskarsu_id'");
 		if ($del_temp) {
-			echo 'Berhasil Anggota Keluarga Dikembalikan';
+			$status = 1;
+			$message = 'Anggota keluarga berhasil dikembalikan.';
 		} else {
-			echo 'Gagal Anggota Keluarga Dikembalikan';
+			$status =  0;
+			$message = 'Anggota keluarga gagal dikembalikan';
 		}
+		$result = [
+			'status' => $status,
+			'message' => $message,
+		];
+		echo json_encode($result);
 	}
 
 	// get item
@@ -524,7 +530,7 @@ class Kariskarsu extends CI_Controller
 				$button = '<button class="btn btn-info btn-sm btn-flat" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ', ' . "'" . $Kariskarsu_id . "'" . ')"> <i class="fa fa-check-square"></i></button>';
 			}
 
-			$row[] = $button.$button_edit;
+			$row[] = $button . $button_edit;
 			$row[] = $key->nama_anggota_keluarga;
 			$row[] = $key->tempat_nikah . ' ' . str_replace(' ', '&nbsp;', $key->tanggal_nikah);
 			$row[] = $key->nik;

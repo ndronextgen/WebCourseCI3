@@ -43,11 +43,11 @@
                             <select class="form-control select" name="jenis_kelamin" id="jenis_kelamin">
                                 <?php
                                 foreach ($jenis_kelamin as $d) {
-                                    echo "<option value='$d->Uraian'";
-                                    if ($d->Uraian== $Data->jenis_kelamin) {
+                                    echo "<option value='$d->uraian'";
+                                    if ($d->uraian == $Data->jenis_kelamin) {
                                         echo ' selected';
                                     }
-                                    echo ">$d->Uraian</option>";
+                                    echo ">$d->uraian</option>";
                                 }
                                 ?>
                             </select>
@@ -60,7 +60,7 @@
                                 <?php
                                 foreach ($mt_agama as $d) {
                                     echo "<option value='$d->agama'";
-                                    if ($d->agama== $Data->agama) {
+                                    if ($d->agama == $Data->agama) {
                                         echo ' selected';
                                     }
                                     echo ">$d->agama</option>";
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="row">
-                
+
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Status Kepegawawian</label>
@@ -88,15 +88,16 @@
                     <div class="col-xs-4">
                         <div class="form-group">
                             <label>Masa Kerja Golongan</label>
-                            <input type="text" class="form-control input-sm avoid-clicks" name="masa_kerja" id="masa_kerja" value="<?php
-                                                            $tmt_awal = date($Data->tanggal_mulai_pangkat);
-                                                            $date_now = date("Y-m-d h:i:sa");
-                                                            $datetime1 = new DateTime($tmt_awal); //start time
-                                                            $datetime2 = new DateTime($date_now); //end time
-                                                            $durasi = $datetime1->diff($datetime2);
-                                                            echo $durasi->format('%y Tahun %m Bulan');
-                                                            //echo $Data->tanggal_mulai_pangkat; 
-                                                            ?>">
+                            <?php
+                            $tmt_awal = date($Data->tanggal_mulai_pangkat);
+                            $date_now = date("Y-m-d h:i:sa");
+                            $datetime1 = new DateTime($tmt_awal); //start time
+                            $datetime2 = new DateTime($date_now); //end time
+                            $durasi = $datetime1->diff($datetime2);
+                            $durasi = $durasi->format('%y Tahun %m Bulan')
+                            //echo $Data->tanggal_mulai_pangkat; 
+                            ?>
+                            <input type="text" class="form-control input-sm avoid-clicks" name="masa_kerja" id="masa_kerja" value="<?= $durasi ?>">
                         </div>
                     </div>
                 </div>
@@ -110,16 +111,16 @@
                 </div>
 
                 <div class="row">
-                    
-                    
-                    
+
+
+
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label>Alamat</label>
                             <textarea class="form-control textarea input-sm" name="alamat" id="alamat" placeholder="Alamat"><?php echo $Data->alamat; ?></textarea>
                         </div>
                     </div>
-                    
+
                 </div>
                 <hr>
                 <div class="row">
@@ -148,6 +149,7 @@
             format: 'yyyy-mm-dd'
         });
     });
+
     function simpan_perubahan() {
         var formDataPegawai = new FormData($('#form_ubah_data_pegawai')[0]);
 
@@ -170,5 +172,4 @@
             }
         });
     }
-    
 </script>

@@ -7,18 +7,6 @@
 			font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 			text-align: center;
 		}
-
-		td.right {
-			text-align: right
-		}
-
-		td.left {
-			text-align: left
-		}
-
-		td.center {
-			text-align: center
-		}
 	</style>
 
 	<div id='ajax_content'>
