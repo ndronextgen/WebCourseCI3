@@ -841,7 +841,7 @@ function bell_notif_admin()
 
                 <div class="nav-item dropdown notification-ui show" style="padding-top: 22px; color: yellow;">
                     <a class="nav-link notification-ui_icon" href="javascript:void(0);" onclick="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"">
-                        <i class="fa fa-bell" style="font-size: 20px; float: left; color: orange"></i>';
+                        <i class="fa fa-bell" style="font-size: 20px; float: left; color: orange" data-toggle="kt-tooltip" data-original-title="Lihat Notifikasi"></i>';
     if ($new_notif_count > 0) {
         echo '          <span class="badge badge-danger" style="position: relative; top: -30px; left: 10px;">' . $new_notif_count . '</span>';
     } else {
@@ -874,8 +874,8 @@ function bell_notif_admin()
             }
 
             echo '
-                                <div class="notification-list text-dark btn btn-light" data-toggle="tooltip" data-placement="top" title="' . $row['notif_message'] . '" ' . $unread_background . ' onclick="location.href=\'' . base_url('admin/laporan_pegawai_update_data') . '\'">
-                                    <div class="notification-list_detail">
+                                <div class="notification-list text-dark btn btn-light" data-toggle="tooltip" data-placement="top" ' . $unread_background . ' onclick="location.href=\'' . base_url('admin/laporan_pegawai_update_data') . '\'">
+                                    <div class="notification-list_detail" data-toggle="kt-tooltip" data-original-title="' . $row['notif_message'] . '">
                                         <p class="text-left">
                                             <b>' . $row['notif_module'] . '</b><br>' . $notif_created . '
                                         </p>
