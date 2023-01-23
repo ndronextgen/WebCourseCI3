@@ -221,7 +221,7 @@
 																				<label class="col-4 col-form-label kt-font-bolder">Tanda Tangan Digital</label>
 																				<div class="col-8">
 																					<div class="kt-avatar kt-avatar--outline" id="kt_contacts_add_avatar">
-																						<div class="kt-avatar__holder" style="background-image: url('<?php echo $signature; ?>'); background-size: 100% 100%; "></div>
+																						<div class="kt-avatar__holder" style="background-image: url('<?php echo $signature; ?>'); background-size: 100% 100%; height: 80px;"></div>
 																					</div>
 																				</div>
 																			</div>

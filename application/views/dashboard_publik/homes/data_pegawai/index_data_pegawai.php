@@ -367,7 +367,7 @@
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon">Tanda Tangan Digital :</span>
-											<img src="<?php echo $signature; ?>" border="5" height='150px' width='150px' style='background-size: 100% 100%;'>
+											<img src="<?php echo $signature; ?>" height='80px' style='background-size: 100% 100%; border: 1px solid #ccc !important;'>
 										</div><!-- /.input group -->
 									</div>
 

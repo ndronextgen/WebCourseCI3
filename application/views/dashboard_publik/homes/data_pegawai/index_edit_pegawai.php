@@ -385,7 +385,7 @@
 													}
 													?>
 													<div class="control-group">
-														<div class="span6" id="signature_pic" style="background-image: url('<?php echo $signature_path; ?>');background-size: 100% 100%;width:100px;height:100px;"></div>
+														<div class="span6" id="signature_pic" style="background-image: url('<?php echo $signature_path; ?>'); background-size: 100% 100%; height: 80px;"></div>
 													</div>
 												</div>
 
