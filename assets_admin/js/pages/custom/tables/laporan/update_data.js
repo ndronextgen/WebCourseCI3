@@ -23,7 +23,7 @@ $jQ(document).ready(function () {
 
 	const tipe = $("#tipe").val();
 	const lokasi = $("#lokasi").val();
-	const sublokasi = $("#sublokasi").val();
+	const sublokasi = $("#sublokasi_id").val();
 	const startDate = $("#start_date").val();
 	const endDate = $("#end_date").val();
 

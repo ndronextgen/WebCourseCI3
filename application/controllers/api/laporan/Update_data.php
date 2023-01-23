@@ -15,52 +15,45 @@ class Update_data extends CI_Controller
 	public function datatable_list()
 	{
 		$tipe 		= $this->input->post('tipe');
+		// ---
 		$lokasi 	= $this->input->post('lokasi');
 		$sublokasi 	= $this->input->post('sublokasi');
 		$start_date = $this->input->post('startDate');
 		$end_date 	= $this->input->post('endDate');
 
 		$cond = '';
-		if ($lokasi != '0') {
+		if ($lokasi != 0 and $lokasi != '' and $lokasi != null) {
 			$cond .= 'and peg.lokasi_kerja = \'' . $lokasi . '\'';
-		}
-		if ($this->session->userdata('lokasi_kerja') != null && $this->session->userdata('lokasi_kerja') != 0) {
-			$cond .= ' and peg.lokasi_kerja=\'' . $this->session->userdata('lokasi_kerja') . '\'';
 		}
 
 		// === filter: date range ===
 		if ($start_date != null and $end_date != null) {
 			$cond .= ' and date(created_at) between \'' . $start_date . '\' and \'' . $end_date . '\'';
-			// } else if ($start_date != null and $end_date == null) {
-			// 	$cond .= ' and date(created_at) >= \'' . $start_date . '\'';
-			// } else if ($start_date == null and $end_date != null) {
-			// 	$cond .= ' and date(created_at) <= \'' . $end_date . '\'';
 		}
 
 		// === filter: sub lokasi ===
 		$join = '';
 		if ($sublokasi != null and $sublokasi != '' and $sublokasi != 0) {
 			$cond .= ' and peg.sublokasi_kerja = \'' . $sublokasi . '\'';
-		} elseif ($sublokasi == 0) { 
+		} elseif ($sublokasi == 0) {
 			$join = 'LEFT ';
 		}
 
 		// === list update data pegawai ===
 		if ($tipe == '0') {
 			$sSQL = "SELECT peg.nrk, peg.nip, 
-				concat(' ', peg.nama_pegawai) as nama_pegawai, 
-				concat(' ', lok.lokasi_kerja) as lokasi_kerja, 
-				concat(' ', ifnull(sublok.lokasi_kerja, '-')) sublokasi_kerja, 
-				substring_index(`mod`.module_path,'>',-1) as menu, 
-				date_format(`not`.created_at, '%e %b %Y - %H:%i:%s') as created_at 
-			FROM tr_notif `not` 
-			JOIN tbl_data_pegawai peg ON peg.nrk = `not`.created_by 
-			LEFT JOIN tbl_master_lokasi_kerja lok ON lok.id_lokasi_kerja = peg.lokasi_kerja 
-			LEFT JOIN tbl_master_lokasi_kerja sublok ON sublok.id_lokasi_kerja = peg.sublokasi_kerja 
-			JOIN mt_notif_modul `mod` ON `mod`.module_id = `not`.module_id 
-			WHERE 1 = 1 " . $cond . " 
-			ORDER BY created_at DESC";
-
+						concat(' ', peg.nama_pegawai) as nama_pegawai, 
+						concat(' ', lok.lokasi_kerja) as lokasi_kerja, 
+						concat(' ', ifnull(sublok.lokasi_kerja, '-')) sublokasi_kerja, 
+						substring_index(`mod`.module_path,'>',-1) as menu, 
+						date_format(`not`.created_at, '%e %b %Y - %H:%i:%s') as created_at 
+					FROM tr_notif `not` 
+					JOIN tbl_data_pegawai peg ON peg.nrk = `not`.created_by 
+					LEFT JOIN tbl_master_lokasi_kerja lok ON lok.id_lokasi_kerja = peg.lokasi_kerja 
+					LEFT JOIN tbl_master_lokasi_kerja sublok ON sublok.id_lokasi_kerja = peg.sublokasi_kerja 
+					JOIN mt_notif_modul `mod` ON `mod`.module_id = `not`.module_id 
+					WHERE 1 = 1 " . $cond . " 
+					ORDER BY created_at DESC";
 			$rsSQL = $this->db->query($sSQL);
 
 			// === pegawai yang sudah update ===

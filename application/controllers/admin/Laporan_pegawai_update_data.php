@@ -170,6 +170,61 @@ class Laporan_pegawai_update_data extends CI_Controller
 			echo json_encode($result);
 		}
 	}
+
+	public function grafik_update_data()
+	{
+		$lokasi 	= $this->input->post('lokasi');
+		$sublokasi 	= $this->input->post('sublokasi');
+		$start_date = $this->input->post('start_date');
+		$end_date 	= $this->input->post('end_date');
+
+		$cond = '';
+		if ($lokasi != 0 and $lokasi != '' and $lokasi != null) {
+			$cond .= 'and peg.lokasi_kerja = \'' . $lokasi . '\'';
+		}
+
+		// === filter: sub lokasi ===
+		$join = '';
+		if ($sublokasi != null and $sublokasi != '' and $sublokasi != 0) {
+			$cond .= ' and peg.sublokasi_kerja = \'' . $sublokasi . '\'';
+		} elseif ($sublokasi == 0) {
+			$join = 'LEFT ';
+		}
+
+		$sSQL =
+			"SELECT nip
+			FROM tbl_data_pegawai peg 
+				JOIN tbl_master_lokasi_kerja lok ON lok.id_lokasi_kerja = peg.lokasi_kerja 
+				" . $join . "JOIN tbl_master_lokasi_kerja sublok ON sublok.id_lokasi_kerja = peg.sublokasi_kerja 
+			WHERE 1=1
+				" . $cond . " 
+			GROUP BY id_pegawai 
+			ORDER BY nrk";
+		$peg_total = $this->db->query($sSQL)->num_rows();
+
+		// === filter: date range ===
+		if ($start_date != null and $end_date != null) {
+			$cond .= ' and date(created_at) between \'' . $start_date . '\' and \'' . $end_date . '\'';
+		}
+
+		$sSQL =
+			"SELECT nip
+			FROM tbl_data_pegawai peg 
+				JOIN tr_notif `not` ON created_by = nrk 
+				JOIN tbl_master_lokasi_kerja lok ON lok.id_lokasi_kerja = peg.lokasi_kerja 
+				" . $join . "JOIN tbl_master_lokasi_kerja sublok ON sublok.id_lokasi_kerja = peg.sublokasi_kerja 
+			WHERE nrk IN (SELECT DISTINCT(created_by) created_by FROM tr_notif) 
+				" . $cond . " 
+			GROUP BY id_pegawai 
+			ORDER BY nrk";
+		$peg_update = $this->db->query($sSQL)->num_rows();
+
+		$data['peg_total'] = $peg_total;
+		$data['peg_update'] 	= $peg_update;
+		$data['peg_no_update'] = $peg_total - $peg_update;
+
+		$this->load->view('dashboard_admin/laporan/update_data/grafik/grafik_update_data', $data, FALSE);
+	}
 }
 
 /* End of file laporan_pegawai_update_data.php */
