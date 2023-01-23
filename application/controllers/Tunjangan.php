@@ -171,13 +171,11 @@ class Tunjangan extends CI_Controller
 			$see = $this->func_table->see_public_tj($username, $key->Tunjangan_id);
 
 			// === begin: buttons (aksi) ===
-			$button_view 		= '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-eye"></i>&nbsp;Detail</a>';
-			$button_edit 		= '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-edit"></i>&nbsp;Edit</a>';
-			$button_delete 		= '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-trash"></i>&nbsp;Hapus</a>';
-			$button_download 	= '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tunjangan/download_surat/' . $key->Tunjangan_id . '" href="javascript:void(0);">
-										<button type="button" class="btn btn-danger btn-sm" title="Download">
-											<i class="fa fa-file"></i>&nbsp;Download
-										</button>
+			$button_view 		= '<a type="button" class="btn btn-sm btn-info" title="Detail" onclick="view_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-eye"></i>&nbsp; Detail</a>';
+			$button_edit 		= '<a type="button" class="btn btn-sm btn-warning" title="Edit" onclick="edit_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-edit"></i>&nbsp; Edit</a>';
+			$button_delete 		= '<a type="button" class="btn btn-sm btn-danger" title="Hapus" onclick="delete_tunjangan(' . "'" . $key->Tunjangan_id . "'" . ')"><i class="fa fa-trash"></i>&nbsp; Hapus</a>';
+			$button_download 	= '<a class="btn btn-sm btn-danger" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tunjangan/download_surat/' . $key->Tunjangan_id . '" href="javascript:void(0);" title="Download" onclick="update_on_download(' . "'" . $key->Tunjangan_id . "'" . ')">
+										<i class="fa fa-file"></i>&nbsp; Download
 									</a>';
 
 			switch ($key->Status_progress) {
@@ -972,7 +970,9 @@ class Tunjangan extends CI_Controller
 		$a['Data_tunjangan'] = $Data_tunjangan;
 		$a['Tunjangan_id'] = $Tunjangan_id;
 		$a['func_table'] = $this->load->library('func_table');
-		$see = $this->func_table->in_tosee_tj($Data_tunjangan->Created_by, $Tunjangan_id, $Data_tunjangan->Status_progress, $username);
+
+		// === see notif ===
+		$this->func_table->in_tosee_tj($Data_tunjangan->Created_by, $Tunjangan_id, $Data_tunjangan->Status_progress, $username);
 
 		// ===== surat tunjangan history =====
 		$sSQL = "SELECT
@@ -1068,5 +1068,21 @@ class Tunjangan extends CI_Controller
 
 		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
+	}
+
+	function update_count_notif_navbar()
+	{
+		$tunjangan_id = $this->input->post('tunjangan_id');
+		$username = $this->session->userdata('username');
+
+		$sSQL = "SELECT * FROM tr_tunjangan WHERE tunjangan_id = '" . $tunjangan_id . "'";
+		$rsSQL = $this->db->query($sSQL);
+
+		if ($rsSQL->num_rows() > 0) {
+			$data = $rsSQL->row();
+		}
+
+		// === see notif ===
+		$this->func_table->in_tosee_tj($data->Created_by, $tunjangan_id, $data->Status_progress, $username);
 	}
 }

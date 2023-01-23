@@ -168,21 +168,19 @@ class Kariskarsu extends CI_Controller
 			$see = $this->func_table->see_public_kaku($username, $key->Kariskarsu_id);
 
 			// === begin: buttons (aksi) ===
-			$button_view = '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-								<i class="fa fa-eye"></i> &nbsp;Detail
+			$button_view = '<a type="button" class="btn btn-sm btn-info" title="Detail" onclick="view_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+								<i class="fa fa-eye"></i> &nbsp; Detail
 							</a>';
-			$button_edit = '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-								<i class="fa fa-edit"></i> &nbsp;Edit
+			$button_edit = '<a type="button" class="btn btn-sm btn-warning" title="Edit" onclick="edit_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+								<i class="fa fa-edit"></i> &nbsp; Edit
 							</a>';
-			$button_delete = '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-									<i class="fa fa-trash"></i> &nbsp;Hapus
+			$button_delete = '<a type="button" class="btn btn-sm btn-danger" title="Hapus" onclick="delete_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+									<i class="fa fa-trash"></i> &nbsp; Hapus
 								</a>';
 			//$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" href="javascript:;"><button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i> </button></a>';
 
-			$button_download = '<a href="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" target="_blank">
-									<button type="button" class="btn btn-danger btn-sm" title="Download">
-										<i class="fa fa-file"></i> &nbsp;Download
-									</button>
+			$button_download = '<a class="btn btn-sm btn-danger" href="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" target="_blank" title="Download" onclick="update_on_download(' . "'" . $key->Kariskarsu_id . "'" . ')">
+										<i class="fa fa-file"></i> &nbsp; Download
 								</a>';
 			switch ($key->Status_progress) {
 				case 1:
@@ -1237,7 +1235,9 @@ class Kariskarsu extends CI_Controller
 		$a['Data_kariskarsu'] = $Data_kariskarsu;
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
 		$a['func_table'] = $this->load->library('func_table');
-		$see = $this->func_table->in_tosee_kaku($Data_kariskarsu->Created_by, $Kariskarsu_id, $Data_kariskarsu->Status_progress, $username);
+
+		// === see notif ===
+		$this->func_table->in_tosee_kaku($Data_kariskarsu->Created_by, $Kariskarsu_id, $Data_kariskarsu->Status_progress, $username);
 
 		// ===== surat karis/karsu history =====
 		$sSQL = "SELECT his.kariskarsu_id, his.user_created, surat.is_dinas,
@@ -1331,5 +1331,21 @@ class Kariskarsu extends CI_Controller
 
 		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
+	}
+
+	function update_count_notif_navbar()
+	{
+		$kariskarsu_id = $this->input->post('kariskarsu_id');
+		$username = $this->session->userdata('username');
+
+		$sSQL = "SELECT * FROM tr_kariskarsu WHERE kariskarsu_id = '" . $kariskarsu_id . "'";
+		$rsSQL = $this->db->query($sSQL);
+
+		if ($rsSQL->num_rows() > 0) {
+			$data = $rsSQL->row();
+		}
+
+		// === see notif ===
+		$this->func_table->in_tosee_kaku($data->Created_by, $kariskarsu_id, $data->Status_progress, $username);
 	}
 }

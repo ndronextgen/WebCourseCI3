@@ -379,5 +379,23 @@
 		function batal_form() {
 			$('#modal_all').modal('hide');
 		}
+
+		function update_on_download(id) {
+			// alert('clicked');
+			$.ajax({
+				url: "<?php echo site_url('kariskarsu/update_count_notif_navbar') ?>",
+				type: "POST",
+				data: {
+					kariskarsu_id: id
+				},
+				success: function(s) {
+					// 
+				}
+			});
+
+			// === function reload_table() ===
+			table_kariskasru.ajax.reload(null, false); //reload datatable ajax 
+			notify_kariskarsu();
+		}
 	</script>
 </div>

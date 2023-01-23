@@ -25,7 +25,7 @@ class Srt_ket extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-		
+
 		foreach ($list as $r) {
 			// === begin: badge-status ===
 			switch ((int) $r->id_status) {
@@ -93,7 +93,7 @@ class Srt_ket extends CI_Controller
 					// 	</a>';
 					//proses
 					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
-								<a class="btn btn-sm btn-primary" target="_blank" href="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" title="Download">
+								<a class="btn btn-sm btn-primary" target="_blank" href="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" title="Download" onclick="update_on_download(' . "'" . $r->id_srt . "'" . ')">
 									<i class="glyphicon glyphicon-download"></i>&nbsp; Download
 								</a>';
 					break;
@@ -102,17 +102,15 @@ class Srt_ket extends CI_Controller
 					if ($r->select_ttd == 'basah') {
 						//selesai
 						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
-									<a href="' . base_url() . 'admin/surat_keterangan/download_surat_finished_public/' . $r->id_srt . '" target="_blank">
-										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="glyphicon glyphicon-download"></i>&nbsp; Download</button>
+									<a class="btn btn-sm btn-danger" href="' . base_url() . 'admin/surat_keterangan/download_surat_finished_public/' . $r->id_srt . '" target="_blank" title="Download" onclick="update_on_download(' . "'" . $r->id_srt . "'" . ')">
+										<i class="glyphicon glyphicon-download"></i>&nbsp; Download
 									</a>';
 						break;
 					} else {
 						//selesai
-						$button = '<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
-									<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat_digital/' . $r->id_srt . '" href="javascript:void(0);">
-										<button type="button" class="btn btn-danger btn-sm" title="Download">
-											<i class="glyphicon glyphicon-download"></i>&nbsp; Download
-										</button>
+						$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
+									<a class="btn btn-sm btn-danger" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat_digital/' . $r->id_srt . '" href="javascript:void(0);" title="Download" onclick="update_on_download(' . "'" . $r->id_srt . "'" . ')">
+										<i class="glyphicon glyphicon-download"></i>&nbsp; Download
 									</a>';
 						break;
 					}
@@ -132,10 +130,8 @@ class Srt_ket extends CI_Controller
 				case 27:
 					//proses
 					$button = '	<a class="btn btn-sm btn-info" href="javascript:void(0);" title="Detail" onclick="view_srt(' . "'" . $r->id_srt . "'" . ')"><i class="glyphicon glyphicon-eye-open"></i>&nbsp; Detail</a>
-								<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" href="javascript:void(0);">
-									<button type="button" class="btn btn-warning btn-sm" title="Download">
+								<a class="btn btn-sm btn-warning" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/surat_keterangan/download_surat/' . $r->id_srt . '" href="javascript:void(0);" title="Download" onclick="update_on_download(' . "'" . $r->id_srt . "'" . ')">
 										<i class="glyphicon glyphicon-download"></i>&nbsp; Download (-)
-										</button>
 								</a>';
 					break;
 			}
@@ -193,7 +189,7 @@ class Srt_ket extends CI_Controller
 		$a['data'] 	= $data;
 
 		// === see notif ===
-		$see = $this->func_table->in_tosee_sk($data->id_user, $data->id_srt, $data->id_status_srt, $data->id_user);
+		$this->func_table->in_tosee_sk($data->id_user, $data->id_srt, $data->id_status_srt, $data->id_user);
 
 		// ===== surat keterangan history =====
 		$id_srt = $this->input->post('id_srt');
@@ -358,5 +354,20 @@ class Srt_ket extends CI_Controller
 
 		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
+	}
+
+	function update_count_notif_navbar()
+	{
+		$ketpeg_id = $this->input->post('ketpeg_id');
+
+		$sSQL = "SELECT * FROM tbl_data_srt_ket WHERE id_srt = '" . $ketpeg_id . "'";
+		$rsSQL = $this->db->query($sSQL);
+
+		if ($rsSQL->num_rows() > 0) {
+			$data = $rsSQL->row();
+		}
+
+		// === see notif ===
+		$this->func_table->in_tosee_sk($data->id_user, $data->id_srt, $data->id_status_srt, $data->id_user);
 	}
 }

@@ -32,7 +32,6 @@
                 $('#ajax_table_data').html("");
             },
             success: function(s) {
-
                 $('#ajax_table_data').html(s);
                 $('#loading').html('');
             }
@@ -76,10 +75,6 @@
 
     function tutup_form_detail() {
         $('#modal_all').modal('hide');
-    }
-
-    function tutup_form() {
-        $('#modal_timeline').modal('hide');
     }
 </script>
 
