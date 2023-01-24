@@ -23,7 +23,7 @@
 </style>
 
 <div class="table-responsive">
-	<table id="table_laporan" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
+	<table id="table_laporan" class="table table-striped table-bordered" cellspacing="0" width="100%" style='font-size:13px !important;'>
 		<thead>
 			<tr>
 				<td class="td_head" style="text-align: center;" width='0px'>No.</td>
