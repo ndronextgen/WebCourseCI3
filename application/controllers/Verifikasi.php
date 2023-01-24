@@ -303,7 +303,7 @@ class Verifikasi extends CI_Controller
 									a.id_user_proses, a.is_download, 
 									a.file_name, a.file_name_ori, 
 									a.nomor_surat, a.Created_at, a.Updated_at, a.Updated_by,a.lokasi_kerja_pegawai,a.is_dinas,
-									b.nama_surat, nama_status as `status`, sort, sort_bidang,
+									b.nama_surat, nama_status as `status`, nama_status_next, sort, sort_bidang,
 									IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan, d.lokasi_kerja as nama_lokasi_kerja
 								FROM
 									tbl_data_srt_ket AS a
@@ -311,7 +311,7 @@ class Verifikasi extends CI_Controller
 									SELECT id_mst_srt, nama_surat FROM tbl_master_surat
 								) AS b ON b.id_mst_srt = a.jenis_surat
 								LEFT JOIN (
-									SELECT id_status, nama_status, sort, sort_bidang FROM tbl_status_surat
+									SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
 								) AS c ON c.id_status = a.id_status_srt
 								LEFT JOIN (
 									SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja

@@ -18,12 +18,12 @@ var KTSelect2 = (function () {
 	};
 })();
 
-jQuery(document).ready(function () {
+$jQ(document).ready(function () {
 	KTSelect2.init();
 
 	const tipe = $("#tipe").val();
 	const lokasi = $("#lokasi").val();
-	const sublokasi = $("#sublokasi").val();
+	const sublokasi = $("#sublokasi_id").val();
 	const startDate = $("#start_date").val();
 	const endDate = $("#end_date").val();
 
@@ -432,8 +432,13 @@ function excel() {
 }
 
 function properCase(str) {
-	return str.replace(/\w\S*/g, function (txt) {
-		txt = txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
-		return txt;
-	});
+	// console.log(str);
+	if (!str) {
+		return "";
+	} else {
+		return str.replace(/\w\S*/g, function (txt) {
+			txt = txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+			return txt;
+		});
+	}
 }

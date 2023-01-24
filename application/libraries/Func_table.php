@@ -771,7 +771,7 @@ class Func_table
                                         GROUP BY id_view, id_srt, id_status_srt 
                                     ) AS see ON see.id_srt = a.Hukdis_id AND see.id_status_srt = a.Status_progress 
                                 WHERE a.Id !='' AND isnull(id_view) AND a.Hukdis_id='$id_surat' $kondisi ) AS DATA")->row();
-        #kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
+        # kalo jumlah lebih dari 0 artinya maka artinya ada yang terbaru yang harus dibaca dan status view dijadikan 0 agar berwarna kuning
         # jika 0 maka tidak ada notif baru dab status view dijadikan 1 supaya tidak ada notif
         if ($Query->jumlah > 0) {
             $status_view = '0';
@@ -1712,7 +1712,7 @@ class Func_table
 
             if (strtolower($ext) == 'pdf') {
                 $file = '	<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:void(0);">
-                                <button type="button" class="btn btn-sm btn-danger" title="' . $file_name_ori . '"><i class="fa fa-file"></i> &nbsp; PDF</button>
+                                <button type="button" class="btn btn-sm btn-danger" title="' . $file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
                             </a>';
             } else {
                 $file = '	<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">
@@ -1809,6 +1809,90 @@ class Func_table
 
         return $result;
     }
+
+    function Btn_proses_ditolak($id)
+    {
+        $ci = &get_instance();
+        $button = '';
+        $username = $ci->session->userdata('username');
+        $key = $ci->db->query("SELECT a.Created_by, a.Status_progress, a.Hukdis_id, stts, id_lokasi_kerja
+                                    FROM
+                                        tr_hukdis as a
+                                    LEFT JOIN (
+                                        SELECT stts, id_lokasi_kerja, username FROM tbl_user_login
+                                    ) as b ON b.username = a.Created_by
+                                    WHERE a.Hukdis_id = '$id'")->row();
+        $user_admin = $ci->db->query("SELECT a.stts, a.id_lokasi_kerja
+                                    FROM
+                                        tbl_user_login as a
+                                    WHERE a.username = '$username'")->row();
+        $see = $ci->func_table->see_admin_hukdis($username, $key->Hukdis_id);
+
+        if($key->stts=='administrator' AND ($key->id_lokasi_kerja == '0' || $key->id_lokasi_kerja == '' || $key->id_lokasi_kerja == '52')){
+            $create_type = 'superadmin';
+        } else {
+            $create_type = 'wilayah';
+        }
+
+        if($user_admin->stts=='administrator' AND ($user_admin->id_lokasi_kerja == '0' || $user_admin->id_lokasi_kerja == '' || $user_admin->id_lokasi_kerja == '52')){
+            $admin_type = 'superadmin';
+        } else {
+            $admin_type = 'wilayah';
+        }
+
+        #button
+        $button_edit = '<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+								<i class="fa fa-edit" style="color:#fff !important;"></i> &nbsp;Edit
+							</a>&nbsp;';
+		$button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
+							</a>&nbsp;';
+        $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" href="javascript:void(0);">
+                            <i class="fa fa-file"></i> Download
+                    </a>&nbsp;';
+        $button_proses = '<a type="button" class="kt-nav__link btn-primary btn-sm" onclick="proses_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+                    <i class="fa fa-bookmark" style="color:#fff !important;"></i> &nbsp;Proses
+                </a>&nbsp;';
+        $button_detail = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="detail_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+                <i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
+            </a>&nbsp;';
+        
+        $button_privileges = $ci->db->query("SELECT
+                                                a.Id, 
+                                                a.Modul_name, 
+                                                a.Status_progress, 
+                                                a.User_type_created, 
+                                                a.User_type_viewed, 
+                                                a.Btn_prosess, 
+                                                a.Btn_detail, 
+                                                a.Btn_edit, 
+                                                a.Btn_delete, 
+                                                a.Btn_download
+                                            FROM
+                                                role_button_surat_admin AS a
+                                            WHERE a.User_type_viewed = '$admin_type' and a.User_type_created = '$create_type' 
+                                                    AND a.Status_progress = '$key->Status_progress' limit 0,1")->row();
+
+        
+        if($button_privileges->Btn_detail=='1'){
+            $button .= $button_detail;
+        }    
+        if($button_privileges->Btn_prosess=='1'){
+            $button .= $button_proses;
+        }
+        if($button_privileges->Btn_edit=='1'){
+            $button .= $button_edit;
+        }
+        if($button_privileges->Btn_delete=='1'){
+            $button .= $button_delete;
+        }
+        if($button_privileges->Btn_download=='1'){
+            $button .= $button_download;
+        }
+        return $button;
+        
+    }
+
 }
 // End of file Func_table.php
 // Location: ./application/libraries/Func_table.php

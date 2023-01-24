@@ -194,7 +194,7 @@ class Verifikasi_pindah_tugas extends CI_Controller
 				$data_bold = '';
 			}
 			if ($key->Status_progress == '3') {
-				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Pindah_tugas_id . '" href="javascript:void(0);">
+				$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_pindah_tugas/download_surat/' . $key->Pindah_tugas_id . '" href="javascript:void(0);">
 										<button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file-pdf-o"></i> &nbsp;Download</button>
 									</a>';
 			} else {

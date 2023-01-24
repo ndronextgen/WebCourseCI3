@@ -163,26 +163,24 @@ class Kariskarsu extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-		
+
 		foreach ($listing as $key) {
 			$see = $this->func_table->see_public_kaku($username, $key->Kariskarsu_id);
 
 			// === begin: buttons (aksi) ===
-			$button_view = '<a type="button" class="btn btn-info btn-sm" title="Detail" onclick="view_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-								<i class="fa fa-eye"></i> &nbsp;Detail
+			$button_view = '<a type="button" class="btn btn-sm btn-info" title="Detail" onclick="view_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+								<i class="fa fa-eye"></i> &nbsp; Detail
 							</a>';
-			$button_edit = '<a type="button" class="btn btn-warning btn-sm" title="Edit" onclick="edit_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-								<i class="fa fa-edit"></i> &nbsp;Edit
+			$button_edit = '<a type="button" class="btn btn-sm btn-warning" title="Edit" onclick="edit_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+								<i class="fa fa-edit"></i> &nbsp; Edit
 							</a>';
-			$button_delete = '<a type="button" class="btn btn-danger btn-sm" title="Hapus" onclick="delete_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
-									<i class="fa fa-trash"></i> &nbsp;Hapus
+			$button_delete = '<a type="button" class="btn btn-sm btn-danger" title="Hapus" onclick="delete_kariskarsu(' . "'" . $key->Kariskarsu_id . "'" . ')">
+									<i class="fa fa-trash"></i> &nbsp; Hapus
 								</a>';
 			//$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" href="javascript:;"><button type="button" class="btn btn-danger btn-sm" title="PDF"><i class="fa fa-file"></i> </button></a>';
 
-			$button_download = '<a href="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" target="_blank">
-									<button type="button" class="btn btn-danger btn-sm" title="Download">
-										<i class="fa fa-file"></i> &nbsp;Download
-									</button>
+			$button_download = '<a class="btn btn-sm btn-danger" href="' . base_url() . 'admin/Data_kariskarsu/download_surat/' . $key->Kariskarsu_id . '" target="_blank" title="Download" onclick="update_on_download(' . "'" . $key->Kariskarsu_id . "'" . ')">
+										<i class="fa fa-file"></i> &nbsp; Download
 								</a>';
 			switch ($key->Status_progress) {
 				case 1:
@@ -320,12 +318,108 @@ class Kariskarsu extends CI_Controller
 									WHERE id_pegawai = '$id_pegawai'")->row();
 		$a['Data'] = $Data;
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
-
+		$a['id_pegawai'] = $id_pegawai;
 		$a['func_table'] = $this->load->library('func_table');
 
 		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/form_kariskarsu_add', $a);
 		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/form_kariskarsu_add', $a);
 	}
+
+
+	#view pegawai
+	function get_view_pegawai()
+	{
+		$id_pegawai = $this->input->post('Id');
+		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+										golongan, uraian, nama_jabatan
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									LEFT JOIN (
+										SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+									) as c ON c.id_status_pegawai =  a.status_pegawai
+									LEFT JOIN (
+										SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+									) as d ON d.id_golongan =  a.id_golongan
+									LEFT JOIN (
+										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+									) as e ON e.id_nama_jabatan =  a.id_jabatan
+									WHERE id_pegawai = '$id_pegawai'")->row();
+
+		$a['Data'] = $Data;
+		$a['func_table'] = $this->load->library('func_table');
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/view_data_pegawai', $a);
+	}
+	# end view pegawai
+	#ubah data pegawai
+	function ubah_data_pegawai()
+	{
+		$id_pegawai = $this->input->post('Id');
+		$Data = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+										a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+										golongan, uraian, nama_jabatan
+									FROM tbl_data_pegawai as a
+									LEFT JOIN (
+												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+									LEFT JOIN (
+										SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+									) as c ON c.id_status_pegawai =  a.status_pegawai
+									LEFT JOIN (
+										SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+									) as d ON d.id_golongan =  a.id_golongan
+									LEFT JOIN (
+										SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+									) as e ON e.id_nama_jabatan =  a.id_jabatan
+									WHERE id_pegawai = '$id_pegawai'")->row();
+
+		$a['Data'] = $Data;
+		$a['jenis_kelamin'] = $this->db->query("SELECT * FROM tbl_master_jenis_kelamin")->result();
+		$a['mt_agama'] = $this->db->query("SELECT * FROM mt_agama WHERE kode != '0'")->result();
+		$a['func_table'] = $this->load->library('func_table');
+
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/form_ubah_data_pegawai', $a);
+	}
+	function simpan_update_data_pegawai()
+	{
+		$id_pegawai 		= $this->input->post('id_pegawai');
+		$nama_pegawai 		= $this->input->post('nama_pegawai');
+		$tempat_lahir 		= $this->input->post('tempat_lahir');
+		// $tanggal_lahir 		= $this->input->post('tanggal_lahir');
+		$tanggal_lahir 		= date('Y-m-d', strtotime($this->input->post('tanggal_lahir')));
+		$jenis_kelamin 		= $this->input->post('jenis_kelamin');
+		$agama 				= $this->input->post('agama');
+		$alamat 			= $this->input->post('alamat');
+
+		$data['nama_pegawai']	= $nama_pegawai;
+		$data['tempat_lahir']	= $tempat_lahir;
+		$data['tanggal_lahir']	= $tanggal_lahir;
+		$data['jenis_kelamin']	= $jenis_kelamin;
+		$data['agama']			= $agama;
+		$data['alamat']			= $alamat;
+
+		$this->db->where('id_pegawai', $id_pegawai);
+		$QUpdate =  $this->db->update('tbl_data_pegawai', $data);
+		if ($QUpdate) {
+			// echo 'Berhasil';
+			$message = 'Berhasil update data pegawai.';
+			$status = 1;
+		} else {
+			// echo 'Gagal';
+			$message = 'Gagal update data pegawai.';
+			$status = 0;
+		}
+		$result = [
+			'message' => $message,
+			'status' => $status
+		];
+		echo json_encode($result);
+	}
+	#END ubah data pegawai
 
 	// item pilihan
 	function get_temp_item_pilihan()
@@ -372,21 +466,53 @@ class Kariskarsu extends CI_Controller
 										WHERE a.Kariskarsu_id = '$Kariskarsu_id'")->row();
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
 		$a['pasangan_temp'] = $pasangan_temp;
-		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/ajax_pasangan', $a);
-		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/ajax_pasangan', $a);
+
+		if (empty($pasangan_temp)) {
+			$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/ajax_pasangan_empty');
+		} else {
+			$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/ajax_pasangan', $a);
+		}
 	}
 	// end table pilihan
+
+	function clear_item()
+	{
+		$Kariskarsu_id = $this->input->post('Kariskarsu_id');
+		$del_temp = $this->db->query("DELETE FROM tr_kariskarsu_komponen_temp WHERE Kariskarsu_id = '$Kariskarsu_id'");
+		if ($del_temp) {
+			$status = 1;
+			$message = 'Data istri / suami berhasil di-reset.';
+		} else {
+			$status =  0;
+			$message = 'Data istri / suami gagal di-reset';
+		}
+		$result = [
+			'status' => $status,
+			'message' => $message,
+		];
+		echo json_encode($result);
+	}
 
 	// get item
 	function get_item()
 	{
 		$a['id_pegawai'] = $this->input->post('Id');
 		$a['Kariskarsu_id'] = $this->input->post('Kariskarsu_id');
-		//$this->load->view('dashboard_publik/homes/group_pribadi/keluarga/index_keluarga');
-		//$this->load->view('dashboard_publik/home/keluarga');
-
-		// $this->load->view('dashboard_publik/kertas_kerja/kariskarsu/data_kariskarsu/get_item/ajax_item', $a);
 		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/get_item/ajax_item', $a);
+	}
+
+	function get_item_keluarga()
+	{
+		$a['id_pegawai'] = $this->input->post('Id');
+		$a['Kariskarsu_id'] = $this->input->post('Kariskarsu_id');
+		$this->load->view('dashboard_publik/template/kertas_kerja/karis_karsu/data_kariskarsu/get_item/index_data_keluarga', $a);
+	}
+
+	function content_item_keluarga()
+	{
+		$a['id_pegawai'] = $this->input->post('Id');
+		$a['Kariskarsu_id'] = $this->input->post('Kariskarsu_id');
+		$this->load->view('dashboard_publik/template/beranda/keluarga');
 	}
 
 	function table_data_item()
@@ -403,7 +529,8 @@ class Kariskarsu extends CI_Controller
 		foreach ($listing as $key) {
 			$no++;
 			$row = array();
-			$button = '<button class="btn btn-info btn-sm btn-flat" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ', ' . "'" . $Kariskarsu_id . "'" . ')"> <i class="fa fa-check-square"></i></button>';
+			$button = '<button class="btn btn-info btn-sm" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ', ' . "'" . $Kariskarsu_id . "'" . ')"> <i class="fa fa-check-square"></i></button>';
+			$button_edit = ' <button class="btn btn-warning btn-sm" onclick="ubah_keluarga(' . "'" . $key->id_data_keluarga . "'" . ')"> <i class="fa fa-edit"></i></button>';
 			#cek kelengkapan data keluarga
 			//$cek_kelengkapan = $this->func_table->cek_kelengkapan_keluarga($key->id_data_keluarga);
 			if ($key->nama_anggota_keluarga == '' || $key->tempat_nikah == '' || $key->nik == '' || $key->pekerjaan_sekolah == '' || $key->tempat_lahir == '' || $key->tanggal_lahir_keluarga == '' || $key->agama == '' || $key->alamat_new == '') {
@@ -412,7 +539,7 @@ class Kariskarsu extends CI_Controller
 				$button = '<button class="btn btn-info btn-sm btn-flat" onclick="usulkan_data(' . "'" . $key->id_data_keluarga . "'" . ', ' . "'" . $Kariskarsu_id . "'" . ')"> <i class="fa fa-check-square"></i></button>';
 			}
 
-			$row[] = $button;
+			$row[] = $button . $button_edit;
 			$row[] = $key->nama_anggota_keluarga;
 			$row[] = $key->tempat_nikah . ' ' . str_replace(' ', '&nbsp;', $key->tanggal_nikah);
 			$row[] = $key->nik;
@@ -1108,7 +1235,9 @@ class Kariskarsu extends CI_Controller
 		$a['Data_kariskarsu'] = $Data_kariskarsu;
 		$a['Kariskarsu_id'] = $Kariskarsu_id;
 		$a['func_table'] = $this->load->library('func_table');
-		$see = $this->func_table->in_tosee_kaku($Data_kariskarsu->Created_by, $Kariskarsu_id, $Data_kariskarsu->Status_progress, $username);
+
+		// === see notif ===
+		$this->func_table->in_tosee_kaku($Data_kariskarsu->Created_by, $Kariskarsu_id, $Data_kariskarsu->Status_progress, $username);
 
 		// ===== surat karis/karsu history =====
 		$sSQL = "SELECT his.kariskarsu_id, his.user_created, surat.is_dinas,
@@ -1202,5 +1331,21 @@ class Kariskarsu extends CI_Controller
 
 		// $this->load->view('dashboard_publik/kertas_kerja/keterangan_pegawai/timeline', $a);
 		$this->load->view('dashboard_publik/template/timeline/timeline', $a);
+	}
+
+	function update_count_notif_navbar()
+	{
+		$kariskarsu_id = $this->input->post('kariskarsu_id');
+		$username = $this->session->userdata('username');
+
+		$sSQL = "SELECT * FROM tr_kariskarsu WHERE kariskarsu_id = '" . $kariskarsu_id . "'";
+		$rsSQL = $this->db->query($sSQL);
+
+		if ($rsSQL->num_rows() > 0) {
+			$data = $rsSQL->row();
+		}
+
+		// === see notif ===
+		$this->func_table->in_tosee_kaku($data->Created_by, $kariskarsu_id, $data->Status_progress, $username);
 	}
 }

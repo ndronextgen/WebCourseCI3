@@ -44,12 +44,13 @@
 </div><!-- /.row -->
 
 <script type="text/javascript">
-    var save_method; //for save method string
+    // var save_method; //for save method string
     var tablesrt_ket;
 
     $(document).ready(function() {
         notify_me();
-        //datatables
+
+        // datatables
         tablesrt_ket = $('#table_srt_ket').DataTable({
 
             "processing": true, // Feature control the processing indicator.
@@ -100,6 +101,9 @@
 
         });
 
+        // $("#btnDownload").click(function() {
+        //     alert('clicked');
+        // });
     });
 
     function edit_srt(id_srt) {
@@ -279,6 +283,26 @@
         $('.modal-title').text('Perjalanan Pengajuan Surat Keterangan Pegawai'); // Set Title to Bootstrap modal title
     }
     // end: progress timeline joe 2022.11.03
+
+    // document.getElementById('btn123').addEventListener('click', function() {
+    //     alert('clicked');
+    // }, false);
+
+    function update_on_download(id) {
+        // alert('clicked');
+        $.ajax({
+            url: "<?php echo site_url('srt_ket/update_count_notif_navbar') ?>",
+            type: "POST",
+            data: {
+                ketpeg_id: id
+            },
+            success: function(s) {
+                // 
+            }
+        });
+        
+        reload_table_srt();
+    }
 </script>
 
 <script type="text/javascript">

@@ -7,18 +7,6 @@
 		font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 		text-align: center;
 	}
-
-	td.right {
-		text-align: right
-	}
-
-	td.left {
-		text-align: left
-	}
-
-	td.center {
-		text-align: center
-	}
 </style>
 
 <div id='ajax_content'>
@@ -29,8 +17,8 @@
 					<!-- <div class="page-header">
 						<h4># Data KARIS/KARSU</h4>
 					</div> -->
-					<button class="btn btn-success" onclick="add_kariskarsu()"><i class="glyphicon glyphicon-plus"></i>&nbsp; &nbsp;Tambah Pengajuan Surat</button>
-					<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i>&nbsp; &nbsp;Reload</button>
+					<button class="btn btn-success" onclick="add_kariskarsu()"><i class="glyphicon glyphicon-plus"></i> &nbsp; Tambah Pengajuan Surat</button>
+					<button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> &nbsp; Reload</button>
 					<hr>
 					<div class='table-responsive'>
 						<table id="table_kariskasru" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
@@ -390,6 +378,24 @@
 
 		function batal_form() {
 			$('#modal_all').modal('hide');
+		}
+
+		function update_on_download(id) {
+			// alert('clicked');
+			$.ajax({
+				url: "<?php echo site_url('kariskarsu/update_count_notif_navbar') ?>",
+				type: "POST",
+				data: {
+					kariskarsu_id: id
+				},
+				success: function(s) {
+					// 
+				}
+			});
+
+			// === function reload_table() ===
+			table_kariskasru.ajax.reload(null, false); //reload datatable ajax 
+			notify_kariskarsu();
 		}
 	</script>
 </div>

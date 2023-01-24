@@ -22,8 +22,6 @@ class Data_tunjangan extends CI_Controller
 		date_default_timezone_set('Asia/Bangkok');
 	}
 
-
-
 	public function index()
 	{
 		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator") {
@@ -61,8 +59,7 @@ class Data_tunjangan extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+			// === begin: buttons (aksi) ===
 			$button_download = '<a data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_tunjangan/download_surat/' . $key->Tunjangan_id . '" href="javascript:void(0);">
 									<button type="button" class="btn btn-danger btn-sm" title="PDF">
 										<i class="fa fa-file"></i> Download
@@ -84,6 +81,8 @@ class Data_tunjangan extends CI_Controller
 			} else {
 				$button = $button_view;
 			}
+			// === end: buttons (aksi) ===
+
 			if ($key->Status_progress == '0') {
 				$see = '1';
 			} else {
@@ -104,8 +103,6 @@ class Data_tunjangan extends CI_Controller
 						$status_surat = '<span class="badge badge-status" 
 												onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">Menunggu Verifikasi<br>Kepala Subbagian</span>';
 					}
-					// $status_surat = '<span class="badge btn-warning badge-status" 
-					// 						onclick="showTimeline(\'' . $key->Tunjangan_id . '\')" style="background-color: #' . $key->backcolor . '; color: #' . $key->fontcolor . ';">' . $key->nama_status_next . '</span>';
 					break;
 				case 22:
 				case 27:
@@ -133,15 +130,19 @@ class Data_tunjangan extends CI_Controller
 			}
 			// === end: badge-status ===
 
+			// === begin: create row ===
+			$no++;
+			$row = array();
+
 			$row[] = $no;
 			$row[] = $button;
-			// $row[] = $key->nama_status;
-			$row[] = $status_surat;
 			$row[] = $this->func_table->name_format($key->nama_lengkap);
+			$row[] = $status_surat;
 			$row[] = date_format(date_create($key->Created_at), 'j M Y (H:i:s)');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],

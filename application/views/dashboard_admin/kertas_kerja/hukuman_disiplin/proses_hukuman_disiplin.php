@@ -97,15 +97,6 @@
 <!-- end:timeline -->
 
 <hr>
-
-<?php
-#jika bukan administrator utama
-$user_type = $this->session->userdata('stts');
-$id_lokasi_kerja = $this->session->userdata('lokasi_kerja');
-if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '52')) { //admin-utama
-    ?>
-    <?php if ($Data_hukdis->Status_progress == '0' || $Data_hukdis->Status_progress == '25' || $Data_hukdis->Status_progress == '28') { ?>
-
         <h4 style='text-align: center;'>
             Form Verifikasi
         </h4>
@@ -144,32 +135,6 @@ if (($id_lokasi_kerja == '0' || $id_lokasi_kerja == '' || $id_lokasi_kerja == '5
                 </div>
             </div>
         </form>
-    <?php } elseif ($Data_hukdis->Status_progress == '3') { ?>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
-                </div>
-            </div>
-        </div>
-    <?php } else { ?>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form()">Batal</button>&nbsp;&nbsp;
-                </div>
-            </div>
-        </div>
-    <?php } ?>
-<?php } else { ?>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <button type="button" style='float:right;' class="btn btn-danger btn-sm" onclick="batal_form_selesai()">Batal</button>&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
-<?php } ?>
 <script>
     $('#status_verify').change(function() {
         var status_verify = $('#status_verify').val();

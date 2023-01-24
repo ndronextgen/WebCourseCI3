@@ -22,20 +22,17 @@
 	}
 </style>
 
-
-
-
 <div class="table-responsive">
 	<button type="button" class="btn btn-success active btn-sm" onclick="tambah_surat_tindak_pidana()"><i class="fa fa-plus"></i> Tambah Surat TIndak Pidana</button>
 	<hr>
 	<table id="table_tindak_pidana" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
 		<thead>
 			<tr>
-				<th class="td_head" width='1px'>No</th>
-				<th class="td_head" width='80px'>Aksi</th>
+				<th class="td_head" style="text-align: center;" width='0px'>No</th>
+				<th class="td_head" width='0px'>Aksi</th>
 				<th class="td_head">Nama Pegawai</th>
-				<th class="td_head" width='180px' style="text-align: center;">Status</th>
-				<th class="td_head">Tanggal Dibuat</th>
+				<th class="td_head" style="text-align: center;" width='0px'>Status</th>
+				<th class="td_head" width='0px'>Tanggal Dibuat</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -46,6 +43,7 @@
 	table = $('#table_tindak_pidana').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"ajax": {
 			"url": "<?php echo site_url('admin/Data_tindak_pidana/table_data_tindak_pidana') ?>",
 			"type": "POST"
@@ -72,49 +70,43 @@
 			if (aData[5] == "0") {
 				/*mapping*/
 				$("td:eq(0)", nRow).css('font-weight', 'bold');
-				$("td:eq(1)", nRow).css('font-weight', 'bold');
 				$("td:eq(2)", nRow).css('font-weight', 'bold');
-				$("td:eq(3)", nRow).css('font-weight', 'bold');
 				$("td:eq(4)", nRow).css('font-weight', 'bold');
-				$("td:eq(5)", nRow).css('font-weight', 'bold');
 				$(nRow).css('background-color', '#f7f7cd');
 			}
 		},
 		lengthMenu: [10, 20, 30, 40, 50, 100],
-
 		"bSort": false,
 		"bInfo": true,
 		"dom": '<"top"flp<"clear">>rt<"bottom"ifp<"clear">>'
 	});
 
-	function tambah_surat_tindak_pidana()
-		{
-			save_method = 'tambah';
-				$.ajax({
-				url: "<?php echo site_url('admin/Data_tindak_pidana/tambah_tindak_pidana'); ?>",
-				type: "POST",
-				success: function(data) {
-					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
-				}
-				});
-			$('.modal-footer').hide(); // show bootstrap modal
-			$('#modal_all').modal('show'); // show bootstrap modal
-			$('.modal-title').text('Tambah Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title
-		}
+	function tambah_surat_tindak_pidana() {
+		save_method = 'tambah';
+		$.ajax({
+			url: "<?php echo site_url('admin/Data_tindak_pidana/tambah_tindak_pidana'); ?>",
+			type: "POST",
+			success: function(data) {
+				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+			}
+		});
+		$('.modal-footer').hide(); // show bootstrap modal
+		$('#modal_all').modal('show'); // show bootstrap modal
+		$('.modal-title').text('Tambah Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title
+	}
 
-	function edit_surat_tindak_pidana(Tindak_pidana_id)
-	{
+	function edit_surat_tindak_pidana(Tindak_pidana_id) {
 		save_method = 'edit';
-			$.ajax({
+		$.ajax({
 			url: "<?php echo site_url('admin/Data_tindak_pidana/edit_tindak_pidana'); ?>",
 			type: "POST",
-			data:{
+			data: {
 				Tindak_pidana_id: Tindak_pidana_id
 			},
 			success: function(data) {
 				$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
 			}
-			});
+		});
 		$('.modal-footer').hide(); // show bootstrap modal
 		$('#modal_all').modal('show'); // show bootstrap modal
 		$('.modal-title').text('Ubah Surat Tindak Pidana Pegawai'); // Set Title to Bootstrap modal title

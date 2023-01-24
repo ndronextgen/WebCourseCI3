@@ -492,7 +492,7 @@
 																				<label class="col-4 col-form-label kt-font-bolder">Tanda Tangan Digital(*.png)</label>
 																				<div class="col-6">
 																					<div class="kt-avatar kt-avatar--outline kt-avatar--circle-" id="kt_edit_signature">
-																						<div class="kt-avatar__holder" id='signature_pic' style="background-image: url('<?php echo $signature; ?>'); width:250px; height:150px; background-size: 100% 100%;"></div>
+																						<div class="kt-avatar__holder" id='signature_pic' style="background-image: url('<?php echo $signature; ?>'); height: 80px; background-size: 100% 100%;"></div>
 																						<label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Ubah Tanda Tangan Digital">
 																							<i class="fa fa-pen"></i>
 																							<input type="file" name="signature" id="signature" accept=".png">

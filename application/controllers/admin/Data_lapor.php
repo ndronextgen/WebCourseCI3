@@ -53,41 +53,26 @@ class Data_lapor extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
+
 		foreach ($listing as $key) {
-			$no++;
-			$row = array();
+
 			$see = $this->func_table_lapor->see_table_admin_lapor($username, $key->Id);
 			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
+
+			// === begin: buttons (aksi) ===
 			$button_ = '
 					<a type="button" class="kt-nav__link btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
 					<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
 					<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
 					';
 			$tanggapan = '<button type="button" class="kt-nav__link btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+			// === end: buttons (aksi) ===
 
-			// file
-			if ($key->File_upload != '') {
-				$path_file = './asset/upload/Lapor';
-				$path_folder    = $path_file . '/' . $key->File_upload;
-				if (file_exists($path_folder)) {
-					$ext = explode(".", $key->File_upload);
+			// === begin: file ===
+			$path_file = './asset/upload/Lapor/' . $key->File_upload;
+			$file = $this->func_table->get_file($path_file, "View File");
+			// === end: file ===
 
-					if ($ext['1'] == 'pdf' || $ext['1'] == 'PDF') {
-						$file = '<a data-fancybox data-type="iframe" data-src="' . base_url($path_folder) . '" href="javascript:;">
-						<button type="button" class="btn btn-sm btn-danger" title="PDF"><i class="fa fa-file"></i>Pdf</button>
-					</a>';
-					} else {
-						$file = '<a data-fancybox="images" href="' . base_url($path_folder) . '" target="_blank">
-						<img height="30px" src="' . base_url($path_folder) . '">
-					</a>';
-					}
-				} else {
-					$file = '-';
-				}
-			} else {
-				$file = '-';
-			}
-			//	
 			if ($user_type == "administrator") {
 				if ($id_lokasi_kerja == '' || $id_lokasi_kerja == null || $id_lokasi_kerja == '0') { //admin utama
 					$button = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash" style="color:#fff !important;"></i></a>';
@@ -97,6 +82,11 @@ class Data_lapor extends CI_Controller
 			} else { //public
 				$kond_lokasi = "X";
 			}
+
+			// === begin: create row ===
+			$no++;
+			$row = array();
+
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = $file;
@@ -104,10 +94,11 @@ class Data_lapor extends CI_Controller
 			$row[] = $key->Isi_laporan;
 			$row[] = $key->nama_pegawai;
 			$row[] = $tanggapan;
-			$row[] = $see;
+			$row[] = date_format(date_create($key->Created_at), 'j M Y  (H:i:s)');
 			$row[] = $see;
 
-			$data[] = $row;
+			$data[] = $row; // rowset
+			// === end: create row ===
 		}
 		$output = array(
 			"draw" => $_POST['draw'],
@@ -120,7 +111,7 @@ class Data_lapor extends CI_Controller
 
 	function notify_lapor()
 	{
-		
+
 		$count_lapor		= $this->func_table_lapor->count_see_lapor_admin($this->session->userdata('username'));
 		if ($count_lapor > 0) {
 			$res_count_lapor = '<span class="kt-nav__link-badge"><span class="kt-badge kt-badge--warning">' . $count_lapor . '</span></span>';
