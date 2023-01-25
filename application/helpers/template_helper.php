@@ -493,7 +493,7 @@ function menuAdmin($menuOpen = '')
                                         </div>
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="' . base_url() . 'admin/surat_tugas_pltplh" class="kt-menu__link ">
+                                        <a href="' . base_url() . 'admin/Data_pltplh" class="kt-menu__link ">
                                             <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Tugas PLH/PLT&nbsp;';
 
     echo '</span>
