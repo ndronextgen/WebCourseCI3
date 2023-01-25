@@ -26,46 +26,97 @@ var tblKeluarga = $("#tblKeluarga").KTDatatable({
             sortable: false,
             type: "number",
             width: 20,
+            overflow: "visible",
             template: function (row, index) {
                 var currPage = tblKeluarga.getCurrentPage();
                 return currPage * 10 - 10 + (index + 1);
             },
         },
         {
-            field: "nama_anggota_keluarga",
-            title: "Nama&nbsp;Anggota&nbsp;Keluarga",
-            width: 200,
-            type: "string",
-            textAlign: "left",
-        },
-        {
             field: "hub_keluarga",
             title: "Hubungan&nbsp;Keluarga",
-            width: 180,
+            width: 160,
+            overflow: "visible",
             type: "string",
-            textAlign: "left",
+            textAlign: "center",
+            template: function (row) {
+                let data;
+                if (row.hub_keluarga == 2) {
+                    data = 'Anak Kandung';
+                } else if (row.hub_keluarga == 0) {
+                    data = 'Lainnya';
+                } else {
+                    data = row.hub_keluarga;
+
+                }
+                return data;
+            },
+        },
+        {
+            field: "nama_anggota_keluarga",
+            title: "Nama&nbsp;Keluarga",
+            width: 160,
+            overflow: "visible",
+            type: "string",
+            textAlign: "center",
         },
         {
             field: "jenis_kelamin",
             title: "Jenis&nbsp;Kelamin",
             type: "string",
-            textAlign: "left",
+            overflow: "visible",
+            textAlign: "center",
+            template: function (row) {
+                let data;
+                if (row.jenis_kelamin == 1) {
+                    data = 'Laki-Laki';
+                } else if (row.jenis_kelamin == 'L') {
+                    data = 'Laki-Laki';
+                } else if (row.jenis_kelamin == 2) {
+                    data = 'Perempuan';
+                } else if (row.jenis_kelamin == 'P') {
+                    data = 'Perempuan';
+                } else {
+                    data = '-';
+                }
+                return data;
+            },
         },
         {
             field: "tanggal_lahir_keluarga",
             title: "Tanggal&nbsp;Lahir",
-            type: "date-eu",
-            textAlign: "left",
+            overflow: "visible",
+            textAlign: "center",
         },
         {
             field: "uraian",
             title: "Keterangan",
             type: "string",
-            textAlign: "left",
+            overflow: "visible",
+            textAlign: "center",
+        },
+        {
+            field: "file_name",
+            title: "File",
+            type: "file",
+            overflow: "visible",
+            textAlign: "center",
+            template: function (row) {
+                let data;
+                if (row.file_name_ori != null) {
+                    data = "<span>" + row.file_name_ori + "</span>";
+                    // data = row.file_name_ori;
+                } else {
+                    data = '-';
+                }
+                return data;
+            },
         },
         {
             field: "aksi",
             title: "Aksi",
+            overflow: "visible",
+            textAlign: "center",
             sortable: false,
             width: 110,
             template: function (row) {
