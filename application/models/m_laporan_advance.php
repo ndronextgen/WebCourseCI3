@@ -1,5 +1,5 @@
 <?php
-class m_laporan_advance extends CI_Model
+class M_laporan_advance extends CI_Model
 {
 	function listing($lokasi, $sublokasi)
 	{
