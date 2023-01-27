@@ -1,10 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class laporan_advance extends CI_Controller
+class Laporan_advance extends CI_Controller
 {
 
 	/*
-		***	Controller : laporan_advance.php
+		***	Controller : Laporan_advance.php
 	*/
 
 	public function __construct()
