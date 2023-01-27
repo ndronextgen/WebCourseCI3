@@ -22,21 +22,23 @@
 	}
 </style>
 
-<table id="table_laporan" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
-	<thead>
-		<tr>
-			<td class="td_head" style="text-align: center;" width='0px'>No.</td>
-			<td class="td_head" width='0px'>Aksi</td>
-			<td class="td_head" style="text-align: center;" width='60px'>File</td>
-			<td class="td_head">Kategori</td>
-			<td class="td_head">Isi Laporan</td>
-			<td class="td_head">Dibuat Oleh</td>
-			<td class="td_head" style="text-align: center;" width='0px'>Tanggapan</td>
-			<td class="td_head" width='0px'>Tanggal Lapor</td>
-		</tr>
-	</thead>
-	<tbody></tbody>
-</table>
+<div class="table-responsive">
+	<table id="table_laporan" class="table table-striped table-bordered" cellspacing="0" width="100%" style='font-size:13px !important;'>
+		<thead>
+			<tr>
+				<td class="td_head" style="text-align: center;" width='0px'>No.</td>
+				<td class="td_head" width='0px'>Aksi</td>
+				<td class="td_head" style="text-align: center;" width='60px'>File</td>
+				<td class="td_head">Kategori</td>
+				<td class="td_head">Isi Laporan</td>
+				<td class="td_head">Dibuat Oleh</td>
+				<td class="td_head" style="text-align: center;" width='0px'>Tanggapan</td>
+				<td class="td_head" width='0px'>Tanggal Lapor</td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+</div>
 
 <script type="text/javascript">
 	table = $('#table_laporan').DataTable({

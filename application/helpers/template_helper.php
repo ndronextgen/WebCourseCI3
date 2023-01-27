@@ -493,7 +493,7 @@ function menuAdmin($menuOpen = '')
                                         </div>
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="' . base_url() . 'admin/surat_tugas_pltplh" class="kt-menu__link ">
+                                        <a href="' . base_url() . 'admin/Data_pltplh" class="kt-menu__link ">
                                             <span class="kt-menu__link-text"><i class="flaticon-book"></i>&nbsp;Surat Tugas PLH/PLT&nbsp;';
 
     echo '</span>
@@ -626,6 +626,21 @@ function menuAdmin($menuOpen = '')
     echo '</span>';
     echo '</a>';
     echo '</li>';
+
+    // === advance report ===
+    echo '<li class="kt-menu__item " aria-haspopup="true">';
+    echo '<a href="' . base_url() . 'admin/laporan_advance" class="kt-menu__link ">';
+    echo '<span class="kt-menu__link-text">';
+    echo '<div class="kt-demo-icon">';
+    echo '<div class="kt-demo-icon__preview">';
+    echo '<i class="flaticon-notes"></i>';
+    echo '</div>';
+    echo '<div class="kt-demo-icon__class">Laporan&nbsp;Lanjutan</div>';
+    echo '</div>';
+    echo '</span>';
+    echo '</a>';
+    echo '</li>';
+    // === /advance report ===
 
     echo '<li class="kt-menu__item " aria-haspopup="true">';
     echo '<a href="' . base_url() . 'admin/laporan_pegawai_masa_pensiun" class="kt-menu__link ">';

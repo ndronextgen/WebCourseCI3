@@ -46,7 +46,7 @@ function addFrmSuratTugasPltPlh(obj, val = "") {
 	var content = `
     <div class="form-group" id="frmSuratTugasPlh">
         <label>Tembusan :</label>
-        <textarea rows="4" id="tembusan_${counterFrmSuratTugasPltPlh}" name="tembusan[]" class="form-control">${val}</textarea>
+        <textarea rows="2" id="tembusan_${counterFrmSuratTugasPltPlh}" name="tembusan[]" class="form-control">${val}</textarea>
         <br />
         <a href="javascript:;" onclick="removeFrmSuratTugasPlh(this);" class="btn-sm btn btn-label-danger btn-bold">
             <i class="la la-trash-o"></i>
