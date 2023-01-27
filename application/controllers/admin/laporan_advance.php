@@ -25,9 +25,10 @@ class laporan_advance extends CI_Controller
 			$d['alamat'] 		= $this->config->item('alamat_instansi');
 			$d['page_name'] 	= 'Laporan Pegawai - Lanjutan';
 			$d['menu_open'] 	= 'laporan';
-			$d['lokasi'] 		= $this->input->post('lokasi');
-
+			
 			// === begin: lokasi ===
+			$d['lokasi'] 		= $this->input->post('lokasi');
+			
 			$arrLokasi = array();
 			$arrLokasiSelected = array();
 			$lokasi = $this->db->get_where('tbl_master_lokasi_kerja', array('sublokasi' => '0'))->result_array();
