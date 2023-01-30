@@ -60,7 +60,7 @@ class Data_pltplh extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			
+
 			// === begin: buttons (aksi) ===
 			$button_download = '<a type="button" class="kt-nav__link btn-light border btn-sm" style="border: 1px solid red" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/data_pltplh/cetak/' . $key->id_surat_tugas_pltplh . '" href="javascript:void(0);">
 										<i class="fa fa-file-pdf-o"></i> Pdf
@@ -83,13 +83,13 @@ class Data_pltplh extends CI_Controller
 			$row = array();
 
 			$row[] = $no;
-			$row[] = $button_edit.' '.$button_delete.' '.$button_download;
+			$row[] = $button_edit . ' ' . $button_delete . ' ' . $button_download;
 			$row[] = $key->type_surat;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = ucwords(strtolower($key->nama_pegawai_berhalangan));
 			// $row[] = $key->lokasi_kerja_berhalangan;
 			$row[] = $key->alasan_pltplh;
-			$row[] = $key->durasi.' Hari Kerja';
+			$row[] = $key->durasi . ' Hari Kerja';
 			$row[] = date_format(date_create($key->tgl_mulai), 'j M Y ');
 			$row[] = date_format(date_create($key->tgl_selesai), 'j M Y ');
 			$row[] = date_format(date_create($key->tanggal_pengajuan), 'j M Y ');
@@ -119,18 +119,19 @@ class Data_pltplh extends CI_Controller
 		$Date_now 			= date('Y-m-d');
 		$a['Date_now'] = $Date_now;
 		$a['pegawai'] = null;
-		$q = $this->db->get_where("tbl_data_pegawai",['id_pegawai' => $id_pegawai]);
-			foreach ($q->result() as $p) {
-				$a['pegawai'] = $p;
-			}
+		$q = $this->db->get_where("tbl_data_pegawai", ['id_pegawai' => $id_pegawai]);
+		foreach ($q->result() as $p) {
+			$a['pegawai'] = $p;
+		}
 
 
 		$this->load->view('dashboard_admin/kertas_kerja/pltplh/form_pltplh_tambah', $a);
 	}
 
-	public function get_lokasi() {
+	public function get_lokasi()
+	{
 		$filter_pegawai = $this->input->post('param');
-		if($filter_pegawai != '0' || $filter_pegawai != '' || $filter_pegawai != NULL){
+		if ($filter_pegawai != '0' || $filter_pegawai != '' || $filter_pegawai != NULL) {
 			$kond = " AND id_pegawai = '$filter_pegawai'";
 		} else {
 			$kond = " AND id_pegawai = 'x'";
@@ -141,22 +142,22 @@ class Data_pltplh extends CI_Controller
 										SELECT lokasi_kerja, id_lokasi_kerja FROM tbl_master_lokasi_kerja
 									) AS lk ON lk.id_lokasi_kerja = p.lokasi_kerja
 								WHERE p.id_pegawai != '--' $kond")->row();
-		
+
 		echo $ak->lokasi_kerja;
 	}
 
-	public function get_selisih() {
+	public function get_selisih()
+	{
 		$tgl_mulai = $this->input->post('tgl_mulai');
 		$tgl_selesai = $this->input->post('tgl_selesai');
-		
+
 		$selisih = $this->db->query("SELECT 
 									COUNT(kd.Tanggal) as jml_hari
 									FROM kalender_kerja as kd
 									WHERE kd.StatusHari = 'HK' AND kd.Tanggal BETWEEN '$tgl_mulai' AND '$tgl_selesai'")->row();
-		
+
 		$result = isset($selisih->jml_hari) ? $selisih->jml_hari : '0';
 		echo $result;
-
 	}
 	// ----------
 
@@ -193,7 +194,7 @@ class Data_pltplh extends CI_Controller
 		//echo $ak->lokasi_kerja;
 	}
 
-	
+
 
 	public function simpan_validasi()
 	{
@@ -207,13 +208,16 @@ class Data_pltplh extends CI_Controller
 		$tgl_mulai 	 	 			= $this->input->post('tgl_mulai');
 		$tgl_selesai 	 			= $this->input->post('tgl_selesai');
 
-
-		if($id_pegawai==''){
-			$message = "Pegawai PLT/PLH Tidak Boleh kosong!";
-		} else if($id_pegawai_berhalangan==''){
-			$message = "Pegawai yang Berhalangan Tugas Tidak Boleh kosong!";
-		} elseif($type_surat==''){
-			$message = "Type Surat Tidak Boleh kosong!";
+		if($type_surat==''){
+			$message = "Tipe Surat Harus diisi";
+		} else if ($id_pegawai == '') {
+			$message = "Pegawai Harus Diisi!";
+		} else if ($lokasi_kerja_pltplh == '') {
+			$message = "Lokasi kerja PLT/PLH Tidak Boleh kosong!";
+		} else if ($id_pegawai_berhalangan == '') {
+			$message = "Pegawai Berhalangan Tugas Harus Diisi!";
+		} else if ($lokasi_kerja_berhalangan == '') {
+			$message = "Lokasi kerja Berhalangan Tugas Tidak Boleh kosong!";
 		} else if ($alasan_pltplh == '') {
 			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
 		} else if ($tgl_mulai == '') {
@@ -296,9 +300,10 @@ class Data_pltplh extends CI_Controller
 		$Created_by 		= $this->session->userdata('username');
 		$Updated_by 		= $this->session->userdata('username');
 		$arrTembusan = $this->input->post('tembusan');
-		$tembusan = ''; $i = 0;
+		$tembusan = '';
+		$i = 0;
 		foreach ($arrTembusan as $ket) {
-			if ($i > 0 AND $ket !='') $tembusan .= '#|#';
+			if ($i > 0 and $ket != '') $tembusan .= '#|#';
 			$tembusan .= $ket;
 
 			$i++;
@@ -360,10 +365,10 @@ class Data_pltplh extends CI_Controller
 		$a['id_surat_tugas_pltplh'] = $id_surat_tugas_pltplh;
 
 		$a['pegawai'] = null;
-		$q = $this->db->get_where("tbl_data_pegawai",['id_pegawai' => $Data->id_pegawai]);
-			foreach ($q->result() as $p) {
-				$a['pegawai'] = $p;
-			}
+		$q = $this->db->get_where("tbl_data_pegawai", ['id_pegawai' => $Data->id_pegawai]);
+		foreach ($q->result() as $p) {
+			$a['pegawai'] = $p;
+		}
 
 		$a['func_table'] = $this->load->library('func_table');
 
@@ -392,9 +397,10 @@ class Data_pltplh extends CI_Controller
 		$Date_now 					= date('Y-m-d H:i:s');
 
 		$arrTembusan = $this->input->post('tembusan');
-		$tembusan = ''; $i = 0;
+		$tembusan = '';
+		$i = 0;
 		foreach ($arrTembusan as $ket) {
-			if ($i > 0 AND $ket !='') $tembusan .= '#|#';
+			if ($i > 0 and $ket != '') $tembusan .= '#|#';
 			$tembusan .= $ket;
 
 			$i++;
@@ -416,7 +422,7 @@ class Data_pltplh extends CI_Controller
 		$in_pltplh = $this->db->update('tbl_data_surat_tugas_pltplh', $data);
 
 		if ($in_pltplh) {
-			
+
 			$status = true;
 			$message = 'Data Berhasil Diupdate';
 		} else {
@@ -440,8 +446,9 @@ class Data_pltplh extends CI_Controller
 		}
 	}
 
-	public function cetak($id_surat=0,$id_pegawai=0) {
-		if($this->session->userdata('logged_in')!="" && $this->session->userdata('stts')=="administrator" && $id_surat!=0) {
+	public function cetak($id_surat = 0, $id_pegawai = 0)
+	{
+		if ($this->session->userdata('logged_in') != "" && $this->session->userdata('stts') == "administrator" && $id_surat != 0) {
 			$this->load->library('Pdf');
 
 			$d['surat'] = null;
@@ -456,15 +463,15 @@ class Data_pltplh extends CI_Controller
 
 			//get data surat
 			$q = $this->db->get_where('tbl_data_surat_tugas_pltplh', ['id_surat_tugas_pltplh' => $id_surat]);
-			
+
 			foreach ($q->result() as $p) {
 				$d['surat'] = $p;
-				if ($p->tgl_mulai =='' || $p->tgl_mulai ==NULL){
+				if ($p->tgl_mulai == '' || $p->tgl_mulai == NULL) {
 					$d['tgl_mulai'] = '';
 				} else {
 					$d['tgl_mulai'] = $this->func_table->tgl_indonesia($p->tgl_mulai);
 				}
-				if ($p->tgl_selesai =='' || $p->tgl_selesai ==NULL){
+				if ($p->tgl_selesai == '' || $p->tgl_selesai == NULL) {
 					$d['tgl_selesai'] = '';
 				} else {
 					$d['tgl_selesai'] = $this->func_table->tgl_indonesia($p->tgl_selesai);
@@ -472,57 +479,55 @@ class Data_pltplh extends CI_Controller
 
 				$d['jml_terbilang'] = $this->func_table->terbilang($p->durasi);
 
-				if($p->type_surat=='PLT') {
+				if ($p->type_surat == 'PLT') {
 					$d['type_surat'] = 'Pelaksana Tugas';
-				} else if($p->type_surat=='PLH') {
+				} else if ($p->type_surat == 'PLH') {
 					$d['type_surat'] = 'Pelaksana Harian';
 				} else {
 					$d['type_surat'] = 'Pelaksana';
 				}
-				
+
 				// echo '<pre>'.print_r($d['surat'],true).'</pre>';exit;
 
 				// $arrKet = ['Sampai dengan saat ini yang bersangkutan belum pernah dikenakan hukuman disiplin, baik tingkat ringan, sedang, dan berat, 
 				// berdasarkan Peraturan Pemerintah Nomor 53 Tahun 2010 dan Peraturan Pemerintah Nomor 10 Tahun 1983 jo. Peraturan Pemerintah 
 				// Nomor 45 Tahun 1990'];
 
-				if ($p->tembusan!='') {
-					if (strpos($p->tembusan,'#|#') !== false) {
+				if ($p->tembusan != '') {
+					if (strpos($p->tembusan, '#|#') !== false) {
 						$arr = explode('#|#', $p->tembusan);
-					}
-					else {
+					} else {
 						$arr = [$p->tembusan];
 					}
 
 					if (count($arr) > 0) {
-						foreach ($arr as $key=>$k) {
+						foreach ($arr as $key => $k) {
 							$arrKet[] = $k;
 						}
 					}
 
 					// echo '<pre>'.print_r($arrKet,true).'</pre>';exit;
 
-					$i = 1; 
-					if(count($arrKet) > 1){ #kalo lebih dari satu
+					$i = 1;
+					if (count($arrKet) > 1) { #kalo lebih dari satu
 
-						foreach ($arrKet as $key=>$k) {
+						foreach ($arrKet as $key => $k) {
 							if ($i >= 1 && $i < count($arrKet)) $k .= '.';
 							else if ($i == count($arrKet)) $k .= '.';
 
-							$ket .= '<p class="listtembusan">&nbsp;&nbsp;'.$i.'. '.$k.'</p>';
-							
+							$ket .= '<p class="listtembusan">&nbsp;&nbsp;' . $i . '. ' . $k . '</p>';
+
 							$i++;
 						}
 						$d['tembusan'] = 'Tembusan: ';
 						$d['ket'] = $ket;
-
-					} elseif(count($arrKet) == 1) {
-						foreach ($arrKet as $key=>$k) {
+					} elseif (count($arrKet) == 1) {
+						foreach ($arrKet as $key => $k) {
 							if ($i >= 1 && $i < count($arrKet)) $k .= '.';
 							else if ($i == count($arrKet)) $k .= '.';
 
-							$ket .= '<p class="listtembusan">&nbsp;&nbsp;'.$k.'</p>';
-							
+							$ket .= '<p class="listtembusan">&nbsp;&nbsp;' . $k . '</p>';
+
 							$i++;
 						}
 						$d['tembusan'] = 'Tembusan: ';
@@ -532,12 +537,11 @@ class Data_pltplh extends CI_Controller
 						$d['tembusan'] = '';
 						$d['ket'] = $ket;
 					}
-					
-					
 				}
 
 				//get data pegawai
-				$d['pegawai'] = $this->db->query("
+				$d['pegawai'] = $this->db->query(
+					"
 					select a.nip, a.nrk, a.nama_pegawai, a.id_status_jabatan, a.id_jabatan, a.lokasi_kerja as id_lokasi_kerja, 
 						b.id_nama_jabatan, b.nama_jabatan, b.level_jabatan, c.uraian as pangkat, c.golongan, d.lokasi_kerja, 
 						d.dinas, e.sub_lokasi_kerja , d.dinas 
@@ -546,10 +550,11 @@ class Data_pltplh extends CI_Controller
 					left join tbl_master_golongan c on a.id_golongan = c.id_golongan
 					left join tbl_master_lokasi_kerja d on a.lokasi_kerja = d.id_lokasi_kerja 
 					left join tbl_master_sub_lokasi_kerja e on a.seksi = e.id_sub_lokasi_kerja 
-					where a.id_pegawai = ".$p->id_pegawai
+					where a.id_pegawai = " . $p->id_pegawai
 				)->row();
 
-				$d['pegawai_berhalangan'] = $this->db->query("
+				$d['pegawai_berhalangan'] = $this->db->query(
+					"
 					select a.nip, a.nrk, a.nama_pegawai, a.id_status_jabatan, a.id_jabatan, a.lokasi_kerja as id_lokasi_kerja, 
 						b.id_nama_jabatan, b.nama_jabatan, b.level_jabatan, c.uraian as pangkat, c.golongan, d.lokasi_kerja, 
 						d.dinas, e.sub_lokasi_kerja , d.dinas 
@@ -558,23 +563,21 @@ class Data_pltplh extends CI_Controller
 					left join tbl_master_golongan c on a.id_golongan = c.id_golongan
 					left join tbl_master_lokasi_kerja d on a.lokasi_kerja = d.id_lokasi_kerja 
 					left join tbl_master_sub_lokasi_kerja e on a.seksi = e.id_sub_lokasi_kerja 
-					where a.id_pegawai = ".$p->id_pegawai_berhalangan
+					where a.id_pegawai = " . $p->id_pegawai_berhalangan
 				)->row();
 
-				$d['ket_ttd'] = 'Kepala Dinas Cipta Karya, Tata Ruang dan '.'<br />'.' Pertanahan Provinsi Dki Jakarta,';
+				$d['ket_ttd'] = 'Kepala Dinas <br />Cipta Karya, Tata Ruang dan Pertanahan' . '<br />' . 'Provinsi DKI Jakarta,';
 				// echo '<pre>'.print_r($d,true).'</pre>';exit;
-				if($p->type_surat=='PLT') {
-					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export_plt',$d);
-				} else if($p->type_surat=='PLH') {
-					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export',$d);
+				if ($p->type_surat == 'PLT') {
+					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export_plt', $d);
+				} else if ($p->type_surat == 'PLH') {
+					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export', $d);
 				} else {
-					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export',$d);
+					$this->load->view('dashboard_admin/kertas_kerja/pltplh/export', $d);
 				}
-				
 			}
-		}
-		else {
-			header('location:'.base_url());
+		} else {
+			header('location:' . base_url());
 		}
 	}
 

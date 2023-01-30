@@ -62,7 +62,11 @@ class Keluarga extends CI_Controller
 
 			if ($r->jenis_kelamin == '1') {
 				$row[] = "Laki-Laki";
+			} elseif ($r->jenis_kelamin == 'L') {
+				$row[] = "Laki-Laki";
 			} elseif ($r->jenis_kelamin == '2') {
+				$row[] = "Perempuan";
+			} elseif ($r->jenis_kelamin == 'P') {
 				$row[] = "Perempuan";
 			} else {
 				$row[] = "-";
@@ -564,10 +568,12 @@ class Keluarga extends CI_Controller
 		$this->db->select('
 			tbl_data_keluarga.id_data_keluarga, tbl_data_keluarga.nama_anggota_keluarga, tbl_data_keluarga.tanggal_lahir_keluarga, 
 			tbl_data_keluarga.jenis_kelamin, tbl_data_keluarga.hub_keluarga, tbl_data_keluarga.uraian, 
-			tbl_arsip_pribadi.id_arsip_pribadi, tbl_arsip_pribadi.file_name_ori, tbl_arsip_pribadi.file_name
+			tbl_arsip_pribadi.id_arsip_pribadi, tbl_arsip_pribadi.file_name_ori, tbl_arsip_pribadi.file_name, tbl_master_hubungan_keluarga.keterangan, tbl_data_pegawai.jenis_kelamin as jk
 		');
 		$this->db->from('tbl_data_keluarga');
 		$this->db->join('tbl_arsip_pribadi', 'tbl_arsip_pribadi.id_data_keluarga = tbl_data_keluarga.id_data_keluarga', 'left');
+		$this->db->join('tbl_master_hubungan_keluarga','tbl_master_hubungan_keluarga.kode = tbl_data_keluarga.hub_keluarga','left');
+		$this->db->join('tbl_data_pegawai','tbl_data_pegawai.id_pegawai = tbl_data_keluarga.id_pegawai','left');
 		$this->db->where('tbl_data_keluarga.id_pegawai', $id);
 
 		if (isset($_POST['length']))

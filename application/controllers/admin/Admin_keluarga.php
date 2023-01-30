@@ -16,7 +16,7 @@ class Admin_keluarga extends CI_Controller {
 				'nama_anggota_keluarga' => $this->input->post('mdlArsip_Keluarga_nama_anggota_keluarga'),
 				'hub_keluarga' => $this->input->post('mdlArsip_Keluarga_hub_keluarga'),
 				'jenis_kelamin' => $this->input->post('mdlArsip_Keluarga_jenis_kelamin'),
-				'tanggal_lahir_keluarga' => $this->input->post('mdlArsip_Keluarga_tanggal_lahir_keluarga'),
+				'tanggal_lahir_keluarga' => date('Y-m-d', strtotime($this->input->post('mdlArsip_Keluarga_tanggal_lahir_keluarga'))),
 				'uraian' => $this->input->post('mdlArsip_Keluarga_uraian'),
 				'id_pegawai' => $this->input->post('mdlArsip_Keluarga_id_pegawai')
 			);
