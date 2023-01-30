@@ -41,7 +41,7 @@
                                 <div class="kt-portlet__body">
 
                                     <div class="row" style='padding:0px;'>
-                                        <div class="col-lg-4">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Lokasi&nbsp;Kerja&nbsp;:</label>
                                                 <select class="form-control bootstrap-select" id="lokasi" name="lokasi">
@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Sub&nbsp;Lokasi&nbsp;Kerja&nbsp;:</label>
                                                 <select class="form-control bootstrap-select" id="sublokasi" name="sublokasi" style="float: right;">
@@ -63,6 +63,54 @@
                                                 </select>
                                                 <?php $sublok = ($this->input->post('sublokasi_id') != null) ? $this->input->post('sublokasi_id') : ''; ?>
                                                 <input type="hidden" id="sublokasi_id" name="sublokasi_id" value="<?= $sublok ?>">
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                    <!-- br -->
+                                    <div class="row" style='padding:0px;'>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Golongan:</label>
+                                                <select class="form-control bootstrap-select" id="id_golongan" name="id_golongan" style="float: right;">
+                                                    <option value="">Semua Golongan</option>
+                                                    <?php
+                                                        foreach ($golongan as $d) {
+                                                            echo '<option value="'.$d->id_golongan.'"';
+                                                            echo '>'.$d->golongan.'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label>Status Pegawai:</label>
+                                                <select class="form-control bootstrap-select" id="status_pegawai" name="status_pegawai">
+                                                    <option value="">Semua Status Pegawai</option>
+                                                    <?php
+                                                        foreach ($status_pegawai as $d) {
+                                                            echo '<option value="'.$d->id_status_pegawai.'"';
+                                                            echo '>'.$d->nama_status.'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Jenis Kelamin:</label>
+                                                <select class="form-control bootstrap-select" id="jenis_kelamin" name="jenis_kelamin" style="float: right;">
+                                                <option value="">Semua Jenis kelamin</option>
+                                                    <?php
+                                                        foreach ($jenis_kelamin as $d) {
+                                                            echo '<option value="'.$d->Uraian.'"';
+                                                            echo '>'.$d->Uraian.'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -111,6 +159,9 @@
         // === definisi select box as select2 ===
         $('#lokasi').select2({});
         $('#sublokasi').select2({});
+        $('#id_golongan').select2({});
+        $('#status_pegawai').select2({});
+        $('#jenis_kelamin').select2({});
 
         function filter() {
             let lokasi = '';
@@ -118,6 +169,11 @@
 
             lokasi = $('#lokasi').val();
             sublokasi = $('#sublokasi_id').val();
+            // --
+            var id_golongan     = $('#id_golongan').val();
+            var status_pegawai  = $('#status_pegawai').val();
+            var jenis_kelamin   = $('#jenis_kelamin').val();
+            // --
 
             $.ajax({
                 type: "POST",
@@ -125,6 +181,7 @@
                 data: {
                     lokasi: lokasi,
                     sublokasi: sublokasi,
+                    id_golongan,status_pegawai, jenis_kelamin 
                 },
                 beforeSend: function() {
                     var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width: 3.5em; position: fixed;">';
@@ -184,6 +241,38 @@
         $("#sublokasi").change(function() {
             $("#sublokasi_id").val($("#sublokasi").val());
         });
+
+        // cetak
+        function cetak_advance(param){
+            var lokasi          = $('#lokasi').val();
+            var sublokasi       = $('#sublokasi_id').val();
+            var id_golongan     = $('#id_golongan').val();
+            var status_pegawai  = $('#status_pegawai').val();
+            var jenis_kelamin   = $('#jenis_kelamin').val();
+            $.ajax({
+                url : '{{$url}}-cetak',
+                data:{
+                        param :param,
+                        lokasi: lokasi,
+                        sublokasi: sublokasi,
+                        id_golongan,status_pegawai, jenis_kelamin
+                    },
+                type: "POST",
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(data){
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(data);
+                    a.href = url;
+                    a.download = 'laporan_advance.pdf';
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
+            });
+        }
     </script>
     <!-- END script page -->
 </body>
