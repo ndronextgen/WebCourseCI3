@@ -107,12 +107,12 @@ class Data_pltplh extends CI_Controller
 		echo json_encode($output);
 	}
 
-	// tambah tunjangan
+	// tambah pltplh
 	function tambah_pltplh()
 	{
 
 		$id_pegawai='0';
-		$a['data_pegawai'] = $this->db->query("SELECT * FROM tbl_data_pegawai order by nama_pegawai ASC")->result();
+		$a['data_pegawai'] = $this->db->query("SELECT * FROM tbl_data_pegawai WHERE id_eselon NOT IN ('0','31', '32') ORDER BY nama_pegawai ASC")->result();
 		$a['lokasi_kerja'] 	= $this->db->query("SELECT * FROM tbl_master_lokasi_kerja where sublokasi = '0' order by id_lokasi_kerja ASC")->result();
 
 		$a['func_table'] = $this->load->library('func_table');
@@ -202,32 +202,71 @@ class Data_pltplh extends CI_Controller
 
 		$type_surat 	 			= $this->input->post('type_surat');
 		$id_pegawai 	 			= $this->input->post('filter_pegawai');
-		$lokasi_kerja_pltplh 		= $this->input->post('lokasi_kerja_pltplh');
 		$id_pegawai_berhalangan 	= $this->input->post('filter_pegawai_berhalangan');
-		$lokasi_kerja_berhalangan 	= $this->input->post('lokasi_kerja_berhalangan');
 		$alasan_pltplh 	 			= $this->input->post('alasan_pltplh');
 		$tgl_mulai 	 	 			= $this->input->post('tgl_mulai');
 		$tgl_selesai 	 			= $this->input->post('tgl_selesai');
 
-		if($type_surat==''){
-			$message = "Tipe Surat Harus diisi";
-		} else if ($id_pegawai == '') {
-			$message = "Pegawai Harus Diisi!";
-		} else if ($lokasi_kerja_pltplh == '') {
-			$message = "Lokasi kerja PLT/PLH Tidak Boleh kosong!";
-		} else if ($id_pegawai_berhalangan == '') {
-			$message = "Pegawai Berhalangan Tugas Harus Diisi!";
-		} else if ($lokasi_kerja_berhalangan == '') {
-			$message = "Lokasi kerja Berhalangan Tugas Tidak Boleh kosong!";
+
+		if($id_pegawai==''){
+			$message = "Pegawai PLT/PLH Tidak Boleh kosong!";
+		} else if($id_pegawai_berhalangan==''){
+			$message = "Pegawai yang Berhalangan Tugas Tidak Boleh kosong!";
+		} elseif($type_surat==''){
+			$message = "Type Surat Tidak Boleh kosong!";
 		} else if ($alasan_pltplh == '') {
 			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
 		} else if ($tgl_mulai == '') {
-			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
+			$message = "Tanggal Mulai Tidak Boleh kosong!";
 		} else if ($tgl_selesai == '') {
-			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
+			$message = "Tanggal Selesai Tidak Boleh kosong!";
 		} else {
-			$status = true;
-			$message = "OK";
+			$data_pegawai = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+												a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+												golongan, uraian, nama_jabatan
+											FROM tbl_data_pegawai as a
+											LEFT JOIN (
+														SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+													) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+											LEFT JOIN (
+												SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+											) as c ON c.id_status_pegawai =  a.status_pegawai
+											LEFT JOIN (
+												SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+											) as d ON d.id_golongan =  a.id_golongan
+											LEFT JOIN (
+												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+											) as e ON e.id_nama_jabatan =  a.id_jabatan
+											WHERE id_pegawai = '$id_pegawai'")->row();
+
+			$data_pegawai_berhalangan = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
+												a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
+												golongan, uraian, nama_jabatan
+											FROM tbl_data_pegawai as a
+											LEFT JOIN (
+														SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+													) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+											LEFT JOIN (
+												SELECT id_status_pegawai, nama_status FROM tbl_master_status_pegawai
+											) as c ON c.id_status_pegawai =  a.status_pegawai
+											LEFT JOIN (
+												SELECT id_golongan, golongan, uraian FROM tbl_master_golongan
+											) as d ON d.id_golongan =  a.id_golongan
+											LEFT JOIN (
+												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
+											) as e ON e.id_nama_jabatan =  a.id_jabatan
+											WHERE id_pegawai = '$id_pegawai_berhalangan'")->row();
+			if ($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == '') {
+				$message = "Lengkapi data pegawai yang akan diajukan sebagai PLT/PLH terlebih dahulu!";
+			} else if($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == ''){
+				$message = "Lengkapi data pegawai yang berhalangan terlebih dahulu!";
+			} else {
+				$status = true;
+				$message = "OK";
+			}
+
 		}
 
 		$result = [
@@ -241,6 +280,14 @@ class Data_pltplh extends CI_Controller
 	{
 		$status = false;
 		$message = '';
+
+		$type_surat 	 			= $this->input->post('type_surat');
+		$id_pegawai 	 			= $this->input->post('filter_pegawai');
+		$id_pegawai_berhalangan 	= $this->input->post('filter_pegawai_berhalangan');
+		$alasan_pltplh 	 			= $this->input->post('alasan_pltplh');
+		$tgl_mulai 	 	 			= $this->input->post('tgl_mulai');
+		$tgl_selesai 	 			= $this->input->post('tgl_selesai');
+
 
 		$Updated_by 		= $this->session->userdata('username');
 		$Act 				= '0';
@@ -256,11 +303,25 @@ class Data_pltplh extends CI_Controller
 
 			$i++;
 		}
+		$data_pegawai = $this->db->query("SELECT nama_lokasi_kerja
+											FROM tbl_data_pegawai as a
+											LEFT JOIN (
+														SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+													) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+											WHERE a.id_pegawai = '$id_pegawai'")->row();
+		$data_pegawai_berhalangan = $this->db->query("SELECT nama_lokasi_kerja
+											FROM tbl_data_pegawai as a
+											LEFT JOIN (
+														SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+													) as b ON b.id_lokasi_kerja = a.lokasi_kerja
+											WHERE a.id_pegawai = '$id_pegawai_berhalangan'")->row();
+		$result_lokasi_pltplh = isset($data_pegawai->nama_lokasi_kerja) ? $data_pegawai->nama_lokasi_kerja : '';
+		$result_lokasi_pltplh_berhalangan = isset($data_pegawai_berhalangan->nama_lokasi_kerja) ? $data_pegawai_berhalangan->nama_lokasi_kerja : '';
 		$in = array(
 			'id_pegawai' => $this->input->post('filter_pegawai'),
 			'id_pegawai_berhalangan' => $this->input->post('filter_pegawai_berhalangan'),
-			'lokasi_kerja_pltplh' => $this->input->post('lokasi_kerja_pltplh'),
-			'lokasi_kerja_berhalangan' => $this->input->post('lokasi_kerja_berhalangan'),
+			'lokasi_kerja_pltplh' => $result_lokasi_pltplh,
+			'lokasi_kerja_berhalangan' => $result_lokasi_pltplh_berhalangan,
 			'alasan_pltplh' => $this->input->post('alasan_pltplh'),
 			'durasi' => $this->input->post('durasi'),
 			'tgl_mulai' => $this->input->post('tgl_mulai'),

@@ -52,7 +52,7 @@ class M_pltplh extends CI_Model
 						FROM tbl_data_pegawai as d
 						LEFT JOIN tbl_master_lokasi_kerja da on d.lokasi_kerja = da.id_lokasi_kerja 
 					) AS e ON e.id_pegawai_berhalangan = a.id_pegawai_berhalangan
-					WHERE a.id_surat_tugas_pltplh != '' $kond_lokasi $k_search order by id_pegawai_berhalangan desc
+					WHERE a.id_surat_tugas_pltplh != '' $kond_lokasi $k_search order by id_surat_tugas_pltplh desc
 						limit $offset, $number";
 
 		if ($_POST['length'] != -1)
