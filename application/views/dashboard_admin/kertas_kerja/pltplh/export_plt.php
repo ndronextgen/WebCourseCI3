@@ -138,10 +138,10 @@ $html = '
     SURAT PERINTAH TUGAS<br />
     NOMOR : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br>
     TENTANG<br><br>
-    ' . strtoupper($type_surat) . ' KEPALA SUKU DINAS ' . $filter_lokasi_kerja . '
+    ' . strtoupper($type_surat) . ' ' . ucwords(strtoupper($pegawai_berhalangan->nama_jabatan)) . '
   </p>
   <div class="content">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara ' . (isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '') . ' NIP/NRK ' . (isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip . ' / ' . $pegawai_berhalangan->nrk : '') . ' Jabatan ' . (isset($pegawai_berhalangan->nama_jabatan) ? ucwords(strtolower($pegawai_berhalangan->nama_jabatan)) : '') . ' ' . str_replace("Dan", "dan", ucwords(strtolower($filter_lokasi_kerja))) . ' ' . $surat->alasan_pltplh . ' terhitung mulai tanggal ' . $tgl_mulai . ', untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara ' . (isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '') . ' NIP/NRK ' . (isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip . ' / ' . $pegawai_berhalangan->nrk : '') . ' Jabatan ' . (isset($pegawai_berhalangan->nama_jabatan) ? str_replace('Dan', 'dan', ucwords(strtolower($pegawai_berhalangan->nama_jabatan))) : '') . ' ' . str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($filter_lokasi_kerja)))) . ' ' . $surat->alasan_pltplh . ' terhitung mulai tanggal ' . $tgl_mulai . ', untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
     
     <p align="center">MEMERINTAHKAN </p>
     <table>
@@ -171,13 +171,13 @@ $html = '
         <td></td>
         <td class="var">Jabatan</td>
         <td class="sel">:</td>
-        <td class="val">' . ucwords(strtolower($pegawai->nama_jabatan)) . ' ' . str_replace('Dan', 'dan', ucwords(strtolower($pegawai->lokasi_kerja))) . '</td>
+        <td class="val">' . ucwords(strtolower($pegawai->nama_jabatan)) . ' ' . str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($pegawai->lokasi_kerja)))) . '</td>
       </tr>
       <tr><td colspan="5">&nbsp;</td></tr>
       <tr>
         <td width="110px;">Untuk</td>
         <td width="13px;">:</td>
-        <td colspan="3">Melaksanakan tugas sebagai ' . $type_surat . ' Kepala Suku Dinas ' . str_replace('Dan', 'dan', ucwords(strtolower($filter_lokasi_kerja))) . ' disamping tugas pokoknya sebagai ' . ucwords(strtolower($pegawai->nama_jabatan)) . ' ' . str_replace('Dan', 'dan', ucwords(strtolower($pegawai->lokasi_kerja))) . ', terhitung mulai tanggal ' . $tgl_mulai . ' sampai dengan tanggal ' . $tgl_selesai . ', atau sampai dengan adanya keputusan Gubernur Provinsi DKI Jakarta lebih lanjut (pejabat definitif ditetapkan).
+        <td colspan="3">Melaksanakan tugas sebagai ' . $type_surat . ' ' . str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($pegawai_berhalangan->nama_jabatan)))) . ' disamping tugas pokoknya sebagai ' . str_replace('Dan', 'dan', ucwords(strtolower($pegawai->nama_jabatan))) . ' ' . str_replace('Dan', 'dan', str_replace('Dki', 'DKI', ucwords(strtolower($pegawai->lokasi_kerja)))) . ', terhitung mulai tanggal ' . $tgl_mulai . ' sampai dengan tanggal ' . $tgl_selesai . ', atau sampai dengan adanya keputusan Gubernur Provinsi DKI Jakarta lebih lanjut (pejabat definitif ditetapkan).
                         
                         </td>
       </tr>
@@ -195,20 +195,22 @@ $html = '
         <td class="sign-left"></td>
         <td align="center">
           ' . $ket_ttd . '
-          <br>
-          <br>
         </td>
       </tr>
       <tr><td colspan="2" class="sign-space">&nbsp;</td></tr>
       <tr>
         <td class="sign-left"></td>
         <td align = "center">
+        <br>
+        <br>
+        <br>
+        <br>
           Heru Hermawanto<br />
-          NIP196803121998031010
+          NIP 196803121998031010
         </td>
       </tr>
     </table>
-    <p class="tembusan">' . ucwords(strtolower($tembusan)) . '</p>
+    <p class="tembusan">' . $tembusan . '</p>
     ' . $ket . '
   </div>
 </div>
