@@ -22,13 +22,16 @@
 	}
 </style>
 
+<button class="btn btn-sm btn-success" onclick="add_lapor()" style="margin-top: -5px;"><i class="fa fa-plus"></i>&nbsp; Tambah Data Info</button>
+<button class="btn btn-sm btn-info" onclick="reload_table()" style="margin-top: -5px;"><i class="fa fa-refresh"></i>&nbsp; Reload</button>
+<hr>
 <div class="table-responsive">
-	<table id="table_laporan" class="table table-striped table-bordered" cellspacing="0" width="100%" style='font-size:13px !important;'>
+	<table id="table_laporan" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
 		<thead>
 			<tr>
 				<td class="td_head" style="text-align: center;" width='0px'>No.</td>
 				<td class="td_head" width='0px'>Aksi</td>
-				<td class="td_head" style="text-align: center;" width='60px'>File</td>
+				<td class="td_head" style="text-align: center;" width='0px'>File</td>
 				<td class="td_head">Kategori</td>
 				<td class="td_head">Isi Laporan</td>
 				<td class="td_head">Dibuat Oleh</td>
@@ -92,7 +95,7 @@
 			data: {
 				Id
 			},
-			url: "<?php echo site_url('Lapor/modal_tanggapan'); ?>",
+			url: "<?php echo site_url('lapor/modal_tanggapan'); ?>",
 			beforeSend: function(s) {
 				$('#modal_all .modal-dialog .modal-content .modal-body').html("Memuat Data...");
 			},

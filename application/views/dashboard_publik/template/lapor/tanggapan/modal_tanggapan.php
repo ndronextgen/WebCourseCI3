@@ -4,7 +4,7 @@
 
 <div class="box-body">
     <span>
-        <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #32a6a8;">Nama Lengkap : <?php echo $Data->nama_pegawai; ?></small>
+        <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #32a6a8;">Nama Lengkap : <?php echo $this->func_table->propercase($Data->nama_pegawai); ?></small>
         <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #bd74fc;">NIP : <?php echo $Data->nip; ?></small>
         <small class="badge" style="font-size: 12px;padding: 5px;color:#fff;background: #e0b438;">Judul Lapor : <?php echo $Data_lapor->Isi_laporan; ?></small>
 

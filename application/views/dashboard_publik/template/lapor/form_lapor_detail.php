@@ -67,11 +67,11 @@
                                         <tr>
                                             <td>
                                                 <?php
-                                                $path_file = './asset/upload/lapor/' . $Data_lapor->File_upload;
+                                                $path_file = './asset/upload/Lapor/' . $Data_lapor->File_upload;
 
-                                                $ci = &get_instance();
-                                                $ci->load->library('func_table');
-                                                $file = $ci->func_table->get_file($path_file, "View File");
+                                                // $ci = &get_instance();
+                                                // $ci->load->library('func_table');
+                                                $file = $this->func_table->get_file($path_file, "View File");
 
                                                 echo $file;
                                                 ?>
