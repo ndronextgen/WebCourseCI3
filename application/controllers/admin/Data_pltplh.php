@@ -212,12 +212,8 @@ class Data_pltplh extends CI_Controller
 			$message = "Tipe Surat Harus diisi";
 		} else if ($id_pegawai == '') {
 			$message = "Pegawai Harus Diisi!";
-		} else if ($lokasi_kerja_pltplh == '') {
-			$message = "Lokasi kerja PLT/PLH Tidak Boleh kosong!";
 		} else if ($id_pegawai_berhalangan == '') {
 			$message = "Pegawai Berhalangan Tugas Harus Diisi!";
-		} else if ($lokasi_kerja_berhalangan == '') {
-			$message = "Lokasi kerja Berhalangan Tugas Tidak Boleh kosong!";
 		} else if ($alasan_pltplh == '') {
 			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
 		} else if ($tgl_mulai == '') {
@@ -264,7 +260,7 @@ class Data_pltplh extends CI_Controller
 											WHERE id_pegawai = '$id_pegawai_berhalangan'")->row();
 			if ($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == '') {
 				$message = "Lengkapi data pegawai yang akan diajukan sebagai PLT/PLH terlebih dahulu!";
-			} else if($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == ''){
+			} else if($data_pegawai_berhalangan->nama_pegawai == '' || $data_pegawai_berhalangan->nip == '' || $data_pegawai_berhalangan->nrk == '' || $data_pegawai_berhalangan->uraian == '' || $data_pegawai_berhalangan->golongan == '' || $data_pegawai_berhalangan->nama_jabatan == '' || $data_pegawai_berhalangan->nama_lokasi_kerja == ''){
 				$message = "Lengkapi data pegawai yang berhalangan terlebih dahulu!";
 			} else {
 				$status = true;
