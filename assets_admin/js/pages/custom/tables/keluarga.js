@@ -33,7 +33,7 @@ var tblKeluarga = $("#tblKeluarga").KTDatatable({
             },
         },
         {
-            field: "hub_keluarga",
+            field: "keterangan",
             title: "Hubungan&nbsp;Keluarga",
             width: 160,
             overflow: "visible",
@@ -41,13 +41,16 @@ var tblKeluarga = $("#tblKeluarga").KTDatatable({
             textAlign: "center",
             template: function (row) {
                 let data;
-                if (row.hub_keluarga == 2) {
-                    data = 'Anak Kandung';
-                } else if (row.hub_keluarga == 0) {
-                    data = 'Lainnya';
+                if (row.hub_keluarga != 1) {
+                    data = row.keterangan;
                 } else {
-                    data = row.hub_keluarga;
-
+                    if (row.jk == 'Laki-Laki') {
+                        data = 'Istri';
+                    } else if (row.jk == 'Perempuan') {
+                        data = 'Suami';
+                    } else {
+                        data = '-';
+                    }
                 }
                 return data;
             },
@@ -96,21 +99,10 @@ var tblKeluarga = $("#tblKeluarga").KTDatatable({
             textAlign: "center",
         },
         {
-            field: "file_name",
+            field: "file_name_ori",
             title: "File",
-            type: "file",
             overflow: "visible",
             textAlign: "center",
-            template: function (row) {
-                let data;
-                if (row.file_name_ori != null) {
-                    data = "<span>" + row.file_name_ori + "</span>";
-                    // data = row.file_name_ori;
-                } else {
-                    data = '-';
-                }
-                return data;
-            },
         },
         {
             field: "aksi",

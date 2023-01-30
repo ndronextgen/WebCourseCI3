@@ -113,7 +113,7 @@ $html = '
     width: 260px;
   }
   .sign-space {
-    height: 50px;
+    height: 80px;
   }
   .keterangan {
     text-align: justify;
@@ -138,12 +138,17 @@ $html = '
     SURAT PERINTAH TUGAS<br />
     NOMOR : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br>
     TENTANG<br>
-    '.strtoupper($type_surat).' KEPALA SUKU DINAS CIPTA KARYA, TATA RUANG DAN PERTANAHAN KOTA ADMINISTRASI JAKARTA PUSAT
+    '.strtoupper($type_surat).' KEPALA SUKU DINAS CIPTA KARYA, TATA RUANG DAN PERTANAHAN PROVINSI DKI JAKARTA
   </p>
   <div class="content">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara '.(isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '').' NIP/NRK '.(isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip.' / '.$pegawai_berhalangan->nrk : '').' Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? ucwords(strtolower($pegawai_berhalangan->nama_jabatan)) : '').' '. ucwords(strtolower($filter_lokasi_kerja)) .' '. $surat->alasan_pltplh .' selama '.$surat->durasi.' ('.$jml_terbilang.') hari kerja, untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara '.(isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '').
+  ' NIP/NRK '.(isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip.' / '.$pegawai_berhalangan->nrk : '').
+  ' Pangkat/Golongan '.(isset($pegawai_berhalangan->pangkat) ? ucwords(strtolower($pegawai_berhalangan->pangkat)).  $pegawai_berhalangan->golongan:'').
+  ' Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? ucwords(strtolower($pegawai_berhalangan->nama_jabatan)) : '').
+  ' '
+      .' '. $surat->alasan_pltplh .' selama '.$surat->durasi.' ('.$jml_terbilang.') hari kerja, untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
     
-    <p align="center">MEMERINTAHKAN </p>
+    <p align="center">MEMERINTAHKAN :</p>
     <table>
       <tr>
         <td width="110px;">Kepada</td>
@@ -171,14 +176,15 @@ $html = '
         <td></td>
         <td class="var">Jabatan</td>
         <td class="sel">:</td>
-        <td class="val">'.ucwords(strtolower($pegawai->nama_jabatan)).' '.ucwords(strtolower($pegawai->lokasi_kerja)).'</td>
+        <td class="val">'.str_replace('Dan','dan',ucwords(strtolower($pegawai->nama_jabatan))).' '
+                         .str_replace('Dan','dan', str_replace('Dki','DKI',ucwords(strtolower($pegawai->lokasi_kerja)))).'</td>
       </tr>
       <tr><td colspan="5">&nbsp;</td></tr>
       <tr>
         <td width="110px;">Untuk</td>
         <td width="13px;">:</td>
         <td colspan="3" class="val2"><ol style="text-align: justify;">
-                        <li>Melaksanakan tugas sebagai '.$type_surat.' '. ucwords(strtolower($filter_lokasi_kerja)) .' disamping tugas pokoknya sebagai '.ucwords(strtolower($pegawai->nama_jabatan)).' '.ucwords(strtolower($pegawai->lokasi_kerja)).', terhitung mulai tanggal '.$tgl_mulai.' sampai dengan tanggal '.$tgl_selesai.'.</li>
+                        <li>Melaksanakan tugas sebagai '.$type_surat.' '.str_replace('Dan','dan',ucwords(strtolower($filter_lokasi_kerja))) .' disamping tugas pokoknya sebagai '.str_replace('Dan','dan',ucwords(strtolower($pegawai->nama_jabatan))).' '.str_replace('Dan','dan', str_replace('Dki', 'DKI' ,ucwords(strtolower($pegawai->lokasi_kerja)))).', terhitung mulai tanggal '.$tgl_mulai.' sampai dengan tanggal '.$tgl_selesai.'.</li><br>
                         <li>Dalam melaksanakan tugas tersebut, '.$type_surat.' tidak memiliki kewenangan untuk mengambil atau menetapkan keputusan-keputusan penting yang mengikat, seperti : Pembuatan Penilaian Prestasi Kerja PNS, penetapan surat keputusan, penjatuhan hukuman disiplin atau keputusan yang berupa kebijakan strategis.</li>
                         </ol>
                         </td>
@@ -193,18 +199,12 @@ $html = '
         Ditetapkan di Jakarta<br>
         Pada tanggal :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.date('Y').'</td>
       </tr>
-      <tr>
-        <td class="sign-left"></td>
-        <td align="center">
-          '.$ket_ttd.'
-        </td>
-      </tr>
-      <tr><td colspan="2" class="sign-space">&nbsp;</td></tr>
+      <tr><td colspan="" class="sign-space">&nbsp;</td></tr>
       <tr>
         <td class="sign-left"></td>
         <td align = "center">
-          HERU HERMAWANTO<br />
-          NIP : 196803121998031010
+          Heru Hermanto<br />
+          NIP 196803121998031010
         </td>
       </tr>
     </table>
