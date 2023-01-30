@@ -166,20 +166,20 @@ class Lapor extends CI_Controller
 		$no = $_POST['start'];
 
 		foreach ($listing as $key) {
-			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->Id);
-			$jml_c = $this->func_table->get_jml_tanggapan($key->Id);
+			$see = $this->func_table_lapor->see_table_public_lapor($username, $key->id);
+			$jml_c = $this->func_table->get_jml_tanggapan($key->id);
 
 			// === begin: buttons (aksi) ===
 			$button = '
-				<a type="button" class="btn btn-success btn-sm" onclick="view_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-eye"></i></a>
-				<a type="button" class="btn btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-edit"></i></a>
-				<a type="button" class="btn btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->Id . "'" . ')"><i class="fa fa-trash"></i></a>
+				<a type="button" class="btn btn-success btn-sm" onclick="view_lapor(' . "'" . $key->id . "'" . ')"><i class="fa fa-eye"></i></a>
+				<a type="button" class="btn btn-warning btn-sm" onclick="edit_lapor(' . "'" . $key->id . "'" . ')"><i class="fa fa-edit"></i></a>
+				<a type="button" class="btn btn-danger btn-sm" onclick="delete_lapor(' . "'" . $key->id . "'" . ')"><i class="fa fa-trash"></i></a>
 				';
-			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->Id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
+			$tanggapan = '<button type="button" class="btn btn-info btn-sm" onclick="gettanggapan(' . "'" . $key->id . "'" . ')"><i class="fa fa-comment-o"></i>&nbsp;&nbsp;<b>' . $jml_c . '</b></button';
 			// === end: buttons (aksi) ===
 
 			// === begin: file ===
-			$path_file = './asset/upload/Lapor/' . $key->File_upload;
+			$path_file = './asset/upload/Lapor/' . $key->file_upload;
 			$file = $this->func_table->get_file($path_file, "View File");
 			// === end: file ===
 
@@ -190,11 +190,11 @@ class Lapor extends CI_Controller
 			$row[] = $no;
 			$row[] = $button;
 			$row[] = $file;
-			$row[] = $key->Kategori;
-			$row[] = $key->Isi_laporan;
+			$row[] = $key->kategori;
+			$row[] = $key->isi_laporan;
 			$row[] = ucwords(strtolower($key->nama_pegawai));
 			$row[] = $tanggapan;
-			$row[] = date_format(date_create($key->Created_at), 'j M Y');
+			$row[] = date_format(date_create($key->created_at), 'j M Y');
 			$row[] = $see;
 
 			$data[] = $row; // rowset
@@ -213,15 +213,17 @@ class Lapor extends CI_Controller
 	function form_lapor_add()
 	{
 		$id_pegawai = $this->session->userdata('id_pegawai');
-		$Data = $this->db->query("SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
-										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
-									FROM tbl_data_pegawai as a
-									LEFT JOIN (
-												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
-											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
-									WHERE id_pegawai = '$id_pegawai'")->row();
+		$Data = $this->db->query(
+			"SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
+				a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
+			FROM tbl_data_pegawai as a
+			LEFT JOIN (
+						SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+					) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+			WHERE id_pegawai = '$id_pegawai'"
+		)->row();
 		$a['Data'] = $Data;
-		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
+		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor WHERE visible = 1 ORDER BY Id ASC")->result();
 
 		// $this->load->view('dashboard_publik/lapor/form_lapor_add', $a);
 		$this->load->view('dashboard_publik/template/lapor/form_lapor_add', $a);
@@ -285,6 +287,7 @@ class Lapor extends CI_Controller
 		$data['Created_by'] = $Created_by;
 		$data['Created_at'] = $Date_now;
 		$data['Updated_at'] = $Date_now;
+		$data['user_type'] = 1;
 
 		$result_in = $this->db->insert('tr_lapor', $data);
 		if ($result_in) {
@@ -305,7 +308,6 @@ class Lapor extends CI_Controller
 		echo json_encode($result);
 	}
 
-
 	// update lapor
 	function form_lapor_update()
 	{
@@ -322,7 +324,7 @@ class Lapor extends CI_Controller
 		$a['Data_lapor'] 	= $Data_lapor;
 		$a['Data'] 			= $Data;
 		$a['Id'] 			= $Id;
-		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
+		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor WHERE visible = 1 ORDER BY Id ASC")->result();
 
 		// $this->load->view('dashboard_publik/lapor/form_lapor_update', $a);
 		$this->load->view('dashboard_publik/template/lapor/form_lapor_update', $a);
@@ -447,13 +449,34 @@ class Lapor extends CI_Controller
 	{
 		$Id = $this->input->post('Id');
 		$Data_lapor = $this->db->query("SELECT * FROM tr_lapor WHERE Id = '$Id'")->row();
-		$Data = $this->db->query("SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
-										a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
-									FROM tbl_data_pegawai as a
-									LEFT JOIN (
-												SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
-											) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
-									WHERE id_pegawai = '$Data_lapor->id_pegawai'")->row();
+
+		if ($Data_lapor->user_type == 1) {
+			$Data = $this->db->query(
+				"SELECT a.nama_pegawai, a.id_pegawai, a.nrk,
+					a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja
+				FROM tbl_data_pegawai as a
+				LEFT JOIN (
+							SELECT id_lokasi_kerja, lokasi_kerja as nama_lokasi_kerja FROM tbl_master_lokasi_kerja
+						) as b ON b.id_lokasi_kerja =  a.lokasi_kerja
+				WHERE id_pegawai = '$Data_lapor->id_pegawai'"
+			)->row();
+		} else {
+			// 
+			$sSQL = "SELECT
+						log.id_user_login,
+						log.id_pegawai,
+						log.nama_lengkap AS nama_pegawai,
+						log.id_lokasi_kerja AS lokasi_kerja,
+						lok.nama_lokasi_kerja,
+						'' as nrk, '' as nip, '-' as tanggal_lahir
+					FROM tbl_user_login AS log
+						LEFT JOIN ( SELECT id_lokasi_kerja, lokasi_kerja AS nama_lokasi_kerja 
+									FROM tbl_master_lokasi_kerja 
+									) AS lok ON lok.id_lokasi_kerja = log.id_lokasi_kerja 
+					WHERE
+						log.id_pegawai = '$Data_lapor->id_pegawai'";
+			$Data = $this->db->query($sSQL)->row();
+		}
 		$a['Id'] 			= $Id;
 		$a['Data_lapor'] 	= $Data_lapor;
 		$a['Data'] 			= $Data;
@@ -604,7 +627,7 @@ class Lapor extends CI_Controller
 		$a['Data_lapor'] 	= $Data_lapor;
 		$a['Data'] 			= $Data;
 		$a['Id'] 			= $Id;
-		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
+		$a['master_lapor'] 	= $this->db->query("SELECT * FROM tr_master_lapor WHERE visible = 1 ORDER BY Id ASC")->result();
 
 		$this->load->view('dashboard_publik/template/lapor/form_lapor_detail', $a);
 	}
