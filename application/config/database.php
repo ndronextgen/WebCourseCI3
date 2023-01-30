@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '10.1.2.37',
+	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'pendekar!23',
-	'database' => 'siadik-dev',
+	'password' => '',
+	'database' => 'siadik',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
