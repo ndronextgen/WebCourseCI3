@@ -22,8 +22,8 @@
 	}
 </style>
 
-<button class="btn btn-sm btn-success" onclick="add_lapor()" style="margin-top: -12px;"><i class="fa fa-plus"></i>&nbsp; Tambah Data Info</button>
-<button class="btn btn-sm btn-info" onclick="reload_table()" style="margin-top: -12px;"><i class="fa fa-refresh"></i>&nbsp; Reload</button>
+<button class="btn btn-sm" onclick="add_lapor()" style="margin-top: -12px; background-color: #179c8e; border-color: #159184; color: #fff;"><i class="fa fa-plus"></i>&nbsp; Tambah Data Info</button>
+<button class="btn btn-sm" onclick="reload_table()" style="margin-top: -12px; background-color: #dcdcdc; border-color: grey;"><i class="fa fa-refresh"></i>&nbsp; Reload</button>
 <hr>
 <div class="table-responsive">
 	<table id="table_laporan" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" style='font-size:13px !important;'>
