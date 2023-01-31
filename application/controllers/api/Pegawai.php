@@ -395,26 +395,71 @@ class Pegawai extends CI_Controller {
 
 	function getJabatanRecursive_l3($parent=0,  $level=3) {
 		$array 	 = [];
-		$Query_L1 = $this->db->query("SELECT 
-											a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,a.sublokasi_kerja,
-											nama_jabatan as jabatan_ext,
-											lok.lokasi_kerja as satuan_unit_kerja,
-											if(nama_jabatan='Kepala Suku Dinas', 
-											 CONCAT(UCASE(LEFT(concat('Kepala ',lok.lokasi_kerja), 1)), LCASE(SUBSTRING(concat('Kepala ',lok.lokasi_kerja), 2)))
-											 
-											, nama_jabatan) as jabatan
-										FROM tbl_data_pegawai as a
-										LEFT JOIN (
-												SELECT id_nama_jabatan, level_jabatan, nama_jabatan,id_jabatan_atasan  FROM tbl_master_nama_jabatan
-												WHERE Aktif = '1'
-										) AS jab ON a.id_jabatan = jab.id_nama_jabatan
-
-										LEFT JOIN (
-												SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
-										) AS lok ON a.lokasi_kerja = lok.id_lokasi_kerja
-										WHERE 
-										a.id_status_jabatan = '2' AND a.status_pegawai = '5' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'
-										group by a.lokasi_kerja, a.sublokasi_kerja ORDER BY level_jabatan, a.id_jabatan ASC")->result();
+		$Query_L1 = $this->db->query("SELECT * FROM ( SELECT * FROM (
+			SELECT 
+				a.nama_pegawai, a.nip, a.nrk, id_status_jabatan, id_jabatan,level_jabatan, id_nama_jabatan,id_jabatan_atasan,a.lokasi_kerja,a.sublokasi_kerja,
+				nama_jabatan as jabatan_ext,
+				lok.lokasi_kerja as satuan_unit_kerja,
+				if(nama_jabatan='Kepala Suku Dinas', 
+				 CONCAT(UCASE(LEFT(concat('Kepala ',lok.lokasi_kerja), 1)), LCASE(SUBSTRING(concat('Kepala ',lok.lokasi_kerja), 2)))
+				 
+				, nama_jabatan) as jabatan
+			FROM tbl_data_pegawai as a
+			LEFT JOIN (
+					SELECT id_nama_jabatan, level_jabatan, nama_jabatan,id_jabatan_atasan  FROM tbl_master_nama_jabatan
+					WHERE Aktif = '1'
+			) AS jab ON a.id_jabatan = jab.id_nama_jabatan
+			
+			LEFT JOIN (
+					SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
+			) AS lok ON a.lokasi_kerja = lok.id_lokasi_kerja
+			WHERE 
+			a.id_status_jabatan = '2' AND a.status_pegawai = '5' AND a.id_jabatan != '0' AND level_jabatan = '$level' AND id_jabatan_atasan = '$parent'
+			group by a.lokasi_kerja, a.sublokasi_kerja ORDER BY level_jabatan, a.id_jabatan ASC
+			) DATA1
+			UNION 
+			SELECT * FROM (
+				SELECT 
+						concat(gg.nama_pegawai,' (',gg.Type_surat,')') as nama_pegawai, gg.nip, gg.nrk, b.id_status_jabatan, b.id_jabatan,bjab.level_jabatan, 
+						bjab.id_nama_jabatan,bjab.id_jabatan_atasan,b.lokasi_kerja,b.sublokasi_kerja,
+						bjab.nama_jabatan as jabatan_ext,
+						blok.lokasi_kerja as satuan_unit_kerja,
+						if(bjab.nama_jabatan='Kepala Suku Dinas', 
+						 CONCAT(UCASE(LEFT(concat('Kepala ',blok.lokasi_kerja), 1)), LCASE(SUBSTRING(concat('Kepala ',blok.lokasi_kerja), 2))), bjab.nama_jabatan) as jabatan
+					FROM tbl_data_pegawai as b
+					INNER JOIN (
+						SELECT
+							pltplh.type_surat, 
+							pltplh.id_pegawai, 
+							pltplh.lokasi_kerja_pegawai, 
+							pltplh.nama_pegawai, 
+							pltplh.nrk, 
+							pltplh.nip, 
+							pltplh.id_pegawai_berhalangan, 
+							pltplh.lokasi_kerja_pegawai_berhalangan, 
+							pltplh.nama_pegawai_berhalangan, 
+							pltplh.nrk_berhalangan, 
+							pltplh.nip_berhalangan, 
+							pltplh.alasan_pltplh, 
+							pltplh.tgl_mulai, 
+							pltplh.tgl_selesai
+						FROM
+							view_pltplh AS pltplh
+					) AS gg ON gg.id_pegawai_berhalangan = b.id_pegawai
+					LEFT JOIN (
+							SELECT id_nama_jabatan, level_jabatan, nama_jabatan,id_jabatan_atasan  FROM tbl_master_nama_jabatan
+							WHERE Aktif = '1'
+					) AS bjab ON b.id_jabatan = bjab.id_nama_jabatan
+			
+					LEFT JOIN (
+							SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
+					) AS blok ON b.lokasi_kerja = blok.id_lokasi_kerja
+					WHERE 
+					b.id_status_jabatan = '2' 
+					-- AND b.status_pegawai = '5' 
+					AND b.id_jabatan != '0' AND bjab.level_jabatan = '$level' AND bjab.id_jabatan_atasan = '$parent'
+					group by b.lokasi_kerja, b.sublokasi_kerja ORDER BY bjab.level_jabatan, b.id_jabatan ASC
+					) DATA2) LIST ORDER BY LIST.level_jabatan, LIST.id_jabatan ASC ")->result();
 
 		if ($Query_L1) {
 			$i = 0;
@@ -422,7 +467,7 @@ class Pegawai extends CI_Controller {
 				
 				$array[$i] = [
 					'id_jabatan' => $row->id_nama_jabatan,
-					'jabatan' => ucwords($row->jabatan),
+					'jabatan' => str_replace(" Dan "," dan ",ucwords(strtolower($row->jabatan))),
 					'nama' => $row->nama_pegawai,
 					'nip' => $row->nip,
 					'nrk' => $row->nrk,
@@ -691,5 +736,7 @@ class Pegawai extends CI_Controller {
 		
 		echo json_encode($result);
 	}
+
+	
 
 }
