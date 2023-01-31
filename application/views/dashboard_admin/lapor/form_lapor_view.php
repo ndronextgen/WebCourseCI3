@@ -19,40 +19,57 @@
 </style>
 
 <script type="text/javascript">
-
+    // 
 </script>
 
 <div class="box-body">
     <div class="row">
         <div class="col-md-12">
-            <table class="table" style="padding: 10px;">
-                <tbody>
-                    <tr>
-                        <td class="td-title">Nama Pegawai</td>
-                        <td class="td-colon">:</td>
-                        <td><?php echo $data_pegawai->nama_pegawai; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="td-title">Lokasi Kerja</td>
-                        <td class="td-colon">:</td>
-                        <?php
-                        if ($data_pegawai->id_pegawai == 0) {
-                            $this->db->select('lokasi_kerja');
-                            $lokasi = $this->db->get_where('tbl_master_lokasi_kerja', array('id_lokasi_kerja' => '52'))->row()->lokasi_kerja;
-                        } else {
-                            $lokasi = $data_pegawai->nama_lokasi_kerja;
-                        }
-                        ?>
-                        <td><?php echo $lokasi; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="td-title">Isi Laporan</td>
-                        <td class="td-colon">:</td>
-                        <td><?php echo $data_lapor->Isi_laporan; ?></td>
-                    </tr>
-                    <tr>
-                        <td colspan='3'>
-                            <h5><i class="flaticon-file-1"></i> File</h5>
+            <div class="row">
+
+                <div class="col-sm-4 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Nama Pegawai</label>
+                            <input type="text" class="form-control input-sm disabled-element" name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data_pegawai->nama_pegawai); ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-8 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Lokasi Kerja</label>
+                            <?php
+                            if ($data_pegawai->id_pegawai == 0) {
+                                $this->db->select('lokasi_kerja');
+                                $lokasi = $this->db->get_where('tbl_master_lokasi_kerja', array('id_lokasi_kerja' => '52'))->row()->lokasi_kerja;
+                            } else {
+                                $lokasi = $data->nama_lokasi_kerja;
+                            }
+                            ?>
+                            <input type="text" class="form-control input-sm disabled-element" name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Isi Lapor</label>
+                            <textarea class="form-control input-sm disabled-element" name="isi_laporan" id="isi_laporan"><?php echo $data_lapor->Isi_laporan; ?></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Upload File</label>
                             <table class="table table-bordered table-hover" style='font-size:10px; width: 0px;'>
                                 <tbody>
                                     <tr>
@@ -70,82 +87,109 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </td>
-                    </tr>
+                            <!-- <input type="file" class="form-control input-sm" name="file_upload" id="file_upload" style="font-size: smaller; height: 39px;"> -->
+                            <!-- <label style="font-size: 10px; font-style: italic;">*Format file berupa PDF, JPG, atau PNG.</label> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <tr>
-                        <td colspan="3">
-                            <h5>Ditujukan ke:</h5>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td-title">Pegawai di Lokasi Kerja</td>
-                        <td class="td-colon">:</td>
-                        <td>
-                            <?php
-                            if ($data_lapor->info_lokasi == '') {
-                                echo 'Semua Sub Lokasi Kerja';
-                            } else {
-                                $is_many = strpos($data_lapor->info_lokasi, ',');
-                                foreach ($data_notif_lokasi as $item) {
-                                    if ($is_many) {
-                                        echo '- ' . $this->func_table->propercase_lokasi($item->lokasi_kerja) . '<br>';
-                                    } else {
-                                        echo $this->func_table->propercase_lokasi($item->lokasi_kerja) . '<br>';
-                                    }
-                                }
-                            }
-                            ?>
-                        </td>
-                    </tr>
+            <!-- ========================================= -->
+            <!-- ========== BEGIN: TUJUAN NOTIF ========== -->
+            <!-- ========================================= -->
 
-                    <tr>
-                        <td class="td-title">Pegawai di Sub Dinas</td>
-                        <td class="td-colon">:</td>
-                        <td>
-                            <?php
-                            if ($data_lapor->info_sublokasi == '') {
-                                echo 'Semua Sub Dinas';
-                            } else {
-                                $is_many = strpos($data_lapor->info_sublokasi, ',');
-                                foreach ($data_notif_sublokasi as $item) {
-                                    if ($is_many) {
-                                        echo '- ' . $this->func_table->propercase_lokasi($item->lokasi_kerja) . '<br>';
-                                    } else {
-                                        echo $this->func_table->propercase_lokasi($item->lokasi_kerja) . '<br>';
-                                    }
-                                }
-                            }
-                            ?>
-                        </td>
-                    </tr>
+            <hr>
+            <div style="font-size: medium; font-weight: bold; padding-left: 20px; height: 25px; text-align: left;">Ditujukan ke :</div>
 
-                    <tr>
-                        <td class="td-title">Pegawai</td>
-                        <td class="td-colon">:</td>
-                        <td>
-                            <?php
-                            if ($data_lapor->info_pegawai == '') {
-                                echo 'Semua Pegawai';
-                            } else {
-                                $is_many = strpos($data_lapor->info_pegawai, ',');
-                                foreach ($data_notif_pegawai as $item) {
-                                    if ($is_many) {
-                                        echo '- ' . $this->func_table->propercase($item->nama_pegawai) . '<br>';
-                                    } else {
-                                        echo $this->func_table->propercase($item->nama_pegawai) . '<br>';
+            <div class="row" style="margin-top: 20px;">
+
+                <div class="col-sm-12 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Pegawai di Lokasi Kerja</label>
+                            <select class="form-control bootstrap-select input-sm" disabled id="lokasi" name="lokasi[]" multiple data-width="100%">
+                                <option value="">Semua Lokasi Kerja</option>
+                                <?php
+                                $selLokasi = explode(', ', $data_lapor->info_lokasi);
+                                foreach ($arrLokasi as $key => $value) {
+                                    foreach ($selLokasi as $item) {
+                                        if ($key == $item) {
+                                            $selected = 'selected';
+                                            goto exit_for_1;
+                                        } else {
+                                            $selected = '';
+                                        }
                                     }
+                                    exit_for_1:
+                                    // 
+                                    echo '<option ' . $selected  . ' value="' . $key . '" ' . '>' . $this->func_table->propercase_lokasi($value) . '</option>';
                                 }
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 kt-margin-b-20-tablet-and-mobile" id="grp_sublokasi">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Pegawai di Sub Dinas</label>
+                            <select class="form-control bootstrap-select input-sm" disabled id="sublokasi" name="sublokasi[]" multiple data-width="100%">
+                                <option value="">Semua Sub Dinas</option>
+                                <?php
+                                $selSubLokasi = explode(', ', $data_lapor->info_sublokasi);
+                                foreach ($arrSubLokasi as $key => $value) {
+                                    foreach ($selSubLokasi as $item) {
+                                        if ($key == $item) {
+                                            $selected = 'selected';
+                                            goto exit_for_2;
+                                        } else {
+                                            $selected = '';
+                                        }
+                                    }
+                                    exit_for_2:
+                                    // 
+                                    echo '<option ' . $selected  . ' value="' . $key . '" ' . '>' . $this->func_table->propercase_lokasi($value) . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 kt-margin-b-20-tablet-and-mobile">
+                    <div class="kt-form__group kt-form__group--inline">
+                        <div class="form-group">
+                            <label>Pegawai</label>
+                            <select class="form-control bootstrap-select input-sm" disabled id="pegawai" name="pegawai[]" multiple data-width="100%">
+                                <option value="">Semua Pegawai</option>
+                                <?php
+                                $selPegawai = explode(', ', $data_lapor->info_pegawai);
+                                foreach ($arrPegawai as $key => $value) {
+                                    foreach ($selPegawai as $item) {
+                                        if ($key == $item) {
+                                            $selected = 'selected';
+                                            goto exit_for_3;
+                                        } else {
+                                            $selected = '';
+                                        }
+                                    }
+                                    exit_for_3:
+                                    // 
+                                    echo '<option ' . $selected  . ' value="' . $key . '" ' . '>' . $this->func_table->propercase($value) . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ======================================= -->
+            <!-- ========== END: TUJUAN NOTIF ========== -->
+            <!-- ======================================= -->
 
             <hr>
             <div class="row pull-right" style="padding-right: 10px;">
-                <!-- <button type="button" class="btn btn-sm btn-success btn-flat" onclick="simpan_lapor()" id="btn_tmb">Simpan Data Lapor</button> -->
                 <button class="btn btn-sm btn-danger btn-flat" data-dismiss="modal" style="margin-left: 5px;">Tutup</button>
             </div>
 
@@ -157,24 +201,30 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // 
+        if ('<?= $data_lapor->info_lokasi ?>' == '') {
+            $("#lokasi").val('').change();
+        }
+        if ('<?= $data_lapor->info_sublokasi ?>' == '') {
+            $("#sublokasi").val('').change();
+        }
+        if ('<?= $data_lapor->info_pegawai ?>' == '') {
+            $("#pegawai").val('').change();
+        }
     });
 
     // === definisi select box as select2 ===
-    // $('#lokasi').select2({
-    //     placeholder: "Semua Lokasi Kerja"
-    // });
-    // $('#sublokasi').select2({
-    //     placeholder: "Semua Sub Dinas"
-    // });
-    // $('#pegawai').select2({
-    //     placeholder: "Semua Pegawai"
-    // });
+    $('#lokasi').select2({
+        placeholder: "Semua Lokasi Kerja"
+    });
+    $('#sublokasi').select2({
+        placeholder: "Semua Sub Dinas"
+    });
+    $('#pegawai').select2({
+        placeholder: "Semua Pegawai"
+    });
 
     // === change lokasi ===
     $("#lokasi").change(function() {
-        // let lokasi = $('#lokasi').find(":selected").val();
-
         // === begin: change array to string ===
         const selLokasi = $('#lokasi').val();
         let txtLokasi = '';
@@ -205,14 +255,7 @@
                             $('#sublokasi').append('<option value="">Semua Sub Dinas</option>');
                             const sublokasi_post = '<?php echo $this->input->post('sublokasi') ?>';
 
-                            let selected = '';
                             for (var i = 0; i < len; i++) {
-                                if (sublokasi_post == response[i]['id_lokasi_kerja']) {
-                                    selected = 'selected = selected';
-                                } else {
-                                    selected = '';
-                                }
-
                                 // === begin: propercase lokasi ===
                                 let lokasi;
                                 lokasi = properCase(response[i]['lokasi_kerja']);
@@ -220,7 +263,7 @@
                                 lokasi = lokasi.replace(" Dki ", " DKI ");
                                 // === end: propercase lokasi ===
 
-                                $("#sublokasi").append("<option value=" + response[i]['id_lokasi_kerja'] + " " + selected + ">" + lokasi + "</option>");
+                                $("#sublokasi").append("<option value=" + response[i]['id_lokasi_kerja'] + ">" + lokasi + "</option>");
                             }
 
                             $('#grp_sublokasi').show();
@@ -234,11 +277,6 @@
             });
             $("#sublokasi").change();
 
-            // } else if (lokasi == '') {
-            //     $('#sublokasi').find('option').remove().end();
-            //     $('#sublokasi').append('<option value="">Semua Sub Lokasi Kerja</option>');
-            //     $('#grp_sublokasi').hide();
-
         } else {
             $('#sublokasi').find('option').remove().end();
             $('#sublokasi').append('<option value="">-</option>');
@@ -248,9 +286,8 @@
 
         }
 
-        get_pegawai();
-    });
-    $("#lokasi").change();
+        // get_pegawai();
+    }).change();
 
     // === change sublokasi ===
     $("#sublokasi").change(function() {
@@ -267,57 +304,56 @@
         selSubLokasi.forEach(fSubLokasi);
         $("#sublokasi_id").val(txtSubLokasi);
 
+        // get_pegawai();
+    });
+
+    $('#lokasi').on('select2:close', function(e) {
+        get_pegawai();
+    });
+
+    $('#sublokasi').on('select2:close', function(e) {
         get_pegawai();
     });
 
     // === get pegawai ===
     function get_pegawai() {
-        // === begin: get string from array value on select option ===
         const selLokasi = $('#lokasi').val();
         const selSubLokasi = $('#sublokasi').val();
-
-        // let txt = '';
-        // let txtLokasi = '';
-        // let txtSubLokasi = '';
-
-        // function funcArray(item) {
-        //     if (txt == '') {
-        //         txt = item;
-        //     } else {
-        //         txt += ', ' + item;
-        //     }
-        // }
-        // selLokasi.forEach(funcArray);
-        // txtLokasi = txt;
-        // txt = '';
-        // selSubLokasi.forEach(funcArray);
-        // txtSubLokasi = txt;
-        // === end: get string from array value on select option ===
+        const selPegawai = $('#pegawai').val();
 
         $.ajax({
             url: '<?php echo base_url("admin/data_lapor/load_pegawai") ?>',
             dataType: 'json',
             type: 'post',
             data: {
-                // lokasi: txtLokasi,
-                // sublokasi: txtSubLokasi
                 lokasi: selLokasi,
                 sublokasi: selSubLokasi
             },
+            beforeSend: function(f) {
+                // 
+            },
             success: function(response) {
                 const len = response.length;
-                // alert(len);
+
                 if (len > 0) {
                     $('#pegawai').find('option').remove().end();
                     $('#pegawai').append('<option value="">Semua Pegawai</option>');
 
+                    selected = '';
                     for (var i = 1; i < len; i++) {
-                        // === begin: propercase pegawai ===
+                        for (var j = 0; j < selPegawai.length; j++) {
+                            if (selPegawai[j] == response[i]['id_pegawai']) {
+                                selected = 'selected = selected';
+                                break;
+                            } else {
+                                selected = '';
+                            }
+                        }
+
                         let pegawai;
                         pegawai = properCase(response[i]['nama_pegawai']);
-                        // === end: propercase pegawai ===
 
-                        $("#pegawai").append("<option value=" + response[i]['id_pegawai'] + ">" + pegawai + "</option>");
+                        $("#pegawai").append("<option value=" + response[i]['id_pegawai'] + " " + selected + ">" + pegawai + "</option>");
                     }
                 }
             },

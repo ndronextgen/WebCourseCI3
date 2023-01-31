@@ -136,7 +136,7 @@
 
                 <hr>
                 <div class="row pull-right" style="padding-right: 10px;">
-                    <button type="button" class="btn btn-sm btn-success btn-flat" onclick="simpan_lapor()" id="btn_tmb">Simpan Data Lapor</button>
+                    <button type="button" class="btn btn-sm btn-success btn-flat" onclick="simpan_lapor()" id="btn_tmb">Simpan</button>
                     <button class="btn btn-sm btn-danger btn-flat" data-dismiss="modal" style="margin-left: 5px;">Tutup</button>
                 </div>
 
@@ -149,7 +149,9 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // 
+        $("#lokasi").val('').change();
+        $("#sublokasi").val('').change();
+        $("#pegawai").val('').change();
     });
 
     // === definisi select box as select2 ===

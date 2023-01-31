@@ -307,7 +307,7 @@
 		load_data_lapor();
 
 		function reload_table() {
-			table.ajax.reload(null, false); //reload datatable ajax 
+			tableLapor.ajax.reload(null, false); //reload datatable ajax 
 			notify_lapor();
 		}
 
@@ -403,7 +403,7 @@
 						backgroundDismiss: true
 					});
 
-					// } else if (File_upload == '' && File_upload_lama == '') {
+					// } else if (file_upload == '' && file_upload_lama == '') {
 					// 	$jQ.dialog({
 					// 		icon: 'fa fa-info',
 					// 		title: 'Info',

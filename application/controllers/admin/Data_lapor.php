@@ -504,65 +504,121 @@ class Data_lapor extends CI_Controller
 		$rsTanggapan = $this->db->query($sSQL)->result();
 		// === end: data tanggapan ===
 
-		// === begin: info lokasi ===
-		$notif_lokasi = $data_lapor->info_lokasi;
-		$where = '';
-		if ($notif_lokasi != '') {
-			$is_many = strpos($notif_lokasi, ',');
-			if ($is_many) {
-				// $notif_lokasi = explode(', ', $notif_lokasi);					// change string to array
-				// if (($key = array_search('52', $notif_lokasi)) !== false) { 	// search value in array
-				// 	unset($notif_lokasi[$key]); 								// remove value in array
-				// 	$notif_lokasi = implode(', ', $notif_lokasi);				// change array to string
-				// }
-			}
-			$where = 'AND id_lokasi_kerja in (' . $notif_lokasi . ')';
-		}
-		$sSQL = "SELECT lokasi_kerja FROM tbl_master_lokasi_kerja WHERE 1 = 1 $where";
-		$rsNotifLokasi = $this->db->query($sSQL)->result();
-		// === end: info lokasi ===
+		// // === begin: info lokasi ===
+		// $notif_lokasi = $data_lapor->info_lokasi;
+		// $where = '';
+		// if ($notif_lokasi != '') {
+		// 	$is_many = strpos($notif_lokasi, ',');
+		// 	if ($is_many) {
+		// 		// $notif_lokasi = explode(', ', $notif_lokasi);					// change string to array
+		// 		// if (($key = array_search('52', $notif_lokasi)) !== false) { 	// search value in array
+		// 		// 	unset($notif_lokasi[$key]); 								// remove value in array
+		// 		// 	$notif_lokasi = implode(', ', $notif_lokasi);				// change array to string
+		// 		// }
+		// 	}
+		// 	$where = 'AND id_lokasi_kerja in (' . $notif_lokasi . ')';
+		// }
+		// $sSQL = "SELECT lokasi_kerja FROM tbl_master_lokasi_kerja WHERE 1 = 1 $where";
+		// $rsNotifLokasi = $this->db->query($sSQL)->result();
+		// // === end: info lokasi ===
 
-		// === begin: info sublokasi ===
-		$rsNotifSublokasi = '';
-		if ($data_lapor->info_sublokasi != '') {
-			$sSQL = "SELECT lokasi_kerja
-					from tbl_master_lokasi_kerja
-					where dinas = 1 and id_lokasi_kerja in ($data_lapor->info_sublokasi) ";
-			$rsNotifSublokasi = $this->db->query($sSQL)->result();
-		}
-		// === end: info sublokasi ===
+		// // === begin: info sublokasi ===
+		// $rsNotifSublokasi = '';
+		// if ($data_lapor->info_sublokasi != '') {
+		// 	$sSQL = "SELECT lokasi_kerja
+		// 			from tbl_master_lokasi_kerja
+		// 			where dinas = 1 and id_lokasi_kerja in ($data_lapor->info_sublokasi) ";
+		// 	$rsNotifSublokasi = $this->db->query($sSQL)->result();
+		// }
+		// // === end: info sublokasi ===
 
-		// === begin: info pegawai ===
-		$rsNotifPegawai = '';
-		if ($data_lapor->info_pegawai != '') {
-			$sSQL = "SELECT peg.id_pegawai, peg.nama_pegawai, lok.lokasi_kerja
-					from tbl_data_pegawai as peg
-					left join tbl_master_lokasi_kerja as lok on 
-						case
-							when (peg.lokasi_kerja = 52 and peg.sublokasi_kerja <> 0) then lok.id_lokasi_kerja = peg.sublokasi_kerja
-							else lok.id_lokasi_kerja = peg.lokasi_kerja
-						end
-					LEFT JOIN tbl_master_nama_jabatan AS jab ON jab.id_status_jabatan = peg.id_status_jabatan 
-						AND jab.id_nama_jabatan = peg.id_jabatan AND jab.aktif = 1
-					where 
-						peg.id_pegawai in ($data_lapor->info_pegawai) 
+		// // === begin: info pegawai ===
+		// $rsNotifPegawai = '';
+		// if ($data_lapor->info_pegawai != '') {
+		// 	$sSQL = "SELECT peg.id_pegawai, peg.nama_pegawai, lok.lokasi_kerja
+		// 			from tbl_data_pegawai as peg
+		// 			left join tbl_master_lokasi_kerja as lok on 
+		// 				case
+		// 					when (peg.lokasi_kerja = 52 and peg.sublokasi_kerja <> 0) then lok.id_lokasi_kerja = peg.sublokasi_kerja
+		// 					else lok.id_lokasi_kerja = peg.lokasi_kerja
+		// 				end
+		// 			LEFT JOIN tbl_master_nama_jabatan AS jab ON jab.id_status_jabatan = peg.id_status_jabatan 
+		// 				AND jab.id_nama_jabatan = peg.id_jabatan AND jab.aktif = 1
+		// 			where 
+		// 				peg.id_pegawai in ($data_lapor->info_pegawai) 
 					
-					ORDER BY 
-						CASE WHEN ISNULL(jab.level_jabatan) OR jab.level_jabatan = '0' THEN '999' ELSE jab.level_jabatan END,
-						CASE WHEN ISNULL(peg.id_status_jabatan) OR peg.id_status_jabatan = '0' THEN '999' ELSE peg.id_status_jabatan END,
-						CASE WHEN ISNULL(peg.lokasi_kerja) OR peg.lokasi_kerja = '0' THEN '999' ELSE peg.lokasi_kerja END,
-						peg.sublokasi_kerja ";
-			$rsNotifPegawai = $this->db->query($sSQL)->result();
+		// 			ORDER BY 
+		// 				CASE WHEN ISNULL(jab.level_jabatan) OR jab.level_jabatan = '0' THEN '999' ELSE jab.level_jabatan END,
+		// 				CASE WHEN ISNULL(peg.id_status_jabatan) OR peg.id_status_jabatan = '0' THEN '999' ELSE peg.id_status_jabatan END,
+		// 				CASE WHEN ISNULL(peg.lokasi_kerja) OR peg.lokasi_kerja = '0' THEN '999' ELSE peg.lokasi_kerja END,
+		// 				peg.sublokasi_kerja ";
+		// 	$rsNotifPegawai = $this->db->query($sSQL)->result();
+		// }
+		// // === end: info pegawai ===
+
+		// === begin: lokasi ===
+		$arrLokasi = array();
+		$this->db->select('id_lokasi_kerja, lokasi_kerja');
+		$lokasi = $this->db->get_where('tbl_master_lokasi_kerja', array('sublokasi' => '0'))->result_array();
+		if (count($lokasi) > 0) {
+			foreach ($lokasi as $item) {
+				$arrLokasi[$item['id_lokasi_kerja']] = $item['lokasi_kerja'];
+			}
 		}
-		// === end: info pegawai ===
+		$data['arrLokasi'] = $arrLokasi;
+		// === end: lokasi ===
+
+		// === begin: sublokasi ===
+		$arrSubLokasi = array();
+		$this->db->select('id_lokasi_kerja, lokasi_kerja');
+		$sublokasi = $this->db->get_where('tbl_master_lokasi_kerja', array('sublokasi' => '1'))->result_array();
+		if (count($sublokasi) > 0) {
+			foreach ($sublokasi as $item) {
+				$arrSubLokasi[$item['id_lokasi_kerja']] = $item['lokasi_kerja'];
+			}
+		}
+		$data['arrSubLokasi'] = $arrSubLokasi;
+		// === end: sublokasi ===
+
+		// === begin: pegawai ===
+		$arrPegawai = array();
+		$where  = '';
+		if ($data_lapor->info_pegawai != '') {
+			$where = 'AND peg.id_pegawai in (' . $data_lapor->info_pegawai . ')';
+		}
+		$sSQL = "SELECT peg.id_pegawai, peg.nama_pegawai, lok.lokasi_kerja
+				from tbl_data_pegawai as peg
+				left join tbl_master_lokasi_kerja as lok on 
+					case
+						when (peg.lokasi_kerja = 52 and peg.sublokasi_kerja <> 0) then lok.id_lokasi_kerja = peg.sublokasi_kerja
+						else lok.id_lokasi_kerja = peg.lokasi_kerja
+					end
+				LEFT JOIN tbl_master_nama_jabatan AS jab ON jab.id_status_jabatan = peg.id_status_jabatan 
+					AND jab.id_nama_jabatan = peg.id_jabatan AND jab.aktif = 1
+				where 1 = 1 $where 
+				ORDER BY 
+					CASE WHEN ISNULL(jab.level_jabatan) OR jab.level_jabatan = '0' THEN '999' ELSE jab.level_jabatan END,
+					CASE WHEN ISNULL(peg.id_status_jabatan) OR peg.id_status_jabatan = '0' THEN '999' ELSE peg.id_status_jabatan END,
+					CASE WHEN ISNULL(peg.lokasi_kerja) OR peg.lokasi_kerja = '0' THEN '999' ELSE peg.lokasi_kerja END,
+					peg.sublokasi_kerja ";
+		$pegawai = $this->db->query($sSQL)->result_array();
+		// $pegawai = $this->db->get_where('tbl_master_lokasi_kerja', array('id_pegawai' => '1'))->result_array();
+
+		if (count($pegawai) > 0) {
+			foreach ($pegawai as $item) {
+				$arrPegawai[$item['id_pegawai']] = $item['nama_pegawai'];
+			}
+		}
+		$data['arrPegawai'] = $arrPegawai;
+		// === end: pegawai ===
 
 		$data['id_lapor'] 				= $id_lapor;
 		$data['data_lapor'] 			= $data_lapor;
 		$data['data_pegawai'] 			= $rsPegawai;
 		$data['data_tanggapan'] 		= $rsTanggapan;
-		$data['data_notif_lokasi']		= $rsNotifLokasi;
-		$data['data_notif_sublokasi']	= $rsNotifSublokasi;
-		$data['data_notif_pegawai']	= $rsNotifPegawai;
+		// $data['data_notif_lokasi']		= $rsNotifLokasi;
+		// $data['data_notif_sublokasi']	= $rsNotifSublokasi;
+		// $data['data_notif_pegawai']		= $rsNotifPegawai;
 
 		$this->load->view('dashboard_admin/lapor/form_lapor_view', $data);
 	}

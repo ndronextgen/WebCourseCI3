@@ -193,7 +193,7 @@
                 <div class="row pull-right" style="padding-right: 10px;">
                     <input type='hidden' value='<?php echo $data_lapor->File_upload; ?>' name='file_upload_lama' Id='file_upload_lama'>
                     <input type='hidden' value='<?php echo $data_lapor->Id; ?>' name='id_lapor' Id='id_lapor'>
-                    <button type="button" class="btn btn-sm btn-success btn-flat" onclick="simpan_lapor()" id="btn_tmb">Simpan Data Lapor</button>
+                    <button type="button" class="btn btn-sm btn-success btn-flat" onclick="simpan_lapor()" id="btn_tmb">Simpan</button>
                     <button class="btn btn-sm btn-danger btn-flat" data-dismiss="modal" style="margin-left: 5px;">Tutup</button>
                 </div>
 
@@ -206,7 +206,15 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // 
+        if ('<?= $data_lapor->info_lokasi ?>' == '') {
+            $("#lokasi").val('').change();
+        }
+        if ('<?= $data_lapor->info_sublokasi ?>' == '') {
+            $("#sublokasi").val('').change();
+        }
+        if ('<?= $data_lapor->info_pegawai ?>' == '') {
+            $("#pegawai").val('').change();
+        }
     });
 
     // === definisi select box as select2 ===
