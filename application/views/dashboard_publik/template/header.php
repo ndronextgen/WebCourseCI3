@@ -49,6 +49,7 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css">
 <script src="https://js.arcgis.com/4.21/"></script>
 
+<!-- fancybox -->
 <script src="<?php echo base_url(); ?>asset/fancy_source/dist/jquery.fancybox.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/fancy_source/dist/jquery.fancybox.min.css" media="screen" />
 
