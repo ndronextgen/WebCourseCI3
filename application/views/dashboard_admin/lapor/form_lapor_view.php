@@ -10,17 +10,7 @@
     .modal-title {
         color: #fff !important;
     }
-
-    .disabled-element {
-        pointer-events: none;
-        background-color: #dbdbdb;
-        cursor: no-drop;
-    }
 </style>
-
-<script type="text/javascript">
-    // 
-</script>
 
 <div class="box-body">
     <div class="row">
@@ -31,7 +21,7 @@
                     <div class="kt-form__group kt-form__group--inline">
                         <div class="form-group">
                             <label>Nama Pegawai</label>
-                            <input type="text" class="form-control input-sm disabled-element" name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data_pegawai->nama_pegawai); ?>">
+                            <input type="text" class="form-control input-sm" readonly name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data_pegawai->nama_pegawai); ?>" style="background-color: #dbdbdb;">
                         </div>
                     </div>
                 </div>
@@ -48,7 +38,7 @@
                                 $lokasi = $data->nama_lokasi_kerja;
                             }
                             ?>
-                            <input type="text" class="form-control input-sm disabled-element" name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>"></input>
+                            <input type="text" class="form-control input-sm" readonly name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>" style="background-color: #dbdbdb;"></input>
                         </div>
                     </div>
                 </div>
@@ -59,7 +49,7 @@
                     <div class="kt-form__group kt-form__group--inline">
                         <div class="form-group">
                             <label>Isi Lapor</label>
-                            <textarea class="form-control input-sm disabled-element" name="isi_laporan" id="isi_laporan"><?php echo $data_lapor->Isi_laporan; ?></textarea>
+                            <textarea class="form-control input-sm" readonly name="isi_laporan" id="isi_laporan" style="background-color: #dbdbdb;"><?php echo $data_lapor->Isi_laporan; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -87,8 +77,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <input type="file" class="form-control input-sm" name="file_upload" id="file_upload" style="font-size: smaller; height: 39px;"> -->
-                            <!-- <label style="font-size: 10px; font-style: italic;">*Format file berupa PDF, JPG, atau PNG.</label> -->
                         </div>
                     </div>
                 </div>

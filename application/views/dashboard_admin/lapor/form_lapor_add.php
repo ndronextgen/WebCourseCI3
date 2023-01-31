@@ -10,17 +10,7 @@
     .modal-title {
         color: #fff !important;
     }
-
-    .disabled-select {
-        pointer-events: none;
-        background-color: #dbdbdb;
-        cursor: no-drop;
-    }
 </style>
-
-<script type="text/javascript">
-
-</script>
 
 <div class="box-body">
     <form id="form_lapor" name="form_lapor" method="post" enctype="multipart/form-data">
@@ -32,7 +22,7 @@
                         <div class="kt-form__group kt-form__group--inline">
                             <div class="form-group">
                                 <label>Nama Pegawai</label>
-                                <input type="text" class="form-control input-sm disabled-select" name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data->nama_pegawai); ?>">
+                                <input type="text" class="form-control input-sm" readonly name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data->nama_pegawai); ?>" style="background-color: #dbdbdb;">
 
                             </div>
                         </div>
@@ -50,7 +40,7 @@
                                     $lokasi = $data->nama_lokasi_kerja;
                                 }
                                 ?>
-                                <input type="text" class="form-control input-sm disabled-select" name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>"></input>
+                                <input type="text" class="form-control input-sm" readonly name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>" style="background-color: #dbdbdb;"></input>
                             </div>
                         </div>
                     </div>
@@ -110,8 +100,8 @@
                                 <select class="form-control bootstrap-select input-sm" id="sublokasi" name="sublokasi[]" multiple data-width="100%">
                                     <option value="">Semua Sub Dinas</option>
                                 </select>
-                                <?php $sublok = ($this->input->post('sublokasi_id') != null) ? $this->input->post('sublokasi_id') : ''; ?>
-                                <input type="hidden" id="sublokasi_id" name="sublokasi_id" value="<?= $sublok ?>">
+                                <!-- <?php $sublok = ($this->input->post('sublokasi_id') != null) ? $this->input->post('sublokasi_id') : ''; ?> -->
+                                <!-- <input type="hidden" id="sublokasi_id" name="sublokasi_id" value="<?= $sublok ?>"> -->
                             </div>
                         </div>
                     </div>
@@ -122,8 +112,8 @@
                                 <select class="form-control bootstrap-select input-sm" id="pegawai" name="pegawai[]" multiple data-width="100%">
                                     <option value="">Semua Pegawai</option>
                                 </select>
-                                <?php $peg_id = ($this->input->post('pegawai_id') != null) ? $this->input->post('pegawai_id') : ''; ?>
-                                <input type="hidden" id="pegawai_id" name="pegawai_id" value="<?= $peg_id ?>">
+                                <!-- <?php $peg_id = ($this->input->post('pegawai_id') != null) ? $this->input->post('pegawai_id') : ''; ?> -->
+                                <!-- <input type="hidden" id="pegawai_id" name="pegawai_id" value="<?= $peg_id ?>"> -->
                             </div>
                         </div>
                     </div>
@@ -149,9 +139,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#lokasi").val('').change();
-        $("#sublokasi").val('').change();
-        $("#pegawai").val('').change();
+        get_pegawai();
     });
 
     // === definisi select box as select2 ===
@@ -197,16 +185,8 @@
                         if (len > 0) {
                             $('#sublokasi').find('option').remove().end();
                             $('#sublokasi').append('<option value="">Semua Sub Dinas</option>');
-                            const sublokasi_post = '<?php echo $this->input->post('sublokasi') ?>';
 
-                            let selected = '';
                             for (var i = 0; i < len; i++) {
-                                if (sublokasi_post == response[i]['id_lokasi_kerja']) {
-                                    selected = 'selected = selected';
-                                } else {
-                                    selected = '';
-                                }
-
                                 // === begin: propercase lokasi ===
                                 let lokasi;
                                 lokasi = properCase(response[i]['lokasi_kerja']);
@@ -214,7 +194,7 @@
                                 lokasi = lokasi.replace(" Dki ", " DKI ");
                                 // === end: propercase lokasi ===
 
-                                $("#sublokasi").append("<option value=" + response[i]['id_lokasi_kerja'] + " " + selected + ">" + lokasi + "</option>");
+                                $("#sublokasi").append("<option value=" + response[i]['id_lokasi_kerja'] + ">" + lokasi + "</option>");
                             }
 
                             $('#grp_sublokasi').show();
@@ -228,11 +208,6 @@
             });
             $("#sublokasi").change();
 
-            // } else if (lokasi == '') {
-            //     $('#sublokasi').find('option').remove().end();
-            //     $('#sublokasi').append('<option value="">Semua Sub Lokasi Kerja</option>');
-            //     $('#grp_sublokasi').hide();
-
         } else {
             $('#sublokasi').find('option').remove().end();
             $('#sublokasi').append('<option value="">-</option>');
@@ -242,76 +217,73 @@
 
         }
 
-        get_pegawai();
-    });
-    $("#lokasi").change();
+        // get_pegawai();
+    }).change();
 
     // === change sublokasi ===
     $("#sublokasi").change(function() {
-        const selSubLokasi = $('#sublokasi').val();
-        let txtSubLokasi = '';
+        if ($('#sublokasi').is(":visible")) {
+            const selSubLokasi = $('#sublokasi').val();
+            let txtSubLokasi = '';
 
-        function fSubLokasi(item) {
-            if (txtSubLokasi == '') {
-                txtSubLokasi = item;
-            } else {
-                txtSubLokasi += ', ' + item;
+            function fSubLokasi(item) {
+                if (txtSubLokasi == '') {
+                    txtSubLokasi = item;
+                } else {
+                    txtSubLokasi += ', ' + item;
+                }
             }
-        }
-        selSubLokasi.forEach(fSubLokasi);
-        $("#sublokasi_id").val(txtSubLokasi);
+            selSubLokasi.forEach(fSubLokasi);
+            $("#sublokasi_id").val(txtSubLokasi);
 
+            // get_pegawai();
+        }
+    });
+
+    $('#lokasi').on('select2:close', function(e) {
+        get_pegawai();
+    });
+
+    $('#sublokasi').on('select2:close', function(e) {
         get_pegawai();
     });
 
     // === get pegawai ===
     function get_pegawai() {
-        // === begin: get string from array value on select option ===
         const selLokasi = $('#lokasi').val();
         const selSubLokasi = $('#sublokasi').val();
-
-        // let txt = '';
-        // let txtLokasi = '';
-        // let txtSubLokasi = '';
-
-        // function funcArray(item) {
-        //     if (txt == '') {
-        //         txt = item;
-        //     } else {
-        //         txt += ', ' + item;
-        //     }
-        // }
-        // selLokasi.forEach(funcArray);
-        // txtLokasi = txt;
-        // txt = '';
-        // selSubLokasi.forEach(funcArray);
-        // txtSubLokasi = txt;
-        // === end: get string from array value on select option ===
+        const selPegawai = $('#pegawai').val();
 
         $.ajax({
             url: '<?php echo base_url("admin/data_lapor/load_pegawai") ?>',
             dataType: 'json',
             type: 'post',
             data: {
-                // lokasi: txtLokasi,
-                // sublokasi: txtSubLokasi
                 lokasi: selLokasi,
                 sublokasi: selSubLokasi
             },
             success: function(response) {
                 const len = response.length;
-                // alert(len);
+
                 if (len > 0) {
                     $('#pegawai').find('option').remove().end();
                     $('#pegawai').append('<option value="">Semua Pegawai</option>');
 
+                    selected = '';
                     for (var i = 1; i < len; i++) {
-                        // === begin: propercase pegawai ===
+                        for (var j = 0; j < selPegawai.length; j++) {
+                            if (selPegawai[j] == response[i]['id_pegawai']) {
+                                selected = 'selected = selected';
+                                break;
+                            } else {
+                                selected = '';
+                            }
+                        }
+
                         let pegawai;
                         pegawai = properCase(response[i]['nama_pegawai']);
-                        // === end: propercase pegawai ===
 
-                        $("#pegawai").append("<option value=" + response[i]['id_pegawai'] + ">" + pegawai + "</option>");
+                        $("#pegawai").append("<option value=" + response[i]['id_pegawai'] + " " + selected + ">" + pegawai + "</option>");
                     }
                 }
             },

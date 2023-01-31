@@ -10,12 +10,6 @@
     .modal-title {
         color: #fff !important;
     }
-
-    .disabled-select {
-        pointer-events: none;
-        background-color: #dbdbdb;
-        cursor: no-drop;
-    }
 </style>
 
 <script type="text/javascript">
@@ -32,7 +26,7 @@
                         <div class="kt-form__group kt-form__group--inline">
                             <div class="form-group">
                                 <label>Nama Pegawai</label>
-                                <input type="text" class="form-control input-sm disabled-select" name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data_pegawai->nama_pegawai); ?>">
+                                <input type="text" class="form-control input-sm" readonly name="nama_pegawai" id="nama_pegawai" value="<?php echo $this->func_table->propercase($data_pegawai->nama_pegawai); ?>" style="background-color: #dbdbdb;">
                             </div>
                         </div>
                     </div>
@@ -49,7 +43,7 @@
                                     $lokasi = $data->nama_lokasi_kerja;
                                 }
                                 ?>
-                                <input type="text" class="form-control input-sm disabled-select" name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>"></input>
+                                <input type="text" class="form-control input-sm" readonly name="lokasi_kerja" id="lokasi_kerja" value="<?php echo $this->func_table->propercase_lokasi($lokasi); ?>" style="background-color: #dbdbdb;"></input>
                             </div>
                         </div>
                     </div>
@@ -206,15 +200,17 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        if ('<?= $data_lapor->info_lokasi ?>' == '') {
-            $("#lokasi").val('').change();
-        }
-        if ('<?= $data_lapor->info_sublokasi ?>' == '') {
-            $("#sublokasi").val('').change();
-        }
-        if ('<?= $data_lapor->info_pegawai ?>' == '') {
-            $("#pegawai").val('').change();
-        }
+        // if ('<?= $data_lapor->info_lokasi ?>' == '') {
+        //     $("#lokasi").val('').change();
+        // }
+        // if ('<?= $data_lapor->info_sublokasi ?>' == '') {
+        //     $("#sublokasi").val('').change();
+        // }
+        // if ('<?= $data_lapor->info_pegawai ?>' == '') {
+        //     $("#pegawai").val('').change();
+        // }
+
+        get_pegawai();
     });
 
     // === definisi select box as select2 ===
@@ -292,25 +288,26 @@
         }
 
         // get_pegawai();
-    });
-    $("#lokasi").change();
+    }).change();
 
     // === change sublokasi ===
     $("#sublokasi").change(function() {
-        const selSubLokasi = $('#sublokasi').val();
-        let txtSubLokasi = '';
+        if ($('#sublokasi').is(":visible")) {
+            const selSubLokasi = $('#sublokasi').val();
+            let txtSubLokasi = '';
 
-        function fSubLokasi(item) {
-            if (txtSubLokasi == '') {
-                txtSubLokasi = item;
-            } else {
-                txtSubLokasi += ', ' + item;
+            function fSubLokasi(item) {
+                if (txtSubLokasi == '') {
+                    txtSubLokasi = item;
+                } else {
+                    txtSubLokasi += ', ' + item;
+                }
             }
-        }
-        selSubLokasi.forEach(fSubLokasi);
-        $("#sublokasi_id").val(txtSubLokasi);
+            selSubLokasi.forEach(fSubLokasi);
+            $("#sublokasi_id").val(txtSubLokasi);
 
-        // get_pegawai();
+            // get_pegawai();
+        }
     });
 
     $('#lokasi').on('select2:close', function(e) {
