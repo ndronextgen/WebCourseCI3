@@ -144,7 +144,7 @@ $html = '
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara '.(isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '').
   ' NIP/NRK '.(isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip.' / '.$pegawai_berhalangan->nrk : '').
   ' Pangkat/Golongan '.(isset($pegawai_berhalangan->pangkat) ? ucwords(strtolower($pegawai_berhalangan->pangkat)).  $pegawai_berhalangan->golongan:'').
-  ' Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? ucwords(strtolower($pegawai_berhalangan->nama_jabatan)) : '').
+  ' Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? str_replace('Dan','dan',ucwords(strtolower($pegawai_berhalangan->nama_jabatan))) : '').
   ' '
       .' '. $surat->alasan_pltplh .' selama '.$surat->durasi.' ('.$jml_terbilang.') hari kerja, untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
     
@@ -199,11 +199,17 @@ $html = '
         Ditetapkan di Jakarta<br>
         Pada tanggal :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.date('Y').'</td>
       </tr>
+      <tr>
+        <td class="sign-left"></td>
+        <td align="center">
+          '.$ket_ttd.'
+        </td>
+      </tr>
       <tr><td colspan="" class="sign-space">&nbsp;</td></tr>
       <tr>
         <td class="sign-left"></td>
         <td align = "center">
-          Heru Hermanto<br />
+          Heru Hermawanto<br />
           NIP 196803121998031010
         </td>
       </tr>

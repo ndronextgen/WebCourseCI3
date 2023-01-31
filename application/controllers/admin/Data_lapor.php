@@ -378,7 +378,7 @@ class Data_lapor extends CI_Controller
 		$created_by 	= $this->session->userdata('username');
 		$date_now 		= date('Y-m-d H:i:s');
 
-		$kategori = $this->db->query('SELECT uraian FROM tr_master_lapor WHERE id = 3')->row()->uraian;
+		$kategori 		= $this->db->query('SELECT uraian FROM tr_master_lapor WHERE id = 3')->row()->uraian;
 		$isi_laporan 	= $this->input->post('isi_laporan');
 		$file_upload 	= $this->input->post('file_upload');
 		$lokasi 		= $this->input->post('lokasi');
@@ -390,7 +390,6 @@ class Data_lapor extends CI_Controller
 			$lokasi_kerja = '52';
 		}
 		// === end: get required values ===
-
 
 		// === begin: file handling ===
 		$ucode_gen = $this->func_table->generateRandomString2();
@@ -422,7 +421,6 @@ class Data_lapor extends CI_Controller
 			$new_name_file = '';
 		}
 		// === end: file handling ===
-
 
 		$data['id_pegawai'] = $id_pegawai;
 		$data['Tanggapan_id'] = '0';
@@ -546,7 +544,7 @@ class Data_lapor extends CI_Controller
 		// 				AND jab.id_nama_jabatan = peg.id_jabatan AND jab.aktif = 1
 		// 			where 
 		// 				peg.id_pegawai in ($data_lapor->info_pegawai) 
-					
+
 		// 			ORDER BY 
 		// 				CASE WHEN ISNULL(jab.level_jabatan) OR jab.level_jabatan = '0' THEN '999' ELSE jab.level_jabatan END,
 		// 				CASE WHEN ISNULL(peg.id_status_jabatan) OR peg.id_status_jabatan = '0' THEN '999' ELSE peg.id_status_jabatan END,
@@ -712,27 +710,30 @@ class Data_lapor extends CI_Controller
 
 	function simpan_update()
 	{
+		// === begin: get required values ===
 		$message = '';
 		$status = 0;
 
 		$id_lapor 		= $this->input->post('id_lapor');
 		$isi_laporan 	= $this->input->post('isi_laporan');
-		$date_now 		= date('Y-m-d H:i:s');
+		$lokasi 		= $this->input->post('lokasi');
+		$sublokasi 		= $this->input->post('sublokasi');
+		$pegawai 		= $this->input->post('pegawai');
 
+		$date_now 		= date('Y-m-d H:i:s');
 		$lokasi_kerja = $this->session->userdata('lokasi_kerja');
 		if ($lokasi_kerja == '0') {
 			$lokasi_kerja = '52';
 		}
+		// === end: get required values ===
 
 		// === begin: file upload ===
-
 		$file_upload 		= $this->input->post('file_upload');
 		$file_upload_lama 	= $this->input->post('file_upload_lama');
 
 		$ucode_gen = $this->func_table->generateRandomString2();
 		$new_name = 'I_' . $ucode_gen;
 		$path_folder = "./asset/upload/Lapor/";
-
 
 		if ($_FILES["file_upload"]['name'] == '' and $file_upload_lama == '') {
 			$new_name_file = '';
@@ -781,10 +782,12 @@ class Data_lapor extends CI_Controller
 
 		// === end: file upload ===
 
-
 		$data['isi_laporan'] = $isi_laporan;
 		$data['file_upload'] = $new_name_file;
 		$data['updated_at'] = $date_now;
+		$data['info_lokasi'] = (isset($lokasi)) ? implode(', ', $lokasi) : '';
+		$data['info_sublokasi'] = (isset($sublokasi)) ? implode(', ', $sublokasi) : '';
+		$data['info_pegawai'] = (isset($pegawai)) ? implode(', ', $pegawai) : '';
 
 		$this->db->where('id', $id_lapor);
 		$this->db->update('tr_lapor', $data);

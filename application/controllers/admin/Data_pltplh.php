@@ -512,21 +512,21 @@ class Data_pltplh extends CI_Controller
 					if (count($arrKet) > 1) { #kalo lebih dari satu
 
 						foreach ($arrKet as $key => $k) {
-							if ($i >= 1 && $i < count($arrKet)) $k .= '.';
+							if ($i >= 1 && $i < count($arrKet)) $k .= ';';
 							else if ($i == count($arrKet)) $k .= '.';
 
-							$ket .= '<p class="listtembusan">&nbsp;&nbsp;' . $i . '. ' . $k . '</p>';
+							$ket .= '<p class="listtembusan">&nbsp;' . $i . '. ' . $k . '</p>';
 
 							$i++;
 						}
-						$d['tembusan'] = 'Tembusan: ';
+						$d['tembusan'] = ' Tembusan: ';
 						$d['ket'] = $ket;
 					} elseif (count($arrKet) == 1) {
 						foreach ($arrKet as $key => $k) {
 							if ($i >= 1 && $i < count($arrKet)) $k .= '.';
 							else if ($i == count($arrKet)) $k .= '.';
 
-							$ket .= '<p class="listtembusan">&nbsp;&nbsp;' . $k . '</p>';
+							$ket .= '<p class="listtembusan">' . $k . '</p>';
 
 							$i++;
 						}
