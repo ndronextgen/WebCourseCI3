@@ -25,6 +25,7 @@
         <div class="nav-tabs-custom">
             <div class="tab-content">
                 <button class="btn btn-success" onclick="tambah_pengajuan_surat()"><i class="glyphicon glyphicon-plus"></i>&nbsp; &nbsp;Tambah Pengajuan Surat</button>
+                <button class="btn btn-default" onclick="reload_table_srt()"><i class="glyphicon glyphicon-refresh"></i>&nbsp; &nbsp;Reload</button>
                 <br><br>
 
                 <table id="table_srt_ket" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
