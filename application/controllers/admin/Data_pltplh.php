@@ -208,19 +208,7 @@ class Data_pltplh extends CI_Controller
 		$tgl_mulai 	 	 			= $this->input->post('tgl_mulai');
 		$tgl_selesai 	 			= $this->input->post('tgl_selesai');
 
-		if($type_surat==''){
-			$message = "Tipe Surat Harus diisi";
-		} else if ($id_pegawai == '') {
-			$message = "Pegawai Harus Diisi!";
-		} else if ($id_pegawai_berhalangan == '') {
-			$message = "Pegawai Berhalangan Tugas Harus Diisi!";
-		} else if ($alasan_pltplh == '') {
-			$message = "Alasan PLT/PLH Tidak Boleh kosong!";
-		} else if ($tgl_mulai == '') {
-			$message = "Tanggal Mulai Tidak Boleh kosong!";
-		} else if ($tgl_selesai == '') {
-			$message = "Tanggal Selesai Tidak Boleh kosong!";
-		} else {
+		if($id_pegawai!=''){
 			$data_pegawai = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 												a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
@@ -239,8 +227,11 @@ class Data_pltplh extends CI_Controller
 												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 											) as e ON e.id_nama_jabatan =  a.id_jabatan
 											WHERE id_pegawai = '$id_pegawai'")->row();
-
-			$data_pegawai_berhalangan = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
+			if ($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == '') {
+				$message = "Lengkapi data pegawai yang akan diajukan sebagai PLT/PLH terlebih dahulu!";
+			} else {
+				if($id_pegawai_berhalangan!=''){
+					$data_pegawai_berhalangan = $this->db->query("SELECT a.id_pegawai,a.nama_pegawai, a.id_pegawai, a.nrk,a.tempat_lahir,
 												a.jenis_kelamin, a.agama,a.alamat,a.tanggal_mulai_pangkat,
 												a.lokasi_kerja, a.nip, a.tanggal_lahir, nama_lokasi_kerja, nama_status,
 												golongan, uraian, nama_jabatan
@@ -258,15 +249,28 @@ class Data_pltplh extends CI_Controller
 												SELECT id_nama_jabatan, nama_jabatan FROM tbl_master_nama_jabatan
 											) as e ON e.id_nama_jabatan =  a.id_jabatan
 											WHERE id_pegawai = '$id_pegawai_berhalangan'")->row();
-			if ($data_pegawai->nama_pegawai == '' || $data_pegawai->nip == '' || $data_pegawai->nrk == '' || $data_pegawai->uraian == '' || $data_pegawai->golongan == '' || $data_pegawai->nama_jabatan == '' || $data_pegawai->nama_lokasi_kerja == '') {
-				$message = "Lengkapi data pegawai yang akan diajukan sebagai PLT/PLH terlebih dahulu!";
-			} else if($data_pegawai_berhalangan->nama_pegawai == '' || $data_pegawai_berhalangan->nip == '' || $data_pegawai_berhalangan->nrk == '' || $data_pegawai_berhalangan->uraian == '' || $data_pegawai_berhalangan->golongan == '' || $data_pegawai_berhalangan->nama_jabatan == '' || $data_pegawai_berhalangan->nama_lokasi_kerja == ''){
-				$message = "Lengkapi data pegawai yang berhalangan terlebih dahulu!";
-			} else {
-				$status = true;
-				$message = "OK";
+					if($data_pegawai_berhalangan->nama_pegawai == '' || $data_pegawai_berhalangan->nip == '' || $data_pegawai_berhalangan->nrk == '' || $data_pegawai_berhalangan->uraian == '' || $data_pegawai_berhalangan->golongan == '' || $data_pegawai_berhalangan->nama_jabatan == '' || $data_pegawai_berhalangan->nama_lokasi_kerja == ''){
+						$message = "Lengkapi data pegawai yang berhalangan terlebih dahulu!";
+					}  else {
+						if($type_surat==''){
+							$message = "Tipe Surat Harus diisi";
+						} else if ($alasan_pltplh == '') {
+							$message = "Alasan PLT/PLH Tidak Boleh kosong!";
+						} else if ($tgl_mulai == '') {
+							$message = "Tanggal Mulai Tidak Boleh kosong!";
+						} else if ($tgl_selesai == '') {
+							$message = "Tanggal Selesai Tidak Boleh kosong!";
+						} else {
+							$status = true;
+							$message = "OK";
+						}
+					}
+				} else {
+					$message = "Pilih data pegawai yang Berhalangan Tugas terlebih dahulu!";
+				}
 			}
-
+		} else {
+			$message = "Pilih data pegawai yang akan diajukan sebagai PLT/PLH terlebih dahulu!";
 		}
 
 		$result = [
