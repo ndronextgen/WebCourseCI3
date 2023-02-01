@@ -104,7 +104,7 @@ jQuery(document).ready(function () {
             },
             {
                 field: "lokasi_group",
-                title: "Lakasi Kerja",
+                title: "Lokasi Kerja",
                 width: 250,
                 template: function (row) {
                     let data;
