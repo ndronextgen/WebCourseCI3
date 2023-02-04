@@ -4,7 +4,6 @@ class Manage_admin extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('modul_admin/m_manage_admin','adm');
-		//$this->load->library('func_table');
 	}
 
 	public function index() {

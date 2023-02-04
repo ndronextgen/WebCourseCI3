@@ -24,62 +24,52 @@ if(!$this->session->userdata('ses_user') OR !$this->session->userdata('ses_id'))
         
         <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-select.min.css'); ?>" />
 	    <script src="<?php echo base_url('assets/js/bootstrap-select.min.js');?>"></script>
+        <script type="text/javascript">
+            $(function() {
+                var path = window.location.href; // Mengambil data URL pada Address bar
+                $('ul#me li a').each(function() {
+                    // Jika URL pada menu ini sama persis dengan path...
+                    if (this.href == path) {
+                        // Tambahkan kelas "active" pada menu ini
+                        $(this).closest('li').addClass(' menu_active');
+                        $(this).closest('a').addClass(' active');
+                    }
+                });
+            });
+
+            $(function() {
+                var path = window.location.href; // Mengambil data URL pada Address bar
+
+        $('ul#me li ul li a').each(function() {
+                    // Jika URL pada menu ini sama persis dengan path...
+                    if (this.href == path) {
+                        // Tambahkan kelas "active" pada menu ini
+                        $(this).closest('li.xn-openable').addClass('xn-openable active');
+                        $(this).closest('li').addClass('menu_active');
+                        $(this).closest('ul').css("display", "block");
+                    }
+                });
+            });
+        </script>
+        <style>
+            .center{ text-align: center; }
+            .right{text-align: right}
+            .left{text-align: left}
+            .avoid-clicks {
+                pointer-events: none;
+                background-color: #dbdbdb;
+                cursor: no-drop;
+            }
+            .menu_active {
+                background-color: #000000;
+            }
+        </style>
     </head>
     <body style='font-size:12px !important;font-family: Arial Narrow,Arial,sans-serif;background: #e8e8e8;'>
         <!-- START PAGE CONTAINER -->
         <div class="page-container page-navigation-top-fixed">
             
-            <!-- START PAGE SIDEBAR -->
-            <div class="page-sidebar mCustomScrollbar _mCS_1 mCS-autoHide page-sidebar-fixed scroll">
-                <!-- START X-NAVIGATION -->
-                <ul class="x-navigation">
-                    <li class="xn-logo">
-                        <a href="<?php echo base_url(); ?>dashboard"><p style='font-family: "Goudy Old Style";'>WZ-Course</p></a>
-                        <a href="#" class="x-navigation-control"></a>
-                    </li>
-                    <li class="xn-profile">
-                        <a href="#" class="profile-mini">
-                            <img src="<?php echo base_url('assets/images/kursus.png'); ?>" alt="Kursus Online"/>
-                        </a>
-                        <div class="profile">
-                            <div class="profile-image">
-                                <img src="<?php echo base_url('assets/images/kursus.png'); ?>" alt="Kursus Online"/>
-                            </div>
-                            <div class="profile-data">
-                                <div class="profile-data-name">Selamat Datang</div>
-                                <div class="profile-data-title">Website WZ Course</div>
-                            </div>
-                        </div>                                                                        
-                    </li>
-                    <li class="active">
-                        <a href="<?php echo base_url(); ?>dashboard"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a>                        
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>data_anggota"><span class="fa fa-bookmark"></span> <span class="xn-text">Data Pendaftar Kursus</span></a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>data_anggota"><span class="fa fa-users"></span> <span class="xn-text">Data Anggota</span></a>
-                    </li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-tags"></span> <span class="xn-text">Referensi</span></a>
-                        <ul>
-                            <li><a href="<?php echo base_url(); ?>manage_admin"><span class="fa fa-angle-double-right"></span> Manage Kursus</a></li>   
-                        </ul>
-                    </li>  
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-cogs"></span> <span class="xn-text">Administrator</span></a>                        
-                        <ul>
-                            <li><a href="<?php echo base_url(); ?>modul_admin/manage_admin"><span class="fa fa-angle-double-right"></span> Manage Admin</a></li>                            
-                            <li><a href="<?php echo base_url(); ?>modul_admin/manage_akses"><span class="fa fa-angle-double-right"></span> Manage Privileges</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>login/logout"><span class="fa fa-sign-out"></span> <span class="xn-text">Logout</span></a>
-                    </li> 
-                </ul>
-                <!-- END X-NAVIGATION -->
-            </div>
-            <!-- END PAGE SIDEBAR -->
+            <?php $this->load->view('struktur/menu'); ?>
             
             <!-- PAGE CONTENT -->
             <div class="page-content">
@@ -94,22 +84,6 @@ if(!$this->session->userdata('ses_user') OR !$this->session->userdata('ses_id'))
                     
                     
                 </ul>
-                <!-- END X-NAVIGATION VERTICAL -->                     
-
-                <!-- START BREADCRUMB -->
-                <!-- <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>                    
-                    <li class="active">Dashboard</li>
-                </ul> -->
-                <!-- END BREADCRUMB -->                       
-                
-                <!-- PAGE CONTENT WRAPPER -->
-                <!-- <div class="page-content-wrap">
-                    
-                    
-					
-                    
-                </div> -->
                 <!-- END PAGE CONTENT WRAPPER -->                                
                 <?php $this->load->view($page); ?>
             </div>            

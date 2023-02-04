@@ -4,15 +4,12 @@
   if ($ses_Gid == '1'){
     
 ?>
-
-<!-- CSS Library -->
-
-    <!-- SELECT2 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- SELECT2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <ul class="breadcrumb">
-	<li><a href="#">Home</a></li>
-	<li class="active">Manage Admin</li>
+    <li><a href='<?php echo base_url(); ?>'>Dashboard</a></li>
+    <li class='active'>Manage Admin</li>
 </ul>
 <!-- PAGE CONTENT WRAPPER -->
 <div class="page-content-wrap">

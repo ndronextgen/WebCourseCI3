@@ -1,15 +1,14 @@
 <?php 
-class Manage_akses extends CI_Controller{
+class Manage_kursus extends CI_Controller{
 
 	public function __construct(){
 		parent::__construct();
 	}
 
 	public function index() {
-		$a['page'] = "modul_admin/manage_akses/index_manage_akses";
+		$a['page'] = "manage_kursus/index_manage_kursus"; //view
 		$this->load->view('struktur/body',$a);
 	}
-	
 
 }
 ?>
