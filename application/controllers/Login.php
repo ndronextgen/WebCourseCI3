@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
 	public function index()
 	{
-        //$a['page'] = "login/index_login"; //view
 		$this->load->view('login/index_login');
 	}
 	function aksi_login(){
