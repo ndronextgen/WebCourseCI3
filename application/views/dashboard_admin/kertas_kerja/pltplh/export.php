@@ -33,6 +33,7 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 }
 
 $filter_lokasi_kerja = trim(str_replace('SUKU DINAS','',$pegawai_berhalangan->lokasi_kerja));
+//$filter_jabatan_berhalangan = left(str_replace('TEKNIK TATA BANGUNAN DAN PERUMAHAN AHLI MUDA SELAKU',' ',$pegawai_berhalangan->nama_jabatan));
 
 // add a page
 $pdf->AddPage();
@@ -65,8 +66,9 @@ $html = '
   .content {
     font-size: 11;
     text-align: justify;
-    width: 100%;
+    text-justify: inter-word;
     line-height: 1.0;
+    text-indent: 50px;
   }
   table {
     width: 100%;
@@ -77,7 +79,9 @@ $html = '
   }
 
   .var {
-    width: 150px;
+    width: 130px;
+    text-align:left;
+    text-indent: 27px;
   }
   .sel {
     width: 15px;
@@ -91,6 +95,7 @@ $html = '
     text-align: justify;
     float: left;
     width: 465px;
+    text-indent: 60px;
   }
   .space {
     width: 20px;
@@ -138,20 +143,19 @@ $html = '
     SURAT PERINTAH TUGAS<br />
     NOMOR : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br>
     TENTANG<br>
-    '.strtoupper($type_surat).' KEPALA SUKU DINAS CIPTA KARYA, TATA RUANG DAN PERTANAHAN PROVINSI DKI JAKARTA
+    '.strtoupper($type_surat). ' '.strtoupper($pegawai_berhalangan->jabatan_potong).'  '.strtoupper($filter_lokasi_kerja).'
   </p>
-  <div class="content">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan Saudara '.(isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '').
-  ' NIP/NRK '.(isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip.' / '.$pegawai_berhalangan->nrk : '').
-  ' Pangkat/Golongan '.(isset($pegawai_berhalangan->pangkat) ? ucwords(strtolower($pegawai_berhalangan->pangkat)).  $pegawai_berhalangan->golongan:'').
-  ' Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? str_replace('Dan','dan',ucwords(strtolower($pegawai_berhalangan->nama_jabatan))) : '').
-  ' '
-      .' '. $surat->alasan_pltplh .' selama '.$surat->durasi.' ('.$jml_terbilang.') hari kerja, untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :
-    
+  <div class="content">Sehubungan dengan Saudara '.(isset($pegawai_berhalangan->nama_pegawai) ? ucwords(strtolower($pegawai_berhalangan->nama_pegawai)) : '').'
+  NIP/NRK '.(isset($pegawai_berhalangan->nip) ? $pegawai_berhalangan->nip.' / '.$pegawai_berhalangan->nrk : '').'
+  Pangkat/Golongan '.(isset($pegawai_berhalangan->pangkat) ? ucwords(strtolower($pegawai_berhalangan->pangkat))
+  .$pegawai_berhalangan->golongan:'').'
+  Jabatan '.(isset($pegawai_berhalangan->nama_jabatan) ? str_replace('Dan','dan',ucwords(strtolower($pegawai_berhalangan->nama_jabatan))) : '').' '. $surat->alasan_pltplh .' 
+  selama '.$surat->durasi.' ('.$jml_terbilang.') hari kerja, untuk kelancaran tugas kedinasan dengan ini Kepala Dinas Cipta Karya, Tata Ruang dan Pertanahan Provinsi Daerah Khusus Ibukota Jakarta :</div>
+
     <p align="center">MEMERINTAHKAN :</p>
-    <table>
+    <table border="">
       <tr>
-        <td width="110px;">Kepada</td>
+        <td width="70px", align="left">Kepada</td>
         <td width="13px;">:</td>
         <td class="var">Nama</td>
         <td class="sel">:</td>
@@ -181,16 +185,18 @@ $html = '
       </tr>
       <tr><td colspan="5">&nbsp;</td></tr>
       <tr>
-        <td width="110px;">Untuk</td>
+        <td width="70px;", align="left">Untuk</td>
         <td width="13px;">:</td>
-        <td colspan="3" class="val2"><ol style="text-align: justify;">
-                        <li>Melaksanakan tugas sebagai '.$type_surat.' '.str_replace('Dan','dan',ucwords(strtolower($filter_lokasi_kerja))) .' disamping tugas pokoknya sebagai '.str_replace('Dan','dan',ucwords(strtolower($pegawai->nama_jabatan))).' '.str_replace('Dan','dan', str_replace('Dki', 'DKI' ,ucwords(strtolower($pegawai->lokasi_kerja)))).', terhitung mulai tanggal '.$tgl_mulai.' sampai dengan tanggal '.$tgl_selesai.'.</li><br>
+        <td colspan="11" class="val2">
+                        <ol style="text-align: justify;">
+                        <li>Melaksanakan tugas sebagai '.$type_surat.' ' .ucwords(strtolower($pegawai_berhalangan->nama_jabatan)).' '.str_replace('Dan','dan',ucwords(strtolower($filter_lokasi_kerja))) .' disamping tugas pokoknya sebagai '.str_replace('Dan','dan',ucwords(strtolower($pegawai->nama_jabatan))).' '.str_replace('Dan','dan', str_replace('Dki', 'DKI' ,ucwords(strtolower($pegawai->lokasi_kerja)))).', terhitung mulai tanggal '.$tgl_mulai.' sampai dengan tanggal '.$tgl_selesai.'.</li><br>
                         <li>Dalam melaksanakan tugas tersebut, '.$type_surat.' tidak memiliki kewenangan untuk mengambil atau menetapkan keputusan-keputusan penting yang mengikat, seperti : Pembuatan Penilaian Prestasi Kerja PNS, penetapan surat keputusan, penjatuhan hukuman disiplin atau keputusan yang berupa kebijakan strategis.</li>
+                        <br>
                         </ol>
                         </td>
       </tr>
     </table>
-    <p class="keterangan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Surat Perintah Tugas ini untuk dilaksanakan sebaik-baiknya dan penuh tanggung jawab.</p>
+    <div class="content">Surat Perintah Tugas ini untuk dilaksanakan sebaik-baiknya dan penuh tanggung jawab.</div>
     <br />
     <table cellpadding="2px">
       <tr>
