@@ -22,7 +22,7 @@
 								<th>Nama Pegawai</th>
 								<th>Keperluan/Keterangan</th>
 								<th width='0px' data-priority='1' style="text-align: center;">Status</th>
-								<th width='0px'>Tanggal Dibuat</th>
+								<th width='0px' data-priority='1'>Tanggal Dibuat</th>
 							</tr>
 						</thead>
 					</table>

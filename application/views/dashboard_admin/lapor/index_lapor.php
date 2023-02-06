@@ -4,14 +4,15 @@
 	<?php
 	headerAdmin();
 	?>
-	<!-- <link rel="stylesheet" type="text/css" href="<?php //echo base_url('asset/bootstrap/css/bootstrap.min2.css');
-														?>"/> -->
+
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/plugins/font-awesome-4.3.0/css/font-awesome.min.css'); ?>" />
+
 	<!-- datatables -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets_admin/datatables/fixedHeader.dataTables.min.css'); ?>" />
-	<style>
+
+	<style type="text/css">
 		.modal-header {
 			border-bottom-color: #f4f4f4;
 		}
@@ -207,6 +208,7 @@
 			border-radius: 0.25em;
 		}
 	</style>
+
 	<div class="kt-grid kt-grid--hor kt-grid--root">
 		<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
@@ -247,7 +249,7 @@
 	</div>
 
 	<!-- Modal kabeh -->
-	<div class="modal fade" id="modal_all" data-backdrop='static' data-keyboard='false'>
+	<div class="modal fade" id="modal_all" data-backdrop='static' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -273,12 +275,19 @@
 	<script src="<?php echo base_url() ?>assets_admin/plugins/global/plugins.bundle.js" type="text/javascript"></script>
 	<script src="<?php echo base_url() ?>assets_admin/js/scripts.bundle.js" type="text/javascript"></script>
 	<!-- end script global -->
+
+	<!-- datatable -->
 	<script src="<?php echo base_url('assets_admin/datatables/jquery.dataTables.js'); ?>"></script>
 	<script src="<?php echo base_url('assets_admin/datatables/dataTables.bootstrap.js'); ?>"></script>
 	<script src="<?php echo base_url('assets_admin/datatables/jquery.dataTables.min.js'); ?>"></script>
-	<script src="<?php echo base_url('assets_admin/datatables/dataTables.fixedHeader.min.js'); ?>"></script>
+	<!-- <script src="<?php echo base_url('assets_admin/datatables/dataTables.fixedHeader.min.js'); ?>"></script> -->
+
 	<!-- begin script page -->
-	<script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// 
+		});
+
 		function load_data_lapor() {
 			$.ajax({
 				type: "POST",
@@ -287,7 +296,7 @@
 					unite1: '0'
 				},
 				beforeSend: function(f) {
-					var percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width:3.5em;position:fixed;">';
+					let percentVal = ' <img src="<?php echo base_url('asset/img/loading.gif'); ?>" style="width:3.5em;position:fixed;">';
 					$('#ajax_table').html(percentVal);
 				},
 				success: function(data) {
@@ -298,28 +307,27 @@
 		load_data_lapor();
 
 		function reload_table() {
-			table.ajax.reload(null, false); //reload datatable ajax 
+			tableLapor.ajax.reload(null, false); //reload datatable ajax 
 			notify_lapor();
 		}
 
+		function add_lapor() {
+			save_method = 'add';
+			$.ajax({
+				url: "<?php echo site_url('admin/data_lapor/form_lapor_add'); ?>",
+				type: 'post',
+				success: function(data) {
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('.modal-footer').hide(); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Form Tambah Data Info Admin'); // Set Title to Bootstrap modal title
+		}
+
 		function delete_lapor(Id) {
-			// var i = "Hapus ?";
-			// var b = "Data Dihapus";
-			// if (!confirm(i)) return false;
-			// $.ajax({
-			// 	type: "post",
-			// 	data: "Id=" + Id,
-			// 	url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-			// 	success: function(s) {
-			// 		alert(s);
-			// 		reload_table();
-			// 	}
-			// });
-
-
-
-			var q = "Hapus data lapor?";
-			var i = "Data berhasil dihapus";
+			let q = "Hapus data lapor?";
+			let i = "Data berhasil dihapus";
 
 			$jQ.confirm({
 				icon: 'fa fa-warning',
@@ -336,8 +344,8 @@
 								data: {
 									Id: Id,
 								},
-								url: "<?php echo site_url('Lapor/delete_lapor') ?>",
-								success: function(s) {
+								url: "<?php echo site_url('admin/data_lapor/delete_lapor') ?>",
+								success: function() {
 									$jQ.dialog({
 										title: 'Info',
 										content: i,
@@ -356,6 +364,133 @@
 				}
 			})
 		}
+
+		function simpan_lapor() {
+			let isi_laporan = $("#isi_laporan").val();
+			let file_upload = $("#file_upload").val();
+			let file_upload_lama = $("#file_upload_lama").val();
+
+			if (save_method == 'add') {
+
+				if (isi_laporan == '') {
+					$jQ.dialog({
+						icon: 'fa fa-info',
+						title: 'Info',
+						content: 'Isi lapor tidak boleh kosong.',
+						type: 'red',
+						backgroundDismiss: true
+					});
+					// } else if (File_upload == '') {
+					// 	$jQ.dialog({
+					// 		icon: 'fa fa-info',
+					// 		title: 'Info',
+					// 		content: 'File tidak boleh kosong.',
+					// 		type: 'red',
+					// 		backgroundDismiss: true
+					// 	});
+
+				} else {
+					ajax_simpan_lapor();
+				}
+
+			} else {
+				if (isi_laporan == '') {
+					$jQ.dialog({
+						icon: 'fa fa-info',
+						title: 'Info',
+						content: 'Isi lapor tidak boleh kosong.',
+						type: 'red',
+						backgroundDismiss: true
+					});
+
+					// } else if (file_upload == '' && file_upload_lama == '') {
+					// 	$jQ.dialog({
+					// 		icon: 'fa fa-info',
+					// 		title: 'Info',
+					// 		content: 'File tidak boleh kosong.',
+					// 		type: 'red',
+					// 		backgroundDismiss: true
+					// 	});
+
+				} else {
+					ajax_simpan_lapor();
+				}
+			}
+		}
+
+		function ajax_simpan_lapor() {
+			let formData = new FormData($('#form_lapor')[0]);
+			let url;
+
+			if (save_method == 'add') {
+				url = "<?php echo site_url('admin/data_lapor/simpan_add') ?>";
+			} else {
+				url = "<?php echo site_url('admin/data_lapor/simpan_update') ?>";
+			}
+
+			$.ajax({
+				url: url,
+				type: 'post',
+				data: formData,
+				processData: false,
+				contentType: false,
+				beforeSend: function() {
+					$('#btn_tmb').text('Menyimpan...');
+					$('#btn_tmb').prop('disabled', true);
+				},
+				success: function(response) {
+					$('#modal_all').modal('hide');
+
+					const resp = JSON.parse(response);
+
+					$jQ.dialog({
+						icon: 'fa fa-info',
+						title: 'Info',
+						content: resp.message,
+						type: resp.status == 1 ? 'green' : 'red',
+						backgroundDismiss: true
+					});
+
+					$('#btn_tmb').text('Simpan');
+					$('#btn_tmb').attr('disabled', false);
+
+					reload_table();
+				}
+			});
+		}
+
+		function view_lapor(id) {
+			$.ajax({
+				url: "<?php echo site_url('admin/data_lapor/form_lapor_view'); ?>",
+				type: "POST",
+				data: {
+					id: id
+				},
+				success: function(data) {
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('.modal-footer').hide(); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Detail Data Info Admin'); // Set Title to Bootstrap modal title
+		}
+
+		function edit_lapor(id) {
+			save_method = 'update';
+			$.ajax({
+				url: "<?php echo site_url('admin/data_lapor/form_lapor_edit'); ?>",
+				type: 'post',
+				data: {
+					id: id
+				},
+				success: function(data) {
+					$('#modal_all .modal-dialog .modal-content .modal-body').html(data);
+				}
+			});
+			$('.modal-footer').hide(); // show bootstrap modal
+			$('#modal_all').modal('show'); // show bootstrap modal
+			$('.modal-title').text('Edit Data Info Admin'); // Set Title to Bootstrap modal title
+		}
 	</script>
-	<!-- end script page -->
+	<!-- END script page -->
 </body>

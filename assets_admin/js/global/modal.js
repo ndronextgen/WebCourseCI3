@@ -1,294 +1,282 @@
-function lihat_file(content,id)
-{
+function lihat_file(content, id) {
     var title = 'Title';
     var url = getCookie('url');
     var urlAjax = url;
     var urlFile = url;
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
             title = 'Data Keluarga';
-            urlAjax += 'arsip_pribadi/pribadi_lihat/'+id;
+            urlAjax += 'arsip_pribadi/pribadi_lihat/' + id;
             break;
         case 'Pangkat':
             title = 'Data Pangkat';
-            urlAjax += 'arsip_sk/sk_lihat/'+id;
+            urlAjax += 'arsip_sk/sk_lihat/' + id;
             break;
         case 'Jabatan':
             title = 'Data Jabatan';
-            urlAjax += 'arsip_sk/sk_lihat/'+id;
+            urlAjax += 'arsip_sk/sk_lihat/' + id;
             break;
         case 'Pendidikan':
             title = 'Data Pendidikan';
-            urlAjax += 'arsip_pendidikan/pendidikan_lihat/'+id;
+            urlAjax += 'arsip_pendidikan/pendidikan_lihat/' + id;
             break;
         case 'Pelatihan':
             title = 'Data Pelatihan';
-            urlAjax += 'arsip_pelatihan/pelatihan_lihat/'+id;
+            urlAjax += 'arsip_pelatihan/pelatihan_lihat/' + id;
             break;
         case 'Penghargaan':
             title = 'Data Penghargaan';
-            urlAjax += 'arsip_sk/sk_lihat/'+id;
+            urlAjax += 'arsip_sk/sk_lihat/' + id;
             break;
         case 'Tubel':
             title = 'Data Tugas & Izin Belajar';
-            urlAjax += 'arsip_sk/sk_lihat/'+id;
+            urlAjax += 'arsip_sk/sk_lihat/' + id;
             break;
         case 'SKP':
             title = 'Data SKP / DP3';
-            urlAjax += 'arsip_skp/skp_lihat/'+id;
+            urlAjax += 'arsip_skp/skp_lihat/' + id;
             break;
         case 'Hukuman':
             title = 'Data Hukuman';
-            urlAjax += 'arsip_hukuman/hukuman_lihat/'+id;
+            urlAjax += 'arsip_hukuman/hukuman_lihat/' + id;
             break;
     }
-    
+
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "GET",
         dataType: "JSON",
-        success: function(data)
-        {
+        success: function (data) {
             $('#modalLihatFile').modal('show');
-            $('#modalLihatFileTitle').html(title+' : '+data.title);
+            $('#modalLihatFileTitle').html(title + ' : ' + data.title);
             $('#modalLihatFileBody').html('');
-            
-            if(data.file_name != null)
-            {
-                switch(content) {
+
+            if (data.file_name != null) {
+                switch (content) {
                     case 'Keluarga':
-                        urlFile += 'asset/upload/pribadi/pribadi_'+data.id_data_keluarga+'_'+data.id_arsip_pribadi+'/'+data.file_name;
+                        urlFile += 'asset/upload/pribadi/pribadi_' + data.id_data_keluarga + '_' + data.id_arsip_pribadi + '/' + data.file_name;
                         break;
                     case 'Pangkat':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         break;
                     case 'Jabatan':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         break;
                     case 'Pendidikan':
-                        urlFile += 'asset/upload/pendidikan/pendidikan_'+data.id_tipe_pendidikan+'_'+data.id_pendidikan+'_'+data.id_arsip_pendidikan+'/'+data.file_name;
+                        urlFile += 'asset/upload/pendidikan/pendidikan_' + data.id_tipe_pendidikan + '_' + data.id_pendidikan + '_' + data.id_arsip_pendidikan + '/' + data.file_name;
                         break;
                     case 'Pelatihan':
-                        urlFile += 'asset/upload/pelatihan/pelatihan_'+data.id_pelatihan+"_"+data.id_arsip_pelatihan+'/'+data.file_name;
+                        urlFile += 'asset/upload/pelatihan/pelatihan_' + data.id_pelatihan + "_" + data.id_arsip_pelatihan + '/' + data.file_name;
                         break;
                     case 'Penghargaan':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         break;
                     case 'Tubel':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         break;
                     case 'SKP':
-                        urlFile += 'asset/upload/SKP/SKP_'+data.id_dp3+'_'+data.id_arsip_skp+'/'+data.file_name;
+                        urlFile += 'asset/upload/SKP/SKP_' + data.id_dp3 + '_' + data.id_arsip_skp + '/' + data.file_name;
                         break;
                     case 'Hukuman':
-                        urlFile += 'asset/upload/Hukuman/Hukuman_'+data.id_hukuman+'_'+data.id_arsip_hukuman+'/'+data.file_name;
+                        urlFile += 'asset/upload/Hukuman/Hukuman_' + data.id_hukuman + '_' + data.id_arsip_hukuman + '/' + data.file_name;
                         break;
                 }
-            
-                $('#modalLihatFileBody').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="400px"></iframe>');
+
+                $('#modalLihatFileBody').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="400px"></iframe>');
             }
-            else
-            {
+            else {
                 $('#modalLihatFileBody').html('(No File)');
             }
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error get data from ajax');
         }
     });
 }
 
-function download_file(content,id) {
+function download_file(content, id) {
     var title = 'Title';
     var url = getCookie('url');
     var urlAjax = url
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
             title = 'Data Keluarga';
-            urlAjax += 'arsip_pribadi/download_file/'+id;
+            urlAjax += 'arsip_pribadi/download_file/' + id;
             break;
         case 'PribadiLainnya':
             title = 'Data Pribadilainnya';
-            urlAjax += 'arsip_pribadi/download_file/'+id;
+            urlAjax += 'arsip_pribadi/download_file/' + id;
             break;
         case 'Pangkat':
             title = 'Data Pangkat';
-            urlAjax += 'arsip_sk/download_file/'+id;
+            urlAjax += 'arsip_sk/download_file/' + id;
             break;
         case 'Jabatan':
             title = 'Data Jabatan';
-            urlAjax += 'arsip_sk/download_file/'+id;
+            urlAjax += 'arsip_sk/download_file/' + id;
             break;
         case 'SkLainnya':
             title = 'Data SkLainnya';
-            urlAjax += 'arsip_sk/download_file/'+id;
+            urlAjax += 'arsip_sk/download_file/' + id;
             break;
         case 'Pendidikan':
             title = 'Data Pendidikan';
-            urlAjax += 'arsip_pendidikan/download_file/'+id;
+            urlAjax += 'arsip_pendidikan/download_file/' + id;
             break;
         case 'Pelatihan':
             title = 'Data Pelatihan';
-            urlAjax += 'arsip_pelatihan/download_file/'+id;
+            urlAjax += 'arsip_pelatihan/download_file/' + id;
             break;
         case 'Penghargaan':
             title = 'Data Penghargaan';
-            urlAjax += 'arsip_sk/download_file/'+id;
+            urlAjax += 'arsip_sk/download_file/' + id;
             break;
         case 'Tubel':
             title = 'Data Tugas & Izin Belajan';
-            urlAjax += 'arsip_sk/download_file/'+id;
+            urlAjax += 'arsip_sk/download_file/' + id;
             break;
         case 'SKP':
             title = 'Data SKP / DP3';
-            urlAjax += 'arsip_skp/download_file/'+id;
+            urlAjax += 'arsip_skp/download_file/' + id;
             break;
         case 'Hukuman':
             title = 'Data Hukuman';
-            urlAjax += 'arsip_hukuman/download_file/'+id;
+            urlAjax += 'arsip_hukuman/download_file/' + id;
             break;
     }
 
     swal.fire({
         title: 'Downloading File',
         timer: 2000,
-        onOpen: function() {
+        onOpen: function () {
             window.location.href = urlAjax;
             swal.showLoading();
         }
     });
 }
 
-function delete_data(content,id)
-{
+function delete_data(content, id) {
     var urlAjax = url;
     var dataTableName = '';
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
-            urlAjax += 'keluarga/keluarga_delete/'+id;
+            urlAjax += 'keluarga/keluarga_delete/' + id;
             dataTableName = tblKeluarga;
             break;
         case 'Pangkat':
-            urlAjax += 'pangkat/pangkat_delete/'+id;
+            urlAjax += 'pangkat/pangkat_delete/' + id;
             dataTableName = tblPangkat;
             break;
         case 'Jabatan':
-            urlAjax += 'jabatan/jabatan_delete/'+id;
+            urlAjax += 'jabatan/jabatan_delete/' + id;
             dataTableName = tblJabatan;
             break;
         case 'Pendidikan':
-            urlAjax += 'pendidikan/pendidikan_delete/'+id;
+            urlAjax += 'pendidikan/pendidikan_delete/' + id;
             dataTableName = tblPendidikan;
             break;
         case 'Pelatihan':
-            urlAjax += 'pelatihan/pelatihan_delete/'+id;
+            urlAjax += 'pelatihan/pelatihan_delete/' + id;
             dataTableName = tblPelatihan;
             break;
         case 'Penghargaan':
-            urlAjax += 'penghargaan/penghargaan_delete/'+id;
+            urlAjax += 'penghargaan/penghargaan_delete/' + id;
             dataTableName = tblPenghargaan;
             break;
         case 'Tubel':
-            urlAjax += 'tubel/tubel_delete/'+id;
+            urlAjax += 'tubel/tubel_delete/' + id;
             dataTableName = tblTubel;
             break;
         case 'SKP':
-            urlAjax += 'skp/skp_delete/'+id;
+            urlAjax += 'skp/skp_delete/' + id;
             dataTableName = tblSKP;
             break;
         case 'Hukuman':
-            urlAjax += 'hukuman/hukuman_delete/'+id;
+            urlAjax += 'hukuman/hukuman_delete/' + id;
             dataTableName = tblHukuman;
             break;
     }
-    
+
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "GET",
         dataType: "JSON",
-        success: function(data)
-        {
+        success: function (data) {
             if (data.status == true) {
                 //reload datatable
                 dataTableName.reload();
             }
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error hapus data from ajax');
         }
     });
 }
 
-function delete_file(content,id,id_arsip)
-{
+function delete_file(content, id, id_arsip) {
     var urlAjax = url;
     var dataTableName = '';
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
-            urlAjax += 'keluarga/keluarga_delete_arsip/'+id+'/'+id_arsip;
+            urlAjax += 'keluarga/keluarga_delete_arsip/' + id + '/' + id_arsip;
             dataTableName = tblKeluarga;
             break;
         case 'Pangkat':
-            urlAjax += 'pangkat/pangkat_delete_arsip/'+id+'/'+id_arsip;
+            urlAjax += 'pangkat/pangkat_delete_arsip/' + id + '/' + id_arsip;
             dataTableName = tblPangkat;
             break;
         case 'Jabatan':
-            urlAjax += 'jabatan/jabatan_delete_arsip/'+id+'/'+id_arsip;
+            urlAjax += 'jabatan/jabatan_delete_arsip/' + id + '/' + id_arsip;
             dataTableName = tblJabatan;
             break;
         case 'Pendidikan':
-            urlAjax += 'pendidikan/pendidikan_delete_arsip/'+id+'/'+id_arsip;
+            urlAjax += 'pendidikan/pendidikan_delete_arsip/' + id + '/' + id_arsip;
             dataTableName = tblPendidikan;
             break;
         case 'Pelatihan':
-            urlAjax += 'pelatihan/pelatihan_delete/'+id;
+            urlAjax += 'pelatihan/pelatihan_delete/' + id;
             dataTableName = tblPelatihan;
             break;
         case 'Penghargaan':
-            urlAjax += 'penghargaan/penghargaan_delete/'+id;
+            urlAjax += 'penghargaan/penghargaan_delete/' + id;
             dataTableName = tblPenghargaan;
             break;
         case 'Tubel':
-            urlAjax += 'tubel/tubel_delete/'+id;
+            urlAjax += 'tubel/tubel_delete/' + id;
             dataTableName = tblTubel;
             break;
         case 'SKP':
-            urlAjax += 'skp/skp_delete/'+id;
+            urlAjax += 'skp/skp_delete/' + id;
             dataTableName = tblSKP;
             break;
         case 'Hukuman':
-            urlAjax += 'hukuman/hukuman_delete/'+id;
+            urlAjax += 'hukuman/hukuman_delete/' + id;
             dataTableName = tblSKP;
             break;
     }
-    
+
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "GET",
         dataType: "JSON",
-        success: function(data)
-        {
+        success: function (data) {
             if (data.status == true) {
                 //reload datatable
                 dataTableName.reload();
             }
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error hapus data from ajax');
         }
     });
 }
 
-function add_arsip(content)
-{
+function add_arsip(content) {
     var title = 'Title';
     var modalName = '';
     var formName = '';
 
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
             title = 'Data Keluarga';
             modalName = 'modalAddKeluarga';
@@ -296,7 +284,7 @@ function add_arsip(content)
             $('#mdlArsip_Keluarga_id').val('0');
             $('#divMdlArsip_Keluarga_lampiran').hide();
             $('#mdlArsip_Keluarga_lampiran').html('');
-        break;
+            break;
         case 'Pangkat':
             title = 'Data Pangkat';
             modalName = 'modalAddPangkat';
@@ -304,7 +292,7 @@ function add_arsip(content)
             $('#mdlArsip_Pangkat_id').val('0');
             $('#divMdlArsip_Pangkat_lampiran').hide();
             $('#mdlArsip_Pangkat_lampiran').html('');
-        break;
+            break;
         case 'Jabatan':
             title = 'Data Jabatan';
             modalName = 'modalAddJabatan';
@@ -312,7 +300,7 @@ function add_arsip(content)
             $('#mdlArsip_Jabatan_id').val('0');
             $('#divMdlArsip_Jabatan_lampiran').hide();
             $('#mdlArsip_Jabatan_lampiran').html('');
-        break;
+            break;
         case 'Pendidikan':
             title = 'Data Pendidikan';
             modalName = 'modalAddPendidikan';
@@ -320,7 +308,7 @@ function add_arsip(content)
             $('#mdlArsip_Pendidikan_id').val('0');
             $('#divMdlArsip_Pendidikan_lampiran').hide();
             $('#mdlArsip_Pendidikan_lampiran').html('');
-        break;
+            break;
         case 'Pelatihan':
             title = 'Data Pelatihan';
             modalName = 'modalAddPelatihan';
@@ -328,7 +316,7 @@ function add_arsip(content)
             $('#mdlArsip_Pelatihan_id').val('0');
             $('#divMdlArsip_Pelatihan_lampiran').hide();
             $('#mdlArsip_Pelatihan_lampiran').html('');
-        break;
+            break;
         case 'Penghargaan':
             title = 'Data Penghargaan';
             modalName = 'modalAddPenghargaan';
@@ -336,7 +324,7 @@ function add_arsip(content)
             $('#mdlArsip_Penghargaan_id').val('0');
             $('#divMdlArsip_Penghargaan_lampiran').hide();
             $('#mdlArsip_Penghargaan_lampiran').html('');
-        break;
+            break;
         case 'Tubel':
             title = 'Data Tugas & Izin Belajar';
             modalName = 'modalAddTubel';
@@ -344,7 +332,7 @@ function add_arsip(content)
             $('#mdlArsip_Tubel_id').val('0');
             $('#divMdlArsip_Tubel_lampiran').hide();
             $('#mdlArsip_Tubel_lampiran').html('');
-        break;
+            break;
         case 'SKP':
             title = 'Data SKP / DP3';
             modalName = 'modalAddSKP';
@@ -352,7 +340,7 @@ function add_arsip(content)
             $('#mdlArsip_SKP_id').val('0');
             $('#divMdlArsip_SKP_lampiran').hide();
             $('#mdlArsip_SKP_lampiran').html('');
-        break;
+            break;
         case 'Hukuman':
             title = 'Data Hukuman';
             modalName = 'modalAddHukuman';
@@ -360,128 +348,271 @@ function add_arsip(content)
             $('#mdlArsip_Hukuman_id').val('0');
             $('#divMdlArsip_Hukuman_lampiran').hide();
             $('#mdlArsip_Hukuman_lampiran').html('');
-        break;
+            break;
     }
 
-    $('#'+formName).trigger("reset");
-    $('#'+modalName).modal('show');
-    $('#'+modalName+'Title').html('Tambah ' + title);
+    $('#' + formName).trigger("reset");
+    $('#' + modalName).modal('show');
+    $('#' + modalName + 'Title').html('Tambah ' + title);
 }
 
-function detail_data(content,id)
-{
+function detail_data(content, id) {
     var title = 'Title';
     var url = getCookie('url');
     var urlAjax = url;
     var urlFile = url;
     var mdlName = 'modalDetail';
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
-            title = 'Lihat Data Keluarga';
-            urlAjax += 'keluarga/keluarga_detail/'+id;
+            title = 'Form Detail Keluarga';
+            urlAjax += 'keluarga/keluarga_detail/' + id;
             break;
         case 'Pangkat':
             title = 'Lihat Data Pangkat';
-            urlAjax += 'pangkat/pangkat_detail/'+id;
+            urlAjax += 'pangkat/pangkat_detail/' + id;
             break;
         case 'Jabatan':
             title = 'Lihat Data Jabatan';
-            urlAjax += 'jabatan/jabatan_detail/'+id;
+            urlAjax += 'jabatan/jabatan_detail/' + id;
             break;
         case 'Pendidikan':
             title = 'Lihat Data Pendidikan';
-            urlAjax += 'pendidikan/pendidikan_detail/'+id;
+            urlAjax += 'pendidikan/pendidikan_detail/' + id;
             break;
         case 'Pelatihan':
             title = 'Lihat Data Pelatihan';
-            urlAjax += 'pelatihan/pelatihan_detail/'+id;
+            urlAjax += 'pelatihan/pelatihan_detail/' + id;
             break;
         case 'Penghargaan':
             title = 'Lihat Data Penghargaan';
-            urlAjax += 'penghargaan/penghargaan_detail/'+id;
+            urlAjax += 'penghargaan/penghargaan_detail/' + id;
             break;
         case 'Tubel':
             title = 'Lihat Data Tugas & Izin Belajar';
-            urlAjax += 'tubel/tubel_detail/'+id;
+            urlAjax += 'tubel/tubel_detail/' + id;
             break;
         case 'SKP':
             title = 'Lihat Data SKP / DP3';
-            urlAjax += 'skp/skp_detail/'+id;
+            urlAjax += 'skp/skp_detail/' + id;
             break;
         case 'Hukuman':
             title = 'Lihat Data Hukuman';
-            urlAjax += 'hukuman/hukuman_detail/'+id;
+            urlAjax += 'hukuman/hukuman_detail/' + id;
             break;
     }
-    
+
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "GET",
         dataType: "JSON",
-        success: function(data)
-        {
+        success: function (data) {
             console.log(data);
-            $('#'+mdlName).modal('show');
-            $('#'+mdlName+'Title').html(title);
-            $('#'+mdlName+'Body').html('');
-            
-            if(data != null)
-            {
+            $('#' + mdlName).modal('show');
+            $('#' + mdlName + 'Title').html(title);
+            $('#' + mdlName + 'Body').html('');
+
+            if (data != null) {
                 let text = '';
-                switch(content) {
+                switch (content) {
                     case 'Keluarga':
-                        urlFile += 'asset/upload/pribadi/pribadi_'+data.id_data_keluarga+'_'+data.id_arsip_pribadi+'/'+data.file_name;
+                        //Jenis Kelamin
+                        if (data.jenis_kelamin == 1) {
+                            data.jenis_kelamin = 'Laki-Laki';
+                        } else if (data.jenis_kelamin == 'L') {
+                            data.jenis_kelamin = 'Laki-Laki';
+                        } else if (data.jenis_kelamin == 2) {
+                            data.jenis_kelamin = 'Perempuan';
+                        } else if (data.jenis_kelamin == 'P') {
+                            data.jenis_kelamin = 'Perempuan';
+                        } else {
+                            data.jenis_kelamin = '-';
+                        }
+                        //Hubungan Keluarga
+                        if (data.hub_keluarga != '1') {
+                            data.hub_keluarga = data.keterangan;
+                        } else {
+                            if (data.jk == 'Laki-Laki') {
+                                data.hub_keluarga = 'Istri';
+                            } else if (data.jk == 'Perempuan') {
+                                data.hub_keluarga = 'Suami';
+                            } else {
+                                data.hub_keluarga = '-';
+                            }
+                        }
+                        //PNS atau non-PNS
+                        if (data.pns_nonpns == 1) {
+                            data.pns_nonpns = 'PNS';
+                        } else if (data.pns_nonpns == 2) {
+                            data.pns_nonpns = 'Non-PNS';
+                        }
+
+                        urlFile += 'asset/upload/pribadi/pribadi_' + data.id_data_keluarga + '_' + data.id_arsip_pribadi + '/' + data.file_name_ori;
                         text = `
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label kt-font-bolder">Nama Anggota Keluarga</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" disabled="disabled" value="${data.nama_anggota_keluarga}" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label kt-font-bolder">Hubungan Keluarga</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" disabled="disabled" value="${data.hub_keluarga}" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label kt-font-bolder">Jenis Kelamin</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" disabled="disabled" value="${data.jenis_kelamin}" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label kt-font-bolder">Tanggal Lahir</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" disabled="disabled" value="${data.tanggal_lahir_keluarga}" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label kt-font-bolder">Keterangan</label>
-                                <div class="col-md-8">
-                                    <textarea class="form-control" disabled="disabled">${data.uraian}</textarea>
-                                </div>
-                            </div>`;
-                        
-                            if (data.file_name_ori != null) {
-                                text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
-                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
-                                <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                            `;
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table" style="padding: 10px;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="td-title">Hubungan Keluarga</td>
+                                                <td class="td-colon">:</td>
+                                                <td style="width: 200px;">${data.hub_keluarga}</td>
+
+                                                <td class="td-title">Alamat</td>
+                                                <td class="td-colon">:</td>`
+                        if (data.alamat_sdp == 1) {
+                            text += `<td>(Sama dengan pegawai)<br>${data.alamat}</td>`
+                        } else {
+                            text += `<td>${data.alamat}</td>`
+                        }
+
+                        text += `</tr>`
+                        text += `<tr>
+                                                <td class="td-title">Keterangan</td>
+                                                <td class="td-colon">:</td>
+                                                <td style="width: 200px;">${data.uraian}</td>`
+                        if (data.hub_keluarga == 'Istri') {
+                            text += `<td class="td-title">Tempat Pernikahan</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.tempat_nikah}</td>`
+                        } else if (data.hub_keluarga == 'Suami') {
+                            text += `<td class="td-title">Tempat Pernikahan</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.tempat_nikah}</td>`
+                        } else if (data.hub_keluarga == 'Anak Kandung') {
+                            text += `<td class="td-title">NIK</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.nik}</td>`
+                        } else {
+                            text += `<td></td>
+                                                            <td></td>
+                                                            <td></td>`
+                        }
+                        text += `</tr>`
+                        text += `<tr>
+                                                <td class="td-title">Nama Keluarga</td>
+                                                <td class="td-colon">:</td>
+                                                <td>${data.nama_anggota_keluarga}</td>`
+                        if (data.hub_keluarga == 'Istri') {
+                            text += `<td class="td-title">Tanggal Pernikahan</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.tanggal_nikah}</td>`
+                        } else if (data.hub_keluarga == 'Suami') {
+                            text += `<td class="td-title">Tanggal Pernikahan</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.tanggal_nikah}</td>`
+                        } else if (data.hub_keluarga == 'Anak Kandung') {
+                            text += `<td class="td-title">Pekerjaan/ Sekolah</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.pekerjaan_sekolah}</td>`
+                        } else {
+                            text += `<td></td>
+                                                        <td></td>
+                                                        <td></td>`
+                        }
+                        text += `</tr>`
+                        text += `<tr>
+                                                <td class="td-title">Jenis Kelamin</td>
+                                                <td class="td-colon">:</td>
+                                                <td>${data.jenis_kelamin}</td>`
+                        if (data.hub_keluarga == 'Istri') {
+                            text += `<td class="td-title">PNS/ Non-PNS</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.pns_nonpns}</td>`
+                        } else if (data.hub_keluarga == 'Suami') {
+                            text += `<td class="td-title">PNS/ Non-PNS</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.pns_nonpns}</td>`
+                        } else {
+                            text += `<td></td>
+                                                    <td></td>
+                                                    <td></td>`
+                        }
+                        text += `</tr>`
+                        text += `<tr>
+                                                <td class="td-title">Tempat Lahir</td>
+                                                <td class="td-colon">:</td>
+                                                <td>${data.tempat_lahir}</td>`
+                        if (data.hub_keluarga == 'Istri') {
+                            text += `<td class="td-title">NIK</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.nik}</td>`
+                        } else if (data.hub_keluarga == 'Suami') {
+                            text += `<td class="td-title">NIK</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.nik}</td>`
+                        } else {
+                            text += `<td></td>
+                                                    <td></td>
+                                                    <td></td>`
+                        }
+                        text += `</tr>`
+
+                        text += `<tr>
+                                                <td class="td-title">Tanggal Lahir</td>
+                                                <td class="td-colon">:</td>
+                                                <td>${data.tanggal_lahir_keluarga}</td>`
+                        if (data.hub_keluarga == 'Istri') {
+                            text += `<td class="td-title">Pekerjaan/ Sekolah</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.pekerjaan_sekolah}</td>`
+                        } else if (data.hub_keluarga == 'Suami') {
+                            text += `<td class="td-title">Pekerjaan/ Sekolah</td>
+                                                    <td class="td-colon">:</td>
+                                                    <td>${data.pekerjaan_sekolah}</td>`
+                        } else {
+                            text += `<td></td>
+                                                    <td></td>
+                                                    <td></td>`
+                        }
+                        text += `</tr>`
+                        text += `<tr>
+                                                <td class="td-title">Agama</td>
+                                                <td class="td-colon">:</td>
+                                                <td>${data.agama}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr>
+                                            <td colspan='6'>
+                                                <h5><i class="flaticon-file-1"></i> File</h5>
+                                                <table class="table table-bordered table-hover" style='font-size: 10px; width: 0px;'>               
+                                                    <tbody>                                                    
+                                                        <tr>`
+                        if (data.file_name_ori != null) {
+                            text += `<h5 class="kt-section__title">${data.file_name_ori}</h5>`;
+                            if (data.file_name_ori.split('.').pop() == 'pdf') {
+                                text += ` <a data-fancybox data-type="iframe" data-src="${urlFile}">
+                                                            <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button></a>`;
+                            } else {
+                                text += `<td> <a data-fancybox data-src="${urlFile}">
+                                                                    <img src="${urlFile}" width="200" height="150" />
+                                                                    </a> </td>`;
                             }
-                            else {
-                                text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
-                            }
+                        }
+                        else {
+                            text += `<h5 class="kt-section__title" > Dokumen : (kosong)</h5> `;
+                        }
+                        `</tr>
+                                                    </tbody>
+                                                </table>  
+                                            </td>
+                                        </tbody>
+                                    </table>                                  
+                        </div>`;
+
                         break;
                     case 'Pangkat':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Golongan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.golongan}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Lokasi Kerja</label>
                                 <div class="col-md-8">
@@ -506,26 +637,26 @@ function detail_data(content,id)
                                     <textarea class="form-control" disabled="disabled">${data.tanggal_mulai}</textarea>
                                 </div>
                             </div>`;
-                        
-                            if (data.file_name_ori != null) {
-                                text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+
+                        if (data.file_name_ori != null) {
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                                 <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                                 <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
                             `;
-                            }
-                            else {
-                                text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
-                            }
+                        }
+                        else {
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
+                        }
                         break;
                     case 'Jabatan':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Status Jabatan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.nama_status_jabatan}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nama Jabatan</label>
                                 <div class="col-md-8">
@@ -557,26 +688,26 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'Pendidikan':
-                        urlFile += 'asset/upload/pendidikan/pendidikan_'+data.id_tipe_pendidikan+'_'+data.id_pendidikan+'_'+data.id_arsip_pendidikan+'/'+data.file_name;
+                        urlFile += 'asset/upload/pendidikan/pendidikan_' + data.id_tipe_pendidikan + '_' + data.id_pendidikan + '_' + data.id_arsip_pendidikan + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Tingkat Pendidikan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.nama_pendidikan}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Jurusan</label>
                                 <div class="col-md-8">
@@ -608,43 +739,43 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'Pelatihan':
-                        urlFile += 'asset/upload/pelatihan/pelatihan_'+data.id_pelatihan+"_"+data.id_arsip_pelatihan+'/'+data.file_name;
+                        urlFile += 'asset/upload/pelatihan/pelatihan_' + data.id_pelatihan + "_" + data.id_arsip_pelatihan + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nama Pelatihan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.nama_pelatihan}" />
                                 </div>
-                            </div>`;
+                            </div > `;
 
-                            if (data.id_pelatihan == 90) {
-                                text += `
-                                <div class="form-group row">
+                        if (data.id_pelatihan == 90) {
+                            text += `
+                                < div class="form-group row" >
                                     <label class="col-md-4 col-form-label kt-font-bolder">Nama Pelatihan Lainnya</label>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" disabled="disabled" value="${data.nama_pelatihan_lainnya}" />
                                     </div>
-                                </div>`;
-                            }
-                            
-                            text += `<div class="form-group row">
+                                </div > `;
+                        }
+
+                        text += `< div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Lokasi</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.lokasi}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nomor Sertifikat</label>
                                 <div class="col-md-8">
@@ -664,43 +795,43 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'Penghargaan':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nama Penghargaan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.nama_penghargaan}" />
                                 </div>
-                            </div>`;
+                            </div > `;
 
-                            if (data.id_penghargaan == 112) {
-                                text += `
-                                <div class="form-group row">
+                        if (data.id_penghargaan == 112) {
+                            text += `
+                                < div class="form-group row" >
                                     <label class="col-md-4 col-form-label kt-font-bolder">Nama Penghargaan Lainnya</label>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" disabled="disabled" value="${data.nama_penghargaan_lainnya}" />
                                     </div>
-                                </div>`;
-                            }
-                            
-                            text += `<div class="form-group row">
+                                </div > `;
+                        }
+
+                        text += `< div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Pemberi Penghargaan</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.pemberi_penghargaan}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nomor SK</label>
                                 <div class="col-md-8">
@@ -714,26 +845,26 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'Tubel':
-                        urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                        urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nama Status</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.uraian}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Nomor SK</label>
                                 <div class="col-md-8">
@@ -777,26 +908,26 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'SKP':
-                        urlFile += 'asset/upload/SKP/SKP_'+data.id_dp3+'_'+data.id_arsip_skp+'/'+data.file_name;
+                        urlFile += 'asset/upload/SKP/SKP_' + data.id_dp3 + '_' + data.id_arsip_skp + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Jenis Data</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.uraian}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Tahun</label>
                                 <div class="col-md-8">
@@ -894,26 +1025,26 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                     case 'Hukuman':
-                        urlFile += 'asset/upload/Hukuman/Hukuman_'+data.id_hukuman+'_'+data.id_arsip_hukuman+'/'+data.file_name;
+                        urlFile += 'asset/upload/Hukuman/Hukuman_' + data.id_hukuman + '_' + data.id_arsip_hukuman + '/' + data.file_name;
                         text = `
-                            <div class="form-group row">
+                                < div class="form-group row" >
                                 <label class="col-md-4 col-form-label kt-font-bolder">Jenis Hukuman</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" disabled="disabled" value="${data.jenis_hukuman}" />
                                 </div>
-                            </div>
+                            </div >
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label kt-font-bolder">Uraian</label>
                                 <div class="col-md-8">
@@ -951,112 +1082,110 @@ function detail_data(content,id)
                                 </div>
                             </div>
                             <br /><br />`;
-                        
+
                         if (data.file_name_ori != null) {
-                            text += `<h3 class="kt-section__title">Dokumen : ${data.file_name_ori}</h3>
+                            text += `< h3 class="kt-section__title" > Dokumen : ${data.file_name_ori}</h3 >
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg kt-separator--portlet-fit"></div>
                             <iframe src="${urlFile}" frameborder="no" width="100%" height="400px"></iframe>
-                        `;
+                            `;
                         }
                         else {
-                            text += `<h3 class="kt-section__title">Dokumen : (kosong)</h3>`;
+                            text += `< h3 class="kt-section__title" > Dokumen : (kosong)</h3 > `;
                         }
                         break;
                 }
 
-                $('#'+mdlName+'Body').html(text);
+                $('#' + mdlName + 'Body').html(text);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error get data from ajax');
         }
     });
 }
 
-async function edit_data(content, id)
-{
+async function edit_data(content, id) {
     var title = 'Title';
     var modalName = '';
     var formName = '';
     var urlAjax = url;
     var urlFile = url;
 
-    switch(content) {
+    switch (content) {
         case 'Keluarga':
             title = 'Data Keluarga';
             modalName = 'modalAddKeluarga';
             formName = 'mdlArsip_Keluarga_frm';
             $('#mdlArsip_Keluarga_id').val(id);
-            urlAjax += 'keluarga/keluarga_detail/'+id;
+            urlAjax += 'keluarga/keluarga_detail/' + id;
             break;
         case 'Pangkat':
             title = 'Data Pangkat';
             modalName = 'modalAddPangkat';
             formName = 'mdlArsip_Pangkat_frm';
             $('#mdlArsip_Pangkat_id').val(id);
-            urlAjax += 'pangkat/pangkat_detail/'+id;
+            urlAjax += 'pangkat/pangkat_detail/' + id;
             break;
         case 'Jabatan':
             title = 'Data Jabatan';
             modalName = 'modalAddJabatan';
             formName = 'mdlArsip_Jabatan_frm';
             $('#mdlArsip_Jabatan_id').val(id);
-            urlAjax += 'jabatan/jabatan_detail/'+id;
+            urlAjax += 'jabatan/jabatan_detail/' + id;
             break;
         case 'Pendidikan':
             title = 'Data Pendidikan';
             modalName = 'modalAddPendidikan';
             formName = 'mdlArsip_Pendidikan_frm';
             $('#mdlArsip_Pendidikan_id').val(id);
-            urlAjax += 'pendidikan/pendidikan_detail/'+id;
+            urlAjax += 'pendidikan/pendidikan_detail/' + id;
             break;
         case 'Pelatihan':
             title = 'Data Pelatihan';
             modalName = 'modalAddPelatihan';
             formName = 'mdlArsip_Pelatihan_frm';
             $('#mdlArsip_Pelatihan_id').val(id);
-            urlAjax += 'pelatihan/pelatihan_detail/'+id;
+            urlAjax += 'pelatihan/pelatihan_detail/' + id;
             break;
         case 'Penghargaan':
             title = 'Data Penghargaan';
             modalName = 'modalAddPenghargaan';
             formName = 'mdlArsip_Penghargaan_frm';
             $('#mdlArsip_Penghargaan_id').val(id);
-            urlAjax += 'penghargaan/penghargaan_detail/'+id;
+            urlAjax += 'penghargaan/penghargaan_detail/' + id;
             break;
         case 'Tubel':
             title = 'Data Tugas & Izin Belajar';
             modalName = 'modalAddTubel';
             formName = 'mdlArsip_Tubel_frm';
             $('#mdlArsip_Tubel_id').val(id);
-            urlAjax += 'tubel/tubel_detail/'+id;
+            urlAjax += 'tubel/tubel_detail/' + id;
             break;
         case 'SKP':
             title = 'Data SKP / DP3';
             modalName = 'modalAddSKP';
             formName = 'mdlArsip_SKP_frm';
             $('#mdlArsip_SKP_id').val(id);
-            urlAjax += 'skp/skp_detail/'+id;
+            urlAjax += 'skp/skp_detail/' + id;
             break;
         case 'Hukuman':
             title = 'Data Hukuman';
             modalName = 'modalAddHukuman';
             formName = 'mdlArsip_Hukuman_frm';
             $('#mdlArsip_Hukuman_id').val(id);
-            urlAjax += 'hukuman/hukuman_detail/'+id;
+            urlAjax += 'hukuman/hukuman_detail/' + id;
             break;
     }
 
-    $('#'+formName).trigger("reset");
-    $('#'+modalName).modal('show');
-    $('#'+modalName+'Title').html('Ubah ' + title);
+    $('#' + formName).trigger("reset");
+    $('#' + modalName).modal('show');
+    $('#' + modalName + 'Title').html('Ubah ' + title);
 
     // get data arsip
     var data = await getDataArsip(urlAjax);
     console.log(data);
     if (data != null) {
-        switch(content) {
+        switch (content) {
             case 'Keluarga':
                 // set default value form
                 $('#mdlArsip_Keluarga_id').val(data.id_data_keluarga);
@@ -1072,9 +1201,9 @@ async function edit_data(content, id)
                 $('#mdlArsip_Keluarga_lampiran').html('');
 
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/pribadi/pribadi_'+data.id_data_keluarga+'_'+data.id_arsip_pribadi+'/'+data.file_name;
+                    urlFile += 'asset/upload/pribadi/pribadi_' + data.id_data_keluarga + '_' + data.id_arsip_pribadi + '/' + data.file_name;
                     $('#divMdlArsip_Keluarga_lampiran').show();
-                    $('#mdlArsip_Keluarga_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Keluarga_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Pangkat':
@@ -1088,11 +1217,11 @@ async function edit_data(content, id)
                 $('#mdlArsip_Pangkat_tanggal_mulai').val(data.tanggal_mulai);
                 $('#divMdlArsip_Pangkat_lampiran').hide();
                 $('#mdlArsip_Pangkat_lampiran').html('');
-                
+
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                    urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                     $('#divMdlArsip_Pangkat_lampiran').show();
-                    $('#mdlArsip_Pangkat_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Pangkat_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Jabatan':
@@ -1120,9 +1249,9 @@ async function edit_data(content, id)
                 }
 
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                    urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                     $('#divMdlArsip_Jabatan_lampiran').show();
-                    $('#mdlArsip_Jabatan_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Jabatan_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Pendidikan':
@@ -1140,9 +1269,9 @@ async function edit_data(content, id)
                 $('#mdlArsip_Pendidikan_lampiran').html('');
 
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/pendidikan/pendidikan_'+data.id_tipe_pendidikan+'_'+data.id_pendidikan+'_'+data.id_arsip_pendidikan+'/'+data.file_name;
+                    urlFile += 'asset/upload/pendidikan/pendidikan_' + data.id_tipe_pendidikan + '_' + data.id_pendidikan + '_' + data.id_arsip_pendidikan + '/' + data.file_name;
                     $('#divMdlArsip_Pendidikan_lampiran').show();
-                    $('#mdlArsip_Pendidikan_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Pendidikan_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Pelatihan':
@@ -1168,9 +1297,9 @@ async function edit_data(content, id)
                 }
 
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/pelatihan/pelatihan_'+data.id_pelatihan+"_"+data.id_arsip_pelatihan+'/'+data.file_name;
+                    urlFile += 'asset/upload/pelatihan/pelatihan_' + data.id_pelatihan + "_" + data.id_arsip_pelatihan + '/' + data.file_name;
                     $('#divMdlArsip_Pelatihan_lampiran').show();
-                    $('#mdlArsip_Pelatihan_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Pelatihan_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Penghargaan':
@@ -1193,9 +1322,9 @@ async function edit_data(content, id)
                     $('#grpNamaPenghargaanLainnya').hide();
                 }
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                    urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                     $('#divMdlArsip_Penghargaan_lampiran').show();
-                    $('#mdlArsip_Penghargaan_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Penghargaan_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Tubel':
@@ -1221,9 +1350,9 @@ async function edit_data(content, id)
                     $('#grpNamaPenghargaanLainnya').hide();
                 }
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/SK/SK_'+data.id_jenis_sk+'_'+data.id_ref+'_'+data.id_arsip_sk+'/'+data.file_name;
+                    urlFile += 'asset/upload/SK/SK_' + data.id_jenis_sk + '_' + data.id_ref + '_' + data.id_arsip_sk + '/' + data.file_name;
                     $('#divMdlArsip_Tubel_lampiran').show();
-                    $('#mdlArsip_Tubel_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Tubel_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'SKP':
@@ -1251,9 +1380,9 @@ async function edit_data(content, id)
                 $('#divMdlArsip_SKP_lampiran').hide();
                 $('#mdlArsip_SKP_lampiran').html('');
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/SKP/SKP_'+data.id_dp3+'_'+data.id_arsip_skp+'/'+data.file_name;
+                    urlFile += 'asset/upload/SKP/SKP_' + data.id_dp3 + '_' + data.id_arsip_skp + '/' + data.file_name;
                     $('#divMdlArsip_SKP_lampiran').show();
-                    $('#mdlArsip_SKP_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_SKP_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
             case 'Hukuman':
@@ -1273,18 +1402,18 @@ async function edit_data(content, id)
                 $('#mdlArsip_Hukuman_lampiran').html('');
 
                 if (data.file_name != null) {
-                    urlFile += 'asset/upload/Hukuman/Hukuman_'+data.id_hukuman+"_"+data.id_arsip_hukuman+'/'+data.file_name;
+                    urlFile += 'asset/upload/Hukuman/Hukuman_' + data.id_hukuman + "_" + data.id_arsip_hukuman + '/' + data.file_name;
                     $('#divMdlArsip_Hukuman_lampiran').show();
-                    $('#mdlArsip_Hukuman_lampiran').html('<iframe src="'+urlFile+'" frameborder="no" width="100%" height="200px"></iframe>');
+                    $('#mdlArsip_Hukuman_lampiran').html('<iframe src="' + urlFile + '" frameborder="no" width="100%" height="200px"></iframe>');
                 }
                 break;
         }
     }
 }
 
-function view_coordinate(lat,long) {
+function view_coordinate(lat, long) {
     $('#modalViewKoordinat').modal('show');
-    genMapKoordinatPegawai('view',lat,long);
+    genMapKoordinatPegawai('view', lat, long);
 }
 
 function add_coordinate() {
@@ -1293,28 +1422,28 @@ function add_coordinate() {
 }
 
 function getDataArsip(url) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         $.ajax({
-            method: "POST",      
+            method: "POST",
             dataType: 'json',
             url: url,
-            success: function(resp){
+            success: function (resp) {
                 resolve(resp);
             },
-            error: function() {
+            error: function () {
                 reject(false);
             }
         });
     });
 }
 
-$('#mdlArsip_Keluarga_btnSave').on('click', function() {
+$('#mdlArsip_Keluarga_btnSave').on('click', function () {
     $('#mdlArsip_Keluarga_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Keluarga_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Keluarga_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Keluarga_id').val());
     if (id != 0) {
@@ -1327,47 +1456,43 @@ $('#mdlArsip_Keluarga_btnSave').on('click', function() {
     var form = $("#mdlArsip_Keluarga_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddKeluarga').modal('hide');
                 tblKeluarga.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Keluarga_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Keluarga_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Keluarga_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Keluarga_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Keluarga_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Keluarga_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Pangkat_btnSave').on('click', function() {
+$('#mdlArsip_Pangkat_btnSave').on('click', function () {
     $('#mdlArsip_Pangkat_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Pangkat_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Pangkat_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Pangkat_id').val());
     if (id != 0) {
@@ -1380,47 +1505,43 @@ $('#mdlArsip_Pangkat_btnSave').on('click', function() {
     var form = $("#mdlArsip_Pangkat_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddPangkat').modal('hide');
                 tblPangkat.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Pangkat_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pangkat_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pangkat_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Pangkat_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pangkat_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pangkat_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Jabatan_btnSave').on('click', function() {
+$('#mdlArsip_Jabatan_btnSave').on('click', function () {
     $('#mdlArsip_Jabatan_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Jabatan_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Jabatan_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Jabatan_id').val());
     if (id != 0) {
@@ -1433,47 +1554,43 @@ $('#mdlArsip_Jabatan_btnSave').on('click', function() {
     var form = $("#mdlArsip_Jabatan_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddJabatan').modal('hide');
                 tblJabatan.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Jabatan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Jabatan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Jabatan_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Jabatan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Jabatan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Jabatan_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Pendidikan_btnSave').on('click', function() {
+$('#mdlArsip_Pendidikan_btnSave').on('click', function () {
     $('#mdlArsip_Pendidikan_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Pendidikan_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Pendidikan_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Pendidikan_id').val());
     if (id != 0) {
@@ -1486,47 +1603,43 @@ $('#mdlArsip_Pendidikan_btnSave').on('click', function() {
     var form = $("#mdlArsip_Pendidikan_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddPendidikan').modal('hide');
                 tblPendidikan.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Pendidikan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pendidikan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pendidikan_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Pendidikan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pendidikan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pendidikan_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Pelatihan_btnSave').on('click', function() {
+$('#mdlArsip_Pelatihan_btnSave').on('click', function () {
     $('#mdlArsip_Pelatihan_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Pelatihan_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Pelatihan_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Pelatihan_id').val());
     if (id != 0) {
@@ -1539,47 +1652,43 @@ $('#mdlArsip_Pelatihan_btnSave').on('click', function() {
     var form = $("#mdlArsip_Pelatihan_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddPelatihan').modal('hide');
                 tblPelatihan.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Pelatihan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pelatihan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pelatihan_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Pelatihan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Pelatihan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Pelatihan_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Penghargaan_btnSave').on('click', function() {
+$('#mdlArsip_Penghargaan_btnSave').on('click', function () {
     $('#mdlArsip_Penghargaan_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Penghargaan_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Penghargaan_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Penghargaan_id').val());
     if (id != 0) {
@@ -1592,47 +1701,43 @@ $('#mdlArsip_Penghargaan_btnSave').on('click', function() {
     var form = $("#mdlArsip_Penghargaan_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddPenghargaan').modal('hide');
                 tblPenghargaan.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Penghargaan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Penghargaan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Penghargaan_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Penghargaan_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Penghargaan_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Penghargaan_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Tubel_btnSave').on('click', function() {
+$('#mdlArsip_Tubel_btnSave').on('click', function () {
     $('#mdlArsip_Tubel_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Tubel_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Tubel_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Tubel_id').val());
     if (id != 0) {
@@ -1645,47 +1750,43 @@ $('#mdlArsip_Tubel_btnSave').on('click', function() {
     var form = $("#mdlArsip_Tubel_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddTubel').modal('hide');
                 tblTubel.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Tubel_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Tubel_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Tubel_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Tubel_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Tubel_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Tubel_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_SKP_btnSave').on('click', function() {
+$('#mdlArsip_SKP_btnSave').on('click', function () {
     $('#mdlArsip_SKP_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_SKP_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_SKP_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_SKP_id').val());
     if (id != 0) {
@@ -1698,47 +1799,43 @@ $('#mdlArsip_SKP_btnSave').on('click', function() {
     var form = $("#mdlArsip_SKP_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddSKP').modal('hide');
                 tblSKP.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_SKP_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_SKP_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_SKP_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_SKP_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_SKP_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_SKP_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$('#mdlArsip_Hukuman_btnSave').on('click', function() {
+$('#mdlArsip_Hukuman_btnSave').on('click', function () {
     $('#mdlArsip_Hukuman_btnSave').text('simpan...'); //change button text
-    $('#mdlArsip_Hukuman_btnSave').attr('disabled',true); //set button disable 
+    $('#mdlArsip_Hukuman_btnSave').attr('disabled', true); //set button disable 
     $('.form-group').removeClass('has-error'); // clear error class
     $('.form-control').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-  
+
     let urlAjax = url;
     let id = parseInt($('#mdlArsip_Hukuman_id').val());
     if (id != 0) {
@@ -1751,41 +1848,37 @@ $('#mdlArsip_Hukuman_btnSave').on('click', function() {
     var form = $("#mdlArsip_Hukuman_frm").closest("form");
     var frmData = new FormData(form[0]);
     $.ajax({
-        url : urlAjax,
+        url: urlAjax,
         type: "POST",
         data: frmData,
         contentType: false,
         processData: false,
         dataType: "JSON",
-        success: function(data)
-        {
-            if(data.status) //if success close modal and reload ajax table
+        success: function (data) {
+            if (data.status) //if success close modal and reload ajax table
             {
                 $('#modalAddHukuman').modal('hide');
                 tblHukuman.reload();
             }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+            else {
+                for (var i = 0; i < data.inputerror.length; i++) {
+                    $('[name="' + data.inputerror[i] + '"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="' + data.inputerror[i] + '"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
             }
 
             $('#mdlArsip_Hukuman_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Hukuman_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Hukuman_btnSave').attr('disabled', false); //set button enable 
         },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             alert('Error adding / update data');
             $('#mdlArsip_Hukuman_btnSave').text('Simpan'); //change button text
-            $('#mdlArsip_Hukuman_btnSave').attr('disabled',false); //set button enable 
+            $('#mdlArsip_Hukuman_btnSave').attr('disabled', false); //set button enable 
         }
     });
 });
 
-$("#mdlArsip_Jabatan_id_riwayat_status_jabatan").change(function() {
+$("#mdlArsip_Jabatan_id_riwayat_status_jabatan").change(function () {
     if (parseInt($(this).val()) == 10) {
         $("#mdlArsip_Jabatan_id_r_jabatan").hide();
         $("#mdlArsip_Jabatan_nama_jabatan").show();

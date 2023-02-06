@@ -32,7 +32,7 @@
 				<th class="td_head" rowspan='2' width='0px'>Aksi</th>
 				<th class="td_head" rowspan='2'>Type Surat</th>
 				<th class="td_head" rowspan='2' align='center'>Pegawai PLT/PLH</th>
-				<th class="td_head" colspan='5'>Pegawai Berhalangan</th>
+				<th class="td_head" colspan='5' style="text-align: center;">Pegawai Berhalangan</th>
 				<th class="td_head" rowspan='2' width='0px'>Tanggal Dibuat</th>
 			</tr>
 			<tr>

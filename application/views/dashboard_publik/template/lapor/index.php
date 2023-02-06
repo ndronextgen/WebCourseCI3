@@ -55,7 +55,7 @@
         save_method = 'add';
         $.ajax({
             url: "<?php echo site_url('Lapor/form_lapor_add'); ?>",
-            data: "act=" + 'Tambah',
+            data: 'act=' + 'Tambah',
             type: "POST",
             success: function(data) {
                 $('#modal_all .modal-dialog .modal-content .modal-body').html(data);
@@ -179,17 +179,6 @@
             }
         });
     }
-
-    // function view_lapor() {
-    //     // alert('uder maintenance !!!');
-    //     $.dialog({
-    //         icon: 'fa fa-info',
-    //         title: 'Info',
-    //         content: 'Sedang dalam pengerjaan...',
-    //         type: 'red',
-    //         backgroundDismiss: true
-    //     });
-    // }
 
     function view_lapor(id) {
         $.ajax({

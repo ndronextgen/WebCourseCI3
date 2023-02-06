@@ -171,7 +171,7 @@ class Verifikasi extends CI_Controller
 
 		$data = array();
 		$no = $_POST['start'];
-		
+
 		foreach ($listing as $key) {
 			// === begin: buttons (aksi) ===
 			$button = '	<a type="button" class="btn btn-info btn-sm" onclick="view_detail(' . "'" . $key->id_srt . "'" . ')">
@@ -292,32 +292,34 @@ class Verifikasi extends CI_Controller
 	{
 		$Id 	= $this->input->post('Id'); //id surat
 		$id_pegawai = $this->session->userdata('id_pegawai');
-		$Data = $this->db->query("SELECT
-									a.id_srt, a.id_user, a.nama, 
-									a.nip, a.nrk, a.alamat_domisili, 
-									a.status_pegawai, a.keterangan, 
-									a.jenis_surat, a.jenis_pengajuan_surat, 
-									a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
-									a.id_status_srt, a.keterangan_ditolak, 
-									a.select_ttd, a.tgl_proses, 
-									a.id_user_proses, a.is_download, 
-									a.file_name, a.file_name_ori, 
-									a.nomor_surat, a.Created_at, a.Updated_at, a.Updated_by,a.lokasi_kerja_pegawai,a.is_dinas,
-									b.nama_surat, nama_status as `status`, nama_status_next, sort, sort_bidang,
-									IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan, d.lokasi_kerja as nama_lokasi_kerja
-								FROM
-									tbl_data_srt_ket AS a
-								LEFT JOIN (
-									SELECT id_mst_srt, nama_surat FROM tbl_master_surat
-								) AS b ON b.id_mst_srt = a.jenis_surat
-								LEFT JOIN (
-									SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
-								) AS c ON c.id_status = a.id_status_srt
-								LEFT JOIN (
-									SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
-								) AS d ON d.id_lokasi_kerja = a.lokasi_kerja_pegawai
-								LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
-								WHERE a.id_srt ='$Id'")->row();
+		$Data = $this->db->query(
+			"SELECT
+				a.id_srt, a.id_user, a.nama, 
+				a.nip, a.nrk, a.alamat_domisili, 
+				a.status_pegawai, a.keterangan, 
+				a.jenis_surat, a.jenis_pengajuan_surat, 
+				a.jenis_pengajuan_surat_lainnya, a.tgl_surat, 
+				a.id_status_srt, a.keterangan_ditolak, 
+				a.select_ttd, a.tgl_proses, 
+				a.id_user_proses, a.is_download, 
+				a.file_name, a.file_name_ori, 
+				a.nomor_surat, a.Created_at, a.Updated_at, a.Updated_by,a.lokasi_kerja_pegawai,a.is_dinas,
+				b.nama_surat, nama_status as `status`, nama_status_next, sort, sort_bidang,
+				IF( a.jenis_pengajuan_surat = 'X', concat( e.keterangan, '(', a.jenis_pengajuan_surat_lainnya, ')' ), e.keterangan ) AS keterangan_pengajuan, d.lokasi_kerja as nama_lokasi_kerja
+			FROM
+				tbl_data_srt_ket AS a
+			LEFT JOIN (
+				SELECT id_mst_srt, nama_surat FROM tbl_master_surat
+			) AS b ON b.id_mst_srt = a.jenis_surat
+			LEFT JOIN (
+				SELECT id_status, nama_status, nama_status_next, sort, sort_bidang FROM tbl_status_surat
+			) AS c ON c.id_status = a.id_status_srt
+			LEFT JOIN (
+				SELECT id_lokasi_kerja, lokasi_kerja FROM tbl_master_lokasi_kerja
+			) AS d ON d.id_lokasi_kerja = a.lokasi_kerja_pegawai
+			LEFT JOIN tbl_master_jenis_pengajuan_surat e ON a.jenis_pengajuan_surat = e.kode
+			WHERE a.id_srt ='$Id'"
+		)->row();
 
 		if ($Data->is_dinas == '1' && ($Data->id_status_srt == '21' || $Data->id_status_srt == '26')) { //diverifikasi admin
 			$terima = "22";
@@ -357,7 +359,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$Id'
-				order by his.created_at, his.id_status_srt";
+				order by his.id_history_srt_ket";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -486,7 +488,6 @@ class Verifikasi extends CI_Controller
 		$a['Data'] 		= $Data;
 		$a['terima'] 	= $terima;
 		$a['tolak']  	= $tolak;
-		$a['master_lapor'] = $this->db->query("SELECT * FROM tr_master_lapor ORDER BY Id ASC")->result();
 
 		// ===== surat keterangan history =====
 		$sSQL = "SELECT his.id_srt, his.created_by, surat.is_dinas,
@@ -508,7 +509,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$Id'
-				order by his.created_at, his.id_status_srt";
+				order by his.id_history_srt_ket";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 		// ===== /surat keterangan history =====
@@ -575,7 +576,7 @@ class Verifikasi extends CI_Controller
 					left join tbl_master_lokasi_kerja lok
 						on lok.id_lokasi_kerja = peg.lokasi_kerja
 				where his.id_srt = '$id_srt'
-				order by his.created_at, his.id_status_srt";
+				order by his.id_history_srt_ket";
 		$rsSQL = $this->db->query($sSQL);
 		$a['data_history'] = $rsSQL;
 

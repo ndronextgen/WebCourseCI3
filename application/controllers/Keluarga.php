@@ -630,14 +630,19 @@ class Keluarga extends CI_Controller
 			tbl_data_keluarga.tanggal_lahir_keluarga, tbl_data_keluarga.id_pegawai, 
 			tbl_data_keluarga.jenis_kelamin, tbl_data_keluarga.hub_keluarga, tbl_data_keluarga.uraian, 
 			tbl_arsip_pribadi.id_arsip_pribadi, tbl_arsip_pribadi.title, tbl_arsip_pribadi.file_name_ori, 
-			tbl_arsip_pribadi.file_name
+			tbl_arsip_pribadi.file_name, mt_agama.agama, tbl_data_keluarga.tempat_lahir, tbl_data_keluarga.alamat,
+			tbl_data_keluarga.alamat, tbl_data_keluarga.nik, tbl_data_keluarga.pekerjaan_sekolah, tbl_master_hubungan_keluarga.keterangan, tbl_data_pegawai.jenis_kelamin as jk, tbl_data_keluarga.tempat_nikah, tbl_data_keluarga.tanggal_nikah, tbl_data_keluarga.pns_nonpns, tbl_data_keluarga.alamat_sdp
 		');
 		$this->db->from('tbl_data_keluarga');
 		$this->db->join('tbl_arsip_pribadi', 'tbl_arsip_pribadi.id_data_keluarga = tbl_data_keluarga.id_data_keluarga', 'left');
+		$this->db->join('tbl_master_hubungan_keluarga','tbl_master_hubungan_keluarga.kode = tbl_data_keluarga.hub_keluarga','left');
+		$this->db->join('mt_agama','mt_agama.kode = tbl_data_keluarga.agama','left');
+		$this->db->join('tbl_data_pegawai','tbl_data_pegawai.id_pegawai = tbl_data_keluarga.id_pegawai','left');
 		$this->db->where('tbl_data_keluarga.id_data_keluarga', $id);
 
 		$query = $this->db->get();
 		$list = $query->row();
+
 		echo json_encode($list);
 	}
 

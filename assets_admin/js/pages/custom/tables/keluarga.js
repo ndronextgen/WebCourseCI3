@@ -103,6 +103,36 @@ var tblKeluarga = $("#tblKeluarga").KTDatatable({
             title: "File",
             overflow: "visible",
             textAlign: "center",
+            template: function (row) {
+                var urlFile = 'asset/upload/pribadi/pribadi_' + row.id_data_keluarga + '_' + row.id_arsip_pribadi + '/' + row.file_name_ori;
+                var data;
+
+                if (row.file_name_ori != null) {
+                    if (row.file_name_ori.split('.').pop() == 'pdf') {
+                        data = `<a data-fancybox data-type="iframe" data-src="` + url + urlFile + `" href="javascript:void(0);">
+                            <button type="button" class="btn btn-sm btn-danger" ><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button></a>`;
+                    } else {
+                        data = '<a data-fancybox data-src="' + url + urlFile + '"><img src="' + url + urlFile + '" height="30px"/></a>';
+                    }
+                } else {
+                    data = '-';
+                }
+
+                return data;
+
+            }
+            // template: function (row) {
+            //     var urlFile = 'asset/upload/pribadi/pribadi_' + data.id_data_keluarga + '_' + data.id_arsip_pribadi + '/' + data.file_name;
+            //     let data;
+            //     if (row.file_name_ori != null) {
+            //         text = `<a data-fancybox data-src="${urlFile}">
+            //             <img src="${urlFile}" width="200" height="150" />
+            //         </a>`;
+            //     } else {
+            //         data = '-'
+            //     }
+            //     return data;
+            // },
         },
         {
             field: "aksi",

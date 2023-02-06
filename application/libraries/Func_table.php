@@ -1712,7 +1712,7 @@ class Func_table
 
             if (strtolower($ext) == 'pdf') {
                 $file = '	<a data-fancybox data-type="iframe" data-src="' . base_url($path_file) . '" href="javascript:void(0);">
-                                <button type="button" class="btn btn-sm btn-danger" title="' . $file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;PDF</button>
+                                <button type="button" class="btn btn-sm btn-danger" title="' . $file_name_ori . '"><i class="fa fa-file"></i>&nbsp;&nbsp;PDF</button>
                             </a>';
             } else {
                 $file = '	<a data-fancybox="images" href="' . base_url($path_file) . '" target="_blank">
@@ -1828,13 +1828,13 @@ class Func_table
                                     WHERE a.username = '$username'")->row();
         $see = $ci->func_table->see_admin_hukdis($username, $key->Hukdis_id);
 
-        if($key->stts=='administrator' AND ($key->id_lokasi_kerja == '0' || $key->id_lokasi_kerja == '' || $key->id_lokasi_kerja == '52')){
+        if ($key->stts == 'administrator' and ($key->id_lokasi_kerja == '0' || $key->id_lokasi_kerja == '' || $key->id_lokasi_kerja == '52')) {
             $create_type = 'superadmin';
         } else {
             $create_type = 'wilayah';
         }
 
-        if($user_admin->stts=='administrator' AND ($user_admin->id_lokasi_kerja == '0' || $user_admin->id_lokasi_kerja == '' || $user_admin->id_lokasi_kerja == '52')){
+        if ($user_admin->stts == 'administrator' and ($user_admin->id_lokasi_kerja == '0' || $user_admin->id_lokasi_kerja == '' || $user_admin->id_lokasi_kerja == '52')) {
             $admin_type = 'superadmin';
         } else {
             $admin_type = 'wilayah';
@@ -1844,7 +1844,7 @@ class Func_table
         $button_edit = '<a type="button" class="kt-nav__link btn-warning btn-sm" onclick="edit_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-edit" style="color:#fff !important;"></i> &nbsp;Edit
 							</a>&nbsp;';
-		$button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
+        $button_delete = '<a type="button" class="kt-nav__link btn-danger btn-sm" onclick="delete_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
 								<i class="fa fa-trash" style="color:#fff !important;"></i> &nbsp;Hapus
 							</a>&nbsp;';
         $button_download = '<a type="button" class="kt-nav__link btn-danger btn-sm" data-fancybox data-type="iframe" data-src="' . base_url() . 'admin/Data_hukuman_disiplin/download_surat/' . $key->Hukdis_id . '" href="javascript:void(0);">
@@ -1856,7 +1856,7 @@ class Func_table
         $button_detail = '<a type="button" class="kt-nav__link btn-info btn-sm" onclick="detail_surat_hukdis(' . "'" . $key->Hukdis_id . "'" . ')" style="color:#fff !important;">
                 <i class="fa fa-eye" style="color:#fff !important;"></i> &nbsp;Detail
             </a>&nbsp;';
-        
+
         $button_privileges = $ci->db->query("SELECT
                                                 a.Id, 
                                                 a.Modul_name, 
@@ -1873,25 +1873,39 @@ class Func_table
                                             WHERE a.User_type_viewed = '$admin_type' and a.User_type_created = '$create_type' 
                                                     AND a.Status_progress = '$key->Status_progress' limit 0,1")->row();
 
-        
-        if($button_privileges->Btn_detail=='1'){
+
+        if ($button_privileges->Btn_detail == '1') {
             $button .= $button_detail;
-        }    
-        if($button_privileges->Btn_prosess=='1'){
+        }
+        if ($button_privileges->Btn_prosess == '1') {
             $button .= $button_proses;
         }
-        if($button_privileges->Btn_edit=='1'){
+        if ($button_privileges->Btn_edit == '1') {
             $button .= $button_edit;
         }
-        if($button_privileges->Btn_delete=='1'){
+        if ($button_privileges->Btn_delete == '1') {
             $button .= $button_delete;
         }
-        if($button_privileges->Btn_download=='1'){
+        if ($button_privileges->Btn_download == '1') {
             $button .= $button_download;
         }
         return $button;
-        
     }
+
+    // === begin: joe 2023.01.28 ===
+    function propercase($string)
+    {
+        $string = ucwords(strtolower($string));
+        return $string;
+    }
+    function propercase_lokasi($lokasi)
+    {
+        $lokasi = ucwords(strtolower($lokasi));
+        $lokasi = str_replace('Dan', 'dan', $lokasi);
+        $lokasi = str_replace('Dki', 'DKI', $lokasi);
+        return $lokasi;
+    }
+    // === end: joe 2023.01.28 ===
 
 }
 // End of file Func_table.php

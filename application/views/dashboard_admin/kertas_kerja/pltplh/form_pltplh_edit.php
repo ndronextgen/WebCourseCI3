@@ -18,7 +18,7 @@ cursor: no-drop;
 <!-- <input type="hidden" name="id_surat_tugas_pltplh" id="id_surat_tugas_pltplh" value="<?php echo (isset($surat->id_surat_tugas_pltplh) ? $surat->id_surat_tugas_pltplh : 0);?>" /> -->
 	<div class="kt-portlet__body kt-portlet__body--fit">
 	<div class="row" style='padding:0px;'>
-			<div class="col-2">
+			<div class="col-3">
 				<?php 
 					if($Data->type_surat=='PLH'){
 						$select_plh = ' selected';
@@ -37,7 +37,7 @@ cursor: no-drop;
 				</select>
 				</div>
 			</div>
-			<div class="col-4">
+			<div class="col-9">
 				<div class="form-group">
 					<label>Pegawai (Petugas PLT/PLH)</label>
 				<select id="filter_pegawai" name="filter_pegawai" class="selectpicker form-control input-sm" data-style="btn btn-primary btn-sm" data-show-subtext='true' data-live-search='true' style="padding: 0px 0px !important;"> 
@@ -54,17 +54,12 @@ cursor: no-drop;
 				</select>
 				</div>
 			</div>
-
-			<div class="col-6">
-				<div class="form-group">
-					<label>Lokasi Kerja Pegawai PLT/PLH</label>
-					<input type='text' id="lokasi_kerja_pltplh" name="lokasi_kerja_pltplh" value='<?php echo $Data->lokasi_kerja_pltplh ?>' class="form-control avoid-clicks">
-				</div>
-			</div>
-
+		</div>
+		<div class="col-12">
+				<div id='table_info'></div>
 		</div>
 		<div class="row" style='padding:0px;'>
-			<div class="col-4">
+			<div class="col-12">
 				<div class="form-group">
 					<label>Pegawai Yang Berhalangan Tugas</label>
 				<select id="filter_pegawai_berhalangan" name="filter_pegawai_berhalangan" class="selectpicker form-control input-sm" data-style="btn btn-primary btn-sm" data-show-subtext='true' data-live-search='true' style="padding: 0px 0px !important;"> 
@@ -81,15 +76,11 @@ cursor: no-drop;
 				</select>
 				</div>
 			</div>
-
-			<div class="col-8">
-				<div class="form-group">
-					<label>Lokasi Kerja Pegawai Yang Berhalangan Tugas</label>
-					<input type='text' id="lokasi_kerja_berhalangan" name="lokasi_kerja_berhalangan" value='<?php echo $Data->lokasi_kerja_berhalangan; ?>' class="form-control avoid-clicks">
-				</div>
-			</div>
-
 		</div>
+		<div class="col-12">
+				<div id='table_info_berhalangan'></div>
+		</div>
+		<div id='ajax_hide'>
 		<div class="row" style='padding:0px;'>
 			<div class="col-6">
 				<div class="form-group">
@@ -181,29 +172,6 @@ cursor: no-drop;
 	$('.tgl_selesai').datepicker({
 		format: 'yyyy-mm-dd'
 	});
-	//onchange
-	$('#filter_pegawai').change(function() {
-		var filter_pegawai = $('#filter_pegawai').val();
-		$.ajax({
-				type : "POST",
-				url : "<?php echo site_url('admin/Data_pltplh/get_lokasi') ?>",
-				data : {param:filter_pegawai},
-				success: function(data) {
-					$('#lokasi_kerja_pltplh').val(data);
-				}
-			})
-	});
-	$('#filter_pegawai_berhalangan').change(function() {
-		var filter_pegawai_berhalangan = $('#filter_pegawai_berhalangan').val();
-		$.ajax({
-				type : "POST",
-				url : "<?php echo site_url('admin/Data_pltplh/get_lokasi') ?>",
-				data : {param:filter_pegawai_berhalangan},
-				success: function(data) {
-					$('#lokasi_kerja_berhalangan').val(data);
-				}
-			})
-	});
 
 	$('#tgl_mulai, #tgl_selesai').change(function() {
 		var tgl_mulai = $('#tgl_mulai').val();
@@ -275,4 +243,69 @@ $('#prosestambahsurattugaspltplh').on('submit', function(e) {
     });
     return false;
 });
+
+// filter pegawai
+$('#filter_pegawai').change(function() {
+		var filter_pegawai = $('#filter_pegawai').val();
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url('admin/Get_data/get_elm_pegawai') ?>",
+			data: {
+				filter_pegawai: filter_pegawai
+			},
+			success: function(data) {
+				$('#table_info').html(data);
+				//var status_verify = $('#status_verify').val();
+				const targetDiv = document.getElementById("ajax_hide");
+				if (filter_pegawai != '') {
+					targetDiv.style.display = "block";
+				} else {
+					targetDiv.style.display = "none";
+				}
+			}
+		})
+	});
+	// filter pegawai berhalangan
+	$('#filter_pegawai_berhalangan').change(function() {
+		var filter_pegawai_berhalangan = $('#filter_pegawai_berhalangan').val();
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url('admin/Get_data/get_elm_pegawai') ?>",
+			data: {
+				filter_pegawai: filter_pegawai_berhalangan
+			},
+			success: function(data) {
+				$('#table_info_berhalangan').html(data);
+			}
+		})
+	});
+	var filter_pegawai = $('#filter_pegawai').val();
+	$.ajax({
+		type: "POST",
+		url: "<?php echo site_url('admin/Get_data/get_elm_pegawai') ?>",
+		data: {
+			filter_pegawai: filter_pegawai
+		},
+		success: function(data) {
+			$('#table_info').html(data);
+			//var status_verify = $('#status_verify').val();
+			const targetDiv = document.getElementById("ajax_hide");
+			if (filter_pegawai != '') {
+				targetDiv.style.display = "block";
+			} else {
+				targetDiv.style.display = "none";
+			}
+		}
+	})
+	var filter_pegawai_berhalangan = $('#filter_pegawai_berhalangan').val();
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url('admin/Get_data/get_elm_pegawai') ?>",
+			data: {
+				filter_pegawai: filter_pegawai_berhalangan
+			},
+			success: function(data) {
+				$('#table_info_berhalangan').html(data);
+			}
+		})
 </script>

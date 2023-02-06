@@ -2610,6 +2610,7 @@ function modalPegawai($id_pegawai = 0)
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title"><i class="kt-font-brand flaticon2-list-2"></i></h5>&nbsp;&nbsp;&nbsp;
                     <h5 class="modal-title" id="modalDetailTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
